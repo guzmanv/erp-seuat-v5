@@ -1,7 +1,6 @@
 <?php
     class NivelEducativo extends Controllers{
         private $idUser;
-		private $nomConexion;
 		private $rol;
 		public function __construct()
 		{
@@ -13,7 +12,6 @@
 			    die();
 		    }
 			$this->idUser = $_SESSION['idUser'];
-			$this->nomConexion = $_SESSION['nomConexion'];
 			$this->rol = $_SESSION['claveRol'];
 		}
         //Funccion para la Vista de NivelEducativos
@@ -26,7 +24,7 @@
             $this->views->getView($this,"niveleducativo",$data);
         }
         public function getNivelesEducativos(){
-            $arrData = $this->model->selectNivelesEducativos($this->nomConexion);
+            $arrData = $this->model->selectNivelesEducativos();
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 if($arrData[$i]['estatus'] == 1){
@@ -63,7 +61,7 @@
                 $intIdNivelEducativoEdit = intval($_POST['idEdit']);
             }
             if($intIdNivelEducativoNuevo == 1){
-                $arrData = $this->model->insertNivelEducativo($data, $this->nomConexion);
+                $arrData = $this->model->insertNivelEducativo($data);
                 if($arrData['estatus'] != TRUE){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
                 }else{
@@ -71,7 +69,7 @@
                 }
             }
             if($intIdNivelEducativoEdit !=0){
-                $arrData = $this->model->updateNivelEducativo($intIdNivelEducativoEdit,$data, $this->nomConexion);
+                $arrData = $this->model->updateNivelEducativo($intIdNivelEducativoEdit,$data);
                 if($arrData['estatus'] != TRUE){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
                 }else{
@@ -83,7 +81,7 @@
         }
 
         public function getNivelEducativo(int $idNivelEducativo){
-            $arrData = $this->model->selectNivelEducativo($idNivelEducativo, $this->nomConexion);
+            $arrData = $this->model->selectNivelEducativo($idNivelEducativo);
             if($arrData){
                 echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
                 die();
@@ -94,7 +92,7 @@
 		public function delNivelEducativo(){
 			if($_POST){
 				$intIdNivelEductaivo = intval($_POST['idNivelEducativo']);
-				$requestDelete = $this->model->deleteNivelEducativo($intIdNivelEductaivo, $this->nomConexion);
+				$requestDelete = $this->model->deleteNivelEducativo($intIdNivelEductaivo);
 				if($requestDelete == 'ok'){
 					$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el nivel educativo.');
 				}else{
