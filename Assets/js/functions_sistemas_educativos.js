@@ -56,8 +56,7 @@ formNuevoSistema.addEventListener('submit',(e) =>{
     request.onreadystatechange = function() {
         if(request.readyState == 4 && request.status == 200) {
             var objData = JSON.parse(request.responseText);
-            console.log(objData)
-            /* if(objData.estatus){
+            if(objData.estatus){
                 $('#modal_nuevo_sistema').modal("hide");
                 formNuevoSistema.reset();
                 swal.fire("Sistemas", objData.msg, "success").then((result) =>{
@@ -66,7 +65,7 @@ formNuevoSistema.addEventListener('submit',(e) =>{
                 tableSistemas.api().ajax.reload();  
             }else{
                 swal.fire("Error", objData.msg, "error");
-            } */
+            } 
         }else{
             swal.fire("Error", "No se pudo guardar los datos", "error");
         }
@@ -112,7 +111,7 @@ function displayImageSistemaEdit(f){
 function fnEditSistema(idSistema)
 {
     if(idSistema != ''){
-        let urlSistema = `${base_url}/Sistemas/getSistema/${idSistema}`;
+        let urlSistema = `${base_url}/SistemasEducativos/getSistema/${idSistema}`;
         fetch(urlSistema)
         .then((res) => res.json())
         .then(resultado =>{
@@ -143,7 +142,7 @@ formEditSistema.addEventListener('submit',(e) =>{
     }
     divLoading.style.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    var ajaxUrl = base_url+'/Sistemas/updateSistema';
+    var ajaxUrl = base_url+'/SistemasEducativos/updateSistema';
     var formData = new FormData(formEditSistema);
     request.open("POST",ajaxUrl,true);
     request.send(formData);
@@ -183,7 +182,7 @@ function fnDelSistema(idSistema)
             cancelButtonText: "¡No, cancelar!"
         }). then ((result) =>{
             if(result.isConfirmed){
-                let url = `${base_url}/Sistemas/delSistema/${idSistema}`;
+                let url = `${base_url}/SistemasEducativos/delSistema/${idSistema}`;
                 fetch(url)
                 .then((res) => res.json())
                 .then(resultado =>{

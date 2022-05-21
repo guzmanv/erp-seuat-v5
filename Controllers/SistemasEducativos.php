@@ -58,7 +58,7 @@
             $nombreImagenSistema = time().'-TGZ-Sistema-Educativo'.'.'.pathinfo($files['profileImageSistema']['name'],PATHINFO_EXTENSION);
             $direccionLogos = 'Assets/images/logos/';
 			$nombreImagenSistemaFile = $direccionLogos . basename($nombreImagenSistema);
-            /* if($strNombresistema == '' || $strAbreviacion == '' || $strUbicacionFileTmp == ''){
+            if($strNombresistema == '' || $strAbreviacion == '' || $strUbicacionFileTmp == ''){
                 $arrResponse = array('estatus' => false, 'msg' => 'Atención todos los campos son obligatorio');
             }
             if(move_uploaded_file($strUbicacionFileTmp,$nombreImagenSistemaFile)){
@@ -70,8 +70,8 @@
                 }
             }else{
                 $arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar la imagen');   
-            } */
-            echo json_encode($direccionLogos,JSON_UNESCAPED_UNICODE);
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
 
@@ -79,7 +79,7 @@
         public function getSistema(int $idSistema)
         {   
             if($idSistema != null || $idSistema != ''){
-                $arrData = $this->model->selectSistema($idSistema,$this->nomConexion);
+                $arrData = $this->model->selectSistema($idSistema);
                 if($arrData){
                     $arrResponse = array('estatus' => true, 'msg' => '', 'data'=>$arrData);   
                 }else{
@@ -108,10 +108,10 @@
             }
             if($strUbicacionFileTmp != ''){ //Se cambio el Logo
                 $direccionLogos = 'Assets/images/logos/';
-                $nombreImagenSistema = time().'-'.conexiones[$this->nomConexion]['NAME'].'-Sistema-Educativo'.'.'.pathinfo($files['profileImageSistema']['name'],PATHINFO_EXTENSION);
+                $nombreImagenSistema = time().'-TGZ-Sistema-Educativo'.'.'.pathinfo($files['profileImageSistema']['name'],PATHINFO_EXTENSION);
                 $nombreImagenSistemaFile = $direccionLogos . basename($nombreImagenSistema);
                 if(move_uploaded_file($strUbicacionFileTmp,$nombreImagenSistemaFile)){
-                    $arrData = $this->model->updateSistema($idSisistema,$strNombreSistema,$strAbreviacion,$intEstatus,$nombreImagenSistema,$this->idUSer,$this->nomConexion);
+                    $arrData = $this->model->updateSistema($idSisistema,$strNombreSistema,$strAbreviacion,$intEstatus,$nombreImagenSistema,$this->idUSer);
                     if($arrData){
                         $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
                     }
@@ -120,7 +120,7 @@
                     $arrResponse = array('estatus' => false, 'msg' => 'No se pudo actualizar la imagen');
                 }
             }else{
-                $arrData = $this->model->updateSistema($idSisistema,$strNombreSistema,$strAbreviacion,$intEstatus,null,$this->idUSer,$this->nomConexion);
+                $arrData = $this->model->updateSistema($idSisistema,$strNombreSistema,$strAbreviacion,$intEstatus,null,$this->idUSer);
                 if($arrData){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
                 }
@@ -136,7 +136,7 @@
                 $arrResponse = array('estatus' => false, 'msg' => 'No se pudo eliminar el registro');
                 die();
             }
-            $arrData = $this->model->delSistema($idSistema,$this->idUSer,$this->nomConexion);
+            $arrData = $this->model->delSistema($idSistema,$this->idUSer);
             if($arrData){
                 $arrResponse = array('estatus' => true, 'msg' => 'Registro eliminado correctamente');
             }else{

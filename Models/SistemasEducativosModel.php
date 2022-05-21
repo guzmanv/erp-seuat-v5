@@ -26,8 +26,8 @@
             $this->abreviacionSistema = $abreviacionSistema;
             $this->logoSistema = $nomImagen;
             $this->idUser = $idUser;
-            $sql = "INSERT INTO t_sistemas_educativos(nom_conexion,nombre_sistema,abreviacion_sistema,logo_sistema,estatus,fecha_creacion,id_usuario_creacion) VALUES(?,?,?,?,?,NOW(),?)";
-            $request = $this->insert($sql,array($this->nomConexion,$this->nomSistema,$this->abreviacionSistema,$this->logoSistema,1,$this->idUser));
+            $sql = "INSERT INTO t_sistemas_educativos(nombre_sistema,abreviacion_sistema,logo_sistema,estatus,fecha_creacion,id_usuario_creacion) VALUES(?,?,?,?,NOW(),?)";
+            $request = $this->insert($sql,array($this->nomSistema,$this->abreviacionSistema,$this->logoSistema,1,$this->idUser));
             return $request;
         }
 
