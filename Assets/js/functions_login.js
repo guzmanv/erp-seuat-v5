@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     if(request.readyState !=4) return;
                     if(request.status == 200){
                         var objData = JSON.parse(request.responseText);
-                        
+                        console.log(objData)
                         if(objData.estatus)
                         {
                             window.location = base_url+'/dashboard';

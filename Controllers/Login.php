@@ -23,26 +23,23 @@
       public function loginUser(){
          //dep($_POST);
          if($_POST){
-            if (empty($_POST['txtNickname']) || empty($_POST['txtPassword']) || empty($_POST['selectPlantel'])) {
+            if (empty($_POST['txtNickname']) || empty($_POST['txtPassword'])) {
                $arrResponse = array('estatus' => false, 'msg' => 'Error de datos');
             }else {
                $strUsuario = strtolower(strClean($_POST['txtNickname']));
                $strPassword = hash("SHA256", $_POST['txtPassword']);
-               $strConexion = $_POST['selectPlantel'];
 
-               $requestUser = $this->model->loginUser($strUsuario, $strPassword, $strConexion);
-               if (empty($requestUser)) {
+                $requestUser = $this->model->loginUser($strUsuario, $strPassword);
+                if (empty($requestUser)) {
                   $arrResponse = array('estatus' => false, 'msg' => 'El usuario o la contraseña es incorrecto.');
-               }else {
-                   $arrData = $requestUser;
+                }else {
+                    $arrData = $requestUser;
                     if($arrData['estatus'] == 1){
                         $_SESSION['idUser'] = $arrData['id'];
                         $_SESSION['login'] = true;
-                        $_SESSION['nomConexion'] = $strConexion;
-                        $arrDatosUser =  $this->model->selectDateUser($arrData['id'],$strConexion);
+                        $arrDatosUser =  $this->model->selectDateUser($arrData['id']);
                         $_SESSION['idPersona'] = $arrData['id'];
                         $_SESSION['nomPersona'] = $arrDatosUser['nombre_persona'].' '.$arrDatosUser['ap_paterno'].' '.$arrDatosUser['ap_materno'];
-                        $_SESSION['plantel'] = conexiones[$strConexion]['NAME'];
                         $_SESSION['claveRol'] = $arrDatosUser['clave_rol'];
                         $_SESSION['idRol'] = $arrDatosUser['id_rol'];
                         $_SESSION['nombreRol'] = $arrDatosUser['nombre_rol'];
@@ -51,7 +48,7 @@
                    }else {
                       $arrResponse = array('estatus' => false, 'msg' => 'Usuario inactivo.');
                    }
-               }
+                }
             }
             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
          }
