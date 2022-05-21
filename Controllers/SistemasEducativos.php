@@ -1,7 +1,6 @@
 <?php
-    class Sistemas extends Controllers{
+    class SistemasEducativos extends Controllers{
         private $idUSer;
-        private $nomConexion;
         private $rol;
         public function __construct()
         {
@@ -13,22 +12,21 @@
                 die();
             }
             $this->idUSer = $_SESSION['idUser'];
-            $this->nomConexion = $_SESSION['nomConexion'];
             $this->rol = $_SESSION['claveRol'];
         }
         //return View sistema
-        public function sistemas()
+        public function sistemaseducativos()
         {   $data['page_tag'] = "Sistemas educativos";
 			$data['page_title'] = "Sistemas educativos";
 			$data['page_name'] = "sistemas educativos";
-			$data['page_functions_js'] = "functions_sistemas.js";
-            $this->views->getView($this,'sistema',$data);
+			$data['page_functions_js'] = "functions_sistemas_educativos.js";
+            $this->views->getView($this,'sistemaEducativo',$data);
         }
 
         //return Lists Sistemas
         public function getSistemas()
         {
-            $arrResponse = $this->model->selectSistemas($this->nomConexion);
+            $arrResponse = $this->model->selectSistemas();
             for($i = 0; $i <count($arrResponse); $i++){
                 $arrResponse[$i]['numeracion'] = $i+1;
                 $arrResponse[$i]['estatus'] = ($arrResponse[$i]['estatus'] == 1)?'<span class="badge badge-success">Activo</span>':'<span class="badge badge-warning">Innactivo</span>';
@@ -57,14 +55,14 @@
             $strNombresistema = $data['txt_nombre_sistema'];
             $strAbreviacion = $data['txt_abreviacion'];
             $strUbicacionFileTmp = $files['profileImageSistema']['tmp_name'];
-            $nombreImagenSistema = time().'-'.conexiones[$this->nomConexion]['NAME'].'-Sistema-Educativo'.'.'.pathinfo($files['profileImageSistema']['name'],PATHINFO_EXTENSION);
+            $nombreImagenSistema = time().'-TGZ-Sistema-Educativo'.'.'.pathinfo($files['profileImageSistema']['name'],PATHINFO_EXTENSION);
             $direccionLogos = 'Assets/images/logos/';
 			$nombreImagenSistemaFile = $direccionLogos . basename($nombreImagenSistema);
-            if($strNombresistema == '' || $strAbreviacion == '' || $strUbicacionFileTmp == ''){
+            /* if($strNombresistema == '' || $strAbreviacion == '' || $strUbicacionFileTmp == ''){
                 $arrResponse = array('estatus' => false, 'msg' => 'Atención todos los campos son obligatorio');
             }
             if(move_uploaded_file($strUbicacionFileTmp,$nombreImagenSistemaFile)){
-                $setSistema = $this->model->insertSistema($strNombresistema,$strAbreviacion,$nombreImagenSistema,$this->nomConexion,$this->idUSer);
+                $setSistema = $this->model->insertSistema($strNombresistema,$strAbreviacion,$nombreImagenSistema,$this->idUSer);
                 if($setSistema){
                     $arrResponse = array('estatus' => true, 'msg' => 'Se guardaron correctamente los datos');
                 }else{
@@ -72,8 +70,8 @@
                 }
             }else{
                 $arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar la imagen');   
-            }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            } */
+            echo json_encode($direccionLogos,JSON_UNESCAPED_UNICODE);
             die();
         }
 

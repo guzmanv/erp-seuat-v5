@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function(){
         	"url": " "+base_url+"/Assets/plugins/Spanish.json"
         },
         "ajax":{
-            "url": " "+base_url+"/Sistemas/getSistemas",
+            "url": " "+base_url+"/SistemasEducativos/getSistemas",
             "dataSrc":""
         },
         "columns":[
@@ -49,14 +49,15 @@ formNuevoSistema.addEventListener('submit',(e) =>{
     }
     divLoading.style.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    var ajaxUrl = base_url+'/Sistemas/setSistema';
+    var ajaxUrl = base_url+'/SistemasEducativos/setSistema';
     var formData = new FormData(formNuevoSistema);
     request.open("POST",ajaxUrl,true);
     request.send(formData);
     request.onreadystatechange = function() {
         if(request.readyState == 4 && request.status == 200) {
             var objData = JSON.parse(request.responseText);
-            if(objData.estatus){
+            console.log(objData)
+            /* if(objData.estatus){
                 $('#modal_nuevo_sistema').modal("hide");
                 formNuevoSistema.reset();
                 swal.fire("Sistemas", objData.msg, "success").then((result) =>{
@@ -65,7 +66,7 @@ formNuevoSistema.addEventListener('submit',(e) =>{
                 tableSistemas.api().ajax.reload();  
             }else{
                 swal.fire("Error", objData.msg, "error");
-            }
+            } */
         }else{
             swal.fire("Error", "No se pudo guardar los datos", "error");
         }
