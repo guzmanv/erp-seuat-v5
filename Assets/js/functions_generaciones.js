@@ -2,7 +2,6 @@ let tableGeneraciones;
 let rowTable = "";
 let divLoading = document.querySelector("#divLoading");
 
-console.log("modificando")
 document.addEventListener('DOMContentLoaded', function(){
 
 	tableGeneraciones = $('#tableGeneraciones').dataTable( {

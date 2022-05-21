@@ -35,17 +35,18 @@
                 <input class="form-control" id="txtAnioUp" name="txtAnioUp" rows="2" type="date" value="" required>
               </div>
               <div class="form-group">
+                    <label for="listIdGeneracionesEditar">Generaciones</label>
+                    <select class="form-control" id="listIdGeneracionesEditar" name="listIdGeneracionesEditar" required >
+                      
+                    </select>
+              </div>
+
+              <div class="form-group">
                 <label>Estatus <span class="required">*</span></label>
                 <select class="custom-select" id="listEstatusUp" name="listEstatusUp" required>
                   <option value="1">Activo</option>
                   <option value="2">Inactivo</option>
                 </select>
-              </div>
-              <div class="form-group">
-                    <label for="listIdGeneracionesEditar">Generaciones</label>
-                    <select class="form-control" id="listIdGeneracionesEditar" name="listIdGeneracionesEditar" required >
-                      
-                    </select>
               </div>
 
             </div>
