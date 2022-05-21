@@ -1,7 +1,6 @@
 <?php
     class Plan extends Controllers{
         private $idUser;
-		private $nomConexion;
 		private $rol;
 		public function __construct()
 		{
@@ -13,7 +12,6 @@
 			    die();
 		    }
 			$this->idUser = $_SESSION['idUser'];
-			$this->nomConexion = $_SESSION['nomConexion'];
 			$this->rol = $_SESSION['claveRol'];
 		}
         public function plan(){
@@ -25,7 +23,7 @@
             $this->views->getView($this,"plan",$data);
         }
         public function getPlanes(){
-            $arrData = $this->model->selectPlanes($this->nomConexion);
+            $arrData = $this->model->selectPlanes();
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 if($arrData[$i]['estatus'] == 1){
@@ -62,7 +60,7 @@
                 $intIdPlanEdit = intval($_POST['idEdit']);
             }
             if($intIdPlanNuevo == 1){
-                $arrData = $this->model->insertPlan($data, $this->nomConexion);
+                $arrData = $this->model->insertPlan($data);
                 if($arrData['estatus'] != TRUE){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
                 }else{
@@ -70,7 +68,7 @@
                 }
             }
             if($intIdPlanEdit !=0){
-                $arrData = $this->model->updatePlan($intIdPlanEdit,$data, $this->nomConexion);
+                $arrData = $this->model->updatePlan($intIdPlanEdit,$data);
                 if($arrData['estatus'] != TRUE){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
                 }else{
@@ -82,7 +80,7 @@
         }
 
         public function getPlan(int $idPlan){
-            $arrData = $this->model->selectPlan($idPlan, $this->nomConexion);
+            $arrData = $this->model->selectPlan($idPlan);
             if($arrData){
                 echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
                 die();
@@ -93,7 +91,7 @@
 		public function delPlan(){
 			if($_POST){
 				$intIdPlan = intval($_POST['idPlan']);
-				$requestDelete = $this->model->deletePlan($intIdPlan, $this->nomConexion);
+				$requestDelete = $this->model->deletePlan($intIdPlan);
 				if($requestDelete == 'ok'){
 					$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el plan.');
 				}else{
