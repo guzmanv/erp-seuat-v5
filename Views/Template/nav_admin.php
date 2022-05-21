@@ -28,18 +28,6 @@
                     </div>
                 </div>-->
             </form>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <h4>PLANTEL: <b><span><?php echo($_SESSION['plantel']) ?></span></b></h4>
-                </li>
-                <li class="nav-item">&nbsp&nbsp&nbsp</li>
-                <li class="nav-item">&nbsp&nbsp&nbsp</li>
-                <li class="nav-item">&nbsp&nbsp&nbsp</li>
-                <li class="nav-item">&nbsp&nbsp&nbsp</li>
-                <li class="nav-item">&nbsp&nbsp&nbsp</li>
-                <li class="nav-item d-flex align-items-center"><i class="fas fa-record-vinyl" style="color:#00c853"></i>&nbspConectado &nbsp;</li>
-                <li class="nav-item"><button type="button" class="btn btn-primary btn-sm" data-target="#addConexion" data-toggle="modal">Iniciar sesión <i class="fa fa-plus"></i></button></li>
-            </ul>
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Messages Dropdown Menu -->
