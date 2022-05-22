@@ -130,7 +130,7 @@
             $request = $this->update($sql,array($nombrePlanEstudios,$nombreCorto,$perfilEgreso,$duracionCarrera,$materiasTotales,$totalHoras,$totalCreditos,
             $claveProfesiones,$tipoREVOE,$REVOE,$vigenciaREVOE,$calificacionMinima,$fechaOtorgamiento,$turnoRVOE,$perfilIngreso,$campoLaboral,$estatus,$idPlan,$idPlantel,
             $idNiveleducativo,$idCategoriaCarrera,$idModalidad,$idUser,$idUser,$fechaEstimadaTermino));
-            if($request){
+/*             if($request){
                 foreach ($arreglo as $key => $value) {
                     if($value->id != 0){
                         $arreglo = "es cero";
@@ -145,8 +145,8 @@
                 } 
             }else{
                 $estatusUp = false;
-            }
-            return $estatusUp;
+            } */
+            return $request;
         }
 
         public function selectPlanEstudio($idPlanestudio){
