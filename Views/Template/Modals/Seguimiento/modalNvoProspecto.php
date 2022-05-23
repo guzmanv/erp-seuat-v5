@@ -142,8 +142,10 @@
                                             <label>Plantel de interés <span class="required">*</span></label>
                                             <select class="form-control form-control-sm" name="slctPlantelNvo" id="slctPlantelNvo">
                                                 <option value="">Seleccionar...</option>
-                                                <?php foreach (conexiones as $key => $conexion) { ?>
-                                                    <option value="<?php echo $key ?>"><?php echo $conexion['NAME']; ?></option>
+                                                <?php
+                                                foreach ($data['planteles'] as $planteles) {
+                                                ?>
+                                                    <option value="<?= $planteles['id']?>"><?= $planteles['nombre_plantel'] ?></option>
                                                 <?php
                                                 }
                                                 ?>

@@ -15,6 +15,7 @@ class Seguimiento extends Controllers{
         $data['page_tag'] = "Seguimiento de prospección";
         $data['page_title'] = "Seguimiento de prospección";
         $data['page_functions_js'] = "functions_SegProspectos.js";
+        $data['planteles'] = $this->model->selectPlanteles();
         $data['escolaridad'] = $this->model->selectEscolaridad();
         $data['nivel_estudios_interes'] = $this->model->selectNivelInteres();
         $data['carrera_interes'] = $this->model->selectCarreraInteres();
@@ -25,10 +26,9 @@ class Seguimiento extends Controllers{
     public function getProspectos()
     {
         $arrData = $this->model->selectProspectos();
-        /* for ($i=0; $i < count($arrData) ; $i++) { 
+        for ($i=0; $i < count($arrData) ; $i++) { 
             $arrData[$i]['numeracion'] = $i + 1;
-            $arrData[$i]['nom_plantel_interes'] = conexiones[$arrData[$i]['plantel_interes']]['NAME'];
-            if($arrData[$i]['nombre_categoria'] == 'Prospecto')
+            if($arrData[$i]['nombre_categoria' == 'Prospecto'])
             {
                 $arrData[$i]['nombre_completo'] = $arrData[$i]['nombre_completo'].' <span class="badge badge-success">'. $arrData[$i]['nombre_categoria'] .'</span>';
                 $arrData[$i]['options'] = '<div class="text-center">
@@ -39,7 +39,8 @@ class Seguimiento extends Controllers{
                     <div class="dropdown-menu">
                         <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" data-toggle="modal" data-target="#ModalAgendarProspectoSeguimiento" onClick="ftnAgendar('. $arrData[$i]['id'] .')" title="Agendar"> &nbsp;&nbsp; <i class="fas fa-calendar-alt"></i> &nbsp; Agendar</button>
 						<butaton class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" data-toggle="modal" data-target="#ModalEditDatosProspectoSeguimiento" onClick="fnEditarDatosProspecto('. $arrData[$i]['id'] .')"title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
-                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" onClick="fnDarSeguimiento('. $arrData[$i]['id'] .')" data-toggle="modal" data-target="#ModalSeguimiento" title="Seguimiento"> &nbsp;&nbsp; <i class="far fa-arrow-alt-circle-right"></i> &nbsp; Seguimiento</button>
+                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" onClick="fnDarSeguimiento('. $arrData[$i]['id'] .
+                ')" data-toggle="modal" data-target="#ModalSeguimiento" title="Seguimiento"> &nbsp;&nbsp; <i class="far fa-arrow-alt-circle-right"></i> &nbsp; Seguimiento</button>
                     </div>
                 </div>
             </div>';
@@ -56,12 +57,13 @@ class Seguimiento extends Controllers{
                         <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" data-toggle="modal" data-target="#ModalAgendarProspectoSeguimiento" onClick="ftnAgendar('. $arrData[$i]['id'] .')" title="Editar"> &nbsp;&nbsp; <i class="fas fa-calendar-alt"></i> &nbsp; Agendar</button>
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" data-toggle="modal" data-target="#ModalEditDatosProspectoSeguimiento" onClick="fnEditarDatosProspecto('.$arrData[$i]['id'].')" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
                         <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" data-toggle="modal" data-target="#ModalEgresadoSeguimiento" title="Egresado"> &nbsp;&nbsp; <i class="fas fa-user-graduate"></i> &nbsp; Egresado</button>
-                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" onClick="fnDarSeguimiento('. $arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalSeguimiento" title="Seguimiento" disabled> &nbsp;&nbsp; <i class="far fa-arrow-alt-circle-right"></i> &nbsp; Seguimiento</button>
+                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" onClick="fnDarSeguimiento('. $arrData[$i]['id'].
+                ')" data-toggle="modal" data-target="#ModalSeguimiento" title="Seguimiento" disabled> &nbsp;&nbsp; <i class="far fa-arrow-alt-circle-right"></i> &nbsp; Seguimiento</button>
                     </div>
                 </div>
             </div>';
             }
-        } */
+        }
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         die();
     }
@@ -275,7 +277,7 @@ class Seguimiento extends Controllers{
                 $arrResponse = array('estatus' => false, 'msg' => 'No existe una subcampaña activa');
             }
         }
-        /*if($intIdPersonaEdit != 0)
+        if($intIdPersonaEdit != 0)
         {
             $arrData = $this->model->updateProspecto();
             if($arrData)
@@ -286,7 +288,7 @@ class Seguimiento extends Controllers{
             {
                 $arrResponse = array('estatus' => true, 'msg' => 'No es posible actualizar los datos');
             }
-        }*/
+        }
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         die();
     }

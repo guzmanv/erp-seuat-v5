@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			{"data": "nombre_completo"},
             {"data": "alias"},
 			{"data": "tel_celular"},
-			{"data": "nom_plantel_interes"},
+			{"data": "nombre_plantel"},
 			{"data": "nombre_carrera"},
 			{"data": "medio_captacion"},
 			{"data": "options"}
@@ -390,7 +390,7 @@ formProspectoNuevo.addEventListener('submit', (e) =>{
 				swal.fire('Error',err,'error')
 			}
 		})
-		.catch(function(err){
+		/* .catch(function(err){
 			swal.fire('Error',err,'error')
-		})
+		}) */
 })

@@ -35,7 +35,6 @@ class SeguimientoModel extends Mysql{
     public $strFechaNacimiento;
     public $intEscolaridad;
     public $intIdSubcampania;
-    public $nomConx;
 
 
     public function __construct(){
@@ -77,11 +76,12 @@ class SeguimientoModel extends Mysql{
 
     public function selectProspectos(){
         $sql = "SELECT pe.id, CONCAT(pe.nombre_persona, ' ', pe.ap_paterno, ' ', pe.ap_materno) as nombre_completo, cat_per.nombre_categoria, pe.alias,
-        pe.tel_celular, pros.plantel_interes, crr_int.nombre_carrera, med.medio_captacion
+        pe.tel_celular, plt.nombre_plantel, crr_int.nombre_carrera, med.medio_captacion
         FROM t_personas as pe
         INNER JOIN t_asignacion_categoria_persona as asig_cat ON asig_cat.id_persona = pe.id 
         INNER JOIN t_categoria_personas as cat_per ON asig_cat.id_categoria_persona = cat_per.id 
         INNER JOIN t_prospectos as pros ON pros.id_persona = pe.id
+        INNER JOIN t_planteles as plt ON pros.id_plantel_interes = plt.id 
         INNER JOIN t_carrera_interes as crr_int ON pros.id_carrera_interes = crr_int.id 
         INNER JOIN t_medio_captacion as med ON pros.id_medio_captacion = med.id
         WHERE pe.estatus != 0 AND asig_cat.id_categoria_persona = 1 OR asig_cat.id_categoria_persona = 5
@@ -227,7 +227,7 @@ class SeguimientoModel extends Mysql{
         return $request;
     }
 
-    public function insertProspecto(string $nom, string $apeP, string $apeM, string $ali, string $edo_civil, string $ocup, string $fecha_nac, int $escol, int $ed, string $sex, int $loc, string $telc, string $telf, string $correo, string $plantProc, string $plantInt, int $nivelInt, int $carrInt, int $med, string $coment, int $idSub, int $idUsr)
+    public function insertProspecto(string $nom, string $apeP, string $apeM, string $ali, string $edo_civil, string $ocup, string $fecha_nac, int $escol, int $ed, string $sex, int $loc, string $telc, string $telf, string $correo, string $plantProc, string $plantInt, int $nivelInt, int $carrInt, int $med, string $coment, int $idSub)
     {
         $this->strNombrePers = $nom;
         $this->strApePat = $apeP;
@@ -249,9 +249,8 @@ class SeguimientoModel extends Mysql{
         $this->intIdCarrInte = $carrInt;
         $this->intMedioCaptacion = $med;
         $this->strComentario = $coment;
-        $this->intIdUsuario = $idUsr;
+        $this->intIdUsuario = $_SESSION['idUser'];
         $this->intIdSubcampania = $idSub;
-        $this->nomConx = $nomConexion;
 
         $sqlPersona = "INSERT INTO t_personas(nombre_persona, ap_paterno, ap_materno, sexo, alias, edad, edo_civil, ocupacion, id_escolaridad,fecha_nacimiento, estatus, id_localidad, tel_celular, tel_fijo, email, fecha_creacion, id_usuario_creacion, id_rol) 
         VALUES(?,?,?,?,?,?,?,?,?,?,1,?,?,?,?,NOW(),?,1)";
@@ -265,7 +264,7 @@ class SeguimientoModel extends Mysql{
             $requestAsig = $this->insert($sqlAsignacion,$arrDataAsig);
             if($requestAsig)
             {
-                $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones, plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_persona) VALUES(?,?,?,?,?,?,?)";
+                $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones, id_plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_persona) VALUES(?,?,?,?,?,?,?)";
                 $arrDataProspecto = array($this->strPlantelProcedencia, $this->strComentario, $this->strPltInteres, $this->intIdNvlCarrInte, $this->intIdCarrInte, $this->intMedioCaptacion, $idPersona);
                 $requestProspecto = $this->insert($sqlProspecto,$arrDataProspecto);
             }
@@ -295,7 +294,7 @@ class SeguimientoModel extends Mysql{
 
         $idMunicipio = $idMunicipio;
         $sql = "SELECT *FROM t_localidades WHERE id_municipio = $idMunicipio";
-        $request = $this->select_all($sql,$nomConexion);
+        $request = $this->select_all($sql);
         return $request;
 
     }
