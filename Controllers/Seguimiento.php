@@ -26,9 +26,9 @@ class Seguimiento extends Controllers{
     public function getProspectos()
     {
         $arrData = $this->model->selectProspectos();
-        for ($i=0; $i < count($arrData) ; $i++) { 
+        for ($i=0; $i <count($arrData) ; $i++) { 
             $arrData[$i]['numeracion'] = $i + 1;
-            if($arrData[$i]['nombre_categoria' == 'Prospecto'])
+            if($arrData[$i]['nombre_categoria'] == 'Prospecto')
             {
                 $arrData[$i]['nombre_completo'] = $arrData[$i]['nombre_completo'].' <span class="badge badge-success">'. $arrData[$i]['nombre_categoria'] .'</span>';
                 $arrData[$i]['options'] = '<div class="text-center">
@@ -38,13 +38,14 @@ class Seguimiento extends Controllers{
                     </button>
                     <div class="dropdown-menu">
                         <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" data-toggle="modal" data-target="#ModalAgendarProspectoSeguimiento" onClick="ftnAgendar('. $arrData[$i]['id'] .')" title="Agendar"> &nbsp;&nbsp; <i class="fas fa-calendar-alt"></i> &nbsp; Agendar</button>
-						<butaton class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" data-toggle="modal" data-target="#ModalEditDatosProspectoSeguimiento" onClick="fnEditarDatosProspecto('. $arrData[$i]['id'] .')"title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
-                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" onClick="fnDarSeguimiento('. $arrData[$i]['id'] .
-                ')" data-toggle="modal" data-target="#ModalSeguimiento" title="Seguimiento"> &nbsp;&nbsp; <i class="far fa-arrow-alt-circle-right"></i> &nbsp; Seguimiento</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" data-toggle="modal" data-target="#ModalEditDatosProspectoSeguimiento" onClick="fnEditarDatosProspecto('. $arrData[$i]['id'] .')"title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
+                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" onClick="fnDarSeguimiento('. $arrData[$i]['id'] .')" data-toggle="modal" data-target="#ModalSeguimiento" title="Seguimiento"> &nbsp;&nbsp; <i class="far fa-arrow-alt-circle-right"></i> &nbsp; Seguimiento</button>
                     </div>
                 </div>
             </div>';
             }
+        }
+        /* 
             else if($arrData[$i]['nombre_categoria'] == 'Egresado'){
                 $arrData[$i]['nombre_completo'] = $arrData[$i]['nombre_completo'].' <span class="badge badge-primary">'. $arrData[$i]['nombre_categoria'] .'</span>';
                 $arrData[$i]['options'] =
@@ -63,7 +64,7 @@ class Seguimiento extends Controllers{
                 </div>
             </div>';
             }
-        }
+        } */
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         die();
     }

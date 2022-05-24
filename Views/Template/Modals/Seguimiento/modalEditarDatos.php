@@ -46,8 +46,9 @@
                                     <select class="form-control" name="slctPlantelEdit" id="slctPlantelEdit">
                                         <option value="">Seleccionar...</option>
                                         <?php
-                                            foreach(conexiones as $key => $conexion){?>
-                                            <option value="<?php echo $key ?>"><?php echo $conexion['NAME']; ?></option>
+                                            foreach ($data['planteles'] as $planteles) {
+                                        ?>
+                                            <option value="<?= $planteles['id']?>"><?= $planteles['nombre_plantel'] ?></option>
                                         <?php
                                             }
                                         ?>

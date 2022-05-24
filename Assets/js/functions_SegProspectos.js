@@ -383,7 +383,7 @@ formProspectoNuevo.addEventListener('submit', (e) =>{
 				formProspectoNuevo.reset()
 				$('#ModalNuevoProspecto').modal('hide')
 				swal.fire('Nuevo prospecto creado', data.msg,'success')
-				tableProspectos.api().ajax.reload()
+				tableSeguimientoProspecto.api().ajax.reload()
 			}
 			else
 			{
