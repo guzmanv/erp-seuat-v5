@@ -284,7 +284,7 @@ function fnEditarDatosProspecto(idPer){
 			txtApellidoMEdit.value = data.ap_materno
 			txtTelCelular.value = data.tel_celular
 			txtCorreo.value = data.email
-			slctPltInt.value = data.plantel_interes
+			slctPltInt.value = data.id_plantel_interes
 			slctNvlInt.value = data.id_nivel_carrera_interes
 			slctCrrInt.value = data.id_carrera_interes
 		})

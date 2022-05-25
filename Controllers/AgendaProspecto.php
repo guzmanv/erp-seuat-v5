@@ -2,10 +2,7 @@
 
 class AgendaProspecto extends Controllers{
 
-  private $idUser;
-  private $nomConexion;
-  private $rol;
-
+  
   /*
   *   !!
   *     Comentarios para furas referencias durante la codificacion
@@ -26,9 +23,6 @@ class AgendaProspecto extends Controllers{
       header('Location: '.base_url().'/login');
       die();
     }
-    $this->idUser = $_SESSION['idUser'];
-    $this->nomConexion = $_SESSION['nomConexion'];
-    $this->rol = $_SESSION['claveRol'];
   }
 
   public function AgendaProspecto(){
@@ -42,7 +36,7 @@ class AgendaProspecto extends Controllers{
   // !! Funcion para llenar la tabla principal de la vista !!
   public function getAgendaProspectos(){
 
-    $arrData = $this->model->selectAgendaProspectos($this->nomConexion);
+    $arrData = $this->model->selectAgendaProspectos();
 
     for($i = 0; $i < count($arrData); $i++){
 
@@ -83,7 +77,7 @@ class AgendaProspecto extends Controllers{
 
     if ($intIdAgenda_guardado > 0) {
 
-      $arrData = $this->model->selectAgendaProspecto($intIdAgenda_guardado,$this->nomConexion);
+      $arrData = $this->model->selectAgendaProspecto($intIdAgenda_guardado);
 
       if(empty($arrData)){
 
@@ -170,7 +164,7 @@ class AgendaProspecto extends Controllers{
 
         if($intIdAgenda <> 0) {
 
-          $request = $this->model->estatusUpdate($intIdAgenda, $intEstatus,$this->nomConexion);
+          $request = $this->model->estatusUpdate($intIdAgenda, $intEstatus);
           $option = 1;
 
         }
@@ -197,7 +191,7 @@ class AgendaProspecto extends Controllers{
 
     if($intIdUsuarioCreacion > 0){
 
-      $arrData = $this->model->selectNombreUsuairoCreacion($intIdUsuarioCreacion,$this->nomConexion);
+      $arrData = $this->model->selectNombreUsuairoCreacion($intIdUsuarioCreacion);
 
       if(empty($arrData)){
 

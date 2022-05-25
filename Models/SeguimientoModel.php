@@ -103,19 +103,18 @@ class SeguimientoModel extends Mysql{
         $sql = "SELECT per.id as per_id, per.nombre_persona, per.ap_paterno, per.ap_materno,
         per.tel_celular,
         per.email,
-        plt.nombre_plantel,
+        pro.id_plantel_interes,
         pro.id_nivel_carrera_interes,
         pro.id_carrera_interes,
         pro.id as pro_id
         FROM t_personas as per
         INNER JOIN t_prospectos AS pro ON pro.id_persona = per.id
-        INNER JOIN t_planteles as plt ON pro.id_plantel_interes = plt.id 
         WHERE per.id = $this->intIdPers";
         $request = $this->select($sql);
         return $request;
     }
 
-    public function updatePersona(string $nombre, string $apPat, string $apMat, string $tel_celular, string $email, string $pltInteres, int $nvlInteres, int $carrInteres, int $idPro, int $idPer, int $idUsr)
+    public function updatePersona(string $nombre, string $apPat, string $apMat, string $tel_celular, string $email, int $pltInteres, int $nvlInteres, int $carrInteres, int $idPro, int $idPer)
     {
         $this->strNombrePers = $nombre;
         $this->strApePat = $apPat;
@@ -125,12 +124,12 @@ class SeguimientoModel extends Mysql{
         $this->intIdPltInte = $pltInteres;
         $this->intIdNvlCarrInte = $nvlInteres;
         $this->intIdCarrInte = $carrInteres;
-        $this->intIdUsuario = $idUsr;
+        $this->intIdUsuario = $_SESSION['idUser'];
         $this->intIdPers = $idPer;
         $this->intIdPros = $idPro;
         $request;
         $sql = "UPDATE t_personas SET nombre_persona = ?, ap_paterno = ?, ap_materno = ?, tel_celular = ?, email = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ? WHERE id=$this->intIdPers";
-        $sql2 = "UPDATE t_prospectos SET id_nivel_carrera_interes = ?, plantel_interes = ?, id_carrera_interes = ? WHERE id=$this->intIdPros";
+        $sql2 = "UPDATE t_prospectos SET id_nivel_carrera_interes = ?, id_plantel_interes = ?, id_carrera_interes = ? WHERE id=$this->intIdPros";
         $arrData = array($this->strNombrePers, $this->strApePat, $this->strApeMat, $this->strTelCel, $this->strEmail, $this->intIdUsuario);
         $arrData2 = array($this->intIdNvlCarrInte, $this->intIdPltInte, $this->intIdCarrInte);
         $rquestUpdate = $this->update($sql,$arrData);
@@ -224,7 +223,7 @@ class SeguimientoModel extends Mysql{
 
     public function selectRespuestasRapidas(){
         $sql = "SELECT * FROM t_respuesta_rapida";
-        $request = $this->select_all($sql,$nomConexion);
+        $request = $this->select_all($sql);
         return $request;
     }
 
