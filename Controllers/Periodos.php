@@ -2,7 +2,6 @@
     class Periodos extends Controllers{
 
         private $idUser;
-        private $nomConexion;
         private $rol;
 
         public function __construct()
@@ -15,8 +14,7 @@
                 die();
             }
             $this->idUser = $_SESSION['idUser'];
-            $this->nomConexion = $_SESSION['nomConexion'];
-            // $this->rol = $_SESSION['claveRol'];
+            $this->rol = $_SESSION['claveRol'];
         }
 
         public function Periodos()
@@ -32,7 +30,7 @@
 
         //PARA ENLISTAR TODOS LOS PERIODOS EN LA TABLA VISTA
         public function getPeriodos(){
-            $arrData = $this->model->selectPeriodos($this->nomConexion);
+            $arrData = $this->model->selectPeriodos();
             for($i=0; $i < count($arrData); $i++){
                 /* $arrData[$i]['id_guardado'] = */ /* $arrData[$i]['IdCiclos']; */
                 $arrData[$i]['numeracion'] = $i+1;
@@ -71,7 +69,7 @@
             $intIdPeriodos = intval(strClean($id));
             if($intIdPeriodos > 0)
             {
-                $arrData = $this->model->selectPeriodo($intIdPeriodos, $this->nomConexion);
+                $arrData = $this->model->selectPeriodo($intIdPeriodos);
                 if(empty($arrData))
                 {
                     $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
@@ -116,7 +114,7 @@
                                                                        $intId_usuario_creacion,
                                                                        $intId_Usuario_Actualizacion,
                                                                        $intId_Organizacion_planes,
-                                                                       $intId_Ciclo, $this->nomConexion);
+                                                                       $intId_Ciclo);
                                                                        $option = 1;
                     }
 
@@ -170,7 +168,7 @@
                                                                         $strFecha_Actualizacion,
                                                                         $intId_Usuario_Actualizacion,
                                                                         $intId_Organizacion_planes,
-                                                                        $intId_Ciclo, $this->nomConexion);
+                                                                        $intId_Ciclo);
                                                                         $option = 1;
                     }
 
@@ -195,7 +193,7 @@
             if($_POST)
             {
                 $intIdPeriodos = intval($_POST['idPeriodos']);
-                $requestDelete = $this->model->deletePeriodos($intIdPeriodos,$this->nomConexion);
+                $requestDelete = $this->model->deletePeriodos($intIdPeriodos);
                 if($requestDelete == 'ok')
                 {
                     $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el periodo correctamente.');
@@ -215,7 +213,7 @@
         //SELECT periodos organizacion
         public function getSelectPeriodoOrganiz(){
             $htmlOptions = "<option value='' selected>- Elige una organización plan -</option>";
-            $arrData = $this->model->selectPeriodoOrg($this->nomConexion);
+            $arrData = $this->model->selectPeriodoOrg();
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -230,7 +228,7 @@
         //SELECT periodos ciclos
         public function getSelectPeriodoCiclo(){
             $htmlOptions = "<option value='' selected>- Elige un ciclo -</option>";
-            $arrData = $this->model->selectPeriodoCiclos($this->nomConexion);
+            $arrData = $this->model->selectPeriodoCiclos();
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -248,7 +246,7 @@
         //SELECT PARA EDITAR PERIODO PLAN
         public function getSelectEditPerioPlan(){
             $htmlOptions = "<option value='' selected>- Elige un plan -</option>";
-            $arrData = $this->model->selectEditPerioPlan($this->nomConexion);
+            $arrData = $this->model->selectEditPerioPlan();
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -262,7 +260,7 @@
 
         public function getSelectEditPerioCiclo(){
             $htmlOptions = "<option value='' selected>- Elige un ciclo -</option>";
-            $arrData = $this->model->selectEditPerioCiclo($this->nomConexion);
+            $arrData = $this->model->selectEditPerioCiclo();
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){

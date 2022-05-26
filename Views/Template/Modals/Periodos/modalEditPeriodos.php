@@ -39,13 +39,6 @@
                 <input class="form-control" id="txtFecha_finUp" name="txtFecha_finUp" rows="2" type="date" value="" required>
               </div>
               <div class="form-group">
-                <label>Estatus <span class="required">*</span></label>
-                <select class="custom-select" id="listEstatusUp" name="listEstatusUp" required>
-                  <option value="1">Activo</option>
-                  <option value="2">Inactivo</option>
-                </select>
-              </div>
-              <div class="form-group">
                     <label for="listIdOrganizacionesEditar">Organizaciones planes</label>
                     <select class="form-control" id="listIdOrganizacionesEditar" name="listIdOrganizacionesEditar" required >
                       
@@ -56,6 +49,13 @@
                     <select class="form-control" id="listIdCiclosEditar" name="listIdCiclosEditar" required >
                       
                     </select>
+              </div>
+              <div class="form-group">
+                <label>Estatus <span class="required">*</span></label>
+                <select class="custom-select" id="listEstatusUp" name="listEstatusUp" required>
+                  <option value="1">Activo</option>
+                  <option value="2">Inactivo</option>
+                </select>
               </div>
 
             </div>

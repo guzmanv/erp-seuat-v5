@@ -23,9 +23,8 @@
 
 
         //EXTRAER SALONES COMPUESTOS O EXTRAER SALONES COMPUESTOS
-        public function selectSalonesCompuest(string $nomConexion)
+        public function selectSalonesCompuest()
         {
-            $this->strNomConexion = $nomConexion;
             $sql = "SELECT tSCom.id AS IdSalonCom, tSCom.nombre_salon_compuesto AS NomSalCom, tPe.nombre_periodo AS NomPerio, 
                            tc.anio AS anoCic, tGra.nombre_grado AS NomGrad, t_Gru.nombre_grupo AS NomGrup, tPla.nombre_plantel AS NomPlant, 
                            tTur.nombre_turno AS NomTurn, tSal.nombre_salon AS NomSal, tSCom.estatus AS Est
@@ -39,20 +38,19 @@
                     INNER JOIN t_ciclos AS tc ON tPe.id_ciclo = tc.id
                     WHERE tSCom.estatus !=0
                     ";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
 
 
 
         //PARA EDITAR
-        public function selectSalonCompu (int $intIdSalonesCompuestos, string $nomConexion)
+        public function selectSalonCompu (int $intIdSalonesCompuestos)
         {
             //BUSCAR SALONES COMPUESTOS
             $this->intIdSalonesCompuestos = $intIdSalonesCompuestos;
-            $this->strNomConexion = $nomConexion;
             $sql = "SELECT * FROM t_salones_compuesto WHERE id = $this->intIdSalonesCompuestos";
-            $request = $this->select($sql,$this->strNomConexion);
+            $request = $this->select($sql);
             return $request;
         }
 
@@ -61,7 +59,7 @@
         //PARA GUARDAR O INSERTAR DATOS
         public function insertSalonCompuesto(string $Nombre_SalonCompuesto, string $Fecha_Creacion, string $Fecha_Actualizacion, 
                                             int $Id_usuario_creacion, int $Id_Usuario_Actualizacion, int $Id_Periodos, int $Id_Grados, 
-                                            int $Id_Grupos, int $Id_Planteles, int $Id_Turnos, int $Id_Salones, int $Estatus, string $nomConexion){
+                                            int $Id_Grupos, int $Id_Planteles, int $Id_Turnos, int $Id_Salones, int $Estatus){
 
             $return = "";
             $this->strNombre_SalonCompuesto = $Nombre_SalonCompuesto;
@@ -76,15 +74,14 @@
             $this->intId_Turnos = $Id_Turnos;
             $this->intId_Salones = $Id_Salones;
             $this->intEstatus = $Estatus;
-            $this->strNomConexion = $nomConexion;
 
             $sql = "SELECT * FROM t_salones_compuesto WHERE nombre_salon_compuesto = '$this->strNombre_SalonCompuesto' ";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
 
             if(empty($request)){
                 $query_insert = "INSERT INTO t_salones_compuesto(nombre_salon_compuesto, fecha_creacion, fecha_actualizacion, id_usuario_creacion, id_usuario_actualizacion, id_periodo, id_grado, id_grupo, id_plantel, id_turnos, id_salon, estatus) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
                 $arrData = array($this->strNombre_SalonCompuesto, $this->strFecha_Creacion, $this->strFecha_Actualizacion, $this->intId_usuario_creacion, $this->intId_Usuario_Actualizacion, $this->intId_Periodos, $this->intId_Grados, $this->intId_Grupos, $this->intId_Planteles, $this->intId_Turnos, $this->intId_Salones, $this->intEstatus);
-                $request_insert = $this->insert($query_insert,$this->strNomConexion,$arrData);
+                $request_insert = $this->insert($query_insert,$arrData);
                 $return = $request_insert;
             }else{
                 $return = "exist";
@@ -96,7 +93,7 @@
         //PARA ACTUALIZAR SALONES COMPUESTOS
         public function updateSalonesComp(int $id, string $nombre_salon_compuesto, int $estatus, string $fecha_actualizacion, 
                                         int $id_usuario_actualizacion, int $id_periodo, int $id_grado, int $id_grupo, int $id_plantel, 
-                                        int $id_turnos, int $id_salon, string $nomConexion)
+                                        int $id_turnos, int $id_salon)
         {
             $this->intIdSalonesCompuestos = $id;
             $this->strNombre_SalonCompuesto = $nombre_salon_compuesto;
@@ -109,16 +106,15 @@
             $this->intId_Planteles = $id_plantel;
             $this->intId_Turnos = $id_turnos;
             $this->intId_Salones = $id_salon;
-            $this->strNomConexion = $nomConexion;
 
             $sql = "SELECT * FROM t_salones_compuesto WHERE nombre_salon_compuesto = '$this->strNombre_SalonCompuesto' AND id != $this->intIdSalonesCompuestos";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
 
             if(empty($request))
             {
                 $sql = "UPDATE t_salones_compuesto SET nombre_salon_compuesto = ?, estatus = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ?, id_periodo = ?, id_grado = ?, id_grupo = ?, id_plantel = ?, id_turnos = ?, id_salon = ? WHERE id = $this->intIdSalonesCompuestos ";
                 $arrData = array($this->strNombre_SalonCompuesto, $this->intEstatus, $this->intId_Usuario_Actualizacion, $this->intId_Periodos, $this->intId_Grados, $this->intId_Grupos, $this->intId_Planteles, $this->intId_Turnos, $this->intId_Salones);
-                $request = $this->update($sql,$this->strNomConexion,$arrData);
+                $request = $this->update($sql,$arrData);
             }else{
                 $request = "exist";
             }
@@ -127,16 +123,15 @@
 
 
         //MODELO PARA ELIMINAR SALONES COMPUESTOS
-        public function deleteSalonesCompu(int $IdSalonCom, string $nomConexion){
+        public function deleteSalonesCompu(int $IdSalonCom){
             $this->intIdSalonesCompuestos = $IdSalonCom;
-            $this->strNomConexion = $nomConexion;
             $sql = "SELECT * FROM t_inscripciones WHERE id_salon_compuesto = $this->intIdSalonesCompuestos";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
             if(empty($request))
             {
                 $sql = "UPDATE t_salones_compuesto SET estatus = ? WHERE id = $this->intIdSalonesCompuestos";
                 $arrData =array(0);
-                $request = $this->update($sql,$this->strNomConexion,$arrData);
+                $request = $this->update($sql,$arrData);
                 if($request)
                 {
                     $request = 'ok';
@@ -154,45 +149,39 @@
 
 
         /*---------------------------------------SELECT PARA NUEVO----------------------------------------------*/
-        public function selectSalonComPerio(string $nomConexion){
-            $this->strNomConexion = $nomConexion;
+        public function selectSalonComPerio(){
             $sql = "SELECT * FROM t_periodos WHERE estatus != 0 ORDER BY nombre_periodo ASC ";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
 
-        public function selectSalonComGrado(string $nomConexion){
-            $this->strNomConexion = $nomConexion;
+        public function selectSalonComGrado(){
             $sql = "SELECT * FROM t_grados WHERE estatus != 0 ORDER BY nombre_grado ASC ";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
 
-        public function selectSalonComGrupo(string $nomConexion){
-            $this->strNomConexion = $nomConexion;
+        public function selectSalonComGrupo(){
             $sql = "SELECT * FROM t_grupos WHERE estatus != 0 ORDER BY nombre_grupo ASC ";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
 
-        public function selectSalonComPlant(string $nomConexion){
-            $this->strNomConexion = $nomConexion;
+        public function selectSalonComPlant(){
             $sql = "SELECT * FROM t_planteles WHERE estatus != 0 ORDER BY nombre_plantel ASC ";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
 
-        public function selectSalonComHorar(string $nomConexion){
-            $this->strNomConexion = $nomConexion;
+        public function selectSalonComHorar(){
             $sql = "SELECT * FROM t_turnos WHERE estatus != 0 ORDER BY nombre_turno ASC ";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
 
-        public function selectSalonComSalon(string $nomConexion){
-            $this->strNomConexion = $nomConexion;
+        public function selectSalonComSalon(){
             $sql = "SELECT * FROM t_salones WHERE estatus != 0 ORDER BY nombre_salon ASC ";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
         /*-------------------------------------------------------------------------------------------------------*/
@@ -200,45 +189,39 @@
 
         /*---------------------------------------SELECT PARA EDITAR----------------------------------------------*/
 
-        public function selectEditSalonComPerio(string $nomConexion){
-            $this->strNomConexion = $nomConexion;
+        public function selectEditSalonComPerio(){
             $sql = "SELECT * FROM t_periodos WHERE estatus != 0 ORDER BY nombre_periodo ASC ";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
 
-        public function selectEditSalonComGrado(string $nomConexion){
-            $this->strNomConexion = $nomConexion;
+        public function selectEditSalonComGrado(){
             $sql = "SELECT * FROM t_grados WHERE estatus != 0 ORDER BY nombre_grado ASC ";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
 
-        public function selectEditSalonComGrupo(string $nomConexion){
-            $this->strNomConexion = $nomConexion;
+        public function selectEditSalonComGrupo(){
             $sql = "SELECT * FROM t_grupos WHERE estatus != 0 ORDER BY nombre_grupo ASC ";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
 
-        public function selectEditSalonComPlant(string $nomConexion){
-            $this->strNomConexion = $nomConexion;
+        public function selectEditSalonComPlant(){
             $sql = "SELECT * FROM t_planteles WHERE estatus != 0 ORDER BY nombre_plantel ASC ";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
 
-        public function selectEditSalonComHorar(string $nomConexion){
-            $this->strNomConexion = $nomConexion;
+        public function selectEditSalonComHorar(){
             $sql = "SELECT * FROM t_turnos WHERE estatus != 0 ORDER BY nombre_turno ASC ";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
 
-        public function selectEditSalonComSalon(string $nomConexion){
-            $this->strNomConexion = $nomConexion;
+        public function selectEditSalonComSalon(){
             $sql = "SELECT * FROM t_salones WHERE estatus != 0 ORDER BY nombre_salon ASC ";
-            $request = $this->select_all($sql,$this->strNomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
         /*-------------------------------------------------------------------------------------------------------*/
