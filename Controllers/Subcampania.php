@@ -94,40 +94,32 @@
           $intIdUsuarioActualizacion = intval($_POST['txtIdUsuarioActualizacion']);
           $intPresupuesto = intval($_POST['txtPresupuesto']);
 
-          $fechas = $this->model->selectFechas($intIdCampania);
-          $arrData = $fechas['fecha_fin'];
-          if($arrData >= $strFechaFin){
-            if($fechas['fecha_inicio'] >= $strFechaInicio){
+          $arrData = $this->model->selectFechas($intIdCampania);
+          if($strFechaInicio >= $arrData['fecha_inicio']){
+            if($strFechaFin <= $arrData['fecha_fin'])
+            {
               if($intIdSubcampania == 0){
-                //Crear
-                $requestSubcampania = $this->model->insertSubcampania($strNombreSubcampania,
-                                                                      $strFechaInicio,
-                                                                      $strFechaFin,
-                                                                      $intIdCampania,
-                                                                      $intEstatus,
-                                                                      $strFechaCreacion,
-                                                                      $strFechaActualizacion,
-                                                                      $intIdUsuarioCreacion,
-                                                                      $intIdUsuarioActualizacion,
-                                                                      $intPresupuesto);
-                                                                      $option = 1;
+                $requestSubcampania = $this->model->insertSubcampania($strNombreSubcampania, $strFechaInicio, $strFechaFin, $intIdCampania, $intEstatus, $strFechaCreacion, $strFechaActualizacion, $intIdUsuarioCreacion, $intIdUsuarioActualizacion, $intPresupuesto);
+                $option = 1;
+                $arrResponse = array('estatus' => true, 'msg' => 'Subcampaña registrada correctamente');
               }
-              if($requestSubcampania > 0){
+              /* 
+              if($intIdSubcampania > 1){
                 if($option == 1){
                   $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente.');
                 }
-              }else if($requestSubcampania == 'exit'){
-                $arrResponse = array('estatus' => false, 'msg' => '¡Atención! La Subcampaña ya esxiste');
-              }else{
-                $arrResponse = array("estatus" => false, "msg" => 'No es posible almacenar los datos.');
-              }
-            }else{
-              $arrResponse = array("estatus" => false, "msg" => 'La fecha limite, tiene que ser una fecha valida.');
+                elseif($requestSubcampania == 'exit'){
+                  $arrResponse = array('estatus' => false, 'msg' => '¡Atención! La Subcampaña ya esxiste');
+                }
+                else{
+                  $arrResponse = array("estatus" => false, "msg" => 'No es posible almacenar los datos.');
+                }
+              } */
             }
             //date("Y-m-d\TH-i");
             //$strFechaInicio
           }else{
-            $arrResponse = array("estatus" => false, "msg" => 'La fecha limite, tiene que estar dentro del limite de la Campaña.');
+            $arrResponse = array("estatus" => false, "msg" => 'La fecha de inicio que se ingresó es menor a la fecha de inicio de la subcampaña');
           }
         }
         echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -151,15 +143,8 @@
           $requestSubcampania = "";
 
           if($intIdSubcampania <> 0){
-            $requestSubcampania = $this->model->updateSubcampania($intIdSubcampania,
-                                                                  $strNombreSubcampania,
-                                                                  $intEstatus,
-                                                                  $strFechaActualizacion,
-                                                                  $intIdUsuarioActualizacion,
-                                                                  $fechaInicoActualizacion,
-                                                                  $fechaFinActualizacion,
-                                                                  $intPresupuesto);
-                                                                  $option = 1;
+            $requestSubcampania = $this->model->updateSubcampania($intIdSubcampania, $strNombreSubcampania, $intEstatus, $strFechaActualizacion, $intIdUsuarioActualizacion, $fechaInicoActualizacion, $fechaFinActualizacion, $intPresupuesto);
+            $option = 1;
           }
           if($requestSubcampania > 0){
             if($option == 1){
