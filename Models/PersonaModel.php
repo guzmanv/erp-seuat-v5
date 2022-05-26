@@ -3,18 +3,18 @@
         public function __construct(){
             parent::__construct();
         }
-        public function selectPersonas(string $nomConexion){
+        public function selectPersonas(){
             $sql = "SELECT p.id,p.alias,p.nombre_persona,p.ap_paterno,p.ap_materno,p.email,p.tel_celular,
             p.direccion,p.estatus,c.nombre_categoria FROM t_personas AS p
             LEFT JOIN t_asignacion_categoria_persona AS ac ON ac.id_persona = p.id
             INNER JOIN t_categoria_personas AS c ON ac.id_categoria_persona = c.id
             WHERE p.estatus = 1  AND ac.id_categoria_persona = 1 ORDER BY p.id DESC";
-            $request = $this->select_all($sql, $nomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
-        public function selectPersona($idPersona, string $nomConexion){
+        public function selectPersona($idPersona){
             $sql = "SELECT *FROM t_personas WHERE id = $idPersona";
-            $request = $this->select($sql, $nomConexion);
+            $request = $this->select($sql);
             return $request;
         }
         /* public function selectPersonaEdit($idPersona, string $nomConexion){
@@ -39,12 +39,12 @@
             $request = $this->select($sql, $nomConexion);
             return $nomConexion;
         } */
-        public function selectPersonaEdit(int $idPersona, string $nomConexion){
+        public function selectPersonaEdit(int $idPersona){
             $sql = "SELECT per.id,per.alias,per.ap_paterno,per.ap_materno,per.colonia,per.cp,per.direccion,per.edad,per.edo_civil,per.email,
             per.estatus,acp.id_categoria_persona,per.id_escolaridad,esc.nombre_escolaridad,per.id_localidad,loc.nombre AS nomlocalidad,
             per.nombre_persona,per.ocupacion,per.sexo,per.tel_celular,per.tel_fijo,mun.id AS idmun,mun.nombre AS nommunicipio,est.id AS idest,
             est.nombre AS nomestado, per.fecha_nacimiento,per.curp,ne.nombre_nivel_educativo AS nivel_carrera_interes, ne.id AS id_nivel_carrera_interes,
-            ci.nombre_carrera AS carrera_interes,ci.id AS id_carrera_interes,pros.plantel_interes,pros.id_carrera_interes,mc.medio_captacion,pros.escuela_procedencia,
+            ci.nombre_carrera AS carrera_interes,ci.id AS id_carrera_interes,pin.abreviacion_plantel,pin.municipio AS munplantel,pros.id_carrera_interes,mc.medio_captacion,pros.escuela_procedencia,
             pros.observaciones AS observacion 
             FROM t_prospectos AS pros
             INNER JOIN t_personas AS per ON pros.id_persona = per.id
@@ -56,26 +56,27 @@
             INNER JOIN t_nivel_educativos AS ne ON pros.id_nivel_carrera_interes = ne.id
             INNER JOIN t_carrera_interes AS ci ON pros.id_carrera_interes = ci.id
             INNER JOIN t_medio_captacion AS mc ON pros.id_medio_captacion = mc.id
-            WHERE per.id = $idPersona AND acp.id_categoria_persona = 1"; //1 = Prospecto
-            $request = $this->select($sql, $nomConexion);
+            INNER JOIN t_planteles AS pin ON pros.id_plantel_interes  = pin.id
+            WHERE per.id =  $idPersona AND acp.id_categoria_persona = 1"; //1 = Prospecto
+            $request = $this->select($sql);
             return $request;
         }
-        public function selectCategoriasPersona(string $nomConexion){
+        public function selectCategoriasPersona(){
             $sql = "SELECT *FROM t_categoria_personas";
-            $request = $this->select_all($sql, $nomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
-        public function selectGradosEstudios(string $nomConexion){
+        public function selectGradosEstudios(){
             $sql = "SELECT *FROM t_escolaridad";
-            $request = $this->select_all($sql, $nomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
-        public function selectNivelesEducativos(string $nomConexion){
+        public function selectNivelesEducativos(){
             $sql = "SELECT *FROM t_nivel_educativos WHERE estatus = 1";
-            $request = $this->select_all($sql, $nomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
-        public function insertPersona($data, int $idUSer,int $id_subcampania, string $nomConexion){
+        public function insertPersona($data, int $idUSer,int $id_subcampania){
             $alias = $data['txtAliasNuevo'];
             $nombre = $data['txtNombreNuevo'];
             $apellidoP = ($data['txtApellidoPaNuevo'] == '')?null:$data['txtApellidoPaNuevo'];
@@ -103,20 +104,20 @@
             $observacion = $data['txtObservacion'];
             $sqlPersona = "INSERT INTO t_personas(nombre_persona,ap_paterno,ap_materno,alias,direccion,edad,sexo,cp,colonia,tel_celular,tel_fijo,email,edo_civil,ocupacion,curp,fecha_nacimiento,estatus,fecha_creacion,id_rol,id_localidad,id_escolaridad,id_usuario_creacion) 
             VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?,?)";
-            $requestPersona = $this->insert($sqlPersona,$nomConexion,array($nombre,$apellidoP,$apellidoM,$alias,$direccion,$edad,$sexo,$cp,$colonia,$telefonoCelular,$telefonoFijo,$email,$estadoCivil,$ocupacion,$CURP,$fechaNacimiento,1,1,$localidad,$grado,$idUSer));
+            $requestPersona = $this->insert($sqlPersona,array($nombre,$apellidoP,$apellidoM,$alias,$direccion,$edad,$sexo,$cp,$colonia,$telefonoCelular,$telefonoFijo,$email,$estadoCivil,$ocupacion,$CURP,$fechaNacimiento,1,1,$localidad,$grado,$idUSer));
             if($requestPersona){
                 $idPersona = $requestPersona;
                 $sqlAsignCategoria = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) VALUES(NOW(),?,?,?,NOW(),?,?,?)";
-                $requestAsignCategoria = $this->insert($sqlAsignCategoria,$nomConexion,array(0,0,1,$idUSer,$idPersona,$categoriaPersona));
+                $requestAsignCategoria = $this->insert($sqlAsignCategoria,array(0,0,1,$idUSer,$idPersona,$categoriaPersona));
                  if($requestAsignCategoria){
-                    $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones,plantel_de_origen,plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_subcampania,id_persona) VALUES(?,?,?,?,?,?,?,?,?)";
-                    $requestProspecto = $this->insert($sqlProspecto,$nomConexion,array($escuelaProcedencia,$observacion,$nomConexion,$plantelInteres,$nivelCarreraInteres,$carreraInteres,$medioCaptacion,$id_subcampania,$idPersona));
+                    $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones,id_plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_subcampania,id_persona) VALUES(?,?,?,?,?,?,?,?)";
+                    $requestProspecto = $this->insert($sqlProspecto,array($escuelaProcedencia,$observacion,$plantelInteres,$nivelCarreraInteres,$carreraInteres,$medioCaptacion,$id_subcampania,$idPersona));
                 }
             }
             return $requestProspecto;
         }
 
-        public function updatePersona($idPersona,$data,int $idUSer, string $nomConexion){
+        public function updatePersona($idPersona,$data,int $idUSer){
             $nombre = $data['txtNombreEdit'];
             $alias = $data['txtAliasEdit'];
             $apellidoP = ($data['txtApellidoPaEdit'] == '')?null:$data['txtApellidoPaEdit'];
@@ -139,53 +140,53 @@
             $direccion = ($data['txtDireccionEdit'] == '')?null:$data['txtDireccionEdit'];
             $observacion = ($data['txtObservacionEdit'] == '')?null:$data['txtObservacionEdit'];
             $sql = "UPDATE t_personas SET nombre_persona = ?,ap_paterno = ?,ap_materno = ?,alias = ?,direccion = ?,edad = ?,cp = ?,colonia = ?,tel_celular = ?,tel_fijo = ?,email = ?,edo_civil = ?,ocupacion = ?,curp = ?,fecha_nacimiento = ?,fecha_actualizacion = NOW(),id_escolaridad = ?,id_usuario_actualizacion = ? WHERE id = $idPersona";
-            $request = $this->update($sql,$nomConexion,array($nombre,$apellidoP,$apellidoM,$alias,$direccion,$edad,$CP,$colonia,$telefonoCelular,$telefonoFijo,$email,$estadoCivil,$ocupacion,$CURP,$fechaNacimiento,$escolaridad,$idUSer)); 
+            $request = $this->update($sql,array($nombre,$apellidoP,$apellidoM,$alias,$direccion,$edad,$CP,$colonia,$telefonoCelular,$telefonoFijo,$email,$estadoCivil,$ocupacion,$CURP,$fechaNacimiento,$escolaridad,$idUSer)); 
             if($request){
                 $sqlProspecto = "UPDATE t_prospectos SET escuela_procedencia = ?,observaciones = ?, plantel_interes = ?,id_nivel_carrera_interes = ?,id_carrera_interes = ? WHERE id_persona = $idPersona";
-                $requestProspecto = $this->update($sqlProspecto, $nomConexion, array($escuelaProcedencia, $observacion, $plantelInteres, $nivelCarreraInteres, $carreraInteres));
+                $requestProspecto = $this->update($sqlProspecto, array($escuelaProcedencia, $observacion, $plantelInteres, $nivelCarreraInteres, $carreraInteres));
             }
             return $requestProspecto;
         }
-        public function selectEstados(string $nomConexion){
+        public function selectEstados(){
             $sql = "SELECT *FROM t_estados";
-            $request = $this->select_all($sql, $nomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
-        public function selectMunicipios($idEstado, string $nomConexion){
+        public function selectMunicipios($idEstado){
             $idEstado = $idEstado;
             $sql = "SELECT *FROM t_municipios WHERE id_estados = $idEstado";
-            $request = $this->select_all($sql, $nomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
-        public function selectLocalidades($idMunicipio, string $nomConexion){
+        public function selectLocalidades($idMunicipio){
             $idMunicipio = $idMunicipio;
             $sql = "SELECT *FROM t_localidades WHERE id_municipio = $idMunicipio";
-            $request = $this->select_all($sql, $nomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
-        public function selectCarrerasInteres($idNivel, string $nomConexion){
+        public function selectCarrerasInteres($idNivel){
             $idNivel = $idNivel;
             $sql = "SELECT *FROM t_carrera_interes WHERE id_nivel_educativo = $idNivel";
-            $request = $this->select_all($sql, $nomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
-        public function selectPlanteles(string $nomConexion){
+        public function selectPlanteles(){
             $sql = "SELECT *FROM t_planteles WHERE estatus = 1";
-            $request = $this->select_all($sql, $nomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
-        public function selectMediosCaptacion(string $nomConexion){
+        public function selectMediosCaptacion(){
             $sql = "SELECT *FROM t_medio_captacion";
-            $request = $this->select_all($sql, $nomConexion);
+            $request = $this->select_all($sql);
             return $request;
         }
-        public function deletePersona($idPersona, string $nomConexion){
+        public function deletePersona($idPersona){
             $sql = "SELECT * FROM t_personas WHERE id = $idPersona";
-			$request = $this->select_all($sql, $nomConexion);
+			$request = $this->select_all($sql);
 			if($request){
 				$sql = "UPDATE t_personas SET estatus = ? WHERE id = $idPersona";
 				$arrData = array(0);
-				$request = $this->update($sql,$nomConexion,$arrData);
+				$request = $this->update($sql,$arrData);
 				if($request){
 					$request = 'ok';	
 				}else{
@@ -194,15 +195,15 @@
 			}
 			return $request;
         }
-        public function selectSubcampania(string $nomConexion){
+        public function selectSubcampania(){
             $sql = "SELECT *FROM t_subcampania WHERE estatus = 1 ORDER BY fecha_fin DESC LIMIT 1";
-            $request = $this->select($sql, $nomConexion);
+            $request = $this->select($sql);
             return $request;
         }
         
-        public function insertPersonaCSV(int $id, string $nombrePersona, $apPaterno, $apMaterno, string $alias, $direccion, $edad, string $sexo, $cp, $colonia, $telCelular, $telFijo, $email, $edoCivil, $ocupacion, int $idLocalidad, $curp, $fechaNacimiento, int $estatus, int $idRol, $idEscolaridad, $escuelaProcedencia, $plantelInteres, $nivelCarreraInteres, $carreraInteres, $medioCaptacion, $idsubcampania, string $plantelOrigen, string $folioTransferencia, int $idUser, string $nomConexion){
+        public function insertPersonaCSV(int $id, string $nombrePersona, $apPaterno, $apMaterno, string $alias, $direccion, $edad, string $sexo, $cp, $colonia, $telCelular, $telFijo, $email, $edoCivil, $ocupacion, int $idLocalidad, $curp, $fechaNacimiento, int $estatus, int $idRol, $idEscolaridad, $escuelaProcedencia, $plantelInteres, $nivelCarreraInteres, $carreraInteres, $medioCaptacion, $idsubcampania, string $plantelOrigen, string $folioTransferencia, int $idUser){
             $sqlPersona = "INSERT INTO t_personas(nombre_persona,ap_paterno,ap_materno,alias,direccion,edad,sexo,cp,colonia,tel_celular,tel_fijo,email,edo_civil,ocupacion,id_localidad,curp,fecha_nacimiento,estatus,fecha_creacion,id_usuario_creacion,id_rol,id_escolaridad) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?)";
-            $requestPersona = $this->insert($sqlPersona,$nomConexion,array($nombrePersona,$apPaterno,$apMaterno,$alias,$direccion,$edad,$sexo,$cp,$colonia,$telCelular,$telFijo,$email,$edoCivil,$ocupacion,$idLocalidad,$curp,$fechaNacimiento,$estatus,$idUser,$idRol,$idEscolaridad));
+            $requestPersona = $this->insert($sqlPersona,array($nombrePersona,$apPaterno,$apMaterno,$alias,$direccion,$edad,$sexo,$cp,$colonia,$telCelular,$telFijo,$email,$edoCivil,$ocupacion,$idLocalidad,$curp,$fechaNacimiento,$estatus,$idUser,$idRol,$idEscolaridad));
             $categoriaPersona = 1; //1 = Prospecto
             /* if($requestPersona){
                 $idPersona = $requestPersona;

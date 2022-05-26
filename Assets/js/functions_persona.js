@@ -223,6 +223,7 @@ function fntEditPersona(idPersona){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
             if(objData){
+                console.log(objData)
                 document.querySelector("#idEdit").value = objData.id;
                 document.querySelector("#txtNombreEdit").value = objData.nombre_persona;    
                 document.querySelector("#txtAliasEdit").value = objData.alias;    
