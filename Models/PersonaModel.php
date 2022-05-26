@@ -44,7 +44,7 @@
             per.estatus,acp.id_categoria_persona,per.id_escolaridad,esc.nombre_escolaridad,per.id_localidad,loc.nombre AS nomlocalidad,
             per.nombre_persona,per.ocupacion,per.sexo,per.tel_celular,per.tel_fijo,mun.id AS idmun,mun.nombre AS nommunicipio,est.id AS idest,
             est.nombre AS nomestado, per.fecha_nacimiento,per.curp,ne.nombre_nivel_educativo AS nivel_carrera_interes, ne.id AS id_nivel_carrera_interes,
-            ci.nombre_carrera AS carrera_interes,ci.id AS id_carrera_interes,pros.plantel_interes,pros.id_carrera_interes,mc.medio_captacion,pros.escuela_procedencia,
+            ci.nombre_carrera AS carrera_interes,ci.id AS id_carrera_interes,pin.abreviacion_plantel,pin.municipio AS munplantel,pros.id_carrera_interes,mc.medio_captacion,pros.escuela_procedencia,
             pros.observaciones AS observacion 
             FROM t_prospectos AS pros
             INNER JOIN t_personas AS per ON pros.id_persona = per.id
@@ -56,7 +56,8 @@
             INNER JOIN t_nivel_educativos AS ne ON pros.id_nivel_carrera_interes = ne.id
             INNER JOIN t_carrera_interes AS ci ON pros.id_carrera_interes = ci.id
             INNER JOIN t_medio_captacion AS mc ON pros.id_medio_captacion = mc.id
-            WHERE per.id = $idPersona AND acp.id_categoria_persona = 1"; //1 = Prospecto
+            INNER JOIN t_planteles AS pin ON pros.id_plantel_interes  = pin.id
+            WHERE per.id =  $idPersona AND acp.id_categoria_persona = 1"; //1 = Prospecto
             $request = $this->select($sql);
             return $request;
         }
@@ -109,8 +110,8 @@
                 $sqlAsignCategoria = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) VALUES(NOW(),?,?,?,NOW(),?,?,?)";
                 $requestAsignCategoria = $this->insert($sqlAsignCategoria,array(0,0,1,$idUSer,$idPersona,$categoriaPersona));
                  if($requestAsignCategoria){
-                    $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones,plantel_de_origen,plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_subcampania,id_persona) VALUES(?,?,?,?,?,?,?,?,?)";
-                    $requestProspecto = $this->insert($sqlProspecto,array($escuelaProcedencia,$observacion,$nomConexion,$plantelInteres,$nivelCarreraInteres,$carreraInteres,$medioCaptacion,$id_subcampania,$idPersona));
+                    $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones,id_plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_subcampania,id_persona) VALUES(?,?,?,?,?,?,?,?)";
+                    $requestProspecto = $this->insert($sqlProspecto,array($escuelaProcedencia,$observacion,$plantelInteres,$nivelCarreraInteres,$carreraInteres,$medioCaptacion,$id_subcampania,$idPersona));
                 }
             }
             return $requestProspecto;

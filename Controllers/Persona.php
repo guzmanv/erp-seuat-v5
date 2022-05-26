@@ -37,11 +37,10 @@
         public function getPersonaEdit($idPersona){
             $idPersona = $idPersona;
             $arrData = $this->model->selectPersonaEdit($idPersona);
-            $arrData['id_plantel_interes'] = $arrData['plantel_interes'];
-            if($arrData['plantel_interes'] == null){
+            if($arrData['abreviacion_plantel'] == null){
                 $arrData['plantel_interes'] = "Sin Plantel";
             }else{
-                $arrData['plantel_interes'] = conexiones[$arrData['plantel_interes']]['NAME'];
+                $arrData['plantel_interes'] = $arrData['abreviacion_plantel'].' ('.$arrData['munplantel'].' )';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();

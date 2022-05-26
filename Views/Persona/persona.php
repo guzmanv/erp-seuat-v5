@@ -11,7 +11,7 @@
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
+                    <div class="col-sm-8">
                         <h1 class="m-0"> <?= $data['page_title'] ?></h1>
                     </div>
                     <div class="col-sm-4">
@@ -19,11 +19,11 @@
                             <button type="button" class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalFormNuevaPersona"><i class="fa fa-plus-circle fa-md"></i>Nuevo</button>
                         </ol>
                     </div>
-                    <div class="col-sm-2">
+<!--                     <div class="col-sm-2">
                         <ol class="breadcrumb float-sm-right btn-block">
                             <button type="button" class="btn btn-inline btn-secondary btn-sm btn-block" data-toggle="modal" data-target="#modal_importar_prospectos" onclick="fnBtnImportarProspectos()"><i class="fas fa-upload"></i>&nbsp&nbspImportar</button>
                         </ol>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
