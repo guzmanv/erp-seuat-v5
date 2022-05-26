@@ -30,9 +30,9 @@ document.addEventListener('DOMContentLoaded', function(){
                         }
                     },
                     {"data":"AplicaEdoCuenta"},
-					{"data":"EstatusServicios"},
                     {"data":"Plantel"},
                     {"data":"Municipio"},
+					{"data":"EstatusServicios"},
 					{"data":"options"}
                     
 			],

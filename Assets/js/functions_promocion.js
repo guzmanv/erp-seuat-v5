@@ -143,58 +143,58 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 	// Actualizar
-	if (document.querySelector("#formCategoria_serviciosup")) {
-		let formCategoria_serviciosup = document.querySelector("#formCategoria_serviciosup");
-		formCategoria_serviciosup.onsubmit = function (e) {
-			e.preventDefault();
+	// if (document.querySelector("#formCategoria_serviciosup")) {
+	// 	let formCategoria_serviciosup = document.querySelector("#formCategoria_serviciosup");
+	// 	formCategoria_serviciosup.onsubmit = function (e) {
+	// 		e.preventDefault();
 
-			let intIdCategoria_servicios = document.querySelector('#idCategoria_serviciosup').value;
-			let strNombre_categoria = document.querySelector('#txtNombre_categoriaup').value;
-			let intEstatus = document.querySelector('#listEstatusup').value;
-			let strFecha_actualizacion = document.querySelector('#txtFecha_actualizacionup').value;
-			let intId_usuario_actualizacion = document.querySelector('#txtId_usuario_actualizacionup').value;
+	// 		let intIdCategoria_servicios = document.querySelector('#idCategoria_serviciosup').value;
+	// 		let strNombre_categoria = document.querySelector('#txtNombre_categoriaup').value;
+	// 		let intEstatus = document.querySelector('#listEstatusup').value;
+	// 		let strFecha_actualizacion = document.querySelector('#txtFecha_actualizacionup').value;
+	// 		let intId_usuario_actualizacion = document.querySelector('#txtId_usuario_actualizacionup').value;
 
-			if (strNombre_categoria == '' || intEstatus == '' || intId_usuario_actualizacion == '') {
-				swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
-				return false;
-			}
+	// 		if (strNombre_categoria == '' || intEstatus == '' || intId_usuario_actualizacion == '') {
+	// 			swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
+	// 			return false;
+	// 		}
 
-			divLoading.style.display = "flex";
-			let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-			let ajaxUrl = base_url + '/Categoria_servicios/setCategoria_servicios_up';
-			let formData = new FormData(formCategoria_serviciosup);
-			request.open("POST", ajaxUrl, true);
-			request.send(formData);
+	// 		divLoading.style.display = "flex";
+	// 		let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+	// 		let ajaxUrl = base_url + '/Categoria_servicios/setCategoria_servicios_up';
+	// 		let formData = new FormData(formCategoria_serviciosup);
+	// 		request.open("POST", ajaxUrl, true);
+	// 		request.send(formData);
 
-			request.onreadystatechange = function () {
-				if (request.readyState == 4 && request.status == 200) {
+	// 		request.onreadystatechange = function () {
+	// 			if (request.readyState == 4 && request.status == 200) {
 
-					let objData = JSON.parse(request.responseText);
-					if (objData.estatus) {
-						if (rowTable == "") {
-							tableCategoria_servicios.api().ajax.reload();
-						} else {
-							htmlEstatus = intEstatus == 1 ?
-								'<span class="badge badge-dark">Activo</span>' :
-								'<span class="badge badge-secondary">Inactivo</span>';
-							rowTable.cells[1].textContent = strNombre_categoria;
-							rowTable.cells[2].innerHTML = htmlEstatus;
-							rowTable = "";
-						}
+	// 				let objData = JSON.parse(request.responseText);
+	// 				if (objData.estatus) {
+	// 					if (rowTable == "") {
+	// 						tableCategoria_servicios.api().ajax.reload();
+	// 					} else {
+	// 						htmlEstatus = intEstatus == 1 ?
+	// 							'<span class="badge badge-dark">Activo</span>' :
+	// 							'<span class="badge badge-secondary">Inactivo</span>';
+	// 						rowTable.cells[1].textContent = strNombre_categoria;
+	// 						rowTable.cells[2].innerHTML = htmlEstatus;
+	// 						rowTable = "";
+	// 					}
 
-						$('#modalFormCategoria_servicios_editar').modal('hide');
-						formCategoria_serviciosup.reset();
-						swal.fire("Categoría servicios", objData.msg, "success");
+	// 					$('#modalFormCategoria_servicios_editar').modal('hide');
+	// 					formCategoria_serviciosup.reset();
+	// 					swal.fire("Categoría servicios", objData.msg, "success");
 
-					} else {
-						swal.fire("Error", objData.msg, "error");
-					}
-				}
-				divLoading.style.display = "none";
-				return false;
-			}
-		}
-	}
+	// 				} else {
+	// 					swal.fire("Error", objData.msg, "error");
+	// 				}
+	// 			}
+	// 			divLoading.style.display = "none";
+	// 			return false;
+	// 		}
+	// 	}
+	// }
 
 }, false);
 
@@ -311,6 +311,7 @@ function fntSelectSubcampaniasEdit(idCampania){
 
 function openModal() {
 	rowTable = "";
+	document.querySelector("#formPromocion").reset();
 	$('#modalFormPromocion').modal({
 		backdrop: 'static',
 		keyboard: false,

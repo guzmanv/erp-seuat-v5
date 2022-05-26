@@ -3,7 +3,6 @@ class Unidad_medida extends Controllers
 {
 
     private $idUser;
-    private $nomConexion;
     private $rol;
 
     public function __construct()
@@ -15,8 +14,7 @@ class Unidad_medida extends Controllers
             die();
         }
         $this->idUser = $_SESSION['idUser'];
-        $this->nomConexion = $_SESSION['nomConexion'];
-        // $this->rol = $_SESSION['claveRol'];
+        $this->rol = $_SESSION['claveRol'];
     }
 
     public function Unidad_medida()
@@ -30,7 +28,7 @@ class Unidad_medida extends Controllers
 
     public function getUnidad_medidas()
     {
-        $arrData = $this->model->selectUnidad_medidas($this->nomConexion);
+        $arrData = $this->model->selectUnidad_medidas();
         for ($i = 0; $i < count($arrData); $i++) {
             $arrData[$i]['numeracion'] = $i+1;
             if ($arrData[$i]['estatus'] == 1) {
@@ -67,7 +65,7 @@ class Unidad_medida extends Controllers
 				$strTipo = strClean($_POST['txtTipo']);
 				$strClave = strClean($_POST['txtClave']);
 				if ($intIdUnidad_medida == 0) {
-                    $requestUnidadMedida = $this->model->insertUnidad_medida($intIdUnidad_medida,$strNombre,$intEstatus,$strTipo,$strClave,$_SESSION['idUser'], $this->nomConexion);
+                    $requestUnidadMedida = $this->model->insertUnidad_medida($intIdUnidad_medida,$strNombre,$intEstatus,$strTipo,$strClave,$_SESSION['idUser']);
                     if($requestUnidadMedida){
                         if($requestUnidadMedida == 'exist'){
                             $arrResponse = array('estatus' => false,'msg'=>'¡Atención! el nombre d ela unidad de medida ya existe');
@@ -90,7 +88,7 @@ class Unidad_medida extends Controllers
         //if($_SESSION['permisosMod']['r']){
         $intIdUnidad_medida = intval(strClean($id));
         if ($intIdUnidad_medida > 0) {
-            $arrData = $this->model->selectUnidad_medida($intIdUnidad_medida,$this->nomConexion);
+            $arrData = $this->model->selectUnidad_medida($intIdUnidad_medida);
             if (empty($arrData)) {
                 $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
             } else {
@@ -114,7 +112,7 @@ class Unidad_medida extends Controllers
                 $intEstatus = intval($_POST['listEstatusEdit']);
                 $intIdUser = $_SESSION['idUser'];
                 if ($intId != 0) {
-                    $requestUnidadMedida = $this->model->updateUnidad_medida($intId,$strTipo,$strClave,$strNombre,$intEstatus,$intIdUser,$this->nomConexion);
+                    $requestUnidadMedida = $this->model->updateUnidad_medida($intId,$strTipo,$strClave,$strNombre,$intEstatus,$intIdUser);
                     if($requestUnidadMedida){
                         if($requestUnidadMedida === "exist"){
                             $arrResponse = array('estatus' => false, 'msg' => 'Existe un registro con el mismo nombre.');
@@ -135,7 +133,7 @@ class Unidad_medida extends Controllers
     public function delUnidad_medida(){
         if ($_POST) {
             $intIdUnidad_medida = intval($_POST['idUnidad_medida']);
-            $requestDelete = $this->model->deleteUnidad_medida($intIdUnidad_medida,$this->nomConexion);
+            $requestDelete = $this->model->deleteUnidad_medida($intIdUnidad_medida);
             if ($requestDelete == 'ok') {
                 $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la unidad de medida correctamente.');
             } else if ($requestDelete == 'exist') {
