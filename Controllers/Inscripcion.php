@@ -2,7 +2,6 @@
 <?php
     class Inscripcion extends Controllers{
         private $idUser;
-		private $nomConexion;
 		private $rol;
 		public function __construct()
 		{
@@ -14,7 +13,6 @@
 			    die();
 		    }
 			$this->idUser = $_SESSION['idUser'];
-			$this->nomConexion = $_SESSION['nomConexion'];
 			$this->rol = $_SESSION['claveRol'];
 		}
         //Funcion para mostrar Vista(Admision)
@@ -23,14 +21,15 @@
             $data['page_tag'] = "Inscripcion";
             $data['page_title'] = "Inscripciones";
             $data['page_content'] = "";
-            //$data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
-            $data['grados'] = $this->model->selectGrados($this->nomConexion);
-            $data['subcampanias'] = $this->model->selectSubcampanias($this->nomConexion);
-            $data['turnos'] = $this->model->selectturnos($this->nomConexion);
-            $data['niveles_educativos'] = $this->model->selectNivelesEducativos($this->nomConexion);
+            $data['planteles'] = $this->model->selectPlanteles();
+            $data['sistemas_educativos'] = $this->model->selectSistemasEducativos();
+            $data['grados'] = $this->model->selectGrados();
+            $data['subcampanias'] = $this->model->selectSubcampanias();
+            $data['turnos'] = $this->model->selectturnos();
+            $data['niveles_educativos'] = $this->model->selectNivelesEducativos();
             $data['page_functions_js'] = "functions_inscripciones_admision.js";
             $data['rol'] = $this->rol;
-            $data['nomConexion'] = $this->nomConexion;
+            //$data['nomConexion'] = $this->nomConexion;
             $this->views->getView($this,"inscripcion",$data);
         }
         //Funcion para mostrar Vista(ControlEscolar)
@@ -48,55 +47,30 @@
         }
         //Obtener Lista de Inscripciones(Admision)
         public function getInscripcionesAdmision(){
-            //$nomConexion = $_GET['conexion'];
-            /* if($nomConexion == 'Todos'){
-                $arrRes = [];
-                foreach (conexiones as $key => $conexion) {
-                    $arrData = $this->model->selectInscripcionesAdmision($key);
-                    for($i = 0; $i<count($arrData); $i++){
-                        $arrData[$i]['plantel'] = conexiones[$key]['NAME'];
-                        $arrData[$i]['numeracion'] = $i+1;
-                        //$arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'].'('.$arrData[$i]['municipio'].')';
-                        if($arrData[$i]['nombre_grupo'] == null){
-                            $arrData[$i]['nombre_grupo'] = "Sin grupo";
-                        }else{
-                            
-                        }
-                        $arrData[$i]['total'] = '<h5><span class="badge badge-secondary pr-2 pl-2">'.$arrData[$i]['total'].'</span></h5>';
-                        $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" gr="'.$arrData[$i]['grado'].'" tr="'.$arrData[$i]['id_turno'].'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalFormListaInscritos" onclick="fnListaInscritos(this)">Ver</button>';
+            $nomSistema = $_GET['sistema'];
+            if($nomSistema == 'Todos'){
+                $arrInscripciones = $this->model->selectInscripcionesAdmision();
+                for($i = 0; $i<count($arrInscripciones); $i++){
+                    $arrInscripciones[$i]['numeracion'] = $i+1;
+                    if($arrInscripciones[$i]['nombre_grupo'] == null){
+                        $arrInscripciones[$i]['nombre_grupo'] = "Sin grupo";
                     }
-                    array_push($arrRes,$arrData);
+                    $arrInscripciones[$i]['total'] = '<h5><span class="badge badge-secondary pr-2 pl-2">'.$arrInscripciones[$i]['total'].'</span></h5>';
+                    $arrInscripciones[$i]['options'] = '<button type="button"  id="'.$arrInscripciones[$i]['id'].'" gr="'.$arrInscripciones[$i]['grado'].'" tr="'.$arrInscripciones[$i]['id_turno'].'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalFormListaInscritos" onclick="fnListaInscritos(this)">Ver</button>';    
                 }
-                $newArray = array_merge([], ...$arrData);
             }else{
-                $newArray = $this->model->selectInscripcionesAdmision($nomConexion);
-                for($i = 0; $i<count($newArray); $i++){
-                    $newArray[$i]['plantel'] = $nomConexion;
-                    $newArray[$i]['numeracion'] = $i+1;
-                    //$arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'].'('.$arrData[$i]['municipio'].')';
-                    if($newArray[$i]['nombre_grupo'] == null){
-                        $newArray[$i]['nombre_grupo'] = "Sin grupo";
-                    }else{
-                        
+                $idSistema = intval($nomSistema);
+                $arrInscripciones = $this->model->selectInscripcionesAdmisionBySismetas($idSistema);
+                for($i = 0; $i<count($arrInscripciones); $i++){
+                    $arrInscripciones[$i]['numeracion'] = $i+1;
+                    if($arrInscripciones[$i]['nombre_grupo'] == null){
+                        $arrInscripciones[$i]['nombre_grupo'] = "Sin grupo";
                     }
-                    $newArray[$i]['total'] = '<h5><span class="badge badge-secondary pr-2 pl-2">'.$newArray[$i]['total'].'</span></h5>';
-                    $newArray[$i]['options'] = '<button type="button"  id="'.$newArray[$i]['id'].'" gr="'.$newArray[$i]['grado'].'" tr="'.$newArray[$i]['id_turno'].'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalFormListaInscritos" onclick="fnListaInscritos(this)">Ver</button>';
+                    $arrInscripciones[$i]['total'] = '<h5><span class="badge badge-secondary pr-2 pl-2">'.$arrInscripciones[$i]['total'].'</span></h5>';
+                    $arrInscripciones[$i]['options'] = '<button type="button"  id="'.$arrInscripciones[$i]['id'].'" gr="'.$arrInscripciones[$i]['grado'].'" tr="'.$arrInscripciones[$i]['id_turno'].'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalFormListaInscritos" onclick="fnListaInscritos(this)">Ver</button>';    
                 }
-            } */
-            $newArray = $this->model->selectInscripcionesAdmision($this->nomConexion);
-            for($i = 0; $i<count($newArray); $i++){
-                $newArray[$i]['plantel'] = $this->nomConexion;
-                $newArray[$i]['numeracion'] = $i+1;
-                //$arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'].'('.$arrData[$i]['municipio'].')';
-                if($newArray[$i]['nombre_grupo'] == null){
-                    $newArray[$i]['nombre_grupo'] = "Sin grupo";
-                }else{
-                        
-                }
-                $newArray[$i]['total'] = '<h5><span class="badge badge-secondary pr-2 pl-2">'.$newArray[$i]['total'].'</span></h5>';
-                $newArray[$i]['options'] = '<button type="button"  id="'.$newArray[$i]['id'].'" gr="'.$newArray[$i]['grado'].'" tr="'.$newArray[$i]['id_turno'].'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalFormListaInscritos" onclick="fnListaInscritos(this)">Ver</button>';
             }
-            echo json_encode($newArray,JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrInscripciones,JSON_UNESCAPED_UNICODE);
             die();
         }
         //Obtener Lista de Inscripciones(ControlEscolar)
