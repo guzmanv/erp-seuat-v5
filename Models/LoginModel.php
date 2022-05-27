@@ -26,7 +26,7 @@ class LoginModel extends Mysql
 	}
 	public function selectDateUser(int $idUser){
         $this->intIdUsuario = $idUser;
-		$sql = "SELECT per.nombre_persona,per.ap_paterno,per.ap_materno, per.id_rol,r.nombre_rol,r.clave_rol,adm.id_plantel  FROM t_personas AS per 
+		$sql = "SELECT per.nombre_persona,per.ap_paterno,per.ap_materno, per.id_rol,r.nombre_rol,r.clave_rol,adm.id_sistema  FROM t_personas AS per 
 		INNER JOIN t_usuarios AS us ON us.id_persona = per.id 
 		INNER JOIN t_roles AS r ON per.id_rol = r.id 
 		INNER JOIN t_administrativo AS adm ON adm.id_usuario  = us.id 

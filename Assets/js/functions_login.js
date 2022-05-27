@@ -23,14 +23,13 @@ document.addEventListener('DOMContentLoaded', function(){
                     if(request.readyState !=4) return;
                     if(request.status == 200){
                         var objData = JSON.parse(request.responseText);
-                        console.log(objData)
-                       /*  if(objData.estatus)
+                        if(objData.estatus)
                         {
                             window.location = base_url+'/dashboard';
                         }else{
                             swal.fire("Atención", objData.msg, "error");
                             document.querySelector('#txtPassword').value = "";
-                        } */
+                        }
                     }else{
                         swal.fire("Atención","Error en el proceso", "error");
                     }

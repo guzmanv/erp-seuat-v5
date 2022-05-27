@@ -44,7 +44,7 @@
                         $_SESSION['claveRol'] = $arrDatosUser['clave_rol'];
                         $_SESSION['idRol'] = $arrDatosUser['id_rol'];
                         $_SESSION['nombreRol'] = $arrDatosUser['nombre_rol'];
-                        $_SESSION['idPlantel'] = $arrDatosUser['id_plantel'];
+                        $_SESSION['idSistema'] = $arrDatosUser['id_sistema'];
                         $_SESSION['frase'] = true;
                         $arrResponse = array('estatus' => true, 'msg' => 'ok');
                    }else {
