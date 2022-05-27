@@ -37,12 +37,14 @@
                     if($arrData['estatus'] == 1){
                         $_SESSION['idUser'] = $arrData['id'];
                         $_SESSION['login'] = true;
+
                         $arrDatosUser =  $this->model->selectDateUser($arrData['id']);
                         $_SESSION['idPersona'] = $arrData['id'];
                         $_SESSION['nomPersona'] = $arrDatosUser['nombre_persona'].' '.$arrDatosUser['ap_paterno'].' '.$arrDatosUser['ap_materno'];
                         $_SESSION['claveRol'] = $arrDatosUser['clave_rol'];
                         $_SESSION['idRol'] = $arrDatosUser['id_rol'];
                         $_SESSION['nombreRol'] = $arrDatosUser['nombre_rol'];
+                        $_SESSION['idPlantel'] = $arrDatosUser['id_plantel'];
                         $_SESSION['frase'] = true;
                         $arrResponse = array('estatus' => true, 'msg' => 'ok');
                    }else {
