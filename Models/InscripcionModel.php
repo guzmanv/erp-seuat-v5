@@ -78,18 +78,18 @@
             $request = $this->select($sql);
             return $request;
         }
-        public function selectPersonasModal($data){
+        public function selectPersonasModal($data,int $idSistema){
             $sql = "SELECT per.id,CONCAT(COALESCE(per.nombre_persona,''),' ',COALESCE(per.ap_paterno,''),' ',COALESCE(per.ap_materno,'')) AS nombre,
-            ins.id AS id_inscripcion,pr.id AS id_prospecto FROM t_personas AS per
+            ins.id AS id_inscripcion,pr.id AS id_prospecto,pr.id_sistema_prospectado FROM t_personas AS per
             LEFT JOIN t_inscripciones AS ins ON ins.id_personas = per.id
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             LEFT JOIN t_prospectos AS pr ON pr.id_persona  = per.id
-            WHERE CONCAT(COALESCE(per.nombre_persona,''),' ',COALESCE(per.ap_paterno,''),' ',COALESCE(per.ap_materno,'')) LIKE '%$data%' AND pr.id  != ''";
+            WHERE CONCAT(COALESCE(per.nombre_persona,''),' ',COALESCE(per.ap_paterno,''),' ',COALESCE(per.ap_materno,'')) LIKE '%$data%' AND pr.id  != '' AND pr.id_sistema_prospectado = $idSistema";
             $request = $this->select_all($sql);
             return $request;
         }
 
-        public function insertInscripcion($data, $folioTransferencia, $plantelOrigen, $idUser){
+        public function insertInscripcion($data,int $idUser){
             $idPersona = $data['idPersonaSeleccionada'];
             //$idPlantel = $data['listPlantelNuevo'];
             $idCarrera = $data['listCarreraNuevo'];
@@ -104,8 +104,7 @@
             $emailTutor = $data['txtEmailTutorAgregar'];
 
             $anioActual = date('Y');
-            $siglaPlantel = conexiones[$nomConexion]['SIGLA'];
-
+            $siglaSistema = 'TGZ';
             $tipoIngreso = "Inscripcion";
             if($grado != 1){
                 $idSalon = null;
@@ -124,12 +123,12 @@
                 $request_documentos = $this->select($sql_documentos);
                 if($request_documentos){
                     $idDocumentos = $request_documentos['id'];
-                    $sql_folio_sistema = "SELECT COUNT(*) AS total FROM t_inscripciones WHERE folio_sistema LIKE '%$siglaPlantel%'";
+                    $sql_folio_sistema = "SELECT COUNT(*) AS total FROM t_inscripciones WHERE folio_sistema LIKE '%$siglaSistema%'";
                     $request_folio_sistema = $this->select($sql_folio_sistema);
                     $request_folio_sistema_format = str_pad($request_folio_sistema['total']+1 ,5,"0",STR_PAD_LEFT);
-                    $folioSistema = $siglaPlantel.$anioActual.($request_folio_sistema_format);
+                    $folioSistema = $siglaSistema.$anioActual.($request_folio_sistema_format);
 
-                    $sql_historial = "INSERT INTO t_historiales(aperturado,inscrito,egreso,pasante,titulado,baja,matricula_interna,matricula_externa,fecha_inscrito,fecha_egreso,fecha_pasante,fecha_titulado,fecha_baja) VALUES(?,?,?,?,?,?,?,?,NOW(),?,?,?,?)";
+                    /*$sql_historial = "INSERT INTO t_historiales(aperturado,inscrito,egreso,pasante,titulado,baja,matricula_interna,matricula_externa,fecha_inscrito,fecha_egreso,fecha_pasante,fecha_titulado,fecha_baja) VALUES(?,?,?,?,?,?,?,?,NOW(),?,?,?,?)";
                     $request_historial = $this->insert($sql_historial,array(0,1,0,0,0,0,null,null,null,null,null,null));
                     if($request_historial){
                         $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampania,id_salon_compuesto,id_historial,id_usuario_creacion,fecha_creacion,id_plantel_prospectado,folio_transferencia) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?)";
@@ -144,11 +143,11 @@
                             $sqlInsertCatPersona = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) VALUES(NOW(),?,?,?,NOW(),?,?,?)";
                             $reqInsertCatPersona = $this->insert($sqlInsertCatPersona,array(0,0,1,$idUser,$idPersona,2));
                         }
-                    }
+                    } */
 
                 }
             }
-            return $reqInsertCatPersona;
+            return $folioSistema;
         }
         public function selectPlanteles(){
             $sql = "SELECT *FROM t_planteles WHERE estatus = 1";
@@ -161,8 +160,12 @@
             $request = $this->select_all($sql);
             return $request;
         }
-        public function selectCarreras(int $nivel){
-            $sql = "SELECT *FROM t_plan_estudios WHERE id_nivel_educativo = $nivel AND estatus !=0";
+        public function selectCarreras(int $nivel, int $idSistema){
+            $sql = "SELECT tse.id AS id_sistema_educativo, tp.id AS id_plantel,tpe.id AS id_plan_estudio, 
+            tpe.nombre_carrera FROM t_plan_estudios AS tpe 
+            INNER JOIN t_planteles AS tp ON tpe.id_plantel = tp.id
+            INNER JOIN t_sistemas_educativos AS tse ON tp.id_sistema = tse.id
+            WHERE tpe.id_nivel_educativo = $nivel AND tp.id_sistema = $idSistema AND tpe.estatus = 1";
             $request = $this->select_all($sql);
             return $request;
         }
