@@ -44,7 +44,7 @@
             per.estatus,acp.id_categoria_persona,per.id_escolaridad,esc.nombre_escolaridad,per.id_localidad,loc.nombre AS nomlocalidad,
             per.nombre_persona,per.ocupacion,per.sexo,per.tel_celular,per.tel_fijo,mun.id AS idmun,mun.nombre AS nommunicipio,est.id AS idest,
             est.nombre AS nomestado, per.fecha_nacimiento,per.curp,ne.nombre_nivel_educativo AS nivel_carrera_interes, ne.id AS id_nivel_carrera_interes,
-            ci.nombre_carrera AS carrera_interes,ci.id AS id_carrera_interes,pin.abreviacion_plantel,pin.municipio AS munplantel,pros.id_carrera_interes,mc.medio_captacion,pros.escuela_procedencia,
+            ci.nombre_carrera AS carrera_interes,ci.id AS id_carrera_interes,pros.id_plantel_interes,pin.abreviacion_plantel,pin.municipio AS munplantel,pros.id_carrera_interes,mc.medio_captacion,pros.escuela_procedencia,
             pros.observaciones AS observacion 
             FROM t_prospectos AS pros
             INNER JOIN t_personas AS per ON pros.id_persona = per.id
@@ -142,7 +142,7 @@
             $sql = "UPDATE t_personas SET nombre_persona = ?,ap_paterno = ?,ap_materno = ?,alias = ?,direccion = ?,edad = ?,cp = ?,colonia = ?,tel_celular = ?,tel_fijo = ?,email = ?,edo_civil = ?,ocupacion = ?,curp = ?,fecha_nacimiento = ?,fecha_actualizacion = NOW(),id_escolaridad = ?,id_usuario_actualizacion = ? WHERE id = $idPersona";
             $request = $this->update($sql,array($nombre,$apellidoP,$apellidoM,$alias,$direccion,$edad,$CP,$colonia,$telefonoCelular,$telefonoFijo,$email,$estadoCivil,$ocupacion,$CURP,$fechaNacimiento,$escolaridad,$idUSer)); 
             if($request){
-                $sqlProspecto = "UPDATE t_prospectos SET escuela_procedencia = ?,observaciones = ?, plantel_interes = ?,id_nivel_carrera_interes = ?,id_carrera_interes = ? WHERE id_persona = $idPersona";
+                $sqlProspecto = "UPDATE t_prospectos SET escuela_procedencia = ?,observaciones = ?, id_plantel_interes = ?,id_nivel_carrera_interes = ?,id_carrera_interes = ? WHERE id_persona = $idPersona";
                 $requestProspecto = $this->update($sqlProspecto, array($escuelaProcedencia, $observacion, $plantelInteres, $nivelCarreraInteres, $carreraInteres));
             }
             return $requestProspecto;

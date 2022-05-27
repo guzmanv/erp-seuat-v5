@@ -40,9 +40,9 @@
                                         <select class="custom-select" id="listPlantelDatatable" onchange="fnPlantelSeleccionadoDatatable(value)">
                                             <option selected>Todos</option>
                                             <?php 
-                                                foreach (conexiones as $key => $conexion) {
+                                                foreach ($data['sistemas_educativos'] as $key => $sistemas) {
                                                     ?>
-                                                        <option value="<?php echo $key ?>"><?php echo $conexion['NAME']?></option>
+                                                        <option value="<?php echo $sistemas['id'] ?>"><?php echo $sistemas['nombre_sistema'].' ( '.$sistemas['abreviacion_sistema'].' )' ?></option>
                                                     <?php
                                                 }
                                             ?>
@@ -50,12 +50,20 @@
                                     </div>
                                 </div>
                             </div>
-                        <?php }else { ?>
+                        <?php }else {  ?>
                             <div class="card" style="display: none;">
                                 <div class="card-body">
                                     <div class="col-md-6">
                                         <select class="custom-select" id="listPlantelDatatable" onchange="fnPlantelSeleccionadoDatatable(value)">
-                                            <option value="<?php echo $data['nomConexion']?>" selected><?php echo conexiones[$data['nomConexion']]['NAME'] ?></option>
+                                        <?php 
+                                                foreach ($data['sistemas_educativos'] as $key => $sistemas) {
+                                                    if($sistemas['id'] == 1){  //Plantel Tuxtla
+                                                        ?>
+                                                            <option value="<?php echo $sistemas['id'] ?>"><?php echo $sistemas['nombre_sistema'].' ( '.$sistemas['abreviacion_sistema'].' )' ?></option>
+                                                        <?php
+                                                    }
+                                                }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>

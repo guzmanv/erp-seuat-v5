@@ -223,7 +223,6 @@ function fntEditPersona(idPersona){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
             if(objData){
-                console.log(objData)
                 document.querySelector("#idEdit").value = objData.id;
                 document.querySelector("#txtNombreEdit").value = objData.nombre_persona;    
                 document.querySelector("#txtAliasEdit").value = objData.alias;    
@@ -266,12 +265,9 @@ function fntEditPersona(idPersona){
                 .then(res => res.json())
                 .then((resultadoCarreraInteres) =>{
                     resultadoCarreraInteres.forEach(element => {
-                        document.querySelector('#listCarreraInteresEdit').innerHTML += "<option value='"+element['id']+"'>"+element['nombre_carrera']+"</option>"
-                        if(element['id'] == objData.id_carrera_interes){
-                            document.querySelector('#listCarreraInteresEdit').querySelector('option[value="'+objData.id_carrera_interes+'"]').selected = true;
-
-                        }
+                        document.querySelector('#listCarreraInteresEdit').innerHTML += "<option value='"+element['id']+"'>"+element['nombre_carrera']+"</option>";
                     });
+                    document.querySelector('#listCarreraInteresEdit').querySelector('option[value="'+objData.id_carrera_interes+'"]').selected = true;
                 })
                 .catch(err => {throw err});
                 document.querySelector("#txtCURPEdit").value = objData.curp;
@@ -284,7 +280,7 @@ function fntEditPersona(idPersona){
                 fetch(url)
                     .then(res => res.json())
                     .then((resultado) => {
-                    for (let i = 0; i < resultado.length; i++) {
+                        for (let i = 0; i < resultado.length; i++) {
                         document.querySelector('#listEstadoEdit').innerHTML += "<option value='"+resultado[i]['id']+"'>"+resultado[i]['nombre']+"</option>"
                         if(resultado[i]['id'] == objData.idest){
                             idEstadoPersona = resultado[i]['id'];
@@ -312,8 +308,10 @@ function fntEditPersona(idPersona){
                                             fetch(urlLocalidades)
                                                 .then(res => res.json())
                                                 .then((resultadoLocalidad) =>{
+                                                    let options = "";
                                                     resultadoLocalidad.forEach(element => {
-                                                        document.querySelector('#listLocalidadEdit').innerHTML += "<option value='"+element['id']+"'>"+element['nombre']+"</option>"
+                                                        //options += "<option value='"+element['id']+"'>"+element['nombre']+"</option>";
+                                                        //document.querySelector('#listLocalidadEdit').innerHTML += "<option value='"+element['id']+"'>"+element['nombre']+"</option>";
                                                         if(element['id'] == objData.id_localidad){
                                                             idLocalidadPersona = element['id'];
                                                             selectLocalidades = document.querySelector('#listLocalidadEdit');
@@ -322,10 +320,10 @@ function fntEditPersona(idPersona){
                                                             optLocalidad.innerHTML = element['nombre'];
                                                             optLocalidad.setAttribute("selected","");
                                                             selectLocalidades.appendChild(optLocalidad);
-                                                        }
+                                                        } 
                                                     });
                                                 })
-                                                .catch(err => {throw err});
+                                            .catch(err => {throw err});
                                         }
 
                                     });
@@ -336,7 +334,7 @@ function fntEditPersona(idPersona){
                 })
                 .catch(err => { throw err });
                 document.querySelector('#listCategoriaEdit').querySelector('option[value="'+objData.id_categoria_persona+'"]').selected = true;
-                document.querySelector('#txtObservacionEdit').value = objData.observacion;
+                document.querySelector('#txtObservacionEdit').value = objData.observacion; 
                 //document.querySelector('#listEstatusEdit').querySelector('option[value="'+objData.estatus+'"]').selected = true;
 
 

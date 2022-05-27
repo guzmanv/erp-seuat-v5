@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function(){
     fnPlantelSeleccionadoDatatable();
 });
 
+
 function buscarPersona(){
     var textoBusqueda = $("input#busquedaPersona").val();
     var tablePersonas;
@@ -469,15 +470,9 @@ function pasarTab(n) {
     }
 }
 function fnPlantelSeleccionadoDatatable(){
-    //var nomConexion = value;
-    /*var nombrePlantel = document.querySelector('#listPlantelDatatable');
-    var text= nombrePlantel.options[nombrePlantel.selectedIndex].text;
-    document.querySelector('#nombrePlantelDatatable').innerHTML = text;*/
-    /* let url = base_url+"/Inscripcion/getInscripcionesAdmision?conexion="+nomConexion;
-    fetch(url).then((res) => res.json()).then(resultado => {
-        console.log(resultado);
-    }).catch(err => {throw err}); */
-
+    var nombreSistema = document.querySelector('#listPlantelDatatable');
+    var text= nombreSistema.options[nombreSistema.selectedIndex].text;
+    document.querySelector('#nombrePlantelDatatable').innerHTML = text;
     tableInscripciones = $('#tableInscripciones').dataTable( {
 		"aProcessing":true,
 		"aServerSide":true,
@@ -485,7 +480,7 @@ function fnPlantelSeleccionadoDatatable(){
         	"url": " "+base_url+"/Assets/plugins/Spanish.json"
         },
         "ajax":{
-            "url": " "+base_url+"/Inscripcion/getInscripcionesAdmision",
+            "url": " "+base_url+"/Inscripcion/getInscripcionesAdmision?sistema="+nombreSistema.value,
             "dataSrc":""
         },
         "columns":[
