@@ -57,7 +57,7 @@
                                         <select class="custom-select" id="listPlantelDatatable" onchange="fnPlantelSeleccionadoDatatable(value)">
                                         <?php 
                                                 foreach ($data['sistemas_educativos'] as $key => $sistemas) {
-                                                    if($sistemas['id'] == 1){  //Plantel Tuxtla
+                                                    if($sistemas['id'] == $data['idSistemaEducativo']){  //Plantel Tuxtla
                                                         ?>
                                                             <option value="<?php echo $sistemas['id'] ?>"><?php echo $sistemas['nombre_sistema'].' ( '.$sistemas['abreviacion_sistema'].' )' ?></option>
                                                         <?php

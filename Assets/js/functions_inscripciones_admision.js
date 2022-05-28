@@ -1,8 +1,10 @@
 var tableInscripciones;
 var idPersonaSeleccionada;
+let idSistemaSeleccionado = null;
 var formInscripcionNueva = document.querySelector("#formInscripcionNueva");
 var formTutorNuevo = document.querySelector("#formAgregarTutor");
 let divCambiarSubcampania = document.querySelector('.cambiarsubcampania');
+idSistemaSeleccionado = document.querySelector("#listPlantelNuevo").value;
 document.getElementById("btnAnterior").style.display = "none";
 document.getElementById("btnAnteriorEdit").style.display = "none";
 document.getElementById("btnSiguiente").style.display = "none";
@@ -16,7 +18,6 @@ var tabActualEdit = 0;
 mostrarTab(tabActual);
 mostrarTabEdit(tabActualEdit);
 divCambiarSubcampania.style.display = "none";
-
 
 let nomConexionSeleccionadoModal = null;
 document.addEventListener('DOMContentLoaded', function(){
@@ -114,7 +115,7 @@ formInscripcionNueva.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            //console.log(objData)
+            console.log(objData)
              if(objData.estatus){
                 formInscripcionNueva.reset();
                 swal.fire("Inscripcion",objData.msg,"success").then((result) =>{
@@ -146,8 +147,13 @@ formInscripcionNueva.onsubmit = function(e){
     }
 }
 
-/* function fnPlantelSeleccionado(nomConexion){
-    fnGrados(nomConexion);
+function fnPlantelSeleccionado(idSistema){
+    console.log(idSistema)
+    if(idSistema != ''){
+        idSistemaSeleccionado = idSistema
+        document.querySelector('#listCarreraNuevo').innerHTML = "<option value>Seleccionar una carrera</option>";
+    }
+    /* fnGrados(nomConexion);
     fnTurnos(nomConexion);
     fnCampaniaActual(nomConexion);
     nomConexionSeleccionadoModal = nomConexion;
@@ -164,20 +170,20 @@ formInscripcionNueva.onsubmit = function(e){
         }else{
             document.querySelector('#listNivelEductaivo').innerHTML = '<option value="">Selecciona un nivel</option>';
         }
-    }).catch(err => {throw err});
+    }).catch(err => {throw err}); */
     
-} */
+} 
 
 function fnNivelSeleccionado(nivel){
     if(nivel != ''){
         let listCarreras = document.querySelector('#listCarreraNuevo');
-        let url = `${base_url}/Inscripcion/getCarreras?nivel=${nivel}`;
+        let url = `${base_url}/Inscripcion/getCarreras?nivel=${nivel}&idsistema=${idSistemaSeleccionado}`;
         fetch(url).then((res) => res.json()).then(resultado =>{
             if(resultado.length > 0){
                 resultado.forEach(carrera => {
                     let option = document.createElement('option');
                     option.text = carrera.nombre_carrera;
-                    option.value = carrera.id;
+                    option.value = carrera.id_plan_estudio;
                     listCarreras.appendChild(option);
                 });
             }else{
