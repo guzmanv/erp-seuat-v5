@@ -223,7 +223,7 @@
                             <h6>DIRC</h6>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo BASE_URL ?>/Sistemas" class="nav-link">
+                            <a href="<?php echo BASE_URL ?>/SistemasEducativos" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="box"></i>
                                 <p>
                                     Sistemas educativos
