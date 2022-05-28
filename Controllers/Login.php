@@ -36,7 +36,7 @@
                     $arrData = $requestUser;
                     if($arrData['estatus'] == 1){
                         $_SESSION['idUser'] = $arrData['id'];
-                        $_SESSION['login'] = true;
+                        $_SESSION['login'] = true; 
 
                         $arrDatosUser =  $this->model->selectDateUser($arrData['id']);
                         $_SESSION['idPersona'] = $arrData['id'];
@@ -44,9 +44,13 @@
                         $_SESSION['claveRol'] = $arrDatosUser['clave_rol'];
                         $_SESSION['idRol'] = $arrDatosUser['id_rol'];
                         $_SESSION['nombreRol'] = $arrDatosUser['nombre_rol'];
-                        $_SESSION['idSistema'] = $arrDatosUser['id_sistema'];
+
+                        $arrPermisos = $this->model->selelectPermisos($arrData['id']);
+                        $intNumeroPermisos = count($arrPermisos);
+                        $_SESSION['permisos'] = $arrPermisos;
+                        $_SESSION['numeroPermisos'] = $intNumeroPermisos;
                         $_SESSION['frase'] = true;
-                        $arrResponse = array('estatus' => true, 'msg' => 'ok');
+                        $arrResponse = array('estatus' => true, 'msg' => 'ok'); 
                    }else {
                       $arrResponse = array('estatus' => false, 'msg' => 'Usuario inactivo.');
                    }
