@@ -2,7 +2,6 @@
 <?php
     class Inscripcion extends Controllers{
         private $idUser;
-        private $idSistemaEducativo;
 		private $rol;
 		public function __construct()
 		{
@@ -15,7 +14,6 @@
 		    }
 			$this->idUser = $_SESSION['idUser'];
 			$this->rol = $_SESSION['claveRol'];
-            $this->idSistemaEducativo = $_SESSION['idSistema'];
 		}
         //Funcion para mostrar Vista(Admision)
         public function admision(){
@@ -31,7 +29,6 @@
             $data['niveles_educativos'] = $this->model->selectNivelesEducativos();
             $data['page_functions_js'] = "functions_inscripciones_admision.js";
             $data['rol'] = $this->rol;
-            $data['idSistemaEducativo'] = $this->idSistemaEducativo;
             //$data['nomConexion'] = $this->nomConexion;
             $this->views->getView($this,"inscripcion",$data);
         }
@@ -105,7 +102,8 @@
         //Buscar Persona del en el Modal Inscripcion
         public function buscarPersonaModal(){
             $data = $_GET['val'];
-            $arrData = $this->model->selectPersonasModal($data,$this->idSistemaEducativo);
+            $idPlantel = $_SESSION['permisos'][0]['id_plantel'];
+            $arrData = $this->model->selectPersonasModal($data,$idPlantel);
             for($i = 0; $i <count($arrData); $i++){
                 if($arrData[$i]['id_inscripcion'] == null){
                     $arrData[$i]['estatus'] = '<span class="badge badge-warning">No inscrito</span>';
@@ -116,7 +114,7 @@
                     $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-secondary btn-sm" rl="'.$arrData[$i]['nombre'].'" onclick="seleccionarPersona(this)" disabled>Seleccionar</button>';
 
                 }
-            }
+            } 
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
 
@@ -138,14 +136,14 @@
                     $idPersona = $data['idPersonaSeleccionada'];
                     $arrProspecto = $this->model->selectProspecto($idPersona);
                     //$folioTransferencia = ($arrProspecto['folio_transferencia'] == '')?null:$arrProspecto['folio_transferencia'];
-                    //$plantelOrigen = ($arrProspecto['plantel_de_origen'] == '')?null:$arrProspecto['plantel_de_origen'];
-                    $arrData = $this->model->insertInscripcion($data,$this->idUser);
-                    /*if($arrData){
+                    /* $plantelOrigen = ($arrProspecto['id_plantel_prospectado'] == '')?null:$arrProspecto['id_plantel_prospectado']; */
+                    $idPlantel = $_SESSION['permisos'][0]['id_plantel'];
+                    $arrData = $this->model->insertInscripcion($data,$this->idUser, $idPlantel);
+                    if($arrData){
                         $arrResponse = array('estatus' => true,'data'=> $arrData, 'msg' => 'Inscripcion realizado correctamente!');
                     }else{
                         $arrResponse = array('estatus' => false, 'msg' => 'No es posible Guardar los Datos');
-                    }  */
-                    $arrResponse = $arrData;
+                    }
                 }else{
                     $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar sin subcampaña');
                 }

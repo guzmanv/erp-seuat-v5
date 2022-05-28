@@ -115,7 +115,6 @@ formInscripcionNueva.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            console.log(objData)
              if(objData.estatus){
                 formInscripcionNueva.reset();
                 swal.fire("Inscripcion",objData.msg,"success").then((result) =>{
@@ -477,6 +476,7 @@ function pasarTab(n) {
 }
 function fnPlantelSeleccionadoDatatable(){
     var nombreSistema = document.querySelector('#listPlantelDatatable');
+    console.log(nombreSistema);
     var text= nombreSistema.options[nombreSistema.selectedIndex].text;
     document.querySelector('#nombrePlantelDatatable').innerHTML = text;
     tableInscripciones = $('#tableInscripciones').dataTable( {
