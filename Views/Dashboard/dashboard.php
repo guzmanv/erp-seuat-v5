@@ -4,7 +4,6 @@
 <div class="wrapper">
     <div class="content-wrapper">
         <div class="text-center"><h2>
-            <?php  var_dump($_SESSION)?>
             Bienvenido <br><b><?php echo($_SESSION['nomPersona']) ?></b>
             </h2>
         </div>

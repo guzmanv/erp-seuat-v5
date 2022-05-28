@@ -5,6 +5,7 @@
         </div>
     </div>
     <div class="wrapper">
+
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
@@ -181,8 +182,8 @@
         </div>
       </div>-->
 
-
-                <nav class="mt-2">
+                <?php if($_SESSION['numeroPermisos'] > 0){ ?>
+                    <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar nav-legacy text-sm nav-compact flex-column"
                         data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
@@ -623,5 +624,8 @@
                         </li>
                     </ul>
                 </nav>
+                <?php } else{ ?>
+
+                <?php }?>
             </div>
         </aside>
