@@ -10,7 +10,7 @@
         public $intId_Periodos;
         public $intId_Grados;
         public $intId_Grupos;
-        public $intId_Planteles;
+        public $intId_Instituciones;
         public $intId_Turnos;
         public $intId_Salones;
         public $intEstatus;
@@ -26,13 +26,13 @@
         public function selectSalonesCompuest()
         {
             $sql = "SELECT tSCom.id AS IdSalonCom, tSCom.nombre_salon_compuesto AS NomSalCom, tPe.nombre_periodo AS NomPerio, 
-                           tc.anio AS anoCic, tGra.nombre_grado AS NomGrad, t_Gru.nombre_grupo AS NomGrup, tPla.nombre_plantel AS NomPlant, 
-                           tTur.nombre_turno AS NomTurn, tSal.nombre_salon AS NomSal, tSCom.estatus AS Est
+                            tc.anio AS anoCic, tGra.nombre_grado AS NomGrad, t_Gru.nombre_grupo AS NomGrup, ti.nombre_institucion AS nomInst, 
+                            tTur.nombre_turno AS NomTurn, tSal.nombre_salon AS NomSal, tSCom.estatus AS Est
                     FROM t_salones_compuesto AS tSCom
                     INNER JOIN t_periodos AS tPe ON tSCom.id_periodo = tPe.id
                     INNER JOIN t_grados AS tGra ON tSCom.id_grado = tGra.id
                     INNER JOIN t_grupos AS t_Gru ON tSCom.id_grupo = t_Gru.id
-                    INNER JOIN t_planteles AS tPla ON tSCom.id_plantel = tPla.id
+                    INNER JOIN t_instituciones AS ti ON tSCom.id_instituciones = ti.id
                     INNER JOIN t_turnos AS tTur ON tSCom.id_turnos = tTur.id
                     INNER JOIN t_salones AS tSal ON tSCom.id_salon = tSal.id
                     INNER JOIN t_ciclos AS tc ON tPe.id_ciclo = tc.id
@@ -59,7 +59,7 @@
         //PARA GUARDAR O INSERTAR DATOS
         public function insertSalonCompuesto(string $Nombre_SalonCompuesto, string $Fecha_Creacion, string $Fecha_Actualizacion, 
                                             int $Id_usuario_creacion, int $Id_Usuario_Actualizacion, int $Id_Periodos, int $Id_Grados, 
-                                            int $Id_Grupos, int $Id_Planteles, int $Id_Turnos, int $Id_Salones, int $Estatus){
+                                            int $Id_Grupos, int $Id_Instituciones, int $Id_Turnos, int $Id_Salones, int $Estatus){
 
             $return = "";
             $this->strNombre_SalonCompuesto = $Nombre_SalonCompuesto;
@@ -70,7 +70,7 @@
             $this->intId_Periodos = $Id_Periodos;
             $this->intId_Grados = $Id_Grados;
             $this->intId_Grupos = $Id_Grupos;
-            $this->intId_Planteles = $Id_Planteles;
+            $this->intId_Instituciones = $Id_Instituciones;
             $this->intId_Turnos = $Id_Turnos;
             $this->intId_Salones = $Id_Salones;
             $this->intEstatus = $Estatus;
@@ -79,8 +79,8 @@
             $request = $this->select_all($sql);
 
             if(empty($request)){
-                $query_insert = "INSERT INTO t_salones_compuesto(nombre_salon_compuesto, fecha_creacion, fecha_actualizacion, id_usuario_creacion, id_usuario_actualizacion, id_periodo, id_grado, id_grupo, id_plantel, id_turnos, id_salon, estatus) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
-                $arrData = array($this->strNombre_SalonCompuesto, $this->strFecha_Creacion, $this->strFecha_Actualizacion, $this->intId_usuario_creacion, $this->intId_Usuario_Actualizacion, $this->intId_Periodos, $this->intId_Grados, $this->intId_Grupos, $this->intId_Planteles, $this->intId_Turnos, $this->intId_Salones, $this->intEstatus);
+                $query_insert = "INSERT INTO t_salones_compuesto(nombre_salon_compuesto, fecha_creacion, fecha_actualizacion, id_usuario_creacion, id_usuario_actualizacion, id_periodo, id_grado, id_grupo, id_instituciones, id_turnos, id_salon, estatus) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+                $arrData = array($this->strNombre_SalonCompuesto, $this->strFecha_Creacion, $this->strFecha_Actualizacion, $this->intId_usuario_creacion, $this->intId_Usuario_Actualizacion, $this->intId_Periodos, $this->intId_Grados, $this->intId_Grupos, $this->intId_Instituciones, $this->intId_Turnos, $this->intId_Salones, $this->intEstatus);
                 $request_insert = $this->insert($query_insert,$arrData);
                 $return = $request_insert;
             }else{
@@ -92,7 +92,7 @@
 
         //PARA ACTUALIZAR SALONES COMPUESTOS
         public function updateSalonesComp(int $id, string $nombre_salon_compuesto, int $estatus, string $fecha_actualizacion, 
-                                        int $id_usuario_actualizacion, int $id_periodo, int $id_grado, int $id_grupo, int $id_plantel, 
+                                        int $id_usuario_actualizacion, int $id_periodo, int $id_grado, int $id_grupo, int $id_instituciones, 
                                         int $id_turnos, int $id_salon)
         {
             $this->intIdSalonesCompuestos = $id;
@@ -103,7 +103,7 @@
             $this->intId_Periodos = $id_periodo;
             $this->intId_Grados = $id_grado;
             $this->intId_Grupos = $id_grupo;
-            $this->intId_Planteles = $id_plantel;
+            $this->intId_Instituciones = $id_instituciones;
             $this->intId_Turnos = $id_turnos;
             $this->intId_Salones = $id_salon;
 
@@ -112,8 +112,8 @@
 
             if(empty($request))
             {
-                $sql = "UPDATE t_salones_compuesto SET nombre_salon_compuesto = ?, estatus = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ?, id_periodo = ?, id_grado = ?, id_grupo = ?, id_plantel = ?, id_turnos = ?, id_salon = ? WHERE id = $this->intIdSalonesCompuestos ";
-                $arrData = array($this->strNombre_SalonCompuesto, $this->intEstatus, $this->intId_Usuario_Actualizacion, $this->intId_Periodos, $this->intId_Grados, $this->intId_Grupos, $this->intId_Planteles, $this->intId_Turnos, $this->intId_Salones);
+                $sql = "UPDATE t_salones_compuesto SET nombre_salon_compuesto = ?, estatus = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ?, id_periodo = ?, id_grado = ?, id_grupo = ?, id_instituciones = ?, id_turnos = ?, id_salon = ? WHERE id = $this->intIdSalonesCompuestos ";
+                $arrData = array($this->strNombre_SalonCompuesto, $this->intEstatus, $this->intId_Usuario_Actualizacion, $this->intId_Periodos, $this->intId_Grados, $this->intId_Grupos, $this->intId_Instituciones, $this->intId_Turnos, $this->intId_Salones);
                 $request = $this->update($sql,$arrData);
             }else{
                 $request = "exist";
@@ -167,8 +167,8 @@
             return $request;
         }
 
-        public function selectSalonComPlant(){
-            $sql = "SELECT * FROM t_planteles WHERE estatus != 0 ORDER BY nombre_plantel ASC ";
+        public function selectSalonComInstitucion(){
+            $sql = "SELECT * FROM t_instituciones WHERE estatus != 0 ORDER BY nombre_institucion ASC ";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -207,8 +207,8 @@
             return $request;
         }
 
-        public function selectEditSalonComPlant(){
-            $sql = "SELECT * FROM t_planteles WHERE estatus != 0 ORDER BY nombre_plantel ASC ";
+        public function selectEditSalonComInstitucion(){
+            $sql = "SELECT * FROM t_instituciones WHERE estatus != 0 ORDER BY nombre_institucion ASC ";
             $request = $this->select_all($sql);
             return $request;
         }

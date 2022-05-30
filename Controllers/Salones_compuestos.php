@@ -89,7 +89,7 @@
 
                 /* dep($_POST); */
                 if(empty($_POST['txtNombre_SalonCompuesto']) || empty($_POST['txtId_usuario_creacion']) || empty($_POST['listIdPeriodosNuevo']) || 
-                   empty($_POST['listIdGradosNuevo']) || empty($_POST['listIdGruposNuevo']) || empty($_POST['listIdPlantelesNuevo']) || 
+                   empty($_POST['listIdGradosNuevo']) || empty($_POST['listIdGruposNuevo']) || empty($_POST['listIdInstitucionesNuevo']) || 
                    empty($_POST['listIdTurnosNuevo']) || empty($_POST['listIdSalonesNuevo']) || empty($_POST['listEstatus']))
                 {
                     $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
@@ -103,7 +103,7 @@
                     $intId_Periodos = intval($_POST['listIdPeriodosNuevo']);
                     $intId_Grados = intval($_POST['listIdGradosNuevo']);
                     $intId_Grupos = intval($_POST['listIdGruposNuevo']);
-                    $intId_Planteles = intval($_POST['listIdPlantelesNuevo']);
+                    $intId_Instituciones = intval($_POST['listIdInstitucionesNuevo']);
                     $intId_Turnos = intval($_POST['listIdTurnosNuevo']);
                     $intId_Salones = intval($_POST['listIdSalonesNuevo']);
                     $intEstatus = intval($_POST['listEstatus']);
@@ -118,7 +118,7 @@
                                                                                         $intId_Periodos,
                                                                                         $intId_Grados,
                                                                                         $intId_Grupos,
-                                                                                        $intId_Planteles,
+                                                                                        $intId_Instituciones,
                                                                                         $intId_Turnos,
                                                                                         $intId_Salones,
                                                                                         $intEstatus);
@@ -152,7 +152,7 @@
             {
                 if(empty($_POST['txtNombre_SalonCompuestoUp']) || empty($_POST['listEstatusUp']) || empty($_POST['txtId_Usuario_ActualizacionUp']) || 
                    empty($_POST['listIdPeriodosEditar']) || empty($_POST['listIdGradosEditar']) || empty($_POST['listIdGruposEditar']) || 
-                   empty($_POST['listIdPlantelesEditar']) || empty($_POST['listIdTurnosEditar']) || empty($_POST['listIdSalonesEditar']))
+                   empty($_POST['listIdInstitucionesEditar']) || empty($_POST['listIdTurnosEditar']) || empty($_POST['listIdSalonesEditar']))
                 {
                     $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
                 }else{
@@ -164,7 +164,7 @@
                     $intId_Periodos = intval($_POST['listIdPeriodosEditar']);
                     $intId_Grados = intval($_POST['listIdGradosEditar']);
                     $intId_Grupos = intval($_POST['listIdGruposEditar']);
-                    $intId_Planteles = intval($_POST['listIdPlantelesEditar']);
+                    $intId_Instituciones = intval($_POST['listIdInstitucionesEditar']);
                     $intId_Turnos = intval($_POST['listIdTurnosEditar']);
                     $intId_Salones = intval($_POST['listIdSalonesEditar']);
                     $request_Salon_compuesto = "";
@@ -179,7 +179,7 @@
                                                                                    $intId_Periodos,
                                                                                    $intId_Grados,
                                                                                    $intId_Grupos,
-                                                                                   $intId_Planteles,
+                                                                                   $intId_Instituciones,
                                                                                    $intId_Turnos,
                                                                                    $intId_Salones);
                                                                                    $option = 1;
@@ -272,13 +272,13 @@
             die();
         }
 
-        public function getSelectSalonComPlantel(){
-            $htmlOptions = "<option value='' selected>- Elige un plantel -</option>";
-            $arrData = $this->model->selectSalonComPlant();
+        public function getSelectSalonComInstitucion(){
+            $htmlOptions = "<option value='' selected>- Elige una institución -</option>";
+            $arrData = $this->model->selectSalonComInstitucion();
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
-                        $htmlOptions .= '<option value="'.$arrData[$i]['id'].'">'.$arrData[$i]['nombre_plantel'].'</option>';
+                        $htmlOptions .= '<option value="'.$arrData[$i]['id'].'">'.$arrData[$i]['nombre_institucion'].'</option>';
                     }
                 }
             }
@@ -360,13 +360,13 @@
             die();
         }
 
-        public function getSelectEditSalonComPlantel(){
-            $htmlOptions = "<option value='' selected>- Elige un plantel -</option>";
-            $arrData = $this->model->selectEditSalonComPlant();
+        public function getSelectEditSalonComInstitucion(){
+            $htmlOptions = "<option value='' selected>- Elige una institución -</option>";
+            $arrData = $this->model->selectEditSalonComInstitucion();
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
-                        $htmlOptions .= '<option value="'.$arrData[$i]['id'].'">'.$arrData[$i]['nombre_plantel'].'</option>';
+                        $htmlOptions .= '<option value="'.$arrData[$i]['id'].'">'.$arrData[$i]['nombre_institucion'].'</option>';
                     }
                 }
             }
