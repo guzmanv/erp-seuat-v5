@@ -13,7 +13,7 @@
                 <input type="hidden" id="name_file_edit" name="name_file_edit">
                 <div class="form-group">
                     <label for="txt_nombre_sistema_edit">Nombre del sistema <span class="required">*</span> </label>
-                    <input type="text" id="txt_nombre_sistema_edit" name="txt_nombre_sistema_edit" class="form-control valid validText" placeholder="Ingrese un nombre" required="" maxlength="150">
+                    <input type="text" id="txt_nombre_sistema_edit" name="txt_nombre_sistema_edit" class="form-control valid validText" placeholder="Ingrese un nombre" required="" maxlength="100">
                 </div>
                 <div class="form-group">
                     <label for="txt_abreviacion_edit">Abreviación <span class="required">*</span> </label>

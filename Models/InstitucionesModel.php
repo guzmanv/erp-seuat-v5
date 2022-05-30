@@ -1,5 +1,5 @@
 <?php
-	class PlantelModel extends Mysql
+	class InstitucionesModel extends Mysql
 	{
 		public function __construct()
 		{

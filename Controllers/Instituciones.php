@@ -1,6 +1,6 @@
 <?php
 
-	class Plantel extends Controllers{
+	class Instituciones extends Controllers{
 		private $idUser;
 		private $rol;
 		public function __construct()
@@ -17,14 +17,14 @@
 		}
 
 		//Funcion para la Vista de PlantelesnomConexion
-		public function Plantel()
+		public function instituciones()
 		{
 			$data['page_id'] = 4;
 			$data['page_tag'] = "Planteles";
 			$data['page_title'] = "Planteles";
 			$data['page_name'] = "plantel";
 			$data['page_content'] = "";
-			$data['page_functions_js'] = "functions_planteles.js";
+			$data['page_functions_js'] = "functions_instituciones.js";
 			$data['lista_categorias'] = $this->model->selectCategorias(); //Traer lista de Categorias
 			$data['lista_estados'] = $this->model->selectEstados(); //Traer lista de Estados
 			$data['sistemas_educativos'] = $this->model->selectSistemasEducativos();

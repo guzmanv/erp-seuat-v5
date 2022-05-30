@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function(){
         	"url": " "+base_url+"/Assets/plugins/Spanish.json"
         },
         "ajax":{
-            "url": " "+base_url+"/Plantel/getPlanteles",
+            "url": " "+base_url+"/Instituciones/getPlanteles",
             "dataSrc":""
         },
         "columns":[
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
         divLoading.getElementsByClassName.display = "flex";
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = base_url+'/Plantel/setPlantel';
+        var ajaxUrl = base_url+'/Instituciones/setPlantel';
         var formData = new FormData(formPlantel);
         request.open("POST",ajaxUrl,true);
             request.send(formData);
@@ -249,7 +249,7 @@ function fnNavTab(numTab){
 function estadoSeleccionado(value){
     divLoading.getElementsByClassName.display = "flex";
     const $selMunicipio = document.querySelector('#listMunicipioNuevo');
-    let url = base_url+"/Plantel/getMunicipios?idestado="+value;
+    let url = base_url+"/Instituciones/getMunicipios?idestado="+value;
         fetch(url)
             .then(res => res.json())
             .then((resultado) => {
@@ -268,7 +268,7 @@ function estadoSeleccionado(value){
 function estadoSeleccionadoEdit(value){
     const $selMunicipio = document.querySelector('#listMunicipioEdit');
     divLoading.getElementsByClassName.display = "flex";
-    let url = base_url+"/Plantel/getMunicipios?idestado="+value;
+    let url = base_url+"/Instituciones/getMunicipios?idestado="+value;
         fetch(url)
             .then(res => res.json())
             .then((resultado) => {
@@ -287,7 +287,7 @@ function estadoSeleccionadoEdit(value){
 function municipioSeleccionado(value){
     const $selLocalidades = document.querySelector('#listLocalidadNuevo');
     divLoading.getElementsByClassName.display = "flex";
-    let url = base_url+"/Plantel/getLocalidades?idmunicipio="+value;
+    let url = base_url+"/Instituciones/getLocalidades?idmunicipio="+value;
         fetch(url)
             .then(res => res.json())
             .then((resultado) => {
@@ -307,7 +307,7 @@ function municipioSeleccionado(value){
 function municipioSeleccionadoEdit(value){
     const $selLocalidades = document.querySelector('#listLocalidadEdit');
     divLoading.getElementsByClassName.display = "flex";
-    let url = base_url+"/Plantel/getLocalidades?idmunicipio="+value;
+    let url = base_url+"/Instituciones/getLocalidades?idmunicipio="+value;
         fetch(url)
             .then(res => res.json())
             .then((resultado) => {
@@ -392,7 +392,7 @@ function fntEditPlantel(idPlantel){
     tabActualEdit = 0;
     divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    var ajaxUrl  = base_url+'/Plantel/getPlantel/'+idplantel;
+    var ajaxUrl  = base_url+'/Instituciones/getPlantel/'+idplantel;
     request.open("GET",ajaxUrl ,true);
 	request.send();
     request.onreadystatechange = function(){
@@ -421,7 +421,7 @@ function fntEditPlantel(idPlantel){
                 var idLocalidadPlantel = "";
                 document.querySelector('#listMunicipioEdit').innerHTML = "";
                 document.querySelector('#listLocalidadEdit').innerHTML = "";
-                let url = base_url+"/Plantel/getListEstados";
+                let url = base_url+"/Instituciones/getListEstados";
                 fetch(url)
                     .then(res => res.json())
                     .then((resultado) => {
@@ -435,7 +435,7 @@ function fntEditPlantel(idPlantel){
                             opt.innerHTML = resultado[i]['nombre'];
                             opt.setAttribute("selected","");
                             select.appendChild(opt);
-                            let urlMunicipios = base_url+"/Plantel/getMunicipios?idestado="+idEstadoPlantel;
+                            let urlMunicipios = base_url+"/Instituciones/getMunicipios?idestado="+idEstadoPlantel;
                             fetch(urlMunicipios)
                                 .then(res => res.json())
                                 .then((resultadoMunicipio) =>{
@@ -449,7 +449,7 @@ function fntEditPlantel(idPlantel){
                                             optMunicipio.innerHTML = element['nombre'];
                                             optMunicipio.setAttribute("selected","");
                                             selectMunicipio.appendChild(optMunicipio);
-                                            let urlLocalidades = base_url+"/Plantel/getLocalidades?idmunicipio="+idMunicipioPlantel;
+                                            let urlLocalidades = base_url+"/Instituciones/getLocalidades?idmunicipio="+idMunicipioPlantel;
                                             fetch(urlLocalidades)
                                                 .then(res => res.json())
                                                 .then((resultadoLocalidad) =>{
@@ -511,7 +511,7 @@ function fntDelPlantel(id) {
         {
             divLoading.getElementsByClassName.display = "flex";
             var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            var ajaxUrl = base_url+'/Plantel/delPlantel'; 
+            var ajaxUrl = base_url+'/Instituciones/delPlantel'; 
             var strData = "idPlantel="+id;
             request.open("POST",ajaxUrl,true);
             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -541,7 +541,7 @@ function fntVerPlantel(idPlantel){
     var idplantel = idPlantel;
     divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    var ajaxUrl  = base_url+'/Plantel/getPlantel/'+idplantel;
+    var ajaxUrl  = base_url+'/Instituciones/getPlantel/'+idplantel;
     request.open("GET",ajaxUrl ,true);
 	request.send();
     request.onreadystatechange = function(){
@@ -611,7 +611,7 @@ var formEditPlantel = document.querySelector("#formEditPlantel");
         }
         divLoading.getElementsByClassName.display = "flex";
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = base_url+'/Plantel/setPlantel';
+        var ajaxUrl = base_url+'/Instituciones/setPlantel';
         var formData = new FormData(formEditPlantel);
         request.open("POST",ajaxUrl,true);
             request.send(formData);
