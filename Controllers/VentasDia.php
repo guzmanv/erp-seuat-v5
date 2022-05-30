@@ -1,7 +1,6 @@
 <?php
     class VentasDia extends Controllers{
         private $idUser;
-		private $nomConexion;
 		private $rol;
 		public function __construct()
 		{
@@ -13,7 +12,6 @@
 			    die();
 		    }
 			$this->idUser = $_SESSION['idUser'];
-			$this->nomConexion = $_SESSION['nomConexion'];
 			$this->rol = $_SESSION['claveRol'];
 		}
         //Mostrar vista de ingresos
@@ -30,7 +28,7 @@
         //Ventas del Dia
         public function getVentasDia(){
             $fechaActual = date("Y-m-d");
-            $arrData = $this->model->selectVentasDia($fechaActual,$this->idUser, $this->nomConexion);
+            $arrData = $this->model->selectVentasDia($fechaActual,$this->idUser);
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 $array = $this->getDatosAlumno($arrData[$i]['id_persona']);
@@ -47,9 +45,9 @@
         }
 
         public function getDetallesVenta(int $idIngreso){
-            $observacion = $this->model->selectObservacionIngreso($idIngreso, $this->nomConexion);
+            $observacion = $this->model->selectObservacionIngreso($idIngreso);
             $response['observacion'] = ($observacion['observaciones'] == '' || $observacion['observaciones'] == NULL)?'Sin observación':$observacion['observaciones'];
-            $detallesVenta = $this->model->selectDetallesVenta($idIngreso, $this->nomConexion);
+            $detallesVenta = $this->model->selectDetallesVenta($idIngreso);
             $response['detalles'] = $detallesVenta; 
             echo json_encode($response,JSON_UNESCAPED_UNICODE);
             die();
@@ -64,8 +62,8 @@
         
         public function imprimir_reporte_venta_dia(){
             $fechaActual = date("Y-m-d");
-            $arrData['datos'] = $this->model->selectDatosUsuario($this->idUser, $this->nomConexion);
-            $arrData['ventas'] = $this->model->selectAllVentasDia($this->idUser,$fechaActual, $this->nomConexion);
+            $arrData['datos'] = $this->model->selectDatosUsuario($this->idUser);
+            $arrData['ventas'] = $this->model->selectAllVentasDia($this->idUser,$fechaActual);
             $arrData['total'] = 0;
             foreach ($arrData['ventas'] as $key => $value) {
                 $arrData['total'] += $value['total'];
@@ -75,7 +73,7 @@
         }
 
         private function getDatosAlumno(int $idAlumno){
-            $arrData = $this->model->selectDatosAlumno($idAlumno, $this->nomConexion);
+            $arrData = $this->model->selectDatosAlumno($idAlumno);
             $arrData['nombre_completo'] = $arrData['nombre_persona'].' '.$arrData['ap_paterno'].' '.$arrData['ap_materno'];
             $arrData['plantel'] = $arrData['abreviacion_sistema'].'('.$arrData['abreviacion_plantel'].' / '.$arrData['municipio'].' )';
             return $arrData;
