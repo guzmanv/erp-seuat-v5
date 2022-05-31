@@ -23,19 +23,19 @@ document.addEventListener('DOMContentLoaded', function(){
         	"url": " "+base_url+"/Assets/plugins/Spanish.json"
         },
         "ajax":{
-            "url": " "+base_url+"/Instituciones/getPlanteles",
+            "url": " "+base_url+"/Instituciones/getInstituciones",
             "dataSrc":""
         },
         "columns":[
             {"data":"numeracion"},
-            {"data":"nombre_plantel"},
-			{"data":"estado"},
-            {"data":"municipio"},
-            {"data":"localidad"},
+            {"data":"nombre_institucion"},
+			{"data":"abreviacion_institucion"},
+            {"data":"id"},
+            {"data":"id"},
             {"data":"regimen"},
             {"data":"servicio"},
+            {"data":"estatus"},
 			{"data":"options"}
-
         ],
         "responsive": true,
 	    "paging": true,

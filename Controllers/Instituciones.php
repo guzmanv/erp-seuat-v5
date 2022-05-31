@@ -20,22 +20,24 @@
 		public function instituciones()
 		{
 			$data['page_id'] = 4;
-			$data['page_tag'] = "Planteles";
-			$data['page_title'] = "Planteles";
-			$data['page_name'] = "plantel";
+			$data['page_tag'] = "Instituciones";
+			$data['page_title'] = "Instituciones";
+			$data['page_name'] = "Instituciones";
 			$data['page_content'] = "";
 			$data['page_functions_js'] = "functions_instituciones.js";
-			$data['lista_categorias'] = $this->model->selectCategorias(); //Traer lista de Categorias
+/* 			$data['lista_categorias'] = $this->model->selectCategorias(); //Traer lista de Categorias
 			$data['lista_estados'] = $this->model->selectEstados(); //Traer lista de Estados
-			$data['sistemas_educativos'] = $this->model->selectSistemasEducativos();
-			$this->views->getView($this,"plantel",$data);
+			$data['sistemas_educativos'] = $this->model->selectSistemasEducativos(); */
+			$this->views->getView($this,"instituciones",$data);
 		}
 
 		//Funcion para traer Lista de Planteles
-		public function getPlanteles(){
-			$arrData = $this->model->selectPlanteles();
+		public function getInstituciones(){
+			$arrData = $this->model->selectInstituciones();
 			for ($i=0; $i < count($arrData); $i++) {
 				$arrData[$i]['numeracion'] = $i+1;
+				$arrData[$i]['nom_sistema'] = "";
+				$arrData[$i]['nom_plantel'] = "";
 				$arrData[$i]['options'] = '<div class="text-center">
 				<div class="btn-group">
 					<button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

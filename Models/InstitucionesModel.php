@@ -13,12 +13,11 @@
 			return $request;
 		}
 		//Funcion para consultar lista de Planteles
-        public function selectPlanteles(){
-            $sql = "SELECT *FROM t_planteles WHERE estatus = 1 ORDER BY id DESC";
+        public function selectInstituciones(){
+            $sql = "SELECT *FROM t_instituciones WHERE estatus != 0 ORDER BY id DESC";
             $request = $this->select_all($sql);
             return $request;
         }
-
 		//Funcion para consultar Datos de un Plantel por ID
 		public function selectPlantel(int $idPlantel){
 			$sql = "SELECT *FROM t_planteles WHERE id = $idPlantel";

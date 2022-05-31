@@ -35,12 +35,13 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
+                                                <th>Nombre</th>
+                                                <th>Abreviacion</th>
+                                                <th>Sistema</th>
                                                 <th>Plantel</th>
-                                                <th>Estado</th>
-                                                <th>Municipio</th>
-                                                <th>Localidad</th>
                                                 <th>Regimen</th>
                                                 <th>Servicio</th>
+                                                <th>Estatus</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
