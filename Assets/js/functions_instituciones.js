@@ -1,4 +1,4 @@
-var formPlanEstudiosNuevo = document.querySelector("#formPlanEstudiosNueva");
+var formInstitucionNuevo = document.querySelector("#form_nueva_institucion");
 document.getElementById("btnAnterior").style.display = "none";
 document.getElementById("btnAnteriorEdit").style.display = "none";
 document.getElementById("btnSiguiente").style.display = "none";
@@ -16,7 +16,7 @@ var tablePlanEstudios;
 
 //Mostrar Lista de Planteles de Datatable
 document.addEventListener('DOMContentLoaded', function(){
-	tablePlantel = $('#tablePlantel').dataTable( {
+	tableInstituciones = $('#tableInstituciones').dataTable( {
 		"aProcessing":true,
 		"aServerSide":true,
         "language": {
@@ -52,49 +52,39 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
     //Funcion para Guardar Nuevo Plantel
-    var formPlantel = document.querySelector("#formNuevoPlantel");
-    formPlantel.onsubmit = function(e){
+    formInstitucionNuevo.onsubmit = function(e){
         e.preventDefault();
-        let documento = document.querySelector('#formNuevoPlantel').querySelectorAll('[input]');
-        document.querySelector("#idPlantelNuevo").value = 1;
-        let intIdSistemaEduvativo = document.querySelector('#select_sistema_educativo').value;
-        var strNombrePlantel = document.querySelector('#txtNombrePlantelNuevo').value;
-        var strAbreviacionPlantel = document.querySelector('#txtAbreviacionPlantelNuevo').value;
-        //var strNombreSistema = document.querySelector('#txtNombreSistemaNuevo').value;
-        //var strAbreviacionSistema = document.querySelector('#txtAbreviacionSistemaNuevo').value;
-        var strRegimen = document.querySelector('#txtRegimenNuevo').value;
-        var strServicio = document.querySelector('#txtServicioNuevo').value;
-        var strCategoria = document.querySelector('#txtCategoriaNuevo').value;
-        //var intAcuerdoIncorporacion = document.querySelector('#txtAcuerdoIncorporacionNuevo').value;
-        var intClaveCentroTrabajo = document.querySelector('#txtClaveCentroTrabajoNuevo').value;
-        var intEstado = document.querySelector('#listEstadoNuevo').value;
-        var intMunicipio = document.querySelector('#listMunicipioNuevo').value;
-        var intLocalidad = document.querySelector('#listLocalidadNuevo').value;
-        var strDomicilio = document.querySelector('#txtDomicilioNuevo').value;
-        var strColonia = document.querySelector('#txtColoniaNuevo').value;
-        var intCodigoPostal = document.querySelector('#txtCodigoPostalNuevo').value;
-        if (intIdSistemaEduvativo == '' || strNombrePlantel == '' || strAbreviacionPlantel == '' || strRegimen == '' || 
-            strServicio == '' || strCategoria == ''  || intClaveCentroTrabajo == '' || intEstado == '' || intMunicipio == '' || 
-            intLocalidad == '' || strDomicilio == '' || strColonia == '' || intCodigoPostal == ''){
+        document.querySelector("#id_institucion_nuevo").value = 1;
+        let idPlantel = document.querySelector('#select_plantel_nuevo').value;
+        let intIdSistemaEduvativo = document.querySelector('#select_sistema_educativo_nuevo').value;
+        var strNombreInstitucion = document.querySelector('#txt_nombre_nuevo').value;
+        var strAbreviacionInstitucion = document.querySelector('#txt_abreviacion_nuevo').value;
+        var strRegimen = document.querySelector('#txt_regimen_nuevo').value;
+        var intClaveCentroTrabajo = document.querySelector('#txt_clave_centro_trabajo_nuevo').value;
+        var strServicio = document.querySelector('#txt_servicio_nuevo').value;
+        var strCategoria = document.querySelector('#txt_categoria_nuevo').value;
+
+        if (idPlantel == '' || intIdSistemaEduvativo == '' || strNombreInstitucion == '' || strAbreviacionInstitucion == '' || strRegimen == '' || 
+            strServicio == '' || strCategoria == ''  || intClaveCentroTrabajo == ''){
                 swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
                 return false;
         }
-        divLoading.getElementsByClassName.display = "flex";
+        divLoading.style.display = "flex";
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = base_url+'/Instituciones/setPlantel';
-        var formData = new FormData(formPlantel);
+        var ajaxUrl = base_url+'/Instituciones/setInstitucion';
+        var formData = new FormData(formInstitucionNuevo);
         request.open("POST",ajaxUrl,true);
             request.send(formData);
             request.onreadystatechange = function() {
                 if(request.readyState == 4 && request.status == 200) {
                     var objData = JSON.parse(request.responseText);
                     if(objData.estatus){
-                        $('#ModalFormPlantelNuevo').modal("hide");
-                        formPlantel.reset();
-                        swal.fire("Planteles", objData.msg, "success").then((result) =>{
+                        $('#modal_form_nueva_institucion').modal("hide");
+                        formInstitucionNuevo.reset();
+                        swal.fire("Instituciones", objData.msg, "success").then((result) =>{
                             $('.close').click();
                         });
-                        tablePlantel.api().ajax.reload();  
+                        tableInstituciones.api().ajax.reload();  
                     }else{
                         swal.fire("Error", objData.msg, "error");
                     }
@@ -104,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function(){
             }
     }
 });
-$('#tablePlantel').DataTable();
+$('#tableInstituciones').DataTable();
 
 
 

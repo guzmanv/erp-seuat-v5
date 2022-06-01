@@ -25,9 +25,8 @@
 			$data['page_name'] = "Instituciones";
 			$data['page_content'] = "";
 			$data['page_functions_js'] = "functions_instituciones.js";
-/* 			$data['lista_categorias'] = $this->model->selectCategorias(); //Traer lista de Categorias
-			$data['lista_estados'] = $this->model->selectEstados(); //Traer lista de Estados
-			$data['sistemas_educativos'] = $this->model->selectSistemasEducativos(); */
+            $data['planteles'] = $this->model->selectPlanteles();
+            $data['sistemas_educativos'] = $this->model->selectSistemasEducativos();
 			$this->views->getView($this,"instituciones",$data);
 		}
 
@@ -84,25 +83,25 @@
 		public function setPlantel(){
 			$data = $_POST;
             $files = $_FILES;
-			$idPlantelEdit = 0;
-			$idPlantelNuevo = 0;
-			if(isset($_POST['idPlantelNuevo'])){
-				$idPlantelNuevo = intval($_POST['idPlantelNuevo']);
+			$idInstitucionEdit = 0;
+			$idInstitucionNuevo = 0;
+			if(isset($_POST['id_institucion_nuevo'])){
+				$idInstitucionNuevo = intval($_POST['id_institucion_nuevo']);
 			}
-			if(isset($_POST['idPlantelEdit'])){
-				$idPlantelEdit = intval($_POST['idPlantelEdit']);
+			if(isset($_POST['id_institucion_edit'])){
+				$idInstitucionEdit = intval($_POST['id_institucion_edit']);
 			}
 			
-			if($idPlantelEdit != 0 ){
-				$arrData = $this->model->updatePlantel($idPlantelEdit,$data,$files);
+			if($idInstitucionEdit != 0 ){
+				$arrData = $this->model->updatePlantel($idInstitucionEdit,$data,$files);
 				if($arrData['estatus'] != TRUE){
 					$arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
 				}else{
 					$arrResponse = array('estatus' => false, 'msg' => 'La Clave del centro de trabajo ya existe');
 				}
 			}
-			if($idPlantelNuevo == 1){
-				$arrData = $this->model->insertPlantel($data,$files);
+			if($idInstitucionNuevo == 1){
+				$arrData = $this->model->insertInstitucion($data,$files);
 			    if($arrData['estatus'] != TRUE){
 			        if($arrData['imagen'] == false){
 						$arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar la imagen.');

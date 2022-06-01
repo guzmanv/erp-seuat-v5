@@ -18,6 +18,14 @@
             $request = $this->select_all($sql);
             return $request;
         }
+
+        //Funcion para seleccionar planteles
+        public function selectPlanteles()
+        {
+            $sql = "SELECT *FROM t_planteles WHERE estatus = 1";
+            $request = $this->select_all($sql);
+            return $request;
+        }
 		//Funcion para consultar Datos de un Plantel por ID
 		public function selectPlantel(int $idPlantel){
 			$sql = "SELECT *FROM t_planteles WHERE id = $idPlantel";
@@ -44,61 +52,37 @@
 			return $request;
 		}
 		//Funcion para Insertar Nuevo Plantel
-		public function insertPlantel($data,$files){
+		public function insertInstitucion($data,$files){
 			$idUser = $_SESSION['idUser'];
-			$idSistemaEducativo = $data['select_sistema_educativo'];
-            $nombrePlantel = $data['txtNombrePlantelNuevo'];
-            $abreviacionPlantel = $data['txtAbreviacionPlantelNuevo'];
-            //$nombreSistema = $data['txtNombreSistemaNuevo'];
-            //$abreviacionSistema = $data['txtAbreviacionSistemaNuevo'];
-            $regimen = $data['txtRegimenNuevo'];
-            $servicio = $data['txtServicioNuevo'];
-            $idCategoria = $data['txtCategoriaNuevo'];
-            //$acuerdoIncorporacion = $data['txtAcuerdoIncorporacionNuevo'];
-            $claveCentroTrabajo = $data['txtClaveCentroTrabajoNuevo'];
-            $idEstado = $data['listEstadoNuevo'];
-            $idMunicipio = $data['listMunicipioNuevo'];
-            $idLocalidad = $data['listLocalidadNuevo'];
-            $domicilio = $data['txtDomicilioNuevo'];
-			$latitud = $data['txtLatitudNuevo'];
-			$longitud = $data['txtLongitudNuevo'];
-            $colonia = $data['txtColoniaNuevo'];
-            $zonaEscolar = $data['txtZonaEscolarNuevo'];
-            $codigoPostal = $data['txtCodigoPostalNuevo'];
-			$cedulaFuncionamiento = $data['txtCedulaFuncionamientoNuevo'];
-			//$cveDGP = $data['txtClaveDGPNuevo'];
-			$cveInstitucionDGP = $data['txtClaveInstitucionDGPNuevo'];
+            $idPlantel = $data['select_plantel_nuevo'];
+			$idSistemaEducativo = $data['select_sistema_educativo_nuevo'];
+            $nombreInstitucion = $data['txt_nombre_nuevo'];
+            $abreviacionInstitucion = $data['txt_abreviacion_nuevo'];
+            $regimen = $data['txt_regimen_nuevo'];
+            $claveCentroTrabajo = $data['txt_clave_centro_trabajo_nuevo'];
+            $servicio = $data['txt_servicio_nuevo'];
+            $categoria = $data['txt_categoria_nuevo'];
+            $zonaEscolar = $data['txt_zona_escolar_nuevo'];
+			$cedulaFuncionamiento = $data['txt_cedula_funcionamiento_nuevo'];
+			$cveInstitucionDGP = $data['txt_clave_dgp_nuevo'];
 
-			$sqlNomEstado = "SELECT nombre FROM t_estados WHERE id = $idEstado LIMIT 1";
-			$requestNomEstado = $this->select($sqlNomEstado);
-			$sqlNomMunicipio = "SELECT nombre FROM t_municipios WHERE id = $idMunicipio LIMIT 1";
-			$requestNomMunicipio = $this->select($sqlNomMunicipio);
-			$sqlNomLocalidad = "SELECT nombre FROM t_localidades WHERE id = $idLocalidad LIMIT 1";
-			$requestNomLocalidad = $this->select($sqlNomLocalidad);
-
-
-            $nombreImagenPlantel = time().'-'.$abreviacionPlantel . '-' . $requestNomEstado['nombre'] . '-' . $requestNomMunicipio['nombre']. '.' .pathinfo($files["profileImagePlantel"]["name"], PATHINFO_EXTENSION);
-			//$nombreImagenSistema = time().'-'.$abreviacionSistema . '-' . $requestNomEstado['nombre'] . '-' . $requestNomMunicipio['nombre']. '.' .pathinfo($files["profileImageSistema"]["name"], PATHINFO_EXTENSION);
+            $nombreImagenInstitucion = time().'-'.$nombreInstitucion . '-' . $abreviacionInstitucion . '-' . $idPlantel. '.' .pathinfo($files["profileImageInstitucion"]["name"], PATHINFO_EXTENSION);
             $direccionLogos = 'Assets/images/logos/';
-			$nombreImagenPlantelFile = $direccionLogos . basename($nombreImagenPlantel);
-			//$nombreImagenSistemaFile = $direccionLogos . basename($nombreImagenSistema);
+			$nombreImagenInstitucionFile = $direccionLogos . basename($nombreImagenInstitucion);
 			$request = [];
-			$sqlExist = "SELECT *FROM t_planteles WHERE cve_centro_trabajo = '$claveCentroTrabajo'";
+			$sqlExist = "SELECT *FROM t_instituciones WHERE cve_centro_trabajo = '$claveCentroTrabajo'";
 			$requestExist = $this->select($sqlExist);
 			if($requestExist){
 				$request['estatus'] = TRUE;
 				$request['imagen'] = null;
 			}else{
-				if(move_uploaded_file($files["profileImagePlantel"]["tmp_name"],$nombreImagenPlantelFile)){
-                	$sqlNew = "INSERT INTO t_planteles(id_sistema,nombre_plantel, abreviacion_plantel,regimen, servicio, categoria, 
-					cve_centro_trabajo, estado, municipio, localidad, domicilio, colonia, zona_escolar, cod_postal, latitud, longitud, 
-					logo_plantel,cedula_funcionamiento, cve_institucion_dgp, estatus,
-					fecha_creacion,id_usuario_creacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
-			    	$requestNew = $this->insert($sqlNew,array($idSistemaEducativo,$nombrePlantel,$abreviacionPlantel,$regimen,$servicio,$idCategoria,
-                        $claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,
-                        $nombreImagenPlantel,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser));
-						$request['estatus'] = FALSE;
-						$request['imagen'] = true;
+				if(move_uploaded_file($files["profileImageInstitucion"]["tmp_name"],$nombreImagenInstitucionFile)){
+                	$sqlNew = "INSERT INTO t_instituciones(nombre_institucion,abreviacion_institucion,regimen,servicio,categoria,zona_escolar, 
+					logo_institucion,cve_centro_trabajo,cedula_funcionamiento,cve_intitucion_dgp,codigo_institucion,estatus,fecha_creacion,id_usuario_creacin, 
+					id_sistema,id_plantel) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?)";
+			    	$requestNew = $this->insert($sqlNew,array($nombreInstitucion,$abreviacionInstitucion,$servicio,$categoria,$zonaEscolar,$nombreImagenInstitucionFile,$claveCentroTrabajo,$cedulaFuncionamiento,$cveInstitucionDGP,null,1,$idUser,$idSistemaEducativo,$idPlantel));
+					$request['estatus'] = FALSE;
+					$request['imagen'] = true;
             	}else{
 					$request['estatus'] = FALSE;
 					$request['imagen'] = false;

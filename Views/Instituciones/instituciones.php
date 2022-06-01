@@ -1,8 +1,8 @@
 <?php
     headerAdmin($data);
-    getModal('Plantel/modalNuevoPlantel',$data);
-    getModal('Plantel/modalVerPlantel',$data);
-    getModal('Plantel/modalEditPlantel',$data);
+    getModal('Instituciones/modalNuevaInstitucion',$data);
+    getModal('Instituciones/modalVerInstitucion',$data);
+    getModal('Instituciones/modalEditInstitucion',$data);
 ?>
 <div id="contentAjax"></div>
 <div class="wrapper">
@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
-                            <button type="button"  class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal"  onclick="btnNuevoPlantel()" data-target="#ModalFormNuevoPlantel"><i class="fa fa-plus-circle fa-md"></i> Nuevo</button>
+                            <button type="button"  class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal"  onclick="btnNuevoPlantel()" data-target="#modal_form_nueva_institucion"><i class="fa fa-plus-circle fa-md"></i> Nuevo</button>
                             <!--<li class="breadcrumb-item"><i class="fa fa-home fa-md"></i><a href="#">Home</a></li>
                             <li class="breadcrumb-item active"><a href="<?= base_url(); ?>/roles"><?= $data['page_title'] ?></a></li>-->
                         </ol>
@@ -31,7 +31,7 @@
                             <div class="card-body">
 <!--                                 <h3 class="card-title">Listado de planteles</h3>
  -->                                <p class="card-text">
-                                    <table id="tablePlantel" class="table table-bordered table-striped table-hover table-sm">
+                                    <table id="tableInstituciones" class="table table-bordered table-striped table-hover table-sm">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
