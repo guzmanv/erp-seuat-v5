@@ -315,68 +315,68 @@ function municipioSeleccionadoEdit(value){
 }
 
 //Funcion para el boton de Buscar Imagen del Plantel
-function buscarImagenPlantel(e){
-    document.querySelector('#profileImagePlantel').click();
+function buscarImagenInstitucion(e){
+    document.querySelector('#profileImageInstitucion').click();
 }
 //Funcion para el boton de Buscar Imagen del Plantel Edit
-function buscarImagenPlantelEdit(e){
-    document.querySelector('#profileImagePlantelEdit').click();
+function buscarImagenInstitucionEdit(e){
+    document.querySelector('#profileImageInstitucionEdit').click();
 }
 //Funcion para mostrar Imagen buscado del Plantel
-function displayImagePlantel(e) {
+function displayImageInstitucion(e) {
     if (e.files[0]) {
         var reader = new FileReader();
         reader.onload = function(e){
-            document.querySelector('#profileDisplayPlantel').setAttribute('src', e.target.result);
-            document.getElementById('btnBuscarImagenPlantel').textContent = "Cambiar";
-            document.querySelector('#btnBuscarImagenPlantel').classList.replace("btn-primary", "btn-warning");
+            document.querySelector('#profileDisplayInstitucion').setAttribute('src', e.target.result);
+            document.getElementById('btnBuscarImagenInstitucion').textContent = "Cambiar";
+            document.querySelector('#btnBuscarImagenInstitucion').classList.replace("btn-primary", "btn-warning");
         }
         reader.readAsDataURL(e.files[0]);
     }
 }
 //Funcion para mostrar Imagen buscado del Plantel Edit
-function displayImagePlantelEdit(e) {
+function displayImageInstitucionEdit(e) {
     if (e.files[0]) {
         var reader = new FileReader();
         reader.onload = function(e){
-            document.querySelector('#profileDisplayPlantelEdit').setAttribute('src', e.target.result);
+            document.querySelector('#profileDisplayInstitucionEdit').setAttribute('src', e.target.result);
         }
         reader.readAsDataURL(e.files[0]);
     }
 }
 //Funcion para el boton de Buscar Imagen del Sistema
-function buscarImagenSistema(f){
-    document.querySelector('#profileImageSistema').click();
+function buscarImagenInstitucion(f){
+    document.querySelector('#profileImageInstitucion').click();
 }
 //Funcion para el boton de Buscar Imagen del Sistema Edit
-function buscarImagenSistemaEdit(f){
-    document.querySelector('#profileImageSistemaEdit').click();
+function buscarImagenInstitucionEdit(f){
+    document.querySelector('#profileImageInstitucionEdit').click();
 }
 //Funcion para mostrar Imagen buscado del Sistema
-function displayImageSistema(f) {
+function displayImageInstitucion(f) {
     if (f.files[0]) {
         var reader = new FileReader();
         reader.onload = function(f){
-            document.querySelector('#profileDisplaySistema').setAttribute('src', f.target.result);
-            document.getElementById('btnBuscarImagenSistema').textContent = "Cambiar";
-            document.querySelector('#btnBuscarImagenSistema').classList.replace("btn-primary", "btn-warning");
+            document.querySelector('#profileDisplayInstitucion').setAttribute('src', f.target.result);
+            document.getElementById('btnBuscarImagenInstitucion').textContent = "Cambiar";
+            document.querySelector('#btnBuscarImagenInstitucion').classList.replace("btn-primary", "btn-warning");
         }
         reader.readAsDataURL(f.files[0]);
     }
 }
 //Funcion para mostrar Imagen buscado del Sistema Edit
-function displayImageSistemaEdit(f) {
+function displayImageInstitucionEdit(f) {
     if (f.files[0]) {
         var reader = new FileReader();
         reader.onload = function(f){
-            document.querySelector('#profileDisplaySistemaEdit').setAttribute('src', f.target.result);
+            document.querySelector('#profileDisplayInstitucionEdit').setAttribute('src', f.target.result);
         }
         reader.readAsDataURL(f.files[0]);
     }
 }
 
 //Funcion para Editar Plantel
-function fntEditPlantel(idPlantel){
+function fntEditInstitucion(idPlantel){
     var idplantel = idPlantel;
     $('#step1-tabEdit').click();
     tabActualEdit = 0;
@@ -486,7 +486,7 @@ function fntEditPlantel(idPlantel){
 }
 
 //Funcion para Eliminar Plantel
-function fntDelPlantel(id) {
+function fntDelInstitucion(id) {
     swal.fire({
         icon: "question",
         title: "Eliminar plantel",
@@ -527,17 +527,17 @@ function fntDelPlantel(id) {
 
 //Funcion para Ver Plantel
 //Funcion para Editar Plantel
-function fntVerPlantel(idPlantel){
-    var idplantel = idPlantel;
-    divLoading.getElementsByClassName.display = "flex";
+function fntVerInstitucion(idInstitucion){
+    var idInstitucion = idInstitucion;
+    divLoading.style.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    var ajaxUrl  = base_url+'/Instituciones/getPlantel/'+idplantel;
+    var ajaxUrl  = base_url+'/Instituciones/getInstitucion/'+idInstitucion;
     request.open("GET",ajaxUrl ,true);
 	request.send();
     request.onreadystatechange = function(){
-
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
+            debugger
             if(objData)
             {   
                 document.querySelector('#titModal').innerHTML = objData.nombre_plantel;
@@ -631,7 +631,7 @@ function validarNumeroInput(event){
     }
     return false;
 }
-function btnNuevoPlantel(){
+function btnNuevaInstitucion(){
     $('#step1-tab').click();
     tabActual = 0;
 }

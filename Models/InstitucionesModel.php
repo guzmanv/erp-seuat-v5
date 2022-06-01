@@ -27,8 +27,8 @@
             return $request;
         }
 		//Funcion para consultar Datos de un Plantel por ID
-		public function selectPlantel(int $idPlantel){
-			$sql = "SELECT *FROM t_planteles WHERE id = $idPlantel";
+		public function selectInstitucion(int $idInstitucion){
+			$sql = "SELECT *FROM t_instituciones WHERE id = $idInstitucion";
 			$request = $this->select($sql);
 			return $request;
 		}
@@ -65,6 +65,7 @@
             $zonaEscolar = $data['txt_zona_escolar_nuevo'];
 			$cedulaFuncionamiento = $data['txt_cedula_funcionamiento_nuevo'];
 			$cveInstitucionDGP = $data['txt_clave_dgp_nuevo'];
+			$estatus = $data['estatus_nuevo'];
 
             $nombreImagenInstitucion = time().'-'.$nombreInstitucion . '-' . $abreviacionInstitucion . '-' . $idPlantel. '.' .pathinfo($files["profileImageInstitucion"]["name"], PATHINFO_EXTENSION);
             $direccionLogos = 'Assets/images/logos/';
@@ -78,9 +79,9 @@
 			}else{
 				if(move_uploaded_file($files["profileImageInstitucion"]["tmp_name"],$nombreImagenInstitucionFile)){
                 	$sqlNew = "INSERT INTO t_instituciones(nombre_institucion,abreviacion_institucion,regimen,servicio,categoria,zona_escolar, 
-					logo_institucion,cve_centro_trabajo,cedula_funcionamiento,cve_intitucion_dgp,codigo_institucion,estatus,fecha_creacion,id_usuario_creacin, 
-					id_sistema,id_plantel) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?)";
-			    	$requestNew = $this->insert($sqlNew,array($nombreInstitucion,$abreviacionInstitucion,$servicio,$categoria,$zonaEscolar,$nombreImagenInstitucionFile,$claveCentroTrabajo,$cedulaFuncionamiento,$cveInstitucionDGP,null,1,$idUser,$idSistemaEducativo,$idPlantel));
+					logo_institucion,cve_centro_trabajo,cedula_funcionamiento,cve_institucion_dgp,estatus,fecha_creacion,id_usuario_creacion, 
+					id_sistema,id_plantel) VALUES(?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?)";
+			    	$requestNew = $this->insert($sqlNew,array($nombreInstitucion,$abreviacionInstitucion,$regimen,$servicio,$categoria,$zonaEscolar,$nombreImagenInstitucionFile,$claveCentroTrabajo,$cedulaFuncionamiento,$cveInstitucionDGP,$estatus,$idUser,$idSistemaEducativo,$idPlantel));
 					$request['estatus'] = FALSE;
 					$request['imagen'] = true;
             	}else{

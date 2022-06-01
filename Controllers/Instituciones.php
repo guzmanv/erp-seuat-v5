@@ -43,7 +43,7 @@
 					<i class="fas fa-layer-group"></i> &nbsp; Acciones
 					</button>
 					<div class="dropdown-menu">
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnVerPlantel" onClick="fntVerPlantel('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalVerPlantel" title="Ver"> &nbsp;&nbsp; <i class="fas fa-eye icono-azul"></i> &nbsp; Ver</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnVerPlantel" onClick="fntVerInstitucion('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalVerPlantel" title="Ver"> &nbsp;&nbsp; <i class="fas fa-eye icono-azul"></i> &nbsp; Ver</button>
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditPlantel" onClick="fntEditPlantel('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormEditPlantel" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
 						<div class="dropdown-divider"></div>
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPlantel" onClick="fntDelPlantel('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
@@ -57,11 +57,11 @@
 		}
 		
 		//Funcion para obtener Datos de un Plantel
-		public function getPlantel(int $idPlantel){
-			$arrData = $this->model->selectPlantel($idPlantel);
-			$arrDataSistemaEducativo = $this->model->selectSistemaEducativo($arrData['id_sistema']);
+		public function getInstitucion(int $idInstitucion){
+			$arrData = $this->model->selectInstitucion($idInstitucion);
+			/* $arrDataSistemaEducativo = $this->model->selectSistemaEducativo($arrData['id_sistema']);
 			$arrData['nombre_sistema_educativo'] = $arrDataSistemaEducativo['nombre_sistema'];
-			$arrData['abreviacion_sistema_educativo'] = $arrDataSistemaEducativo['abreviacion_sistema'];
+			$arrData['abreviacion_sistema_educativo'] = $arrDataSistemaEducativo['abreviacion_sistema']; */
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
@@ -80,7 +80,7 @@
 			die();
 		}
 		//Funcion para Guardar un Nuevo Plantel
-		public function setPlantel(){
+		public function setInstitucion(){
 			$data = $_POST;
             $files = $_FILES;
 			$idInstitucionEdit = 0;

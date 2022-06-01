@@ -22,10 +22,15 @@
                     </nav>
                     <form id="form_nueva_institucion" method = "POST" name="form_nueva_institucion" enctype="multipart/form-data">
                         <input type="hidden" id="id_institucion_nuevo" name="id_institucion_nuevo" value="">
+                        <input type="hidden" id="estatus_nuevo" name="estatus_nuevo" value="1">
                         <div class="card-body"> 
-                                <div class="tab">
-                                    <div class="row">
-                                        <div class="form-group col-md-12">
+                            <div class="tab">
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label>Nombre de la institución <span class="required">*</span></label>
+                                        <input type="text" id="txt_nombre_nuevo" name="txt_nombre_nuevo" class="form-control form-control-sm" placeholder="EJ: Instituto de Estudios Superiores Azteca" maxlength="100">
+                                    </div>
+                                    <div class="form-group col-md-12">
                                             <label>Plantel<span class="required">*</span></label>
                                             <select class="form-control form-control-sm" id="select_plantel_nuevo" name="select_plantel_nuevo">
                                                 <option value="">Seleccionar ...</option>
@@ -42,10 +47,6 @@
                                                     <option value="<?php echo $value['id'] ?>"><?php echo($value['nombre_sistema']) ?></option>
                                                 <?php } ?>
                                             </select>
-                                        </div>
-                                        <div class="form-group col-md-12">
-                                            <label>Nombre de la institución <span class="required">*</span></label>
-                                            <input type="text" id="txt_nombre_nuevo" name="txt_nombre_nuevo" class="form-control form-control-sm" placeholder="EJ: Instituto de Estudios Superiores Azteca" maxlength="100">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Abreviación de la institución <span class="required">*</span></label>
