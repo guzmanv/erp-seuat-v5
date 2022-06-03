@@ -14,7 +14,7 @@
         //Select sistemas
         public function selectSistemas()
         {
-            $sql = "SELECT *FROM t_sistemas_educativos WHERE estatus != 0";
+            $sql = "SELECT *FROM t_sistemas_educativos WHERE estatus != 0 ORDER BY id DESC ";
             $request = $this->select_all($sql);
             return $request;
         }

@@ -178,7 +178,7 @@
                                 <canvas id="sales-chart" height="200"
                                     style="display: block; width: 605px; height: 200px;" width="605"
                                     class="chartjs-render-monitor"></canvas>
-                                <canvas id="sales-chart-plantel" height="200"
+                                <canvas id="sales-chart-institucion" height="200"
                                     style="display: block; width: 605px; height: 200px;" width="605"
                                     class="chartjs-render-monitor"></canvas>
                             </div>
