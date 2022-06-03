@@ -39,7 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
             { "data": "numeracion" },
             { "data": "nombre_carrera" },
             { "data": "nombre_categoria_carrera" },
-            { "data": "nombre_plantel" },
+            { "data": "nombre_plantel_fisico" },
+            { "data": "nombre_institucion" },
             { "data": "rvoe" },
             { "data": "fecha_vigencia" },
             { "data": "estatus" },
@@ -209,7 +210,7 @@ formPlanEstudiosNuevo.onsubmit = function (e) {
     var strNuevo = document.querySelector('#idNuevo').value;
     var strNombre = document.querySelector('#txtNombreNuevo').value;
     var strNombreCorto = document.querySelector('#txtNombrecortoNuevo').value;
-    var strPlantel = document.querySelector('#listPlantelNuevo').value;
+    var strInsitucion = document.querySelector('#listInstitucionNuevo').value;
     var strNivelEd = document.querySelector('#listNivelEdNuevo').value;
     var strCat = document.querySelector('#listCategoriaNuevo').value;
     var strDuracion = document.querySelector('#txtDuracionNuevo').value;
@@ -230,7 +231,7 @@ formPlanEstudiosNuevo.onsubmit = function (e) {
     var strPErfilIng = document.querySelector('#txtPerfilIngresoNuevo').value;
     var strPerfilEgr = document.querySelector('#txtPerfilEgresoNuevo').value;
     var strCampLab = document.querySelector('#txtCampoLaboralNuevo').value;
-    if (strNombre == '' || strNombreCorto == '' || strPlantel == '' || strCampLab == '' || strNivelEd == '' || strCat == '' || strDuracion == '' || strMattotal == '' ||
+    if (strNombre == '' || strNombreCorto == '' || strInsitucion == '' || strCampLab == '' || strNivelEd == '' || strCat == '' || strDuracion == '' || strMattotal == '' ||
         strTotalHrs == '' || strCalMin == '' || strModalidad == '' || strTotalCreditos == '' || strPlan == '' ||
         strTipoRVOE == '' || strRVOE == '' || strVigencia == '' || strFechaOtor == '' || strPErfilIng == '' || strPerfilEgr == '') {
         swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
@@ -293,7 +294,7 @@ function fntVerPlanEstudios(idPlanEstudio) {
             if (objData) {
                 document.querySelector('#txtNombreVer').value = objData.plan_estudio.nombre_carrera;
                 document.querySelector('#txtNombrecortoVer').value = objData.plan_estudio.nombre_carrera_corto;
-                document.querySelector('#listPlantelVer').innerHTML = '<option>' + objData.plan_estudio.nombre_plantel + ' (' + objData.plan_estudio.municipio + ')' + '</option>';
+                document.querySelector('#listInstitucionVer').innerHTML = '<option>' + objData.plan_estudio.nombre_plantel_fisico + ' / ' + objData.plan_estudio.nombre_institucion + '</option>';
                 document.querySelector('#listNivelEdVer').innerHTML = '<option selected>' + objData.plan_estudio.nombre_nivel_educativo + '</option>';
                 document.querySelector('#listCategoriaVer').innerHTML = '<option selected>' + objData.plan_estudio.nombre_categoria_carrera + '</option>';
                 document.querySelector('#txtDuracionVer').value = objData.plan_estudio.duracion_carrera;
@@ -348,7 +349,7 @@ function fntEditPlanEstudios(idPlanEstudio) {
                 document.querySelector("#idEdit").value = objData.plan_estudio.id;
                 document.querySelector('#txtNombreEdit').value = objData.plan_estudio.nombre_carrera;
                 document.querySelector('#txtNombrecortoEdit').value = objData.plan_estudio.nombre_carrera_corto;
-                document.querySelector('#listPlantelEdit').querySelector('option[value="' + objData.plan_estudio.id_plantel + '"]').selected = true;
+                document.querySelector('#listInstitucionEdit').querySelector('option[value="' + objData.plan_estudio.id_institucion + '"]').selected = true;
                 document.querySelector('#listNivelEdEdit').querySelector('option[value="' + objData.plan_estudio.id_nivel_educativo + '"]').selected = true;
                 document.querySelector('#listCategoriaEdit').querySelector('option[value="' + objData.plan_estudio.id_categoria_carrera + '"]').selected = true;
                 document.querySelector('#txtDuracionEdit').value = objData.plan_estudio.duracion_carrera;
@@ -404,7 +405,7 @@ formEditPlanEstudios.onsubmit = function (e) {
     e.preventDefault();
     var strNombre = document.querySelector('#txtNombreEdit').value;
     var strNombreCorto = document.querySelector('#txtNombrecortoEdit').value;
-    var strPlantel = document.querySelector('#listPlantelEdit').value;
+    var strInstitucion = document.querySelector('#listInstitucionEdit').value;
     var strNivelEd = document.querySelector('#listNivelEdEdit').value;
     var strCat = document.querySelector('#listCategoriaEdit').value;
     var strDuracion = document.querySelector('#txtDuracionEdit').value;
@@ -426,7 +427,7 @@ formEditPlanEstudios.onsubmit = function (e) {
     var strPerfilEgr = document.querySelector('#txtPerfilEgresoEdit').value;
     var strCampLab = document.querySelector('#txtCampoLaboralEdit').value;
 
-    if (strNombre == '' || strNombreCorto == '' || strPlantel == '' || strCampLab == '' || strNivelEd == '' || strCat == '' || strDuracion == '' || strMattotal == '' ||
+    if (strNombre == '' || strNombreCorto == '' || strInstitucion == '' || strCampLab == '' || strNivelEd == '' || strCat == '' || strDuracion == '' || strMattotal == '' ||
         strTotalHrs == '' || strCalMin == '' || strModalidad == '' || strEstatus == '' || strTotalCreditos == '' || strPlan == '' ||
         strTipoRVOE == '' || strRVOE == '' || strVigencia == '' || strFechaOtor == ''  || turnoRVOE == '' || strPErfilIng == '' || strPerfilEgr == '') {
         swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");

@@ -26,6 +26,13 @@
             $request = $this->select_all($sql);
             return $request;
         }
+
+        public function selectPlantel(int $idPlantel)
+        {
+            $sql = "SELECT *FROM t_planteles WHERE id = $idPlantel";
+            $request = $this->select($sql);
+            return $request;
+        }
 		//Funcion para consultar Datos de un Plantel por ID
 		public function selectInstitucion(int $idInstitucion){
 			$sql = "SELECT *FROM t_instituciones WHERE id = $idInstitucion";
@@ -81,7 +88,7 @@
                 	$sqlNew = "INSERT INTO t_instituciones(nombre_institucion,abreviacion_institucion,regimen,servicio,categoria,zona_escolar, 
 					logo_institucion,cve_centro_trabajo,cedula_funcionamiento,cve_institucion_dgp,estatus,fecha_creacion,id_usuario_creacion, 
 					id_sistema,id_plantel) VALUES(?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?)";
-			    	$requestNew = $this->insert($sqlNew,array($nombreInstitucion,$abreviacionInstitucion,$regimen,$servicio,$categoria,$zonaEscolar,$nombreImagenInstitucionFile,$claveCentroTrabajo,$cedulaFuncionamiento,$cveInstitucionDGP,$estatus,$idUser,$idSistemaEducativo,$idPlantel));
+			    	$requestNew = $this->insert($sqlNew,array($nombreInstitucion,$abreviacionInstitucion,$regimen,$servicio,$categoria,$zonaEscolar,$nombreImagenInstitucion,$claveCentroTrabajo,$cedulaFuncionamiento,$cveInstitucionDGP,$estatus,$idUser,$idSistemaEducativo,$idPlantel));
 					$request['estatus'] = FALSE;
 					$request['imagen'] = true;
             	}else{
@@ -92,120 +99,59 @@
 			return $request;
 		}
 		//Funcion para Actualizar un Plantel
-		public function updatePlantel($idPlantelEdit,$data,$files){
-			$idUser = $_SESSION['idUser'];
+		public function updateInstitucion($idInstitucionEdit,$data,$files){
+ 			$idUser = $_SESSION['idUser'];
+            $nombreInstitucion = $data['txt_nombre_edit'];
 			$idSistemaEducativo = $data['select_sistema_educativo_edit'];
-			$nombrePlantel = $data['txtNombrePlantelEdit'];
-            $abreviacionPlantel = $data['txtAbreviacionPlantelEdit'];
-            //$nombreSistema = $data['txtNombreSistemaEdit'];
-            //$abreviacionSistema = $data['txtAbreviacionSistemaEdit'];
+            $abreviacionInstitucion = $data['txt_abreviacion_edit'];
+            $idPlantel = $data['select_plantel_edit'];
             $regimen = $data['txtRegimenEdit'];
+            $claveCentroTrabajo = $data['txtClaveCentroTrabajoEdit'];
             $servicio = $data['txtServicioEdit'];
             $idCategoria = $data['txtCategoriaEdit'];
-            //$acuerdoIncorporacion = $data['txtAcuerdoIncorporacionEdit'];
-            $claveCentroTrabajo = $data['txtClaveCentroTrabajoEdit'];
-            $idEstado = $data['listEstadoEdit'];
-            $idMunicipio = $data['listMunicipioEdit'];
-            $idLocalidad = $data['listLocalidadEdit'];
-            $domicilio = $data['txtDomicilioEdit'];
-            $colonia = $data['txtColoniaEdit'];
             $zonaEscolar = $data['txtZonaEscolarEdit'];
-            $codigoPostal = $data['txtCodigoPostalEdit'];
-			$latitud = $data['txtLatitudEdit'];
-			$longitud = $data['txtLongitudEdit'];
 			$cedulaFuncionamiento = $data['txtCedulaFuncionamientoEdit'];
-			//$cveDGP = $data['txtClaveDGPEdit'];
 			$cveInstitucionDGP = $data['txtClaveInstitucionDGPEdit'];
+            $intEstatus = $data['select_estatus_edit'];
 
-        
-			$sqlNomEstado = "SELECT nombre FROM t_estados WHERE id = $idEstado LIMIT 1";
-			$requestNomEstado = $this->select($sqlNomEstado);
-			$sqlNomMunicipio = "SELECT nombre FROM t_municipios WHERE id = $idMunicipio LIMIT 1";
-			$requestNomMunicipio = $this->select($sqlNomMunicipio);
-			$sqlNomLocalidad = "SELECT nombre FROM t_localidades WHERE id = $idLocalidad LIMIT 1";
-			$requestNomLocalidad = $this->select($sqlNomLocalidad);
+            $nombreImagenInstitucion = time() .'-'.$nombreInstitucion . '-' . $abreviacionInstitucion . '-' . $idPlantel. '.' .pathinfo($files["profileImageInstitucion"]["name"], PATHINFO_EXTENSION);
 
-            $nombreImagenPlantel = time() .'-'.$abreviacionPlantel . '-' . $requestNomEstado['nombre'] . '-' . $requestNomMunicipio['nombre']. '.' .pathinfo($files["profileImagePlantel"]["name"], PATHINFO_EXTENSION);
-			/* $nombreImagenSistema = time() .'-'.$abreviacionSistema . '-' . $requestNomEstado['nombre'] . '-' . $requestNomMunicipio['nombre']. '.' .pathinfo($files["profileImageSistema"]["name"], PATHINFO_EXTENSION); */
             $direccionLogos = 'Assets/images/logos/';
-			$nombreImagenPlantelFile = $direccionLogos . basename($nombreImagenPlantel);
-			/* $nombreImagenSistemaFile = $direccionLogos . basename($nombreImagenSistema); */
+			$nombreImagenInstitucionFile = $direccionLogos . basename($nombreImagenInstitucion);
 
 			$request = [];
-			$sqlExist = "SELECT *FROM t_planteles WHERE cve_centro_trabajo = '$claveCentroTrabajo' AND id != $idPlantelEdit";
+			$sqlExist = "SELECT *FROM t_instituciones WHERE cve_centro_trabajo = '$claveCentroTrabajo' AND id != $idInstitucionEdit";
 			$requestExist = $this->select($sqlExist);
 			if($requestExist){
 				$request['estatus'] = TRUE;
 				
 			}else{
-				if($files["profileImagePlantel"]["name"] == ""){
-					$sqlUpdate = "UPDATE t_planteles SET nombre_plantel = ?,abreviacion_plantel = ?,regimen = ?,servicio = ?,categoria = ?,
-					cve_centro_trabajo = ?,estado = ?,municipio = ?,localidad = ?,domicilio = ?,colonia = ?,zona_escolar = ?,cod_postal = ?,latitud = ?,longitud = ?,
-					logo_plantel = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? ,id_sistema = ? WHERE id = $idPlantelEdit";
-					$requestUpdate = $this->update($sqlUpdate,array($nombrePlantel,$abreviacionPlantel,$regimen,$servicio,$idCategoria,
-						$claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,
-						$nombreImagenPlantel,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser,$idSistemaEducativo));
+				if($files["profileImageInstitucion"]["name"] == ""){
+ 					$sqlUpdate = "UPDATE t_instituciones SET nombre_institucion = ?,abreviacion_institucion = ?,regimen = ?,servicio = ?,categoria = ?,
+					cve_centro_trabajo = ?,zona_escolar = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? ,id_sistema = ?,id_plantel = ? WHERE id = $idInstitucionEdit";
+					$requestUpdate = $this->update($sqlUpdate,array($nombreInstitucion,$abreviacionInstitucion,$regimen,$servicio,$idCategoria,
+						$claveCentroTrabajo,$zonaEscolar,$cedulaFuncionamiento,$cveInstitucionDGP,$intEstatus,$idUser,$idSistemaEducativo,$idPlantel));
 					$request['estatus'] = FALSE;
 				}else{
-					if(move_uploaded_file($files["profileImagePlantel"]["tmp_name"],$nombreImagenPlantelFile)){
-						$sqlUpdate = "UPDATE t_planteles SET nombre_plantel = ?,abreviacion_plantel = ?, regimen = ?,servicio = ?,categoria = ?,
-						cve_centro_trabajo = ?,estado = ?,municipio = ?,localidad = ?,domicilio = ?,colonia = ?,zona_escolar = ?,cod_postal = ?,latitud = ?,longitud = ?,
-						logo_plantel = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ?, id_sistema = ? WHERE id = $idPlantelEdit";
-						$requestUpdate = $this->update($sqlUpdate,array($nombrePlantel,$abreviacionPlantel,$regimen,$servicio,$idCategoria,
-								$claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,
-								$nombreImagenPlantel,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser,$idSistemaEducativo));
-						$request['estatus'] = FALSE;
-					}
+					if(move_uploaded_file($files["profileImageInstitucion"]["tmp_name"],$nombreImagenInstitucionFile)){
+                        $sqlUpdate = "UPDATE t_instituciones SET nombre_institucion = ?,abreviacion_institucion = ?,regimen = ?,servicio = ?,categoria = ?,
+                        cve_centro_trabajo = ?,zona_escolar = ?,logo_institucion = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? ,id_sistema = ?,id_plantel = ? WHERE id = $idInstitucionEdit";
+                        $requestUpdate = $this->update($sqlUpdate,array($nombreInstitucion,$abreviacionInstitucion,$regimen,$servicio,$idCategoria,
+                            $claveCentroTrabajo,$zonaEscolar,$nombreImagenInstitucion,$cedulaFuncionamiento,$cveInstitucionDGP,$intEstatus,$idUser,$idSistemaEducativo,$idPlantel));
+                        $request['estatus'] = FALSE;
+					} 
 				}
-/* 
-				if($files["profileImagePlantel"]["name"] == "" || $files["profileImageSistema"]["name"] == ""){
-					if($files["profileImagePlantel"]["name"] != ""){
-						if(move_uploaded_file($files["profileImagePlantel"]["tmp_name"],$nombreImagenPlantelFile)){
-							$sqlUpdate = "UPDATE t_planteles SET nombre_plantel = ?,abreviacion_plantel = ?,nombre_sistema = ?,abreviacion_sistema = ?,regimen = ?,servicio = ?,categoria = ?,
-						cve_centro_trabajo = ?,estado = ?,municipio = ?,localidad = ?,domicilio = ?,colonia = ?,zona_escolar = ?,cod_postal = ?,latitud = ?,longitud = ?,
-						logo_plantel = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_creacion = ?,id_usuario_actualizacion = ? WHERE id = $idPlantelEdit";
-						$requestUpdate = $this->update($sqlUpdate,$nomConexion,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
-								$claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,
-								$nombreImagenPlantel,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser,$idUser));
-						}
-					}else if($files["profileImageSistema"]["name"] != ""){
-						if(move_uploaded_file($files["profileImageSistema"]["tmp_name"],$nombreImagenSistemaFile)){
-							$sqlUpdate = "UPDATE t_planteles SET nombre_plantel = ?,abreviacion_plantel = ?,nombre_sistema = ?,abreviacion_sistema = ?,regimen = ?,servicio = ?,categoria = ?,
-						cve_centro_trabajo = ?,estado = ?,municipio = ?,localidad = ?,domicilio = ?,colonia = ?,zona_escolar = ?,cod_postal = ?,latitud = ?,longitud = ?,
-						logo_sistema = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_creacion = ?,id_usuario_actualizacion = ? WHERE id = $idPlantelEdit";
-						$requestUpdate = $this->update($sqlUpdate,$nomConexion,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
-								$claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,
-								$nombreImagenSistema,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser,$idUser));
-						}
-					}else{
-						$sqlUpdate = "UPDATE t_planteles SET nombre_plantel = ?,abreviacion_plantel = ?,nombre_sistema = ?,abreviacion_sistema = ?,regimen = ?,servicio = ?,categoria = ?,
-					cve_centro_trabajo = ?,estado = ?,municipio = ?,localidad = ?,domicilio = ?,colonia = ?,zona_escolar = ?,cod_postal = ?,latitud = ?, longitud = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,
-					estatus = ?,fecha_actualizacion = NOW(),id_usuario_creacion = ?,id_usuario_actualizacion = ? WHERE id = $idPlantelEdit";
-					$requestUpdate = $this->update($sqlUpdate,$nomConexion,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
-							$claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,$cedulaFuncionamiento,$cveInstitucionDGP,
-							1,$idUser,$idUser));
-					}
-				}else{
-					if(move_uploaded_file($files["profileImagePlantel"]["tmp_name"],$nombreImagenPlantelFile) || 
-					move_uploaded_file($files["profileImageSistema"]["tmp_name"],$nombreImagenSistemaFile)){
-						$sqlUpdate = "UPDATE t_planteles SET nombre_plantel = ?,abreviacion_plantel = ?,nombre_sistema = ?,abreviacion_sistema = ?,regimen = ?,servicio = ?,categoria = ?,
-						cve_centro_trabajo = ?,estado = ?,municipio = ?,localidad = ?,domicilio = ?,colonia = ?,zona_escolar = ?,cod_postal = ?,latitud = ?, longitud = ?,logo_plantel = ?,
-						logo_sistema=?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_creacion = ?,id_usuario_actualizacion = ? WHERE id = $idPlantelEdit";
-						$requestUpdate = $this->update($sqlUpdate,$nomConexion,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
-								$claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,
-								$nombreImagenPlantel,$nombreImagenSistema,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser,$idUser));
-					}
-				}
-				$request['estatus'] = FALSE; */
 			}
 			return $request;  	
 		}
-		public function deletePlantel(int $idPlantel){
-			$sql = "SELECT * FROM t_planteles WHERE id = $idPlantel";
+
+
+		public function deleteInstitucion(int $idInstitucion, int $idUser){
+			$sql = "SELECT * FROM t_instituciones WHERE id = $idInstitucion";
 			$request = $this->select_all($sql);
 			if($request){
-				$sql = "UPDATE t_planteles SET estatus = ? WHERE id = $idPlantel";
-				$arrData = array(0);
+				$sql = "UPDATE t_instituciones SET estatus = ?,fecha_actualizacion = NOW(), id_usuario_actualizacion = ? WHERE id = $idInstitucion";
+				$arrData = array(0,$idUser);
 				$request = $this->update($sql,$arrData);
 				if($request){
 					$request = 'ok';	
@@ -216,14 +162,14 @@
 		return $request;	
 		}
 		public function getTablasRef(){
-			$sqlTablasRef = "SELECT TABLE_NAME AS tablas FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = '".DB_NAME."' AND REFERENCED_TABLE_NAME = 't_planteles'";
+			$sqlTablasRef = "SELECT TABLE_NAME AS tablas FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = '".DB_NAME."' AND REFERENCED_TABLE_NAME = 't_instituciones'";
 			$requestTablasRef = $this->select_all($sqlTablasRef);
 			return $requestTablasRef;
 		}
-		public function estatusRegistroTabla(string $nombreTabla,int $idPlantel){
-			$sqlEstatusRegistro = "SELECT * FROM t_planteles
-			RIGHT JOIN $nombreTabla ON $nombreTabla.id_plantel = t_planteles.id
-			WHERE t_planteles.id = $idPlantel AND  $nombreTabla.estatus != 0";
+		public function estatusRegistroTabla(string $nombreTabla,int $idInstitucion){
+			$sqlEstatusRegistro = "SELECT * FROM t_instituciones
+			RIGHT JOIN $nombreTabla ON $nombreTabla.id_institucion = t_instituciones.id
+			WHERE t_instituciones.id = $idInstitucion AND  $nombreTabla.estatus != 0";
 			$requestEstatusRegistro = $this->select_all($sqlEstatusRegistro);
 			return $requestEstatusRegistro;
 		}

@@ -6,6 +6,7 @@ var formMateriadit = document.querySelector("#formMateriaEdit");
 let divLoading = document.querySelector("#divLoading");
 
 //Datatable
+
 document.addEventListener('DOMContentLoaded', function(){
 	tableMaterias = $('#tableMaterias').dataTable( {
 		"aProcessing":true,
@@ -54,13 +55,13 @@ formMateriaNueva.onsubmit = function(e){
     var intHoraPractica = document.querySelector('#txtHorasPracticaNuevo').value;
     var intCreditos = document.querySelector('#txtCreditosNuevo').value;
     var strTipo = document.querySelector('#listTipoNuevo').value;
-    var strPlantel = document.querySelector('#listPlantelNuevo').value;
+    var strInstitucion = document.querySelector('#listInstitucionNuevo').value;
     var intGrado = document.querySelector('#listGradoNuevo').value;
     var intPlanEstudio = document.querySelector('#listPlanEstudioNuevo').value;
     var strClasificacion = document.querySelector('#listClasificacionNuevo').value;
     //var intStatus = document.querySelector('#listEstatusNuevo').value;
 
-    if(strNombre == '' || strClave == '' || intHoraTeoria == '' || intHoraPractica == '' || intCreditos == '' || strTipo == '' || strPlantel == '' || intGrado == '' || intPlanEstudio == '' || strClasificacion == ''){
+    if(strNombre == '' || strClave == '' || intHoraTeoria == '' || intHoraPractica == '' || intCreditos == '' || strTipo == '' || strInstitucion == '' || intGrado == '' || intPlanEstudio == '' || strClasificacion == ''){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
     }
@@ -84,6 +85,7 @@ formMateriaNueva.onsubmit = function(e){
                 request.onreadystatechange = function(){
                     if(request.readyState == 4 && request.status == 200){
                         var objData = JSON.parse(request.responseText);
+                        
                         if(objData.estatus){
                             formMateriaNueva.reset();
                             swal.fire("Materia",objData.msg,"success").then((result) =>{
@@ -116,7 +118,6 @@ function fntVerMateria(idMateria){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
             if(objData){   
-
                 document.querySelector('#titleModalVer').innerHTML = objData.nombre_materia;
                 document.querySelector('#txtNombreVer').value = objData.nombre_materia;
                 document.querySelector('#txtClaveVer').value = objData.clave;
@@ -124,7 +125,7 @@ function fntVerMateria(idMateria){
                 document.querySelector('#txtHorasPracticaVer').value = objData.hrs_practicas;
                 document.querySelector('#txtCreditosVer').value = objData.creditos;
                 document.querySelector('#listTipoVer').innerHTML = "<option selected>"+objData.tipo+"</option>";
-                document.querySelector('#listPlantelVer').innerHTML = "<option selected>"+objData.nombre_plantel+" ("+objData.municipio+")"+"</option>";
+                document.querySelector('#listInstitucionVer').innerHTML = "<option selected>"+objData.nombre_plantel_fisico+" / "+objData.nombre_institucion+"</option>";
                 document.querySelector('#listGradoVer').innerHTML = "<option selcted>"+objData.nombre_grado+"("+objData.numero_romano+")"+"</option>";
                 document.querySelector('#listPlanEstudioVer').innerHTML = "<option selected>"+objData.nombre_carrera+"</option>";
 
@@ -175,7 +176,7 @@ function fntEditMateria(idMateria){
                                 `;
                 document.querySelector("#listTipoEdit").innerHTML = htmlSelect;
 
-                document.querySelector('#listPlantelEdt').querySelector('option[value="'+objData.idplantel+'"]').selected = true;
+                document.querySelector('#listInstitucionEdt').querySelector('option[value="'+objData.idInstitucion+'"]').selected = true;
                 document.querySelector('#listGradoEdit').innerHTML = "<option value='"+objData.id_grado+"' selcted>"+objData.nombre_grado+"("+objData.numero_romano+")"+"</option>";
                 const selGrados = document.querySelector('#listGradoEdit');
                 let url_grados = base_url+"/Materias/getGrados";
@@ -237,12 +238,12 @@ formMateriaEdit.onsubmit = function(e){
     var intHoraPractica = document.querySelector('#txtHorasPracticaEdit').value;
     var intCreditos = document.querySelector('#txtCreditosEdit').value;
     var strTipo = document.querySelector('#listTipoEdit').value;
-    var strPlantel = document.querySelector('#listPlantelEdt').value;
+    var strInstitucion = document.querySelector('#listInstitucionEdt').value;
     var intGrado = document.querySelector('#listGradoEdit').value;
     var intPlanEstudio = document.querySelector('#listPlanEstudioEdit').value;
     var strClasificacion = document.querySelector('#listClasificacionEdit').value;
     var intStatus = document.querySelector('#listEstatusEdit').value;
-    if(strNombre == '' || strClave == '' || intHoraTeoria == '' || intHoraPractica == '' || intCreditos == '' || strTipo == '' || strPlantel == '' || intGrado == '' || intPlanEstudio == '' || strClasificacion == '' || intStatus == ''){
+    if(strNombre == '' || strClave == '' || intHoraTeoria == '' || intHoraPractica == '' || intCreditos == '' || strTipo == '' || strInstitucion == '' || intGrado == '' || intPlanEstudio == '' || strClasificacion == '' || intStatus == ''){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
     }
@@ -321,7 +322,7 @@ function fntDelMateria(id) {
         }
     });
 }
-function plantelSeleccionado(id){
+function institucionSeleccionado(id){
     const selLocalidades = document.querySelector('#listPlanEstudioNuevo');
     let url_plan = base_url+"/Materias/getPlanEstudiosNuevo?id="+id;
     if(id !=""){
@@ -344,10 +345,10 @@ function plantelSeleccionado(id){
     }
 }
 
-function plantelSeleccionadoEdit(id){
+function institucionSeleccionadoEdit(id){
     const selLocalidades = document.querySelector('#listPlanEstudioEdit');
     let url_plan = base_url+"/Materias/getPlanEstudiosNuevo?id="+id;
-    divLoading.getElementsByClassName.display = "flex";
+    divLoading.style.display = "flex";
     fetch(url_plan)
         .then(res => res.json())
         .then((resultado) => {

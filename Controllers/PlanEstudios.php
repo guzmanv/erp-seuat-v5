@@ -21,7 +21,8 @@ class PlanEstudios extends Controllers
         $data['page_title'] = "Planes de estudios";
         $data['page_content'] = "";
         $data['page_functions_js'] = "functions_plan_estudios.js";
-        $data['planteles'] = $this->model->selectPlanteles();
+        //$data['planteles'] = $this->model->selectPlanteles();
+        $data['instituciones'] = $this->model->selectInstituciones();
         $data['niveles_educativos'] = $this->model->selectNivelEducativo();
         $data['categorias'] = $this->model->selectCategorias();
         $data['modalidad'] = $this->model->selectModalidades();
@@ -35,7 +36,7 @@ class PlanEstudios extends Controllers
         $arrData = $this->model->selectPlanEstudios();
         for ($i = 0; $i < count($arrData); $i++) {
             $arrData[$i]['numeracion'] = $i + 1;
-            $arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'] . ' (' . $arrData[$i]['municipio'] . ')';
+            //$arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'] . ' (' . $arrData[$i]['municipio'] . ')';
             if ($arrData[$i]['estatus'] == 1) {
                 $arrData[$i]['estatus'] = '<span class="badge badge-dark">Activo</span>';
             } else {

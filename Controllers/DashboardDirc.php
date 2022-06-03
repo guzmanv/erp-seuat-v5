@@ -1,7 +1,6 @@
 <?php
 	class DashboardDirc extends Controllers{
 		private $idUser;
-		private $nomConexion;
 		private $rol;
 		public function __construct()
 		{
@@ -13,7 +12,6 @@
 			    die();
 		    }
 			$this->idUser = $_SESSION['idUser'];
-			$this->nomConexion = $_SESSION['nomConexion'];
 			$this->rol = $_SESSION['claveRol'];
 		}
 		public function DashboardDirc(){
@@ -22,52 +20,54 @@
 			$data['page_title'] = "Página Dashboard";
 			$data['page_name'] = "Página Dashboard";
 			$data['page_functions_js'] = "functions_dashboard_dirc.js";
-			//$data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
+			$data['planteles'] = $this->model->selectPlanteles();
 			$this->views->getView($this,"dashboarddirc",$data);
 		}
 		public function getTotalesCard($params){
 			$arrParams = explode(',',$params);
-			$nomConexion = $arrParams[0];
-			$idPlatel = $arrParams[1];
-			if($nomConexion == 'all' && $idPlatel == 'all'){
-				$totalPlanteles = 0;
+			$plantel = $arrParams[0];
+			$institucion = $arrParams[1];
+ 			if($plantel == 'all' && $institucion == 'all'){
+				$totalInstituciones = 0;
 				$totalPlanEstudios = 0;
 				$totalMaterias = 0;
 				$totalRVOES = 0;
-				foreach (conexiones as $key => $conexion) {
-					$planteles = $this->model->selectTotalPlanteles($key);
-					$totalPlanteles += $planteles['total'];
-					$planEstudios = $this->model->selectTotalesPlanEstudios($key);
+                $arrPlanteles = $this->model->selectPlanteles();
+				foreach ($arrPlanteles as $key => $plantel) {
+					$instituciones = $this->model->selectTotalInstituciones($plantel['id']);
+					$totalInstituciones += $instituciones['total'];
+					$planEstudios = $this->model->selectTotalesPlanEstudios($plantel['id']);
 					$totalPlanEstudios += $planEstudios['total'];
-					$materias = $this->model->selectTotalesMaterias($key);
+					$materias = $this->model->selectTotalesMaterias($plantel['id']);
 					$totalMaterias += $materias['total'];
-					$rvoes = $this->model->selectTotalesRVOES($key);
+					$rvoes = $this->model->selectTotalesRVOES($plantel['id']);
 					$totalRVOES += $rvoes['total'];
 				}
-				$arrData['planteles'] = $totalPlanteles;
+				$arrData['instituciones'] = $totalInstituciones;
                 $arrData['plan_estudios'] = $totalPlanEstudios;
                 $arrData['materias'] = $totalMaterias;
                 $arrData['rvoes'] = $totalRVOES;
                 $arrData['tipo'] = "all";
-			}else if($nomConexion != 'all' && $idPlatel =='all'){
-				$totalPlanteles = $this->model->selectTotalPlanteles($nomConexion);
-				$totalPlanEstudios = $this->model->selectTotalesPlanEstudios($nomConexion);
-				$totalMaterias = $this->model->selectTotalesMaterias($nomConexion);
+			}else if($plantel != 'all' && $institucion =='all'){
+				$totalInstituciones = $this->model->selectTotalInstituciones($plantel);
+				$totalPlanEstudios = $this->model->selectTotalesPlanEstudios($plantel);
+				/*$totalMaterias = $this->model->selectTotalesMaterias($nomConexion);
 				$totalRVOES = $this->model->selectTotalesRVOES($nomConexion);
 				$arrData['planteles'] = $totalPlanteles['total'];
                 $arrData['plan_estudios'] = $totalPlanEstudios['total'];
                 $arrData['materias'] = $totalMaterias['total'];
                 $arrData['rvoes'] = $totalRVOES['total'];
-                $arrData['tipo'] = "all"; 
-			}else if($nomConexion != 'all' && $idPlatel != 'all'){
-				$totalPlanEstudios = $this->model->selectPlanEstudiosbyPlantel($nomConexion,$idPlatel);
+                $arrData['tipo'] = "all";  */
+               
+			}else if($plantel != 'all' && $institucion != 'all'){
+				/* $totalPlanEstudios = $this->model->selectPlanEstudiosbyPlantel($nomConexion,$idPlatel);
 				$totalMaterias = $this->model->selectMateriasbyPlantel($nomConexion,$idPlatel);
 				$totalRVOES = $this->model->selectRVOEproximoExpbyPlantel($nomConexion,$idPlatel);
 				$arrData['planteles'] = 1;
                 $arrData['plan_estudios'] = $totalPlanEstudios['total'];
                 $arrData['materias'] = $totalMaterias['total'];
                 $arrData['rvoes'] = count($totalRVOES);
-                $arrData['tipo'] = "all";
+                $arrData['tipo'] = "all"; */
 			}
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
@@ -113,11 +113,11 @@
 			echo json_encode($newArray ,JSON_UNESCAPED_UNICODE);
             die();
 		}
-		public function getPlanEstudiosMateriabyPlantel($params){
+		public function getPlanEstudiosMateriabyInstitucion($params){
 			$arrParams = explode(',',$params);
-			$nomConexion = $arrParams[0];
-			$idPlantel = $arrParams[1];
-			if($nomConexion == 'all' && $idPlantel == 'all'){
+			$plantel = $arrParams[0];
+			$idInstitucion = $arrParams[1];
+			if($plantel == 'all' && $idInstitucion == 'all'){
 				$array = [];
 				foreach (conexiones as $key => $conexion) {
 					$arrPlantel = $this->model->selectDatosPlantel($key);
@@ -150,8 +150,8 @@
             die();
 		}
 
-		public function getPlanteles(string $nomConexion){
-			$arrData = $this->model->selectDatosPlantel($nomConexion);
+		public function getInstituciones($idPlantel){
+			$arrData = $this->model->selectDatosInstitucion($idPlantel);
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
 		}

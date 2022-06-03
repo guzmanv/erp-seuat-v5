@@ -4,69 +4,70 @@ var arrPlanteles = [];
 var carreras = [];
 var materias = [];
 var rvoes = [];
-let conexionSeleccionado = null;
 let idPlantelSeleccionado = null;
+let idInstitucionSeleccionado = null;
 
 document.addEventListener('DOMContentLoaded', function(){
-    conexionSeleccionado = 'all';
     idPlantelSeleccionado = 'all';
+    idInstitucionSeleccionado = 'all';
     let plantel = "all";
     fnTotalesCard(plantel,'all');
-    plEstudioMateriabyPlantel(plantel,'all');
+    plEstudioMateriabyInstitucion(plantel,'all');
     document.querySelector('#sales-chart-plantel').style.display = "none";
     document.querySelector('#sales-chart').style.display = "none";
     document.querySelector('.divnomplant').style.display = "none";
-    document.querySelector('#listPlanteles').innerHTML = '<option value="all">Todos</option>';
+    document.querySelector('#listInstituciones').innerHTML = '<option value="all">Todos</option>';
 });
 //var $salesChartPlantel = $('#sales-chart-plantel');
-function superPlantelSeleccionado(nomConexion){
-    conexionSeleccionado = nomConexion;
-    if(nomConexion == 'all'){
-        document.querySelector('#listPlanteles').innerHTML = '<option value="all" selected>Todos</option>';
-        idPlantelSeleccionado = 'all';
-        fnTotalesCard(nomConexion,'all');
-        plEstudioMateriabyPlantel(nomConexion,'all');
+function plantelSeleccionado(plantel){
+    idPlantelSeleccionado = plantel;
+    if(plantel == 'all'){
+        document.querySelector('#listInstituciones').innerHTML = '<option value="all" selected>Todos</option>';
+        idInstitucionSeleccionado = 'all';
+        fnTotalesCard(plantel,idInstitucionSeleccionado);
+        plEstudioMateriabyInstitucion(plantel,institucionSeleccionado);
     }else{
-        document.querySelector('#listPlanteles').innerHTML = '<option value="all" selected>Todos</option>';
-        let url = `${base_url}/DashboardDirc/getPlanteles/${nomConexion}`;
+        document.querySelector('#listInstituciones').innerHTML = '<option value="all" selected>Todos</option>';
+        let url = `${base_url}/DashboardDirc/getInstituciones/${plantel}`;
         fetch(url).then((res) => res.json()).then(resultado =>{
-            resultado.forEach(plantel => {
-                document.querySelector('#listPlanteles').innerHTML += '<option value="'+plantel.id+'">'+plantel.nombre_plantel+'</option>';
+            resultado.forEach(institucion => {
+                document.querySelector('#listInstituciones').innerHTML += '<option value="'+institucion.id+'">'+institucion.nombre_institucion+'</option>';
             });
         }).catch(err => {throw err});
-        fnTotalesCard(nomConexion,'all');
-        plEstudioMateriabyPlantel(nomConexion,'all');
-    }
+        fnTotalesCard(plantel,idInstitucionSeleccionado);
+        /*plEstudioMateriabyPlantel(plantel,'all'); */
+    } 
 
 }
-function fnTotalesCard(nomConexion,plantel){
-    let url = base_url+"/DashboardDirc/getTotalesCard/"+nomConexion+"/"+plantel;
+function fnTotalesCard(plantel,institucion){
+    let url = base_url+"/DashboardDirc/getTotalesCard/"+plantel+"/"+institucion;
     fetch(url).then(res => res.json()).then((resultado) => {
+        console.log(resultado)
         if(resultado.tipo == "all"){
             document.querySelector('.divnomplant').style.display = "none";
             document.querySelector('.divplant').style.display = "block";
             document.querySelector('#sales-chart').style.display = "flex";
             document.querySelector('#sales-chart-plantel').style.display = "none";
-            document.querySelector('.plnt').innerHTML=resultado.planteles;
+            document.querySelector('.plnt').innerHTML=resultado.instituciones;
             document.querySelector('.ple').innerHTML=resultado.plan_estudios;
             document.querySelector('.mat').innerHTML=resultado.materias;
             document.querySelector('.rvoeexp').innerHTML=resultado.rvoes;
             document.getElementById('btnRvoesExp').setAttribute('onClick', 'fnRvoeExp();' );
         }else{
-            /* document.querySelector('.divnomplant').style.display = "block";
+            document.querySelector('.divnomplant').style.display = "block";
             document.querySelector('#sales-chart').style.display = "none";
             document.querySelector('#sales-chart-plantel').style.display = "flex";
             document.querySelector('.divplant').style.display = "none";
             document.querySelector('.ple').innerHTML=resultado.plan_estudios;
             document.querySelector('.mat').innerHTML=resultado.materias;
             document.querySelector('.rvoeexp').innerHTML=resultado.rvoes;
-            document.getElementById('btnRvoesExp').setAttribute('onClick', 'fnRvoeExp('+plantel+');' ); */
+            document.getElementById('btnRvoesExp').setAttribute('onClick', 'fnRvoeExp('+plantel+');' );
         }
         }).catch(err => { throw err });
 }
 
-function plantelSeleccionado(value){
-    idPlantelSeleccionado = value;
+function institucionSeleccionado(value){
+/*     idPlantelSeleccionado = value;
     let nomConexion = document.getElementById('listSuperplanteles').value;
     if(value == 'all'){
         fnTotalesCard(nomConexion,'all');
@@ -74,12 +75,12 @@ function plantelSeleccionado(value){
     }else{
         fnTotalesCard(nomConexion,value);
         plEstudioMateriabyPlantel(nomConexion,value)
-    }
+    } */
 }
 
 
-function plEstudioMateriabyPlantel(nomConexion,plantel){
-    let url = base_url+"/DashboardDirc/getPlanEstudiosMateriabyPlantel/"+nomConexion+"/"+plantel;
+function plEstudioMateriabyInstitucion(plantel,institucion){
+/*     let url = base_url+"/DashboardDirc/getPlanEstudiosMateriabyInstitucion/"+plantel+"/"+plantel;
     fetch(url).then(res => res.json()).then((resultado) => {
         arrPlanteles = [];
         carreras = [];
@@ -96,11 +97,9 @@ function plEstudioMateriabyPlantel(nomConexion,plantel){
             document.querySelector('#sales-chart').style.display = 'block';
             document.querySelector('#sales-chart-plantel').style.display = "none";
         }else{
-            /* fnMostrarGraficaPlantel(carreras,materias);
-            document.querySelector('#sales-chart').style.display = "none";
-            document.querySelector('#sales-chart-plantel').style.display = "block"; */
+            
         }
-        }).catch(err => { throw err }); 
+        }).catch(err => { throw err });  */
 }
 function fnMostrarGrafica(arrPlanteles,carreras,materias){
     var ticksStyle = {

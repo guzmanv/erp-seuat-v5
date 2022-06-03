@@ -49,9 +49,9 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-md-12">
-                                        <label>Plantel</label>
-                                        <select class="form-control form-control-sm" id="listPlantelVer" name="listPlantelVer" disabled >
-                                            <option value="">Selecciona un Plantel</option>
+                                        <label>Institución</label>
+                                        <select class="form-control form-control-sm" id="listInstitucionVer" name="listInstitucionVer" disabled >
+                                            <option value="">Selecciona una intitución</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-9">

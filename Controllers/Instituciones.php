@@ -35,8 +35,9 @@
 			$arrData = $this->model->selectInstituciones();
 			for ($i=0; $i < count($arrData); $i++) {
 				$arrData[$i]['numeracion'] = $i+1;
-				$arrData[$i]['nom_sistema'] = "";
-				$arrData[$i]['nom_plantel'] = "";
+				$arrData[$i]['nom_sistema'] = $this->model->selectSistemaEducativo($arrData[$i]['id_sistema'])['nombre_sistema'];
+				$arrData[$i]['nom_plantel'] = $this->model->selectPlantel($arrData[$i]['id_plantel'])['nombre_plantel_fisico'];
+                $arrData[$i]['status'] = ($arrData[$i]['estatus'] == 1)?'<span class="badge badge-pill badge-success">Activo</span>':'<span class="badge badge-pill badge-warning">Inactivo</span>';
 				$arrData[$i]['options'] = '<div class="text-center">
 				<div class="btn-group">
 					<button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -44,9 +45,9 @@
 					</button>
 					<div class="dropdown-menu">
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnVerPlantel" onClick="fntVerInstitucion('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalVerPlantel" title="Ver"> &nbsp;&nbsp; <i class="fas fa-eye icono-azul"></i> &nbsp; Ver</button>
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditPlantel" onClick="fntEditPlantel('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormEditPlantel" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditPlantel" onClick="fntEditInstitucion('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormEditPlantel" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
 						<div class="dropdown-divider"></div>
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPlantel" onClick="fntDelPlantel('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPlantel" onClick="fntDelInstitucion('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
 						<!--<a class="dropdown-item" href="#">link</a>-->
 					</div>
 				</div>
@@ -88,12 +89,12 @@
 			if(isset($_POST['id_institucion_nuevo'])){
 				$idInstitucionNuevo = intval($_POST['id_institucion_nuevo']);
 			}
-			if(isset($_POST['id_institucion_edit'])){
-				$idInstitucionEdit = intval($_POST['id_institucion_edit']);
+			if(isset($_POST['idInstitucionEdit'])){
+				$idInstitucionEdit = intval($_POST['idInstitucionEdit']);
 			}
 			
 			if($idInstitucionEdit != 0 ){
-				$arrData = $this->model->updatePlantel($idInstitucionEdit,$data,$files);
+				$arrData = $this->model->updateInstitucion($idInstitucionEdit,$data,$files);
 				if($arrData['estatus'] != TRUE){
 					$arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
 				}else{
@@ -117,9 +118,9 @@
 		}
 
 		//Funcion para Elimniar un Plantel
-		public function delPlantel(){
+		public function delInstitucion(){
 			if($_POST){
-					$intIdPlantel = intval($_POST['idPlantel']);
+					$intIdInstitucion = intval($_POST['idInstitucion']);
 					$requestTablaRef = $this->model->getTablasRef();
 					if(count($requestTablaRef)>0){
 						$requestStatus = 0;
@@ -127,34 +128,34 @@
 							$nombreTabla = $tabla['tablas'];
 							$existColumn = $this->model->selectColumn($nombreTabla);
 							if($existColumn){
-								$requestEstatusRegistro = $this->model->estatusRegistroTabla($nombreTabla,$intIdPlantel);
-								 if($requestEstatusRegistro){
+								$requestEstatusRegistro = $this->model->estatusRegistroTabla($nombreTabla,$intIdInstitucion);
+								if($requestEstatusRegistro){
 									$requestStatus += count($requestEstatusRegistro);
 								}else{
 									$requestStatus += 0;
-								} 
+								}
 							}
 						}
 						if($requestStatus == 0){
-							$requestDelete = $this->model->deletePlantel($intIdPlantel);
+							$requestDelete = $this->model->deleteInstitucion($intIdInstitucion, $this->idUser);
 							if($requestDelete == 'ok'){
-								$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el Plantel.');
+								$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la institución.');
 							}else if($requestDelete == 'exist'){
-								$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar el plantel.');
+								$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar la institución.');
 							}else{
-								$arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar el plantel.');
-							} 
+								$arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar la institución.');
+							}
 						}else{
-							$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar porque hay plan de estudios activos relacionados a este plantel.');
-						} 
+							$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar porque hay plan de estudios activos relacionados a esta institución.');
+						}
 					}else{
-						$requestDelete = $this->model->deletePlantel($intIdPlantel);
+						$requestDelete = $this->model->deleteInstitucion($intIdInstitucion,$this->idUser);
 						if($requestDelete == 'ok'){
-							$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el Plantel.');
+							$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la institución.');
 						}else if($requestDelete == 'exist'){
-							$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar el plantel.');
+							$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar la institución.');
 						}else{
-							$arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar el plantel.');
+							$arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar la institución.');
 						}
 					}
 					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);

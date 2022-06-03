@@ -4,27 +4,32 @@
             parent::__construct();
         }
 
-
-        public function selectTotalPlanteles(string $nomConexion){
-            $sqlPlanteles = "SELECT COUNT(*) AS total FROM t_planteles";
-            $requestPlanteles = $this->select($sqlPlanteles,$nomConexion);
-            return $requestPlanteles;
+        public function selectPlanteles()
+        {
+            $sql = "SELECT *FROM t_planteles WHERE estatus = 1";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function selectTotalInstituciones(int $idPlantel){
+            $sqlInstituciones = "SELECT COUNT(*) AS total FROM t_instituciones WHERE id_plantel = $idPlantel AND estatus = 1";
+            $requestInstituciones = $this->select($sqlInstituciones);
+            return $requestInstituciones;
         }
 
 
-        public function selectTotalesPlanEstudios(string $nomConexion){
-            $sqlPlanEstudios = "SELECT COUNT(*) AS total FROM t_plan_estudios WHERE estatus = 1";
-            $requestPlanEstudios = $this->select($sqlPlanEstudios,$nomConexion);
+        public function selectTotalesPlanEstudios(int $idPlantel){
+            $sqlPlanEstudios = "SELECT COUNT(*) AS total FROM t_plan_estudios  WHERE estatus = 1";
+            $requestPlanEstudios = $this->select($sqlPlanEstudios);
             return $requestPlanEstudios;
         }
-        public function selectTotalesMaterias(string $nomConexion){
+        public function selectTotalesMaterias(int $idPlantel){
             $sqlMaterias = "SELECT COUNT(*) AS total FROM t_materias WHERE estatus = 1";
-            $requestMaterias = $this->select($sqlMaterias, $nomConexion);
+            $requestMaterias = $this->select($sqlMaterias);
             return $requestMaterias;
         }
-        public function selectTotalesRVOES($nomConexion){
+        public function selectTotalesRVOES(){
             $sqlRVOES = "SELECT COUNT(*) AS total FROM t_plan_estudios WHERE DATEDIFF(fecha_actualizacion_rvoe,CURRENT_DATE) <= 365 AND estatus = 1";
-            $requestRVOES = $this->select($sqlRVOES, $nomConexion);
+            $requestRVOES = $this->select($sqlRVOES);
             return $requestRVOES;
         }
 /*         public function selectTotalesCard($nomConexion){
@@ -98,9 +103,9 @@
             $request = $this->select_all($sql,$nombreConexion);
             return $request;
         }
-        public function selectDatosPlantel(string $nomConexion){
-            $sql = "SELECT *FROM t_planteles";
-            $request = $this->select_all($sql,$nomConexion);
+        public function selectDatosInstitucion($idPlantel){
+            $sql = "SELECT *FROM t_instituciones WHERE id_plantel = $idPlantel";
+            $request = $this->select_all($sql);
             return $request;
         }
         public function selectPlantel(string $nomConexion, int $idPlantel){

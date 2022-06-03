@@ -21,7 +21,8 @@
             $data['page_title'] = "Materias";
             $data['page_content'] = "";
             $data['grados'] = $this->model->selectGrados();
-            $data['plantel'] = $this->model->selectPlanteles();
+            //$data['plantel'] = $this->model->selectPlanteles();
+            $data['instituciones'] = $this->model->selectInstituciones();
             $data['clasificacion_materia'] = $this->model->selectClasificacion();
             $data['page_functions_js'] = "functions_materias.js";
             $this->views->getView($this,"materias",$data);

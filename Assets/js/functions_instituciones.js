@@ -30,11 +30,11 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"numeracion"},
             {"data":"nombre_institucion"},
 			{"data":"abreviacion_institucion"},
-            {"data":"id"},
-            {"data":"id"},
+            {"data":"nom_sistema"},
+            {"data":"nom_plantel"},
             {"data":"regimen"},
             {"data":"servicio"},
-            {"data":"estatus"},
+            {"data":"status"},
 			{"data":"options"}
         ],
         "responsive": true,
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function(){
             request.onreadystatechange = function() {
                 if(request.readyState == 4 && request.status == 200) {
                     var objData = JSON.parse(request.responseText);
-                    if(objData.estatus){
+                     if(objData.estatus){
                         $('#modal_form_nueva_institucion').modal("hide");
                         formInstitucionNuevo.reset();
                         swal.fire("Instituciones", objData.msg, "success").then((result) =>{
@@ -376,13 +376,13 @@ function displayImageInstitucionEdit(f) {
 }
 
 //Funcion para Editar Plantel
-function fntEditInstitucion(idPlantel){
-    var idplantel = idPlantel;
+function fntEditInstitucion(idInstitucion){
+    var idInstitucion = idInstitucion;
     $('#step1-tabEdit').click();
     tabActualEdit = 0;
-    divLoading.getElementsByClassName.display = "flex";
+    divLoading.style.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    var ajaxUrl  = base_url+'/Instituciones/getPlantel/'+idplantel;
+    var ajaxUrl  = base_url+'/Instituciones/getInstitucion/'+idInstitucion;
     request.open("GET",ajaxUrl ,true);
 	request.send();
     request.onreadystatechange = function(){
@@ -390,94 +390,23 @@ function fntEditInstitucion(idPlantel){
             var objData = JSON.parse(request.responseText);
             if(objData)
             {   
-                document.querySelector("#idPlantelEdit").value = objData.id
+                document.querySelector("#idInstitucionEdit").value = objData.id
+                document.querySelector('#txt_nombre_edit').value = objData.nombre_institucion;
+                document.querySelector('#select_plantel_edit').querySelector('option[value="' +objData.id_plantel+ '"]').selected = true;
                 document.querySelector('#select_sistema_educativo_edit').querySelector('option[value="' +objData.id_sistema+ '"]').selected = true;
-                document.querySelector('#txtNombrePlantelEdit').value = objData.nombre_plantel;
-                document.querySelector('#txtAbreviacionPlantelEdit').value = objData.abreviacion_plantel;
-                //document.querySelector('#txtNombreSistemaEdit').value = objData.nombre_sistema;
-                //document.querySelector('#txtAbreviacionSistemaEdit').value = objData.abreviacion_sistema;
+                document.querySelector('#select_estatus_edit').querySelector('option[value="' +objData.estatus+ '"]').selected = true;
+                document.querySelector('#txt_abreviacion_edit').value = objData.abreviacion_institucion;
                 document.querySelector('#txtRegimenEdit').value = objData.regimen;
                 document.querySelector('#txtServicioEdit').value = objData.servicio;
                 document.querySelector('#txtCategoriaEdit').value = objData.categoria;
-                //document.querySelector('#txtAcuerdoIncorporacionEdit').value = objData.acuerdo_incorporacion;
                 document.querySelector('#txtClaveCentroTrabajoEdit').value = objData.cve_centro_trabajo;
                 document.querySelector('#txtCedulaFuncionamientoEdit').value = objData.cedula_funcionamiento;
                 document.querySelector('#txtClaveInstitucionDGPEdit').value = objData.cve_institucion_dgp;
-                //document.querySelector('#txtClaveDGPEdit').value = objData.cve_dgp;
-                //document.querySelector('#listEstadoEdit').innerHTML = "<option value='100' selected>"+objData.estado+"</option>"
-                //Obtener lista de Estados
-                var idEstadoPlantel = "";
-                var idMunicipioPlantel = "";
-                var idLocalidadPlantel = "";
-                document.querySelector('#listMunicipioEdit').innerHTML = "";
-                document.querySelector('#listLocalidadEdit').innerHTML = "";
-                let url = base_url+"/Instituciones/getListEstados";
-                fetch(url)
-                    .then(res => res.json())
-                    .then((resultado) => {
-                    for (let i = 0; i < resultado.length; i++) {
-                        document.querySelector('#listEstadoEdit').innerHTML += "<option value='"+resultado[i]['id']+"'>"+resultado[i]['nombre']+"</option>"
-                        if(resultado[i]['nombre'] == objData.estado){
-                            idEstadoPlantel = resultado[i]['id'];
-                            select = document.querySelector('#listEstadoEdit');
-                            var opt = document.createElement('option');
-                            opt.value = resultado[i]['id'];
-                            opt.innerHTML = resultado[i]['nombre'];
-                            opt.setAttribute("selected","");
-                            select.appendChild(opt);
-                            let urlMunicipios = base_url+"/Instituciones/getMunicipios?idestado="+idEstadoPlantel;
-                            fetch(urlMunicipios)
-                                .then(res => res.json())
-                                .then((resultadoMunicipio) =>{
-                                    resultadoMunicipio.forEach(element => {
-                                        document.querySelector('#listMunicipioEdit').innerHTML += "<option value='"+element['id']+"'>"+element['nombre']+"</option>"
-                                        if(element['nombre'] == objData.municipio){
-                                            idMunicipioPlantel = element['id'];
-                                            selectMunicipio = document.querySelector('#listMunicipioEdit');
-                                            var optMunicipio = document.createElement('option');
-                                            optMunicipio.value = element['id'];
-                                            optMunicipio.innerHTML = element['nombre'];
-                                            optMunicipio.setAttribute("selected","");
-                                            selectMunicipio.appendChild(optMunicipio);
-                                            let urlLocalidades = base_url+"/Instituciones/getLocalidades?idmunicipio="+idMunicipioPlantel;
-                                            fetch(urlLocalidades)
-                                                .then(res => res.json())
-                                                .then((resultadoLocalidad) =>{
-                                                    resultadoLocalidad.forEach(element => {
-                                                        document.querySelector('#listLocalidadEdit').innerHTML += "<option value='"+element['id']+"'>"+element['nombre']+"</option>"
-                                                        if(element['nombre'] == objData.localidad){
-                                                            idLocalidadPlantel = element['id'];
-                                                            selectLocalidades = document.querySelector('#listLocalidadEdit');
-                                                            var optLocalidad = document.createElement('option');
-                                                            optLocalidad.value = element['id'];
-                                                            optLocalidad.innerHTML = element['nombre'];
-                                                            optLocalidad.setAttribute("selected","");
-                                                            selectLocalidades.appendChild(optLocalidad);
-                                                        }
-                                                    });
-                                                })
-                                                .catch(err => {throw err});
-                                        }
-
-                                    });
-                                })
-                                .catch(err => {throw err});
-                        }
-                    }
-                })
-                .catch(err => { throw err });
-                document.querySelector('#txtDomicilioEdit').value = objData.domicilio;
-                document.querySelector('#txtColoniaEdit').value = objData.colonia;
                 document.querySelector('#txtZonaEscolarEdit').value = objData.zona_escolar;
-                document.querySelector('#txtCodigoPostalEdit').value = objData.cod_postal;
-                document.querySelector('#txtLatitudEdit').value = objData.latitud;
-                document.querySelector('#txtLongitudEdit').value = objData.longitud;
-                document.querySelector("#profileDisplayPlantelEdit").src = base_url+"/Assets/images/logos/"+objData.logo_plantel;
-                //document.querySelector("#profileDisplaySistemaEdit").src = base_url+"/Assets/images/logos/"+objData.logo_sistema;
+                document.querySelector("#profileDisplayInstitucionEdit").src = base_url+"/Assets/images/logos/"+objData.logo_institucion;
             }else{
                 swal.fire("Error", objData.msg , "error");
             }
-            
         }
         divLoading.style.display = "none";
         return false;
@@ -489,8 +418,8 @@ function fntEditInstitucion(idPlantel){
 function fntDelInstitucion(id) {
     swal.fire({
         icon: "question",
-        title: "Eliminar plantel",
-        text: "¿Realmente quiere eliminar el plantel?",
+        title: "Eliminar institución",
+        text: "¿Realmente quiere eliminar la institución?",
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33', 
@@ -501,22 +430,22 @@ function fntDelInstitucion(id) {
         {
             divLoading.getElementsByClassName.display = "flex";
             var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            var ajaxUrl = base_url+'/Instituciones/delPlantel'; 
-            var strData = "idPlantel="+id;
+            var ajaxUrl = base_url+'/Instituciones/delInstitucion'; 
+            var strData = "idInstitucion="+id;
             request.open("POST",ajaxUrl,true);
             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             request.send(strData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
                     var objData = JSON.parse(request.responseText);
-                   if(objData.estatus)
+                    if(objData.estatus)
                     {
                         swal.fire("Eliminar!", objData.msg , "success");
-                        tablePlantel.api().ajax.reload();
+                        tableInstituciones.api().ajax.reload();
 
                     } else {
                         swal.fire("Atención!", objData.msg , "error");
-                    } 
+                    }
                 }
                 divLoading.style.display = "none";
                 return false;
@@ -537,84 +466,62 @@ function fntVerInstitucion(idInstitucion){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            debugger
             if(objData)
             {   
-                document.querySelector('#titModal').innerHTML = objData.nombre_plantel;
-                document.querySelector('#txtNombrePlantelVer').value = objData.nombre_plantel;
-                document.querySelector('#txtAbreviacionPlantelVer').value = objData.abreviacion_plantel;
-                document.querySelector('#txtNombreSistemaVer').value = objData.nombre_sistema_educativo;
-                document.querySelector('#txtAbreviacionsistemaVer').value = objData.abreviacion_sistema_educativo;
+                document.querySelector('#titModal').innerHTML = objData.nombre_institucion;
+                document.querySelector('#txtNombreInstitucionVer').value = objData.nombre_institucion;
+                document.querySelector('#txtAbreviacionInstitucionVer').value = objData.abreviacion_institucion;
                 document.querySelector('#txtRegimenVer').value = objData.regimen;
+                document.querySelector('#txtClaveCentroTrabajoVer').value = objData.cve_centro_trabajo;
                 document.querySelector('#txtServicioVer').value = objData.servicio;
                 document.querySelector('#txtCategoriaVer').value = objData.categoria;
-                //document.querySelector('#txtAcuerdoIncorporacionVer').value = objData.acuerdo_incorporacion;
-                document.querySelector('#txtClaveCentroTrabajoVer').value = objData.cve_centro_trabajo;
+                document.querySelector('#txtZonaEscolarVer').value = objData.zona_escolar;
                 document.querySelector('#txtCedulaFuncionamientoVer').value = objData.cedula_funcionamiento;
                 document.querySelector('#txtClaveInstitucionDGPVer').value = objData.cve_institucion_dgp;
-                //document.querySelector('#txtClaveDGPVer').value = objData.cve_dgp;
-                document.querySelector('#txtEstadoVer').innerHTML = "<option selected>"+objData.estado+"</option>"
-                document.querySelector('#txtMunicipioVer').innerHTML = "<option selected>"+objData.municipio+"</option>"
-                document.querySelector('#txtLocalidadVer').innerHTML = "<option selected>"+objData.localidad+"</option>";
-                document.querySelector('#txtDomicilioVer').value = objData.domicilio;
-                document.querySelector('#txtColoniaVer').value = objData.colonia;
-                document.querySelector('#txtZonaEscolarVer').value = objData.zona_escolar;
-                document.querySelector('#txtCodigoPostalVer').value = objData.cod_postal;
-                document.querySelector('#txtLatitudVer').value = objData.latitud;
-                document.querySelector('#txtLongitudVer').value = objData.longitud;
-                document.querySelector("#profilePlantelVer").src = base_url+"/Assets/images/logos/"+objData.logo_plantel;
- /*                document.querySelector("#profileSistemaVer").src = base_url+"/Assets/images/logos/"+objData.logo_sistema; */
-
+                document.querySelector("#profileInstitucionVer").src = base_url+"/Assets/images/logos/"+objData.logo_institucion;
+                document.querySelector('#select_plantel_ver').querySelector('option[value="'+objData.id_plantel+'"]').selected = true;
+                document.querySelector('#select_sistema_educativo_ver').querySelector('option[value="'+objData.id_sistema+'"]').selected = true;
             }else{
                 swal.fire("Error", objData.msg , "error");
-            }
-            
+            }    
         }
         divLoading.style.display = "none";
         return false;
     }
 }
 //Funcion para guardar datos del Plantel Editado
-var formEditPlantel = document.querySelector("#formEditPlantel");
-    formEditPlantel.onsubmit = function(e){
+var formEditInstitucion = document.querySelector("#formEditInstitucion");
+formEditInstitucion.onsubmit = function(e){
         e.preventDefault();
-        let intIdsistemaEductaivo = document.querySelector('#select_sistema_educativo_edit').value;
-        var strNombrePlantel = document.querySelector('#txtNombrePlantelEdit').value;
-        var strAbreviacionPlantel = document.querySelector('#txtAbreviacionPlantelEdit').value;
-        //var strNombreSistema = document.querySelector('#txtNombreSistemaEdit').value;
-        //var strAbreviacionSistema = document.querySelector('#txtAbreviacionSistemaEdit').value;
+        var strNombreInstitucion = document.querySelector('#txt_nombre_edit').value;
+        let intIdPlantel = document.querySelector('#select_plantel_edit').value;
+        let intIdSistemaEducativo = document.querySelector('#select_sistema_educativo_edit').value;
+        var strAbreviacionInstitucion = document.querySelector('#txt_abreviacion_edit').value;
         var strRegimen = document.querySelector('#txtRegimenEdit').value;
         var strServicio = document.querySelector('#txtServicioEdit').value;
         var strCategoria = document.querySelector('#txtCategoriaEdit').value;
-        //var intAcuerdoIncorporacion = document.querySelector('#txtAcuerdoIncorporacionEdit').value;
         var intClaveCentroTrabajo = document.querySelector('#txtClaveCentroTrabajoEdit').value;
-        var intEstado = document.querySelector('#listEstadoEdit').value;
-        var intMunicipio = document.querySelector('#listMunicipioEdit').value;
-        var intLocalidad = document.querySelector('#listLocalidadEdit').value;
-        var strDomicilio = document.querySelector('#txtDomicilioEdit').value;
-        var strColonia = document.querySelector('#txtColoniaEdit').value;
-        var intCodigoPostal = document.querySelector('#txtCodigoPostalEdit').value;
         
-        if (intIdsistemaEductaivo == '' || strNombrePlantel == '' || strAbreviacionPlantel == ''  || strRegimen == '' || strServicio == '' || strCategoria == '' || intClaveCentroTrabajo == '' || intEstado == '' || intMunicipio == '' || intLocalidad == '' || strDomicilio == '' || strColonia == '' || intCodigoPostal == ''){
+        if (strNombreInstitucion == '' || intIdPlantel == '' || intIdSistemaEducativo == ''  || strAbreviacionInstitucion == '' || strRegimen == '' || strServicio == '' || strCategoria == '' || intClaveCentroTrabajo == ''){
             swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
             return false;
         }
-        divLoading.getElementsByClassName.display = "flex";
+        divLoading.style.display = "flex";
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = base_url+'/Instituciones/setPlantel';
-        var formData = new FormData(formEditPlantel);
+        var ajaxUrl = base_url+'/Instituciones/setInstitucion';
+        var formData = new FormData(formEditInstitucion);
         request.open("POST",ajaxUrl,true);
             request.send(formData);
             request.onreadystatechange = function() {
                 if(request.readyState == 4 && request.status == 200) {
                     var objData = JSON.parse(request.responseText);
-                     if(objData.estatus){
-                        $('#ModalFormPlantelEdit').modal("hide");
-                        formEditPlantel.reset();
-                        swal.fire("Planteles", objData.msg, "success").then((result) =>{
+                    if(objData.estatus){
+                        $('#ModalFormEditPlantel').modal("hide");
+                        formEditInstitucion.reset();
+                        swal.fire("Institucion", objData.msg, "success").then((result) =>{
                             $('.close').click();
                         });
-                        tablePlantel.api().ajax.reload();  
+                        tableInstituciones.api().ajax.reload();  
                     }else{
                         swal.fire("Error",objData.msg, "error");
                     }

@@ -19,9 +19,21 @@
                                     <label>Nombre de la institución</label>
                                     <input type="text" id="txtNombreInstitucionVer" class="form-control form-control-sm" disabled >
                                 </div>
-                                <div class="form-group col-md-8">
+                                <div class="form-group col-md-12">
                                     <label>Nombre del plantel</label>
-                                    <input type="text" id="txtNombrePlantelVer" class="form-control form-control-sm" disabled >
+                                    <select class="form-control form-control-sm" id="select_plantel_ver" disabled>
+                                        <?php foreach ($data['planteles'] as $key => $plantel) { ?>
+                                            <option value="<?php echo $plantel['id'] ?>"><?php echo($plantel['nombre_plantel_fisico']) ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>Nombre del Sistema</label>
+                                    <select class="form-control form-control-sm" id="select_sistema_educativo_ver" disabled>
+                                        <?php foreach ($data['sistemas_educativos'] as $key => $value) { ?>
+                                            <option value="<?php echo $value['id'] ?>"><?php echo($value['nombre_sistema']) ?></option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Abreviación de la institución</label>
@@ -30,23 +42,6 @@
                             </div>
                         </div>
                     </div>    
-                    <div class="card card-light">
-                        <div class="card-header">
-                            <label><i class="fas fa-city text-secondary"></i> Sistema</label>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="form-group col-md-8">
-                                    <label>Nombre del sistema</label>
-                                    <input type="text" id="txtNombreSistemaVer" class="form-control form-control-sm"  disabled >
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label>Abreviación del sistema</label>
-                                    <input type="text" id="txtAbreviacionsistemaVer"  class="form-control form-control-sm" disabled>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="card card-light">
                         <div class="card-header">
                             <label><i class="fas fa-balance-scale text-secondary"></i> Legal</label>

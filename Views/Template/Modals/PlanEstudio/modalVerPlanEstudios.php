@@ -25,9 +25,9 @@
                                                 <input type="text" id="txtNombrecortoVer" name="txtNombrecortoVer" class="form-control form-control-sm"  disabled>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <label>Plantel</label>
-                                                <select class="form-control form-control-sm" id="listPlantelVer" name="listPlantelVer"  disabled>
-                                                    <option value="">Selecciona un Plantel</option>
+                                                <label>Intitución</label>
+                                                <select class="form-control form-control-sm" id="listInstitucionVer" name="listInstitucionVer"  disabled>
+                                                    <option value="">Selecciona una Institución</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-4">
