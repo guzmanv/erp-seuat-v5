@@ -9,40 +9,44 @@ class PrecargaCuentaModel extends Mysql
         parent::__construct();
     }
     public function selectPlanteles(){
-        $sql = "SELECT *FROM t_planteles WHERE estatus = 1";
+        $sql = "SELECT *FROM t_instituciones WHERE estatus = 1";
         $request = $this->select_all($sql);
         return $request;
     }
 
     public function selectPlanEstudios(){
-        $sql = "SELECT pe.id,pl.nombre_plantel,pe.nombre_carrera,pl.id AS id_plantel,ne.nombre_nivel_educativo FROM t_plan_estudios AS pe 
-        INNER JOIN t_planteles AS pl ON pe.id_plantel = pl.id
-        INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
-        WHERE  pe.estatus = 1";
+        $sql = "SELECT pe.id,ti.nombre_institucion,pe.nombre_carrera,ti.id AS id_plantel,ne.nombre_nivel_educativo 
+                FROM t_plan_estudios AS pe
+                INNER JOIN t_instituciones AS ti ON pe.id_institucion = ti.id
+                INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
+                WHERE  pe.estatus = 1";
         $request = $this->select_all($sql);
         return $request;
     }
     public function selectPlanEstudiosByNivel(int $idNivel){
-        $sql = "SELECT pe.id,pl.nombre_plantel,pe.nombre_carrera,pl.id  AS id_plantel,pe.id_nivel_educativo,ne.nombre_nivel_educativo FROM t_plan_estudios AS pe 
-        INNER JOIN t_planteles AS pl ON pe.id_plantel = pl.id
-        INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
-        WHERE  pe.estatus = 1 AND pe.id_nivel_educativo = $idNivel";
+        $sql = "SELECT pe.id,ti.nombre_institucion,pe.nombre_carrera,ti.id AS id_plantel,pe.id_nivel_educativo,ne.nombre_nivel_educativo
+                FROM t_plan_estudios AS pe
+                INNER JOIN t_instituciones AS ti ON pe.id_institucion = ti.id
+                INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
+                WHERE  pe.estatus = 1 AND pe.id_nivel_educativo = $idNivel";
         $request = $this->select_all($sql);
         return $request;
     }
     public function selectPlanEstudiosByPlantel(int $idPlantel){
-        $sql = "SELECT pe.id,pl.nombre_plantel,pe.nombre_carrera,pl.id AS id_plantel,ne.nombre_nivel_educativo FROM t_plan_estudios AS pe 
-        INNER JOIN t_planteles AS pl ON pe.id_plantel = pl.id
-        INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
-        WHERE  pe.estatus = 1 AND pe.id_plantel = $idPlantel";
+        $sql = "SELECT pe.id,ti.nombre_institucion,pe.nombre_carrera,ti.id AS id_plantel,ne.nombre_nivel_educativo
+                FROM t_plan_estudios AS pe
+                INNER JOIN t_instituciones AS ti ON pe.id_institucion = ti.id
+                INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
+                WHERE  pe.estatus = 1 AND pe.id_institucion = $idPlantel";
         $request = $this->select_all($sql);
         return $request;
     }
     public function selectPlanEstudiosByPlantelNivel(int $idPlantel, int $idNivel){
-        $sql = "SELECT pe.id,pl.nombre_plantel,pe.nombre_carrera,pl.id AS id_plantel,ne.nombre_nivel_educativo FROM t_plan_estudios AS pe 
-        INNER JOIN t_planteles AS pl ON pe.id_plantel = pl.id
-        INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
-        WHERE  pe.estatus = 1 AND pe.id_plantel = $idPlantel AND pe.id_nivel_educativo = $idNivel";
+        $sql = "SELECT pe.id,ti.nombre_institucion,pe.nombre_carrera,ti.id AS id_plantel,ne.nombre_nivel_educativo
+                FROM t_plan_estudios AS pe
+                INNER JOIN t_instituciones AS ti ON pe.id_institucion = ti.id
+                INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
+                WHERE  pe.estatus = 1 AND pe.id_institucion = $idPlantel AND pe.id_nivel_educativo = $idNivel";
         $request = $this->select_all($sql);
         return $request;
     }

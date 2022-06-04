@@ -49,7 +49,7 @@
                     <th>Servicio</th>
                     <th width="10%">P. unitario</th>
                     <th>Edo. cta</th>
-                    <th>Plantel</th>
+                    <th>Institución</th>
                     <th>Municipio</th>
                     <th width="7%">Estatus</th>
                     <th width="12%">Acciones</th>

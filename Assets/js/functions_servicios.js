@@ -5,7 +5,7 @@ let divLoading = document.querySelector("#divLoading");
 window.addEventListener('load', function(){
     fntUnidadMedida();
     fntCategoriaServicios();
-    fntPlanteles();
+    fntInstituciones();
 }, false);
 
 
@@ -100,10 +100,10 @@ document.addEventListener('DOMContentLoaded', function(){
 			let strFecha_actualizacion = document.querySelector('#txtFecha_actualizacion').value;
 			let intId_usuario_creacion = document.querySelector('#txtId_usuario_creacion').value;
 			let intId_usuario_actualizacion = document.querySelector('#txtId_usuario_actualizacion').value;
-			let intIdPlantel = document.querySelector('#listIdPlantel').value;
+			let intIdInstitucion = document.querySelector('#listIdInstitucion').value;
 			let intIdCategoria_servicio = document.querySelector('#listIdCategoria_servicio').value;
 			let intIdUnidades_medida = document.querySelector('#listIdUnidades_medida').value;	
-			if(strCodigo_servicio == '' || strNombre_servicio == '' || intPrecio_unitario == '' || strAnio_fiscal == '' || intEstatus == '' || strFecha_creacion == '' || intId_usuario_creacion == '' || intIdPlantel == '' || intIdCategoria_servicio == '' || intIdUnidades_medida == '' ){
+			if(strCodigo_servicio == '' || strNombre_servicio == '' || intPrecio_unitario == '' || strAnio_fiscal == '' || intEstatus == '' || strFecha_creacion == '' || intId_usuario_creacion == '' || intIdInstitucion == '' || intIdCategoria_servicio == '' || intIdUnidades_medida == '' ){
 				swal.fire("Atención", "Todos los campos son obligatorios." , "warning");
 				return false;
 			}
@@ -154,9 +154,9 @@ document.addEventListener('DOMContentLoaded', function(){
 			let intIdUnidad = document.querySelector('#listIdUnidades_medida_edit').value;
 			let strAnioFiscal = document.querySelector('#listAnioFiscal_edit').value;
 			let intAplica_edo_cuenta = document.querySelector('#chkAplica_edo_cuenta_edit').value;
-			let intIdPlantel = document.querySelector('#listIdPlantel_edit').value;
+			let intIdInstitucion = document.querySelector('#listIdInstitucion_edit').value;
 			let intEstatus = document.querySelector('#list_estatus_servicios_edit').value;
-			if(intIdServicio == '' || strCodigoServicio == '' || strNombreServicio == '' || strPrecio == '' || intIdCategoria == '' || intIdUnidad == '' || strAnioFiscal == '' || intAplica_edo_cuenta == '' || intIdPlantel == '' || intEstatus == ''){
+			if(intIdServicio == '' || strCodigoServicio == '' || strNombreServicio == '' || strPrecio == '' || intIdCategoria == '' || intIdUnidad == '' || strAnioFiscal == '' || intAplica_edo_cuenta == '' || intIdInstitucion == '' || intEstatus == ''){
 				swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
 				return false;
 			} 
@@ -291,15 +291,15 @@ function fntCategoriaServicios(){
 	}
 }
 
-function fntPlanteles(){
-	if(document.querySelector('#listIdPlantel')){
-		let ajaxUrl = base_url+'/Servicios/getSelectPlanteles';
+function fntInstituciones(){
+	if(document.querySelector('#listIdInstitucion')){
+		let ajaxUrl = base_url+'/Servicios/getSelectInstituciones';
 		let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 		request.open("GET",ajaxUrl,true);
 		request.send();
 		request.onreadystatechange = function() {
 			if(request.readyState == 4 && request.status == 200) {
-				document.querySelector('#listIdPlantel').innerHTML = request.responseText;
+				document.querySelector('#listIdInstitucion').innerHTML = request.responseText;
 			}
 		}
 	}
