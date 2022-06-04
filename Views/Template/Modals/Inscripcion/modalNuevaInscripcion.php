@@ -38,7 +38,8 @@
                                                     <?php 
                                                         foreach ($data['sistemas_educativos'] as $key => $sistemas) {
                                                             ?>
-                                                                <option value="<?php echo $sistemas['id'] ?>" <?php if($sistemas['id'] == $data['idSistemaEducativo']){ echo('selected'); } ?>><?php echo $sistemas['nombre_sistema'] ?></option>
+                                                                <!-- <option value="<?php //echo $sistemas['id'] ?>" <?php //if($sistemas['id'] == $data['idSistemaEducativo']){ echo('selected'); } ?>><?php //echo $sistemas['nombre_sistema'] ?></option> -->
+                                                                <option value="<?php echo $sistemas['id'] ?>"><?php echo $sistemas['nombre_sistema'] ?></option>
                                                         <?php }    
                                                     ?>
                                                 </select>                                    

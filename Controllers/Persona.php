@@ -46,7 +46,8 @@
             die();
         }
         public function getPersonas(){
-            $arrData = $this->model->selectPersonas();
+            $idPlantel = $_SESSION['permisos'][0]['id_plantel'];
+            $arrData = $this->model->selectPersonas($idPlantel);
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 $arrData[$i]['apellidos'] = $arrData[$i]['ap_paterno'].' '.$arrData[$i]['ap_materno'];
@@ -81,11 +82,19 @@
             if($intIdPersonaNueva == 1){
                 $id_subcampania = $this->model->selectSubcampania();
                 if($id_subcampania){
-                    $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id']);
-                    if($arrData){
-                        $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
+                    if($_SESSION['numeroPermisos']>0){
+                        $idPlantel = $_SESSION['permisos'][0]['id_plantel'];
+                        $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id'], $idPlantel);
+                        if($arrData){
+                            $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
+                        }else{
+                            $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar los datos');
+                            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                            die();
+                        }
                     }else{
                         $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar los datos');
+                        
                     }
                 }else{
                     $arrResponse = array('estatus' => false, 'msg' => 'No existe una subcampania activa');
@@ -100,6 +109,7 @@
                 }
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
         }
 
         public function getMunicipios(){

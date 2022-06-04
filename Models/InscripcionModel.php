@@ -78,18 +78,18 @@
             $request = $this->select($sql);
             return $request;
         }
-        public function selectPersonasModal($data,int $idSistema){
+        public function selectPersonasModal($data,int $idPlantel){
             $sql = "SELECT per.id,CONCAT(COALESCE(per.nombre_persona,''),' ',COALESCE(per.ap_paterno,''),' ',COALESCE(per.ap_materno,'')) AS nombre,
-            ins.id AS id_inscripcion,pr.id AS id_prospecto,pr.id_sistema_prospectado FROM t_personas AS per
+            ins.id AS id_inscripcion,pr.id AS id_prospecto,pr.id_plantel_prospectado FROM t_personas AS per
             LEFT JOIN t_inscripciones AS ins ON ins.id_personas = per.id
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             LEFT JOIN t_prospectos AS pr ON pr.id_persona  = per.id
-            WHERE CONCAT(COALESCE(per.nombre_persona,''),' ',COALESCE(per.ap_paterno,''),' ',COALESCE(per.ap_materno,'')) LIKE '%$data%' AND pr.id  != '' AND pr.id_sistema_prospectado = $idSistema";
+            WHERE CONCAT(COALESCE(per.nombre_persona,''),' ',COALESCE(per.ap_paterno,''),' ',COALESCE(per.ap_materno,'')) LIKE '%$data%' AND pr.id  != '' AND pr.id_plantel_prospectado = $idPlantel";
             $request = $this->select_all($sql);
             return $request;
         }
 
-        public function insertInscripcion($data,int $idUser){
+        public function insertInscripcion($data,int $idUser, int $idPlantel){
             $idPersona = $data['idPersonaSeleccionada'];
             //$idPlantel = $data['listPlantelNuevo'];
             $idCarrera = $data['listCarreraNuevo'];
@@ -104,7 +104,7 @@
             $emailTutor = $data['txtEmailTutorAgregar'];
 
             $anioActual = date('Y');
-            $siglaSistema = 'TGZ';
+            $siglaSistema = $this->selectFolioPlantel($idPlantel)['folio_identificador'];
             $tipoIngreso = "Inscripcion";
             if($grado != 1){
                 $idSalon = null;
@@ -128,26 +128,26 @@
                     $request_folio_sistema_format = str_pad($request_folio_sistema['total']+1 ,5,"0",STR_PAD_LEFT);
                     $folioSistema = $siglaSistema.$anioActual.($request_folio_sistema_format);
 
-                    /*$sql_historial = "INSERT INTO t_historiales(aperturado,inscrito,egreso,pasante,titulado,baja,matricula_interna,matricula_externa,fecha_inscrito,fecha_egreso,fecha_pasante,fecha_titulado,fecha_baja) VALUES(?,?,?,?,?,?,?,?,NOW(),?,?,?,?)";
+                    $sql_historial = "INSERT INTO t_historiales(aperturado,inscrito,egreso,pasante,titulado,baja,matricula_interna,matricula_externa,fecha_inscrito,fecha_egreso,fecha_pasante,fecha_titulado,fecha_baja) VALUES(?,?,?,?,?,?,?,?,NOW(),?,?,?,?)";
                     $request_historial = $this->insert($sql_historial,array(0,1,0,0,0,0,null,null,null,null,null,null));
                     if($request_historial){
-                        $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampania,id_salon_compuesto,id_historial,id_usuario_creacion,fecha_creacion,id_plantel_prospectado,folio_transferencia) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?)";
-                        $request_inscripcion = $this->insert($sql_inscripcion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$turno,$idCarrera,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalon,$request_historial,$idUser, $plantelOrigen,$folioTransferencia));
+                        $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampania,id_salon_compuesto,id_historial,id_usuario_creacion,fecha_creacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
+                        $request_inscripcion = $this->insert($sql_inscripcion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$turno,$idCarrera,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalon,$request_historial,$idUser));
                         if($request_inscripcion){
                             $sqlEmpresa = "UPDATE t_personas SET nombre_empresa = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id = $idPersona";
                             $requestEmpresa = $this->update($sqlEmpresa,array($empresa,$idUser));
-                            $sqlUpdateProspecto = "UPDATE t_prospectos SET id_plantel_inscrito = ? WHERE id_persona = $idPersona";
-                            $reqUpdateProspecto = $this->update($sqlUpdateProspecto,array($nomConexion));
+                            /* $sqlUpdateProspecto = "UPDATE t_prospectos SET id_plantel_inscrito = ? WHERE id_persona = $idPersona";
+                            $reqUpdateProspecto = $this->update($sqlUpdateProspecto,array($idPlantel)); */
                             $sqlUpdateAsigCatPersona = "UPDATE t_asignacion_categoria_persona SET fecha_baja = NOW(), estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id_persona = $idPersona AND id_categoria_persona = 1";
                             $reqUpdateAsigCatPersona = $this->update($sqlUpdateAsigCatPersona,array(2,$idUser));
                             $sqlInsertCatPersona = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) VALUES(NOW(),?,?,?,NOW(),?,?,?)";
                             $reqInsertCatPersona = $this->insert($sqlInsertCatPersona,array(0,0,1,$idUser,$idPersona,2));
                         }
-                    } */
+                    }
 
                 }
             }
-            return $folioSistema;
+            return $reqInsertCatPersona;
         }
         public function selectPlanteles(){
             $sql = "SELECT *FROM t_planteles WHERE estatus = 1";
@@ -287,6 +287,12 @@
         {
             $sql = "SELECT *FROM t_sistemas_educativos WHERE estatus = 1";
             $request = $this->select_all($sql);
+            return $request;
+        }
+
+        public function selectFolioPlantel($idPlantel){
+            $sql = "SELECT folio_identificador FROM t_planteles WHERE id= $idPlantel";
+            $request = $this->select($sql);
             return $request;
         }
 
