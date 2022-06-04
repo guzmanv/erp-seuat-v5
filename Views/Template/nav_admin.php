@@ -313,14 +313,14 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/ExportarProspectos/" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="arrow-down"></i>
                                 <p>
                                     Exportar prospectos
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
                         <!-- <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/ImportarProspectos/" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="arrow-up"></i>
