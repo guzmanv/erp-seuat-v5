@@ -126,14 +126,15 @@
         }
         //Obtener el siguiente Folio
         public function selectFolioSig(int $idAlumno){
-            $sqlPlantel = "SELECT pl.id AS id_plantel,pl.abreviacion_plantel,sis.abreviacion_sistema,pl.codigo_plantel  FROM t_personas AS p
+            $sqlPlantel = "SELECT pl.id AS id_plantel,inst.abreviacion_institucion,sis.abreviacion_sistema,pl.folio_identificador FROM t_personas AS p
             INNER JOIN t_inscripciones AS i ON i.id_personas = p.id
             INNER JOIN t_plan_estudios AS ple ON i.id_plan_estudios = ple.id
-            INNER JOIN t_planteles AS pl ON ple.id_plantel = pl.id
-            LEFT JOIN t_sistemas_educativos AS sis ON pl.id_sistema = sis.id
+            INNER JOIN t_instituciones AS inst ON ple.id_institucion = inst.id
+            INNER JOIN t_planteles AS pl ON inst.id_plantel = pl.id
+            LEFT JOIN t_sistemas_educativos AS sis ON inst.id_sistema = sis.id
             WHERE p.id = $idAlumno LIMIT 1";
             $requestPlantel = $this->select($sqlPlantel);
-            $codigoPlantel = $requestPlantel['codigo_plantel'];
+            $codigoPlantel = $requestPlantel['folio_identificador'];
 
             $sqlFolioCosecutivo = "SELECT COUNT(folio) AS num_folios FROM  t_ingresos WHERE folio LIKE '%$codigoPlantel%'";
             $requestFolioConsecutivo = $this->select($sqlFolioCosecutivo);
@@ -248,7 +249,8 @@
         public function selectPlantelAlumno(int $idPersonaSeleccionada){
             $sql = "SELECT plte.id FROM t_inscripciones AS ins
             INNER JOIN t_plan_estudios AS plnest ON ins.id_plan_estudios = plnest.id
-            INNER JOIN t_planteles AS plte ON plnest.id_plantel = plte.id WHERE ins.id_personas = $idPersonaSeleccionada LIMIT 1";
+            INNER JOIN t_instituciones AS inst ON plnest.id_institucion = inst.id
+            INNER JOIN t_planteles AS plte ON inst.id_plantel = plte.id WHERE ins.id_personas = $idPersonaSeleccionada LIMIT 1";
             $request = $this->select($sql);
             return $request;
         }

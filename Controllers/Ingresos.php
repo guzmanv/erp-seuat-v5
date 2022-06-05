@@ -12,7 +12,7 @@
 			    die();
 		    }
 			$this->idUser = $_SESSION['idUser'];
-			$this->rol = $_SESSION['claveRol'];
+			$this->rol = 'aux';
 		}
         //Mostrar vista de ingresos
         public function ingresos(){
