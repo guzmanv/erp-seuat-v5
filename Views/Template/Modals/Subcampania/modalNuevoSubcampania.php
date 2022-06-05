@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="txtPresupuesto">presupuesto <span class="required">*</span> </label>
+                  <label for="txtPresupuesto">Presupuesto <span class="required">*</span> </label>
                   <input type="number" id="txtPresupuesto" name="txtPresupuesto" class="form-control valid validText" placeholder="Ingrese el presupuesto" name="Ingrese el presupuesto" onkeyup="showHint(this.value)" required="" autofocus><!-- disabled-->
                   <small id="smlPresupuesto"></small>
                 </div>

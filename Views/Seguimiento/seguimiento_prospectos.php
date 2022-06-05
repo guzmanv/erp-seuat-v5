@@ -33,12 +33,12 @@
                                         <table id="tableSeguimientoProspecto" class="table table-bordered table-striped table-hover table-sm">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
+                                                    <th width="2%">#</th>
                                                     <th>Nombre completo</th>
                                                     <th>Alias</th>
-                                                    <th>Teléfono celular</th>
-                                                    <th>Nombre plantel</th>
-                                                    <th>Nombre de carrera</th>
+                                                    <th width="5%">Teléfono celular</th>
+                                                    <th width="20%">Nombre plantel</th>
+                                                    <th width="20%">Nombre de carrera</th>
                                                     <th>Medio de captación</th>
                                                     <th>Acciones</th>
                                                 </tr>

@@ -7,70 +7,6 @@ const slctCrr = document.querySelector('#slctCarreraEdit')
 const slctCrrNvo = document.querySelector('#slctCarreraNuevoPro')
 const formProspectoNuevo = document.querySelector('#formPersonaNuevo')
 const formEditarDatosPros = document.querySelector('#formProspectoEdit')
-const togglePassword = document.querySelector('#togglePassword')
-const formLoginNvo = document.querySelector('#formNuevaSesion')
-
-
-togglePassword.addEventListener('click',function(e){
-	const type = document.querySelector('#txtPasswordNvaSesion').getAttribute('type') === 'password' ? 'text' : 'password';
-	document.querySelector('#txtPasswordNvaSesion').setAttribute('type',type);
-	this.classList.toggle('fa-eye-slash');
-})
-
-
-// formProspectoNuevo.addEventListener('submit', (e) =>{
-// 	e.preventDefault()
-// 	let url = `${base_url}/Seguimiento/setProspecto`
-// 	const datos = new FormData(document.querySelector('#formPersonaNuevo'))
-// 	console.log(url)
-// 	fetch(url,{
-// 		method:'POST',
-// 		body:datos
-// 	})
-// 		.then(response => response.json())
-// 		.then(data =>{
-// 			if(data.estatus)
-// 			{
-// 				$('#dimissModalNvoProspecto').click()
-// 				formProspectoNuevo.reset()
-// 				$('#ModalNuevoProspecto').modal('hide')
-// 				swal.fire('Nuevo prospecto creado', data.msg,'success')
-// 				tableProspectos.api().ajax.reload()
-// 			}
-// 			else
-// 			{
-// 				swal.fire('Error',err,'error')
-// 			}
-// 		})
-// 		.catch(function(err){
-// 			swal.fire('Error',err,'error')
-// 		})
-// })
-
-formLoginNvo.addEventListener('submit', (e) =>{
-	e.preventDefault();
-	//console.log('diste clic al boton de iniciar sesión')
-	let url = `${base_url}/Seguimiento/addSesiones`;
-	const datos = new FormData(document.querySelector('#formNuevaSesion'));
-	fetch(url,{
-		method: 'POST',
-		body: datos
-	})
-	.then(response => response.json())
-	.then(data => {
-		console.log(data)
-		if (data.estatus) {
-			$("#salirModalLoginNvo").click();
-			formLoginNvo.reset();
-			swal.fire("Atención", data.msg, "success");
-	    } else {
-			swal.fire("Error", err, "error");
-	    }
-	})
-	
-	
-})
-
 
 document.addEventListener('DOMContentLoaded', function(){
     tableSeguimientoProspecto = $('#tableSeguimientoProspecto').dataTable( {
@@ -88,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			{"data": "nombre_completo"},
             {"data": "alias"},
 			{"data": "tel_celular"},
-			{"data": "nom_plantel_interes"},
+			{"data": "nombre_plantel"},
 			{"data": "nombre_carrera"},
 			{"data": "medio_captacion"},
 			{"data": "options"}
@@ -348,7 +284,7 @@ function fnEditarDatosProspecto(idPer){
 			txtApellidoMEdit.value = data.ap_materno
 			txtTelCelular.value = data.tel_celular
 			txtCorreo.value = data.email
-			slctPltInt.value = data.plantel_interes
+			slctPltInt.value = data.id_plantel_interes
 			slctNvlInt.value = data.id_nivel_carrera_interes
 			slctCrrInt.value = data.id_carrera_interes
 		})
@@ -447,14 +383,14 @@ formProspectoNuevo.addEventListener('submit', (e) =>{
 				formProspectoNuevo.reset()
 				$('#ModalNuevoProspecto').modal('hide')
 				swal.fire('Nuevo prospecto creado', data.msg,'success')
-				tableProspectos.api().ajax.reload()
+				tableSeguimientoProspecto.api().ajax.reload()
 			}
 			else
 			{
 				swal.fire('Error',err,'error')
 			}
 		})
-		.catch(function(err){
+		/* .catch(function(err){
 			swal.fire('Error',err,'error')
-		})
+		}) */
 })

@@ -49,7 +49,7 @@
     public function selectFechas(int $id){
 
       $this->intIdCampania = $id;
-      $sql = "SELECT fecha_inicio, fecha_fin FROM t_campanias WHERE id = {$this->intIdCampania}";
+      $sql = "SELECT fecha_inicio, fecha_fin FROM t_campanias WHERE id =$this->intIdCampania";
       $request = $this->select($sql);
       return $request;
 
