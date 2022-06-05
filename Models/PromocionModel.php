@@ -18,18 +18,17 @@ class PromocionModel extends Mysql
         parent::__construct();
     }
 
-    public function selectPromociones(string $nomConexion)
+    public function selectPromociones()
     {
         //Extraer todas las promociones
         //$sql = "SELECT * FROM t_promociones WHERE estatus !=0";
-        $this->strNomConexion = $nomConexion;
         $sql = "SELECT tp.id AS IdPromocion, tp.nombre_promocion AS NombrePromocion, tp.estatus AS EstatusPromocion, tp.porcentaje_descuento AS PorcentajeDescuento, ts.nombre_servicio AS NombreServicio
                 FROM t_promociones tp
                 INNER JOIN t_servicios ts
                 ON tp.id_servicio = ts.id
                 WHERE tp.estatus !=0
                 ORDER BY tp.nombre_promocion ASC ";
-        $request = $this->select_all($sql,$this->strNomConexion);
+        $request = $this->select_all($sql);
         return $request;
     }
 
@@ -41,42 +40,39 @@ class PromocionModel extends Mysql
         $request = $this->select($sql);
         return $request;
     } */
-    public function selectPromocion(int $id, string $nomConexion){
-        $this->strNomConexion = $nomConexion;
-        $sql = "SELECT p.id,p.nombre_promocion,p.id_servicio,p.descripcion,p.fecha_inicio,p.fecha_fin,s.id_campania,s.id AS id_subcampania,p.porcentaje_descuento,p.estatus FROM t_promociones AS p 
+    public function selectPromocion(int $intIdPromocion){
+        $this->intIdPromocion = $intIdPromocion;
+        $sql = "SELECT p.id,p.nombre_promocion,p.id_servicio,p.descripcion,CONVERT(p.fecha_inicio, DATE) AS fecha_inicio,CONVERT(p.fecha_fin, DATE) AS fecha_fin,s.id_campania,s.id AS id_subcampania,p.porcentaje_descuento,p.estatus FROM t_promociones AS p 
         INNER JOIN t_subcampania AS s ON p.id_subcampania = s.id
-        WHERE p.id = $id";
-        $request = $this->select($sql,$this->strNomConexion);
+        WHERE p.id = $intIdPromocion";
+        $request = $this->select($sql);
         return $request;
     }
 
-    public function selectServicios(string $nomConexion)
+    public function selectServicios()
     {
-        $this->strNomConexion = $nomConexion;
         $sql = "SELECT * FROM t_servicios WHERE estatus != 0 ORDER BY nombre_servicio ASC ";
-        $request = $this->select_all($sql,$this->strNomConexion);
+        $request = $this->select_all($sql);
         return $request;
     }
 
-    public function selectCampanias(string $nomConexion)
+    public function selectCampanias()
     {
-        $this->strNomConexion = $nomConexion;
         $sql = "SELECT * FROM t_campanias WHERE estatus != 0 ORDER BY fecha_inicio ASC ";
-        $request = $this->select_all($sql,$this->strNomConexion);
+        $request = $this->select_all($sql);
         return $request;
     }
 
-    public function selectSubcampanias($intIdCampania, string $nomConexion)
+    public function selectSubcampanias($intIdCampania)
     {
         $this->intIdCampania = $intIdCampania;
-        $this->strNomConexion = $nomConexion;
         $sql = "SELECT * FROM t_subcampania WHERE estatus != 0 ORDER BY nombre_sub_campania ASC ";
         // $sql = "SELECT id, nombre_sub_campania, fecha_inicio, fecha_fin, estatus FROM t_subcampania WHERE id_campania = $this->intIdCampania AND estatus !=0 ORDER BY fecha_inicio ASC LIMIT 1  ";
-        $request = $this->select_all($sql,$this->strNomConexion);
+        $request = $this->select_all($sql);
         return $request;
     }
 
-    public function insertPromocion(string $nombre_promocion, string $descripcion, int $estatus, string $porcentaje_descuento, string $fecha_inicio, string $fecha_fin, string $fecha_creacion, string $fecha_actualizacion, int $id_usuario_creacion, int $id_usuario_actualizacion, int $id_subcampania, int $id_servicio, string $nomConexion)
+    public function insertPromocion(string $nombre_promocion, string $descripcion, int $estatus, string $porcentaje_descuento, string $fecha_inicio, string $fecha_fin, string $fecha_creacion, string $fecha_actualizacion, int $id_usuario_creacion, int $id_usuario_actualizacion, int $id_subcampania, int $id_servicio)
     {
 
         $return = 0;
@@ -92,15 +88,14 @@ class PromocionModel extends Mysql
         $this->intId_usuario_actualizacion = $id_usuario_actualizacion;
         $this->intId_subcampania = $id_subcampania;
         $this->intId_servicio = $id_servicio;
-        $this->strNomConexion = $nomConexion;
 
         $sql = "SELECT * FROM t_promociones WHERE nombre_promocion = '{$this->strNombre_promocion}' ";
-        $request = $this->select_all($sql,$this->strNomConexion);
+        $request = $this->select_all($sql);
 
         if (empty($request)) {
             $query_insert = "INSERT INTO t_promociones(nombre_promocion,descripcion,estatus,porcentaje_descuento,fecha_inicio,fecha_fin,fecha_creacion,fecha_actualizacion,id_usuario_creacion,id_usuario_actualizacion,id_subcampania,id_servicio) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
             $arrData = array($this->strNombre_promocion, $this->strDescripcion, $this->intEstatus, $this->strPorcentaje_descuento, $this->strFecha_inicio, $this->strFecha_fin, $this->strFecha_creacion, $this->strFecha_actualizacion, $this->intId_usuario_creacion, $this->intId_usuario_actualizacion, $this->intId_subcampania, $this->intId_servicio);
-            $request_insert = $this->insert($query_insert, $this->strNomConexion, $arrData);
+            $request_insert = $this->insert($query_insert, $arrData);
             $return = $request_insert;
         } else {
             $return = "exist";
@@ -109,14 +104,13 @@ class PromocionModel extends Mysql
     }
 
 
-    public function updatePromocion(int $intId_promocion,int $intId_campania,int $intId_servicio,int $intId_subcampania,string $strDescripcion,string $strFecha_fin,string $strFecha_inicio,string $strNombre_promocion,int $intPorcentaje_descuento,int $id_user,$intEstatus,string $nomConexion){
-        $this->strNomConexion = $nomConexion;
+    public function updatePromocion(int $intId_promocion,int $intId_campania,int $intId_servicio,int $intId_subcampania,string $strDescripcion,string $strFecha_fin,string $strFecha_inicio,string $strNombre_promocion,int $intPorcentaje_descuento,int $id_user,$intEstatus){
         $sql = "UPDATE t_promociones SET nombre_promocion = ?,descripcion = ?,estatus = ?,porcentaje_descuento = ?,fecha_inicio = ?,fecha_fin = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ?,id_subcampania = ?,id_servicio = ? WHERE id = $intId_promocion";
-        $request = $this->update($sql,$this->strNomConexion,array($strNombre_promocion,$strDescripcion,$intEstatus,$intPorcentaje_descuento,$strFecha_inicio,$strFecha_fin,$id_user,$intId_subcampania,$intId_servicio));
+        $request = $this->update($sql,array($strNombre_promocion,$strDescripcion,$intEstatus,$intPorcentaje_descuento,$strFecha_inicio,$strFecha_fin,$id_user,$intId_subcampania,$intId_servicio));
         return $request;
     }
 
-    public function updateCategoria_servicios(int $id, string $nombre_categoria, int $estatus, string $fecha_actualizacion, int $id_usuario_actualizacion, string $nomConexion)
+    public function updateCategoria_servicios(int $id, string $nombre_categoria, int $estatus, string $fecha_actualizacion, int $id_usuario_actualizacion)
     {
 
         $this->intIdCategoria_servicios = $id;
@@ -124,28 +118,26 @@ class PromocionModel extends Mysql
         $this->intEstatus = $estatus;
         //$this->strFecha_actualizacion = $fecha_actualizacion;
         $this->intId_usuario_actualizacion = $id_usuario_actualizacion;
-        $this->strNomConexion = $nomConexion;
 
         $sql = "SELECT * FROM t_categoria_servicios WHERE nombre_categoria = '$this->strNombre_categoria' AND id != $this->intIdCategoria_servicios";
-        $request = $this->select_all($sql,$this->strNomConexion);
+        $request = $this->select_all($sql);
 
         if (empty($request)) {
             $sql = "UPDATE t_categoria_servicios SET nombre_categoria = ?, estatus = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ? WHERE id = $this->intIdCategoria_servicios ";
             $arrData = array($this->strNombre_categoria, $this->intEstatus, $this->intId_usuario_actualizacion);
-            $request = $this->update($sql, $this->strNomConexion, $arrData);
+            $request = $this->update($sql, $arrData);
         } else {
             $request = "exist";
         }
         return $request;
     }
 
-    public function deletePromocion(int $idpromocion, string $nomConexion)
+    public function deletePromocion(int $idpromocion)
     {
         $this->intIdPromocion = $idpromocion;
-        $this->strNomConexion = $nomConexion;
         $sql = "UPDATE t_promociones SET estatus = ? WHERE id = $this->intIdPromocion";
         $arrData = array(0);
-        $request = $this->update($sql, $this->strNomConexion, $arrData);
+        $request = $this->update($sql, $arrData);
         if ($request) {
             $request = 'ok';
         } else {

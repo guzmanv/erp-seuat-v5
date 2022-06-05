@@ -2,7 +2,6 @@
 class Categoria_servicios extends Controllers
 {
     private $idUser;
-    private $nomConexion;
     private $rol;
     public function __construct()
     {
@@ -13,8 +12,7 @@ class Categoria_servicios extends Controllers
             die();
         }
         $this->idUser = $_SESSION['idUser'];
-        $this->nomConexion = $_SESSION['nomConexion'];
-        // $this->rol = $_SESSION['claveRol'];
+        $this->rol = $_SESSION['claveRol'];
     }
 
     public function Categoria_servicios()
@@ -27,7 +25,7 @@ class Categoria_servicios extends Controllers
     }
 
     public function getCategoria_servicios(){
-        $arrData = $this->model->selectCategoria_servicios($this->nomConexion);
+        $arrData = $this->model->selectCategoria_servicios();
         for ($i = 0; $i < count($arrData); $i++) {
             $arrData[$i]['numeracion'] = $i+1;
             if ($arrData[$i]['estatus'] == 1) {
@@ -59,7 +57,7 @@ class Categoria_servicios extends Controllers
         //if($_SESSION['permisosMod']['r']){
         $intIdCategoria_servicios = intval(strClean($id)); //intval(strClean($idrol));
         if ($intIdCategoria_servicios > 0) {
-            $arrData = $this->model->selectCategoria_servicio($intIdCategoria_servicios, $this->nomConexion);
+            $arrData = $this->model->selectCategoria_servicio($intIdCategoria_servicios);
             if (empty($arrData)) {
                 $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
             } else {
@@ -85,7 +83,7 @@ class Categoria_servicios extends Controllers
                 $intEstatus = intval($_POST['listEstatus']);
                 if ($intIdCategoria_servicios == 0) {
                     //Crear
-                    $request_categoria_servicios = $this->model->insertCategoria_servicios($strClave_categoria, $strNombre_categoria, $intAplica_colegiatura, $intEstatus, $_SESSION['idUser'], $this->nomConexion);
+                    $request_categoria_servicios = $this->model->insertCategoria_servicios($strClave_categoria, $strNombre_categoria, $intAplica_colegiatura, $intEstatus, $_SESSION['idUser']);
                     if ($request_categoria_servicios == 'exist') {
                         $arrResponse = array('estatus' => false, 'msg' => '¡Atención! La categoría ya existe.');
                     } else if ($request_categoria_servicios > 0) {
@@ -113,7 +111,7 @@ class Categoria_servicios extends Controllers
                 $intEstatus = intval($_POST['listEstatusup']);
                 $request_categoria_servicios = "";
                 if ($intIdCategoria_servicios != 0) {
-                    $request_categoria_servicios = $this->model->updateCategoria_servicios($intIdCategoria_servicios,$strClaveCategoria,$strNombre_categoria,$intAplica_colegiatura,$intEstatus,$this->idUser, $this->nomConexion);
+                    $request_categoria_servicios = $this->model->updateCategoria_servicios($intIdCategoria_servicios,$strClaveCategoria,$strNombre_categoria,$intAplica_colegiatura,$intEstatus,$this->idUser);
                     if($request_categoria_servicios){
                         $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
                     }else{
@@ -132,7 +130,7 @@ class Categoria_servicios extends Controllers
         if ($_POST) {
             //if($_SESSION['permisosMod']['d']){
             $intIdCategoria_servicios = intval($_POST['idCategoria_servicios']);
-            $requestDelete = $this->model->deleteCategoria_servicios($intIdCategoria_servicios, $this->nomConexion);
+            $requestDelete = $this->model->deleteCategoria_servicios($intIdCategoria_servicios);
             if ($requestDelete == 'ok') {
                 $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la categoría correctamente.');
             } else if ($requestDelete == 'exist') {

@@ -172,6 +172,7 @@ function fntEditCategoria_servicios(element, id) {
 
 function openModal() {
 	rowTable = "";
+	document.querySelector("#formCategoria_servicios").reset();
 	$('#modalFormCategoria_servicios').modal({
 		backdrop: 'static',
 		keyboard: false,

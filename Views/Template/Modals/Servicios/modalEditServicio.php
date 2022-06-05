@@ -65,10 +65,10 @@
 							<label class="border-bottom bg-gray bg-disabled pl-2 border-secondary btn-block rounded-top mt-3"> <strong>Ubicación</strong></label>
 							<div class="form-row">
 								<div class="form-group col-md-12">
-								    <label for="listIdPlantel_edit">Plantel</label>
-									<select class="form-control form-control-sm" id="listIdPlantel_edit" name="listIdPlantel_edit" style="width: 100%;" required="" >
-                                        <?php foreach ($data['planteles'] as $key => $plantel) { ?>
-                                            <option value="<?php echo $plantel['id'] ?>"><?php echo $plantel['nombre_plantel'].','.$plantel['municipio'].','.$plantel['estado'] ?></option>
+								    <label for="listIdInstitucion_edit">Plantel</label>
+									<select class="form-control form-control-sm" id="listIdInstitucion_edit" name="listIdInstitucion_edit" style="width: 100%;" required="" >
+                                        <?php foreach ($data['instituciones'] as $key => $plantel) { ?>
+                                            <option value="<?php echo $plantel['id'] ?>"><?php echo $plantel['nombre_institucion'].','.$plantel['municipio'].','.$plantel['estado'] ?></option>
                                         <?php }?>
                                     </select>
 								</div>
