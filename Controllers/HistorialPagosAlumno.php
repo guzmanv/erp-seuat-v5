@@ -1,7 +1,6 @@
 <?php
 class HistorialPagosAlumno extends Controllers{
     private $idUser;
-	private $nomConexion;
 	private $rol;
 	public function __construct()
 	{
@@ -13,7 +12,6 @@ class HistorialPagosAlumno extends Controllers{
 			die();
 		}
 		$this->idUser = $_SESSION['idUser'];
-		$this->nomConexion = $_SESSION['nomConexion'];
 		$this->rol = $_SESSION['claveRol'];
 	}
     public function historial(){
@@ -26,7 +24,7 @@ class HistorialPagosAlumno extends Controllers{
 		$this->views->getView($this,"historialpahosalumno",$data);
     }
     public function getEstudiantes(){
-        $arrData = $this->model->selectEstudiantes($this->nomConexion);
+        $arrData = $this->model->selectEstudiantes();
         for($i = 0; $i <count($arrData); $i++){
             $arrData[$i]['numeracion'] = $i+1;
             $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-primary btn-sm" onclick="seleccionarPersona('.$arrData[$i]['id'].')">Ver</button>';
@@ -35,12 +33,12 @@ class HistorialPagosAlumno extends Controllers{
         die();
     }
     public function getDetallesEstudiante($idAlumno){
-        $arrData = $this->model->selectDetalleEstudiante($idAlumno, $this->nomConexion);
+        $arrData = $this->model->selectDetalleEstudiante($idAlumno);
         echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
         die();
     }
     public function getUltimosMovimientosAlumno($idAlumno){
-        $arrData = $this->model->selectUltimosMovimientos($idAlumno, $this->nomConexion);
+        $arrData = $this->model->selectUltimosMovimientos($idAlumno);
         for($i = 0; $i<count($arrData); $i++){
             $arrData[$i]['segundos'] = $this->convertSecToHuman($arrData[$i]['segundos']);
         }
@@ -48,7 +46,7 @@ class HistorialPagosAlumno extends Controllers{
         die();
     }
     public function getTodosMovimientosAlumno($idAlumno){
-        $arrData = $this->model->selectTodosMovimientos($idAlumno, $this->nomConexion);
+        $arrData = $this->model->selectTodosMovimientos($idAlumno);
         echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
         die();
     }

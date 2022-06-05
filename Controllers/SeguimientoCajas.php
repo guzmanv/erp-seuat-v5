@@ -2,7 +2,6 @@
   class SeguimientoCajas extends Controllers{
 
     private $idUser;
-	private $nomConexion;
 	private $rol;
 	public function __construct()
 	{
@@ -14,7 +13,6 @@
 		    die();
 	    }
 		$this->idUser = $_SESSION['idUser'];
-		$this->nomConexion = $_SESSION['nomConexion'];
 		$this->rol = $_SESSION['claveRol'];
 	}
 
@@ -24,15 +22,15 @@
         $data['page_name'] = "seguimiento cajas";
         $data['page_functions_js'] = "functions_seguimiento_cajas.js";
         //$data['cajeros'] = $this->model->selectCajeros($this->nomConexion);
-        $data['cajeros'] = $this->selectCajeros($this->nomConexion);
+        $data['cajeros'] = $this->selectCajeros();
         $this->views->getView($this,"seguimientocajas",$data);
     }
-    public function selectCajeros($idPlantel){
-        $arrData = $this->model->selectCajeros($idPlantel, $this->nomConexion);
+    public function selectCajeros(){
+        $arrData = $this->model->selectCajeros();
         for($i = 0; $i<count($arrData); $i++){
             if($arrData[$i]['estatus_caja'] == 1){
-                $fechaApertura = $this->model->selectCaja($arrData[$i]['id_caja'],$this->nomConexion)['fechayhora_apertura_caja'];
-                $totalVenta = $this->model->selectVentaTotal($arrData[$i]['id_caja'],$fechaApertura, $this->nomConexion);
+                $fechaApertura = $this->model->selectCaja($arrData[$i]['id_caja'])['fechayhora_apertura_caja'];
+                $totalVenta = $this->model->selectVentaTotal($arrData[$i]['id_caja'],$fechaApertura);
                 $total = 0;
                 foreach ($totalVenta as $key => $value) {
                     $total += $value['total'];
@@ -45,7 +43,7 @@
         return $arrData;
     }
     public function selectVentasAll(){
-        $arrData = $this->model->selectVentasTotalAll($this->nomConexion);
+        $arrData = $this->model->selectVentasTotalAll();
         $dias = [];
         $planteles = [];
         $arrGrafica = [];
