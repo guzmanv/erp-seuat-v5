@@ -18,46 +18,24 @@
             $request = $this->select($sql);
             return $request;
         }
-        /* public function selectPersonaEdit($idPersona, string $nomConexion){
-            $sql = "SELECT per.id,per.alias,per.ap_paterno,per.ap_materno,per.colonia,per.cp,per.direccion,per.edad,per.edo_civil,per.email,
-            per.estatus,acp.id_categoria_persona,per.id_escolaridad,gra.nombre_escolaridad,per.id_localidad,loc.nombre AS nomlocalidad,
-            per.nombre_persona,per.ocupacion,per.sexo,per.tel_celular,per.tel_fijo,mun.id AS idmun,mun.nombre AS nommunicipio,est.id AS idest,
-            est.nombre AS nomestado,per.fecha_nacimiento,per.curp,niv.nombre_nivel_educativo AS nivel_carrera_interes,niv.id AS id_nivel_carrera_interes,
-            ci.nombre_carrera AS carerra_interes,ci.id AS id_carrera_interes,pros.id_plantel_interes,pros.id_carrera_interes,plant.nombre_plantel AS nombre_plantel_interes,
-            plant.municipio AS municipio_plantel_interes, mc.medio_captacion,pros.escuela_procedencia,pros.observaciones AS observacion FROM t_personas AS per
-            INNER JOIN t_localidades AS loc ON per.id_localidad = loc.id
-            INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
-            INNER JOIN t_estados AS est ON mun.id_estados = est.id
-            LEFT JOIN t_escolaridad AS gra ON per.id_escolaridad = gra.id
-            LEFT JOIN t_prospectos AS pros ON pros.id_persona = per.id
-            LEFT JOIN t_planteles AS plant ON pros.id_plantel_interes = plant.id
-            LEFT JOIN t_nivel_educativos AS niv ON pros.id_nivel_carrera_interes = niv.id
-            LEFT JOIN t_carrera_interes AS ci ON pros.id_carrera_interes = ci.id
-            LEFT JOIN t_medio_captacion AS mc ON pros.id_medio_captacion = mc.id
-            LEFT JOIN t_asignacion_categoria_persona AS acp ON acp.id_persona = per.id
-            LEFT JOIN t_categoria_personas AS cp ON acp.id_categoria_persona = cp.id
-            WHERE per.id = $idPersona";
-            $request = $this->select($sql, $nomConexion);
-            return $nomConexion;
-        } */
         public function selectPersonaEdit(int $idPersona){
             $sql = "SELECT per.id,per.alias,per.ap_paterno,per.ap_materno,per.colonia,per.cp,per.direccion,per.edad,per.edo_civil,per.email,
             per.estatus,acp.id_categoria_persona,per.id_escolaridad,esc.nombre_escolaridad,per.id_localidad,loc.nombre AS nomlocalidad,
             per.nombre_persona,per.ocupacion,per.sexo,per.tel_celular,per.tel_fijo,mun.id AS idmun,mun.nombre AS nommunicipio,est.id AS idest,
             est.nombre AS nomestado, per.fecha_nacimiento,per.curp,ne.nombre_nivel_educativo AS nivel_carrera_interes, ne.id AS id_nivel_carrera_interes,
-            ci.nombre_carrera AS carrera_interes,ci.id AS id_carrera_interes,pros.id_plantel_interes,pin.abreviacion_plantel,pin.municipio AS munplantel,pros.id_carrera_interes,mc.medio_captacion,pros.escuela_procedencia,
+            ci.nombre_carrera AS carrera_interes,ci.id AS id_carrera_interes,pros.id_plantel_interes,pin.nombre_plantel_fisico,pin.municipio AS munplantel,pros.id_carrera_interes,mc.medio_captacion,pros.escuela_procedencia,
             pros.observaciones AS observacion 
             FROM t_prospectos AS pros
             INNER JOIN t_personas AS per ON pros.id_persona = per.id
             RIGHT JOIN t_asignacion_categoria_persona AS acp ON acp.id_persona = per.id
-            INNER JOIN t_escolaridad AS esc ON per.id_escolaridad = esc.id
+            LEFT JOIN t_escolaridad AS esc ON per.id_escolaridad = esc.id
             INNER JOIN t_localidades AS loc ON per.id_localidad = loc.id
             INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
             INNER JOIN t_estados AS est ON mun.id_estados = est.id
-            INNER JOIN t_nivel_educativos AS ne ON pros.id_nivel_carrera_interes = ne.id
-            INNER JOIN t_carrera_interes AS ci ON pros.id_carrera_interes = ci.id
+            LEFT JOIN t_nivel_educativos AS ne ON pros.id_nivel_carrera_interes = ne.id
+            LEFT JOIN t_carrera_interes AS ci ON pros.id_carrera_interes = ci.id
             INNER JOIN t_medio_captacion AS mc ON pros.id_medio_captacion = mc.id
-            INNER JOIN t_planteles AS pin ON pros.id_plantel_interes  = pin.id
+            LEFT JOIN t_planteles AS pin ON pros.id_plantel_interes  = pin.id
             WHERE per.id =  $idPersona AND acp.id_categoria_persona = 1"; //1 = Prospecto
             $request = $this->select($sql);
             return $request;

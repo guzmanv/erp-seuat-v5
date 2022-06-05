@@ -103,7 +103,7 @@ background-position: bottom left;
                     <th colspan="5" style="font-size:18px;font-weight: bold; text-align: left;"><?php echo(strtoupper($data['datos']['nombre_sistema'])) ?></th>
                 </tr>
                 <tr>
-                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;"><?php  echo(strtoupper($data['datos']['nombre_plantel'])) ?><br><br></th>
+                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;"><?php  echo(strtoupper($data['datos']['nombre_institucion'])) ?><br><br></th>
                 </tr>
                 <tr>
                     <td colspan="5" style="padding-top: -15px; font-size: 8px; text-align: left;">

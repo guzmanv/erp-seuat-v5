@@ -2,6 +2,7 @@
     class Persona extends Controllers{
         private $idUser;
 		private $rol;
+        private $idPlantel;
 		public function __construct()
 		{
 			parent::__construct();
@@ -12,7 +13,8 @@
 			    die();
 		    }
 			$this->idUser = $_SESSION['idUser'];
-			$this->rol = $_SESSION['claveRol'];
+			$this->rol = 'aux';
+            $this->idPlantel = 1;
 		}
         public function persona(){
             $data['page_id'] = 9;
@@ -37,17 +39,16 @@
         public function getPersonaEdit($idPersona){
             $idPersona = $idPersona;
             $arrData = $this->model->selectPersonaEdit($idPersona);
-            if($arrData['abreviacion_plantel'] == null){
+            if($arrData['nombre_plantel_fisico'] == null){
                 $arrData['plantel_interes'] = "Sin Plantel";
             }else{
-                $arrData['plantel_interes'] = $arrData['abreviacion_plantel'].' ('.$arrData['munplantel'].' )';
+                $arrData['plantel_interes'] = $arrData['nombre_plantel_fisico'].' ('.$arrData['munplantel'].' )';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
         public function getPersonas(){
-            $idPlantel = $_SESSION['permisos'][0]['id_plantel'];
-            $arrData = $this->model->selectPersonas($idPlantel);
+            $arrData = $this->model->selectPersonas($this->idPlantel);
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 $arrData[$i]['apellidos'] = $arrData[$i]['ap_paterno'].' '.$arrData[$i]['ap_materno'];
@@ -83,8 +84,7 @@
                 $id_subcampania = $this->model->selectSubcampania();
                 if($id_subcampania){
                     if($_SESSION['numeroPermisos']>0){
-                        $idPlantel = $_SESSION['permisos'][0]['id_plantel'];
-                        $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id'], $idPlantel);
+                        $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id'], $this->idPlantel);
                         if($arrData){
                             $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
                         }else{

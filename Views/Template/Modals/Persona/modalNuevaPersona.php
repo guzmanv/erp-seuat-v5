@@ -112,7 +112,7 @@
                                             <select class="form-control form-control-sm" id="listPlantelInteres" name="listPlantelInteres">
                                                 <option value="">Seleccionar</option>
                                                 <?php foreach ($data['planteles'] as $key => $plantel) { ?>
-                                                    <option value="<?php echo $plantel['id'] ?>"><?php echo $plantel['nombre_plantel'].'('.$plantel['municipio'].')' ?></option>
+                                                    <option value="<?php echo $plantel['id'] ?>"><?php echo $plantel['nombre_plantel_fisico'].'('.$plantel['municipio'].')' ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>

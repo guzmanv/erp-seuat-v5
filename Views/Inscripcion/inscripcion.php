@@ -40,9 +40,9 @@
                                         <select class="custom-select" id="listPlantelDatatable" onchange="fnPlantelSeleccionadoDatatable(value)">
                                             <option selected>Todos</option>
                                             <?php 
-                                                foreach ($data['sistemas_educativos'] as $key => $sistemas) {
+                                                foreach ($data['planteles'] as $key => $plantel) {
                                                     ?>
-                                                        <option value="<?php echo $sistemas['id'] ?>"><?php echo $sistemas['nombre_sistema'].' ( '.$sistemas['abreviacion_sistema'].' )' ?></option>
+                                                        <option value="<?php echo $plantel['id'] ?>"><?php echo $plantel['nombre_plantel_fisico'].' ( '.$plantel['municipio'].' )' ?></option>
                                                     <?php
                                                 }
                                             ?>
@@ -56,10 +56,10 @@
                                     <div class="col-md-6">
                                         <select class="custom-select" id="listPlantelDatatable" onchange="fnPlantelSeleccionadoDatatable(value)">
                                         <?php 
-                                                foreach ($data['sistemas_educativos'] as $key => $sistemas) {
-                                                    if($sistemas['id'] == $data['idSistemaEducativo']){  //Plantel Tuxtla
+                                                foreach ($data['planteles'] as $key => $plantel) {
+                                                    if($plantel['id'] == $data['idPlantel']){  //Plantel Tuxtla
                                                         ?>
-                                                            <option value="<?php echo $sistemas['id'] ?>"><?php echo $sistemas['nombre_sistema'].' ( '.$sistemas['abreviacion_sistema'].' )' ?></option>
+                                                            <option value="<?php echo $plantel['id'] ?>"><?php echo $plantel['nombre_plantel_fisico'].' ( '.$plantel['municipio'].' )' ?></option>
                                                         <?php
                                                     }
                                                 }
