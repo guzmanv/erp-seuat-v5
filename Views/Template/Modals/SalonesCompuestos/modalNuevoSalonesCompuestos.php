@@ -52,8 +52,8 @@
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
-                          <label for="listIdPlantelesNuevo">Plantel</label>
-                          <select class="form-control" id="listIdPlantelesNuevo" name="listIdPlantelesNuevo" onchange="" required >
+                          <label for="listIdInstitucionesNuevo">Institución</label>
+                          <select class="form-control" id="listIdInstitucionesNuevo" name="listIdInstitucionesNuevo" onchange="" required >
                           
                           </select>
                       </div>

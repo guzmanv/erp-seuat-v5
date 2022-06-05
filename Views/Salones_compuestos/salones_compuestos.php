@@ -49,7 +49,7 @@
                     <th width="10%">Año ciclo</th>
                     <th width="8%">Grados</th>
                     <th width="10%">Grupos</th>
-                    <th width="15%">Planteles</th>
+                    <th width="15%">Instituciones</th>
                     <th width="12%">Turnos</th>
                     <th width="10%">Salones</th>
                     <th width="8%">Estatus</th>
