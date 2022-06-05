@@ -36,10 +36,10 @@
                                                 <label>Plantel</label>
                                                 <select class="form-control form-control-sm" id="listPlantelNuevo" name="listPlantelNuevo" onchange="fnPlantelSeleccionado(value)" required>
                                                     <?php 
-                                                        foreach ($data['sistemas_educativos'] as $key => $sistemas) {
+                                                        foreach ($data['planteles'] as $key => $plantel) {
                                                             ?>
                                                                 <!-- <option value="<?php //echo $sistemas['id'] ?>" <?php //if($sistemas['id'] == $data['idSistemaEducativo']){ echo('selected'); } ?>><?php //echo $sistemas['nombre_sistema'] ?></option> -->
-                                                                <option value="<?php echo $sistemas['id'] ?>"><?php echo $sistemas['nombre_sistema'] ?></option>
+                                                                <option value="<?php echo $plantel['id'] ?>" <?php if($plantel['id'] == $data['idPlantel']){ echo('selected');} ?>><?php echo $plantel['nombre_plantel_fisico'].' / '.$plantel['municipio'] ?></option>
                                                         <?php }    
                                                     ?>
                                                 </select>                                    

@@ -142,8 +142,12 @@ formInscripcionNueva.onsubmit = function(e){
     }
 }
 
-function fnPlantelSeleccionado(answer){
-    const selCarreras = document.querySelector('#listCarreraNuevo');
+function fnPlantelSeleccionado(idPlantel){
+    if(idPlantel != ''){
+        idPlantelSeleccionado = idPlantel
+        document.querySelector('#listCarreraNuevo').innerHTML = "<option value>Seleccionar una carrera</option>";
+    }
+    /* const selCarreras = document.querySelector('#listCarreraNuevo');
     let url = base_url+"/Inscripcion/getCarreras?iplantel="+answer;
     fetch(url)
         .then(res => res.json())
@@ -156,7 +160,7 @@ function fnPlantelSeleccionado(answer){
                 selCarreras.appendChild(opcion);
             }
         })
-        .catch(err => { throw err });
+        .catch(err => { throw err }); */
 }
 
 function fnPlantelSeleccionadoEdit(answer){
@@ -174,6 +178,25 @@ function fnPlantelSeleccionadoEdit(answer){
             }
         })
         .catch(err => { throw err });
+}
+
+function fnNivelSeleccionado(nivel){
+    if(nivel != ''){
+        let listCarreras = document.querySelector('#listCarreraNuevo');
+        let url = `${base_url}/Inscripcion/getCarreras?nivel=${nivel}&idplantel=${idPlantelSeleccionado}`;
+        fetch(url).then((res) => res.json()).then(resultado =>{
+            if(resultado.length > 0){
+                resultado.forEach(carrera => {
+                    let option = document.createElement('option');
+                    option.text = carrera.nombre_carrera;
+                    option.value = carrera.id_plan_estudio;
+                    listCarreras.appendChild(option);
+                });
+            }else{
+                listCarreras.innerHTML = '<option value="">Seleccionar una carrera</option>';
+            }
+        }).catch(err => {throw err});
+    }
 }
 
 function fnNavTab(numTab){
@@ -310,13 +333,18 @@ function pasarTab(n) {
     } 
   } 
 
- function fnChkAlumnoTutor(){
+  function fnChkAlumnoTutor(){
+    if(idPersonaSeleccionada == '' || idPersonaSeleccionada == null || idPersonaSeleccionada == undefined){
+        swal.fire("Atención","Hay que seleccionar un alumno","warning").then((result) => {
+            document.querySelector('#chk-alumno-tutor').checked = false;
+        })
+        return false;
+    }
     if(document.querySelector('#chk-alumno-tutor').checked == true){
         let url = base_url+"/Inscripcion/getPersona?id="+idPersonaSeleccionada;
         fetch(url)
             .then(res => res.json())
             .then((resultado) => {
-                console.log(resultado);
                 document.querySelector('#txtNombreTutorAgregar').value = resultado['nombre_persona'];
                 document.querySelector('#txtAppPaternoTutorAgregar').value = resultado['ap_paterno'];
                 document.querySelector('#txtAppMaternoTutorAgregar').value = resultado['ap_materno'];
@@ -608,4 +636,11 @@ function sizeCheckInput(){
 //Funcion para convertir json a String
 function jsonToString(json){
     return JSON.stringify(json);
+}
+
+function fnNuevaInscripcion(){
+    //fnPlantelSeleccionado(document.querySelector('#listPlantelNuevo').value);
+    formInscripcionNueva.reset();
+    $('#step1-tab').click(); 
+    tabActual = 0;
 }

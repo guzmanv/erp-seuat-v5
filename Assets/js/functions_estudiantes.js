@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded',function(){
       });
 });
 //Funcion para Datatable de Mostrar todos los Estudiantes Verificados
+
 if(getPagina() == "estudiantes"){
     document.addEventListener('DOMContentLoaded', function(){
         tableEstudiantes = $('#tableEstudiantes').dataTable( {
@@ -680,7 +681,6 @@ formDatosPersonales.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            //console.log(objData);
             formDatosPersonales.reset();
             Swal.fire({
                 icon: 'success',
@@ -689,7 +689,7 @@ formDatosPersonales.onsubmit = function(e){
                 }).then((result) =>{
                 $('.close').click();
                 })
-                tableEstudiantes.api().ajax.reload(); 
+                tableEstudiantes.api().ajax.reload();
         }
         return false;
     }
@@ -828,7 +828,9 @@ function gnGetHistorialPrestamoDocumentos(idInscripcion){
 function fnListadocumentosFolio(value){
     var folio = value.getAttribute('f');
     let urlListaDocFolio = base_url+"/Estudiantes/getListaDocumentosFolio?idFolio="+folio;
-    fetch(urlListaDocFolio)
+    swal.fire("Atención", "En desarrollo", "warning");
+    return false;
+    /* fetch(urlListaDocFolio)
     .then(res => res.json())
     .then((resDocFolio) =>{
         var numeracion = 0;
@@ -838,7 +840,7 @@ function fnListadocumentosFolio(value){
             document.querySelector('#tbVerHistorialDocumentacion').innerHTML += "<tr><th scope='row'>"+numeracion+"</th><td>"+element.folio+"</td><td>"+element.tipo_documento+"</td></tr>";
         });
     })
-    .catch(err => {throw err});
+    .catch(err => {throw err}); */
 }
 
 //click en check devolucion documentos

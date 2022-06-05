@@ -75,7 +75,7 @@ formPersonaNueva.onsubmit = function(e){
                 tablePersonas.api().ajax.reload();
             }else{
                 swal.fire("Error",objData.msg,"error");
-            }
+            } 
         }
         divLoading.style.display = "none";
         return false;
@@ -259,16 +259,18 @@ function fntEditPersona(idPersona){
                 }else{
                     document.querySelector('#listNivelCarreraInteresEdit').querySelector('option[value="'+objData.id_nivel_carrera_interes+'"]').selected = true;
                 }
-                let urlCarreraInteres = base_url+"/Persona/getCarrerasInteres?idNivel="+objData.id_nivel_carrera_interes;
-                fetch(urlCarreraInteres)
-                .then(res => res.json())
-                .then((resultadoCarreraInteres) =>{
-                    resultadoCarreraInteres.forEach(element => {
-                        document.querySelector('#listCarreraInteresEdit').innerHTML += "<option value='"+element['id']+"'>"+element['nombre_carrera']+"</option>";
-                    });
-                    document.querySelector('#listCarreraInteresEdit').querySelector('option[value="'+objData.id_carrera_interes+'"]').selected = true;
-                })
-                .catch(err => {throw err});
+                if(objData.id_nivel_carrera_interes != null){
+                    let urlCarreraInteres = base_url+"/Persona/getCarrerasInteres?idNivel="+objData.id_nivel_carrera_interes;
+                    fetch(urlCarreraInteres)
+                    .then(res => res.json())
+                    .then((resultadoCarreraInteres) =>{
+                        resultadoCarreraInteres.forEach(element => {
+                            document.querySelector('#listCarreraInteresEdit').innerHTML += "<option value='"+element['id']+"'>"+element['nombre_carrera']+"</option>";
+                        });
+                        document.querySelector('#listCarreraInteresEdit').querySelector('option[value="'+objData.id_carrera_interes+'"]').selected = true;
+                    })
+                    .catch(err => {throw err});
+                }
                 document.querySelector("#txtCURPEdit").value = objData.curp;
                 var idEstadoPersona = "";
                 var idMunicipioPersona = "";
