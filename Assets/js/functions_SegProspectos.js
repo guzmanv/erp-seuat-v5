@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			{"data": "nombre_completo"},
             {"data": "alias"},
 			{"data": "tel_celular"},
-			{"data": "nombre_plantel"},
+			{"data": "nombre_plantel_fisico"},
 			{"data": "nombre_carrera"},
 			{"data": "medio_captacion"},
 			{"data": "options"}

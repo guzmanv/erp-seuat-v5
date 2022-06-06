@@ -49,7 +49,7 @@ class SeguimientoModel extends Mysql{
     }
 
     public function selectPlanteles(){
-        $sql = "SELECT id, nombre_plantel FROM t_planteles";
+        $sql = "SELECT id, nombre_plantel_fisico FROM t_planteles";
         $request = $this->select_all($sql);
         return $request;
     }
@@ -76,7 +76,7 @@ class SeguimientoModel extends Mysql{
 
     public function selectProspectos(){
         $sql = "SELECT pe.id, CONCAT(pe.nombre_persona, ' ', pe.ap_paterno, ' ', pe.ap_materno) as nombre_completo, 
-        cat.nombre_categoria, pe.alias, pe.tel_celular, plt.nombre_plantel, crr.nombre_carrera, med.medio_captacion
+        cat.nombre_categoria, pe.alias, pe.tel_celular, plt.nombre_plantel_fisico, crr.nombre_carrera, med.medio_captacion
         FROM t_personas as pe
         INNER JOIN t_asignacion_categoria_persona as asig ON pe.id = asig.id_persona
         INNER JOIN t_categoria_personas as cat ON asig.id_categoria_persona = cat.id
