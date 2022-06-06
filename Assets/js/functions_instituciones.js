@@ -13,7 +13,6 @@ mostrarTab(tabActual);
 mostrarTabEdit(tabActualEdit);
 var tablePlanEstudios;
 
-
 //Mostrar Lista de Planteles de Datatable
 document.addEventListener('DOMContentLoaded', function(){
 	tableInstituciones = $('#tableInstituciones').dataTable( {

@@ -277,7 +277,7 @@ function fntEditPersona(idPersona){
                 var idLocalidadPersona = "";
                 document.querySelector('#listMunicipioEdit').innerHTML = "";
                 document.querySelector('#listLocalidadEdit').innerHTML = "";
-                let url = base_url+"/Plantel/getListEstados";
+                let url = base_url+"/Planteles/getListEstados";
                 fetch(url)
                     .then(res => res.json())
                     .then((resultado) => {
@@ -291,7 +291,7 @@ function fntEditPersona(idPersona){
                             opt.innerHTML = resultado[i]['nombre'];
                             opt.setAttribute("selected","");
                             select.appendChild(opt);
-                            let urlMunicipios = base_url+"/Plantel/getMunicipios?idestado="+idEstadoPersona;
+                            let urlMunicipios = base_url+"/Planteles/getMunicipios?idestado="+idEstadoPersona;
                             fetch(urlMunicipios)
                                 .then(res => res.json())
                                 .then((resultadoMunicipio) =>{
@@ -305,7 +305,7 @@ function fntEditPersona(idPersona){
                                             optMunicipio.innerHTML = element['nombre'];
                                             optMunicipio.setAttribute("selected","");
                                             selectMunicipio.appendChild(optMunicipio);
-                                            let urlLocalidades = base_url+"/Plantel/getLocalidades?idmunicipio="+idMunicipioPersona;
+                                            let urlLocalidades = base_url+"/Planteles/getLocalidades?idmunicipio="+idMunicipioPersona;
                                             fetch(urlLocalidades)
                                                 .then(res => res.json())
                                                 .then((resultadoLocalidad) =>{
