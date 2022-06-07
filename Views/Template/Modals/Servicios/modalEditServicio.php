@@ -67,8 +67,8 @@
 								<div class="form-group col-md-12">
 								    <label for="listIdInstitucion_edit">Plantel</label>
 									<select class="form-control form-control-sm" id="listIdInstitucion_edit" name="listIdInstitucion_edit" style="width: 100%;" required="" >
-                                        <?php foreach ($data['instituciones'] as $key => $plantel) { ?>
-                                            <option value="<?php echo $plantel['id'] ?>"><?php echo $plantel['nombre_institucion'].','.$plantel['municipio'].','.$plantel['estado'] ?></option>
+                                        <?php foreach ($data['planteles'] as $key => $plantel) { ?>
+                                            <option value="<?php echo $plantel['id'] ?>"><?php echo $plantel['nombre_plantel_fisico'].' / '.$plantel['municipio'] ?></option>
                                         <?php }?>
                                     </select>
 								</div>

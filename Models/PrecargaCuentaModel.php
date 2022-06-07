@@ -9,7 +9,7 @@ class PrecargaCuentaModel extends Mysql
         parent::__construct();
     }
     public function selectPlanteles(){
-        $sql = "SELECT *FROM t_instituciones WHERE estatus = 1";
+        $sql = "SELECT *FROM t_planteles WHERE estatus = 1";
         $request = $this->select_all($sql);
         return $request;
     }

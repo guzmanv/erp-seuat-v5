@@ -22,11 +22,10 @@ class ServiciosModel extends Mysql{
         //Extraer todas los servicios
         // $sql = "SELECT ts.id AS IdServicios, ts.codigo_servicio AS CodigoServicio, ts.nombre_servicio AS NombreServicio, ts.precio_unitario AS PrecioUnitario, ts.aplica_edo_cuenta AS AplicaEdoCuenta, ts.estatus AS EstatusServicios, tp.abreviacion_plantel AS Plantel, tp.municipio AS Municipio FROM t_servicios ts INNER JOIN t_planteles tp ON ts.id_plantel = tp.id INNER JOIN t_categoria_servicios tcs ON ts.id_categoria_servicio = tcs.id  INNER JOIN t_unidades_medida tum ON ts.id_unidades_medida = tum.id WHERE ts.estatus !=0 ORDER BY ts.id DESC ";
         $sql = "SELECT ts.id AS IdServicios, ts.codigo_servicio AS CodigoServicio, ts.nombre_servicio AS NombreServicio, 
-        ts.precio_unitario AS PrecioUnitario, ts.aplica_edo_cuenta AS AplicaEdoCuenta, ts.estatus AS EstatusServicios,
-        ti.abreviacion_institucion AS Plantel, tp.municipio AS Municipio
+        ts.precio_unitario AS PrecioUnitario, ts.aplica_edo_cuenta AS AplicaEdoCuenta, 
+        ts.estatus AS EstatusServicios,tp.nombre_plantel_fisico, tp.municipio AS Municipio
         FROM t_servicios ts 
-        INNER JOIN t_instituciones AS ti ON ts.id_institucion = ti.id
-        INNER JOIN t_planteles AS tp ON ti.id_plantel = tp.id
+        INNER JOIN t_planteles AS tp ON ts.id_plantel = tp.id
         INNER JOIN t_categoria_servicios tcs ON ts.id_categoria_servicio = tcs.id  
         INNER JOIN t_unidades_medida tum ON ts.id_unidades_medida = tum.id
         WHERE ts.estatus !=0 ORDER BY ts.id DESC";
@@ -79,7 +78,7 @@ class ServiciosModel extends Mysql{
         $sql = "SELECT * FROM t_servicios WHERE codigo_servicio = '{$this->strCodigo_servicio}' ";
         $request = $this->select_all($sql);
         if(empty($request)){
-            $query_insert = "INSERT INTO t_servicios(codigo_servicio,nombre_servicio,precio_unitario,aplica_edo_cuenta,anio_fiscal,estatus,fecha_creacion,fecha_actualizacion,id_usuario_creacion,id_usuario_actualizacion,id_institucion,id_categoria_servicio,id_unidades_medida) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $query_insert = "INSERT INTO t_servicios(codigo_servicio,nombre_servicio,precio_unitario,aplica_edo_cuenta,anio_fiscal,estatus,fecha_creacion,fecha_actualizacion,id_usuario_creacion,id_usuario_actualizacion,id_plantel,id_categoria_servicio,id_unidades_medida) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $arrData = array($this->strCodigo_servicio, $this->strNombre_servicio, $this->intPrecio_unitario, $this->intAplica_edo_cuenta, $this->strAnio_fiscal, $this->intEstatus, $this->strFecha_creacion, $this->strFecha_actualizacion, $this->intId_usuario_creacion, $this->intId_usuario_actualizacion, $this->intIdInstitucion, $this->intIdCategoria_servicio, $this->intIdUnidades_medida );
             $request_insert = $this->insert($query_insert,$arrData);
             $return = $request_insert;
@@ -112,5 +111,11 @@ class ServiciosModel extends Mysql{
 		}
 		return $request;
 	}
+
+    public function selectPlanteles(){
+        $sql = "SELECT *FROM t_planteles WHERE estatus = 1";
+        $request = $this->select_all($sql);
+        return $request;
+    }
 }
 ?>

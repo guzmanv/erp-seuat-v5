@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function(){
     document.querySelector('.div_datos_precarga').style.display = "none";
 });
 
+
 function fnPlantelSeleccionadoDatatable(value,nivel){
     idPlantel = value;
     let url = `${base_url}/PrecargaCuenta/getPlanEstudios/${idPlantel}/${nivel}`;

@@ -22,6 +22,7 @@
 			$data['categoria'] = $this->model->selectCategoriaServicios();
 			$data['unidad_medida'] = $this->model->selectUnidadMedida();
 			$data['instituciones'] = $this->model->selectInstituciones();
+			$data['planteles'] = $this->model->selectPlanteles();
 			$this->views->getView($this,"servicios",$data);
 		}
 

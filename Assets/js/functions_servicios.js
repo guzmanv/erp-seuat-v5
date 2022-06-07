@@ -8,7 +8,6 @@ window.addEventListener('load', function(){
     fntInstituciones();
 }, false);
 
-
 document.addEventListener('DOMContentLoaded', function(){
 	tableServicios = $('#tableServicios').dataTable( {
 		"aProcessing":true,
@@ -30,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         }
                     },
                     {"data":"AplicaEdoCuenta"},
-                    {"data":"Plantel"},
+                    {"data":"nombre_plantel_fisico"},
                     {"data":"Municipio"},
 					{"data":"EstatusServicios"},
 					{"data":"options"}
@@ -369,7 +368,7 @@ function fnEditServicio(value,id){
 		}else{
 			document.querySelector('#chkAplica_edo_cuenta_edit').checked = false;
 		}
-		document.querySelector('#listIdPlantel_edit').querySelector('option[value="'+resultado.id_plantel+'"]').selected = true;
+		document.querySelector('#listIdInstitucion_edit').querySelector('option[value="'+resultado.id_plantel+'"]').selected = true;
 		document.querySelector('#list_estatus_servicios_edit').querySelector('option[value="'+resultado.estatus+'"]').selected = true;
 		
 	}).catch(err => {throw err}); 
