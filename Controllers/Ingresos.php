@@ -24,6 +24,7 @@
             $data['estatus_caja'] = $this->model->selectEstatusCaja($this->idUser);
             $data['page_functions_js'] = "functions_ingresos.js";
             $this->views->getView($this,"ingresos",$data);
+            
         }
         //Funcion obtener lista ingresos
         public function getIngresos(){
