@@ -37,7 +37,7 @@
                                                     <th>Nombre completo</th>
                                                     <th>Alias</th>
                                                     <th width="5%">Teléfono celular</th>
-                                                    <th width="20%">Nombre plantel</th>
+                                                    <th width="20%">Plantel de interés</th>
                                                     <th width="20%">Nombre de carrera</th>
                                                     <th>Medio de captación</th>
                                                     <th>Acciones</th>

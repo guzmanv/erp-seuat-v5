@@ -17,10 +17,10 @@ class MedioCaptacion extends Controllers{
         $data['page_title'] = "Medios de captación";
         $data['page_name'] = "medio_captacion";
         $data['page_functions_js'] = "functions_mediocaptacion.js";
-        $this->views->getView($this,"MedioCaptacion",$data);
+        $this->views->getView($this,"mediocaptacion",$data);
     }
 
     public function getMediosCaptacion(){
-
+        
     }
 }
