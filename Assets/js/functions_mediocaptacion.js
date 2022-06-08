@@ -3,7 +3,7 @@ const modalFormNvoMedio = document.querySelector('#modalFromNvoMedioCaptacion');
 
 document.addEventListener('DOMContentLoaded', function(){
 
-    tableMedioCaptacion = $('#tableMedioCaptacion').dataTable({
+    tableMedioCaptacion = $('#tableMediosCap').dataTable({
         "aProcessing":true,
         "aServerSide":true,
         "language":{
@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc":""
         },
         "columns":[
-            {"data":"id"},
             {"data":"medio_captacion"},
             {"data":"estatus"},
             {"data":"options"}
@@ -33,3 +32,5 @@ document.addEventListener('DOMContentLoaded', function(){
         "order": [[0,"asc"]]
     })
 })
+
+$('#tableMediosCap').DataTable();
