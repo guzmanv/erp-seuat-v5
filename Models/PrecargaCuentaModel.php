@@ -15,38 +15,42 @@ class PrecargaCuentaModel extends Mysql
     }
 
     public function selectPlanEstudios(){
-        $sql = "SELECT pe.id,ti.nombre_institucion,pe.nombre_carrera,ti.id AS id_plantel,ne.nombre_nivel_educativo 
+        $sql = "SELECT pe.id,tp.nombre_plantel_fisico,pe.nombre_carrera,tp.id AS id_plantel,ne.nombre_nivel_educativo 
                 FROM t_plan_estudios AS pe
                 INNER JOIN t_instituciones AS ti ON pe.id_institucion = ti.id
+                INNER JOIN t_planteles AS tp ON ti.id_plantel = tp.id
                 INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
                 WHERE  pe.estatus = 1";
         $request = $this->select_all($sql);
         return $request;
     }
     public function selectPlanEstudiosByNivel(int $idNivel){
-        $sql = "SELECT pe.id,ti.nombre_institucion,pe.nombre_carrera,ti.id AS id_plantel,pe.id_nivel_educativo,ne.nombre_nivel_educativo
+        $sql = "SELECT pe.id,tp.nombre_plantel_fisico,pe.nombre_carrera,tp.id AS id_plantel,pe.id_nivel_educativo,ne.nombre_nivel_educativo
                 FROM t_plan_estudios AS pe
                 INNER JOIN t_instituciones AS ti ON pe.id_institucion = ti.id
+                INNER JOIN t_planteles AS tp ON ti.id_plantel = tp.id
                 INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
                 WHERE  pe.estatus = 1 AND pe.id_nivel_educativo = $idNivel";
         $request = $this->select_all($sql);
         return $request;
     }
     public function selectPlanEstudiosByPlantel(int $idPlantel){
-        $sql = "SELECT pe.id,ti.nombre_institucion,pe.nombre_carrera,ti.id AS id_plantel,ne.nombre_nivel_educativo
+        $sql = "SELECT pe.id,tp.nombre_plantel_fisico,pe.nombre_carrera,tp.id AS id_plantel,ne.nombre_nivel_educativo
                 FROM t_plan_estudios AS pe
                 INNER JOIN t_instituciones AS ti ON pe.id_institucion = ti.id
+                INNER JOIN t_planteles AS tp ON ti.id_plantel = tp.id
                 INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
-                WHERE  pe.estatus = 1 AND pe.id_institucion = $idPlantel";
+                WHERE  pe.estatus = 1 AND tp.id = $idPlantel";
         $request = $this->select_all($sql);
         return $request;
     }
     public function selectPlanEstudiosByPlantelNivel(int $idPlantel, int $idNivel){
-        $sql = "SELECT pe.id,ti.nombre_institucion,pe.nombre_carrera,ti.id AS id_plantel,ne.nombre_nivel_educativo
+        $sql = "SELECT pe.id,tp.nombre_plantel_fisico,pe.nombre_carrera,tp.id AS id_plantel,ne.nombre_nivel_educativo
                 FROM t_plan_estudios AS pe
                 INNER JOIN t_instituciones AS ti ON pe.id_institucion = ti.id
+                INNER JOIN t_planteles AS tp ON ti.id_plantel = tp.id
                 INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
-                WHERE  pe.estatus = 1 AND pe.id_institucion = $idPlantel AND pe.id_nivel_educativo = $idNivel";
+                WHERE  pe.estatus = 1 AND tp.id = $idPlantel AND pe.id_nivel_educativo = $idNivel";
         $request = $this->select_all($sql);
         return $request;
     }
@@ -57,21 +61,22 @@ class PrecargaCuentaModel extends Mysql
         return $request;
     }
     public function seletNiveles(){
-        $sql = "SELECT *FROM t_nivel_educativos";
+        $sql = "SELECT *FROM t_nivel_educativos WHERE estatus = 1";
         $request = $this->select_all($sql);
         return $request;
     }
     public function selectNivelesByPlantel(int $idPlantel){
         $sql = "SELECT ne.id,ne.nombre_nivel_educativo FROM t_plan_estudios AS pe 
-        INNER JOIN t_planteles AS p ON pe.id_plantel = p.id
+        INNER JOIN t_instituciones AS ins ON pe.id_institucion = ins.id
+        INNER JOIN t_planteles AS p ON ins.id_plantel = p.id
         INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
-        WHERE pe.id_plantel = $idPlantel AND pe.estatus = 1
+        WHERE p.id = $idPlantel AND pe.estatus = 1
         GROUP BY pe.id_nivel_educativo";
         $request = $this->select_all($sql);
         return $request;
     }
     public function selectPeriodos(){
-        $sql = "SELECT *FROM t_periodos";
+        $sql = "SELECT *FROM t_periodos WHERE estatus = 1";
         $request = $this->select_all($sql);
         return $request;
     }
@@ -101,22 +106,23 @@ class PrecargaCuentaModel extends Mysql
 
     public function insertPrecargaCuenta(int $idPlantel,int $idPlanEstudios,int $idNivel,int $idPeriodo,int $idGrado,int $idServicio,$precioNuevo,$fechaLimitePago,$idUser){
         $this->intCobroTotsal = $precioNuevo;
-        // $sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
-        // $request = $this->insert($sql,$this->strNomConexion,array($precioNuevo,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));
-        $sql = "SELECT tPre.id, tPre.cobro_total, tPre.fecha_limite_cobro, tPlant.nombre_plantel, tNi.nombre_nivel_educativo, 
+        /*$sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
+        $request = $this->insert($sql,array($precioNuevo,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));*/
+        $sqlPrecarga = "SELECT tPre.id, tPre.cobro_total, tPre.fecha_limite_cobro, tPlant.nombre_plantel_fisico, tNi.nombre_nivel_educativo, 
                         tPla.nombre_carrera, tpe.nombre_periodo, tGra.nombre_grado, tSe.nombre_servicio
                 FROM t_precarga AS tPre
                 INNER JOIN t_servicios AS tSe ON tPre.id_servicio = tSe.id
                 INNER  JOIN t_plan_estudios AS tPla ON tPre.id_plan_estudios = tPla.id 
                 INNER JOIN t_periodos AS tpe ON tPre.id_periodo = tpe.id
                 INNER JOIN t_grados AS tGra ON tPre.id_grado = tGra.id 
-                INNER JOIN t_planteles AS tPlant ON tPla.id_plantel = tPlant.id
+                INNER JOIN t_instituciones AS inst ON tPla.id_institucion = inst.id
+                INNER JOIN t_planteles AS tPlant ON inst.id_plantel = tPlant.id
                 INNER JOIN t_nivel_educativos AS tNi ON tPla.id_nivel_educativo = tNi.id
-                WHERE tPre.cobro_total = '$this->intCobroTotsal' AND tPre.fecha_limite_cobro = '$fechaLimitePago' AND tPla.id_plantel = '$idPlantel' AND tPla.id_nivel_educativo = '$idNivel'
+                WHERE tPre.cobro_total = '$this->intCobroTotsal' AND tPre.fecha_limite_cobro = '$fechaLimitePago' AND tPlant.id = '$idPlantel' AND tPla.id_nivel_educativo = '$idNivel'
                 AND tPre.id_plan_estudios = '$idPlanEstudios' AND tPre.id_periodo = '$idPeriodo' 
                 AND tPre.id_grado = '$idGrado'";
-            $request = $this->select_all($sql);
-        if(empty($request)){
+            $requestPrecarga = $this->select_all($sqlPrecarga);
+        if(empty($requestPrecarga)){
             $sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
             $request = $this->insert($sql,array($this->intCobroTotsal,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));
     
