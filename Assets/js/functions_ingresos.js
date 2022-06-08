@@ -400,11 +400,11 @@ function fnTiposCobro(value){
 }
 function fnChangeGrado(value){
     gradoSeleccionado = value;
-   if(gradoSeleccionado != ""){
-       fnServicios(gradoSeleccionado,tipoCobroSeleccionado);
-   }else{
+    if(gradoSeleccionado != ""){
+        fnServicios(gradoSeleccionado,tipoCobroSeleccionado);
+    }else{
         document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";    
-   }
+    }
 }
 //Function para efectuar el Cobro /mostrar cambio y mandar a imprimir Recibo
 function btnCobrarCmbio(){

@@ -13,11 +13,12 @@
 		}
         public function selectDatosAlumno(int $idAlumno){
             $sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,pe.nombre_carrera,i.grado,
-            pl.abreviacion_plantel,sis.abreviacion_sistema,pl.municipio FROM t_personas AS p
+            inst.abreviacion_institucion,sis.abreviacion_sistema,pl.municipio FROM t_personas AS p
             INNER JOIN t_inscripciones AS i ON i.id_personas = p.id
             INNER JOIN t_plan_estudios AS pe ON i.id_plan_estudios = pe.id
-            INNER JOIN t_planteles AS pl ON pe.id_plantel = pl.id
-            LEFT JOIN t_sistemas_educativos AS sis ON pl.id_sistema = sis.id
+            INNER JOIN t_instituciones AS inst ON pe.id_institucion = inst.id
+            INNER JOIN t_planteles AS pl ON inst.id_plantel = pl.id
+            LEFT JOIN t_sistemas_educativos AS sis ON inst.id_sistema = sis.id
             WHERE p.id = $idAlumno AND i.tipo_ingreso = 'Inscripcion' LIMIT 1";
             $request = $this->select($sql);
             return $request;
