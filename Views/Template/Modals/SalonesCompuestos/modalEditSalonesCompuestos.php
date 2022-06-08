@@ -58,8 +58,8 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="listIdPlantelesEditar">Plantel</label>
-                        <select class="form-control" id="listIdPlantelesEditar" name="listIdPlantelesEditar" required >
+                        <label for="listIdInstitucionesEditar">Institución</label>
+                        <select class="form-control" id="listIdInstitucionesEditar" name="listIdInstitucionesEditar" required >
                         
                         </select>
                     </div>

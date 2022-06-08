@@ -1,8 +1,10 @@
 var tableInscripciones;
 var idPersonaSeleccionada;
+let idPlantelSeleccionado = null;
 var formInscripcionNueva = document.querySelector("#formInscripcionNueva");
 var formTutorNuevo = document.querySelector("#formAgregarTutor");
 let divCambiarSubcampania = document.querySelector('.cambiarsubcampania');
+idPlantelSeleccionado = document.querySelector("#listPlantelNuevo").value;
 document.getElementById("btnAnterior").style.display = "none";
 document.getElementById("btnAnteriorEdit").style.display = "none";
 document.getElementById("btnSiguiente").style.display = "none";
@@ -17,12 +19,12 @@ mostrarTab(tabActual);
 mostrarTabEdit(tabActualEdit);
 divCambiarSubcampania.style.display = "none";
 
-
 let nomConexionSeleccionadoModal = null;
 document.addEventListener('DOMContentLoaded', function(){
 	//fnPlantelSeleccionadoDatatable(document.querySelector('#listPlantelDatatable').value);
     fnPlantelSeleccionadoDatatable();
 });
+
 
 function buscarPersona(){
     var textoBusqueda = $("input#busquedaPersona").val();
@@ -113,7 +115,6 @@ formInscripcionNueva.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            //console.log(objData)
              if(objData.estatus){
                 formInscripcionNueva.reset();
                 swal.fire("Inscripcion",objData.msg,"success").then((result) =>{
@@ -145,8 +146,12 @@ formInscripcionNueva.onsubmit = function(e){
     }
 }
 
-/* function fnPlantelSeleccionado(nomConexion){
-    fnGrados(nomConexion);
+function fnPlantelSeleccionado(idPlantel){
+    if(idPlantel != ''){
+        idPlantelSeleccionado = idPlantel
+        document.querySelector('#listCarreraNuevo').innerHTML = "<option value>Seleccionar una carrera</option>";
+    }
+    /* fnGrados(nomConexion);
     fnTurnos(nomConexion);
     fnCampaniaActual(nomConexion);
     nomConexionSeleccionadoModal = nomConexion;
@@ -163,20 +168,20 @@ formInscripcionNueva.onsubmit = function(e){
         }else{
             document.querySelector('#listNivelEductaivo').innerHTML = '<option value="">Selecciona un nivel</option>';
         }
-    }).catch(err => {throw err});
+    }).catch(err => {throw err}); */
     
-} */
+} 
 
 function fnNivelSeleccionado(nivel){
     if(nivel != ''){
         let listCarreras = document.querySelector('#listCarreraNuevo');
-        let url = `${base_url}/Inscripcion/getCarreras?nivel=${nivel}`;
+        let url = `${base_url}/Inscripcion/getCarreras?nivel=${nivel}&idplantel=${idPlantelSeleccionado}`;
         fetch(url).then((res) => res.json()).then(resultado =>{
             if(resultado.length > 0){
                 resultado.forEach(carrera => {
                     let option = document.createElement('option');
                     option.text = carrera.nombre_carrera;
-                    option.value = carrera.id;
+                    option.value = carrera.id_plan_estudio;
                     listCarreras.appendChild(option);
                 });
             }else{
@@ -468,16 +473,11 @@ function pasarTab(n) {
         }
     }
 }
-function fnPlantelSeleccionadoDatatable(){
-    //var nomConexion = value;
-    /*var nombrePlantel = document.querySelector('#listPlantelDatatable');
-    var text= nombrePlantel.options[nombrePlantel.selectedIndex].text;
-    document.querySelector('#nombrePlantelDatatable').innerHTML = text;*/
-    /* let url = base_url+"/Inscripcion/getInscripcionesAdmision?conexion="+nomConexion;
-    fetch(url).then((res) => res.json()).then(resultado => {
-        console.log(resultado);
-    }).catch(err => {throw err}); */
 
+function fnPlantelSeleccionadoDatatable(){
+    var plantel = document.querySelector('#listPlantelDatatable');
+    var text= plantel.options[plantel.selectedIndex].text;
+    document.querySelector('#nombrePlantelDatatable').innerHTML = text;
     tableInscripciones = $('#tableInscripciones').dataTable( {
 		"aProcessing":true,
 		"aServerSide":true,
@@ -485,7 +485,7 @@ function fnPlantelSeleccionadoDatatable(){
         	"url": " "+base_url+"/Assets/plugins/Spanish.json"
         },
         "ajax":{
-            "url": " "+base_url+"/Inscripcion/getInscripcionesAdmision",
+            "url": " "+base_url+"/Inscripcion/getInscripcionesAdmision?plantel="+plantel.value,
             "dataSrc":""
         },
         "columns":[
@@ -593,9 +593,9 @@ function fnBtnDesInscribir(value){
     })
 }
 function accionesUsuariosSeleccionados(value){
-    if(value != ''){
+     if(value != ''){
         //Desinscribir usuarios seleccionados
-        if(value == 0){
+        if(value == 1){
             if(sizeCheckInput() > 0){
                 Swal.fire({
                     title: 'Des-inscribir',
@@ -624,7 +624,7 @@ function accionesUsuariosSeleccionados(value){
                 })
             }
             document.querySelector('.listCampSubPos').style.display = "none";
-        }else if(value == 1){
+        }else if(value == 2){
             document.querySelector('.listCampSubPos').style.display = "inline";
         }
     }

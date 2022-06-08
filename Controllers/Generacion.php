@@ -2,7 +2,6 @@
   class Generacion extends Controllers{
 
     private $idUser;
-    private $nomConexion;
     private $rol;
 
     public function __construct()
@@ -15,8 +14,7 @@
             die();
         }
         $this->idUser = $_SESSION['idUser'];
-        $this->nomConexion = $_SESSION['nomConexion'];
-        // $this->rol = $_SESSION['claveRol'];
+        $this->rol = $_SESSION['claveRol'];
     }
 
     public function Generacion()
@@ -31,7 +29,7 @@
 
     //PARA ENLISTAR TODOS LOS USUARIOS EN LA TABLA VISTA
     public function getGeneraciones(){
-        $arrData = $this->model->selectGeneraciones($this->nomConexion);
+        $arrData = $this->model->selectGeneraciones();
         for($i=0; $i < count($arrData); $i++){
           // $arrData[$i]['id_guardado'] = $arrData[$i]['id'];
           // $arrData[$i]['id'] = $i+1;
@@ -70,7 +68,7 @@
         $intIdGeneraciones = intval(strClean($id)); //intval(strClean($idrol));
         if($intIdGeneraciones > 0)
         {
-          $arrData = $this->model->selectGeneracion($intIdGeneraciones,$this->nomConexion);
+          $arrData = $this->model->selectGeneracion($intIdGeneraciones);
           if(empty($arrData))
           {
             $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
@@ -114,7 +112,7 @@
                                                                               $intId_usuario_creacion,
                                                                               $intId_Usuario_Actualizacion,
                                                                               $strFecha_Creacion,
-                                                                              $strFecha_Actualizacion, $this->nomConexion);
+                                                                              $strFecha_Actualizacion);
                                                                               $option = 1;
             } 
 
@@ -165,7 +163,7 @@
                                                                          $strFecha_fin,
 																											                   $intEstatus, 
 																											                   $strFecha_Actualizacion, 
-																											                   $intId_Usuario_Actualizacion, $this->nomConexion);
+																											                   $intId_Usuario_Actualizacion);
 																											                   $option = 1;
 								}
 
@@ -192,7 +190,7 @@
 			if($_POST)
 			{
 					$intIdGeneraciones = intval($_POST['idGeneraciones']);
-					$requestDelete = $this->model->deleteGeneraciones($intIdGeneraciones, $this->nomConexion);
+					$requestDelete = $this->model->deleteGeneraciones($intIdGeneraciones);
 					if($requestDelete == 'ok')
 					{
 						$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la generación correctamente.');
@@ -205,26 +203,6 @@
 			}
 			die();
 		}
-
-
-    // public function delGeneraciones(){
-    //   if($_POST)
-    //   {
-    //       $intIdGeneraciones = intval($_POST['idGen']);
-    //       $requestDelete = $this->model->deleteGeneraciones($intIdGeneraciones,$this->nomConexion);
-    //       if($requestDelete == 'ok')
-    //       {
-    //           $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la generación correctamente.');
-    //       }else if($requestDelete == 'exist'){
-    //           $arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar una generación asociado a un ciclo activo.');
-    //       }else{
-    //           $arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar la generacion.');
-    //       }
-    //       echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-    //   }
-    //   die();
-    // }
-
     
     
   }

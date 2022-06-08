@@ -24,10 +24,10 @@
                 </table>
                 <div class="form-group col-md-12 row">
                     <div class="col-md-4"><p>Con los usuarios seleccionados...</p></div>
-                    <select class="form-control form-control-sm col-md-4" id="listAccionesUsSel" onclick="accionesUsuariosSeleccionados(value)" name="listAccionesUsSel" disabled>
+                    <select class="form-control form-control-sm col-md-4" id="listAccionesUsSel" onclick="accionesUsuariosSeleccionados(value)" disabled>
                         <option value="">Elegir...</option>                            
-                        <option value="0">Cancelar</option>                            
-                        <option value="1">Posponer a una nuevo ciclo</option>                            
+                        <option value="1">Cancelar</option>                            
+                        <option value="2">Posponer a una nuevo ciclo</option>                            
                     </select>
                     <select class="form-control form-control-sm col-md-4 listCampSubPos" onclick="campSubPosSeleccionada(value)">
                         <option value="">Elegir...</option>     

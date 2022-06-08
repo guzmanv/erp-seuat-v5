@@ -31,11 +31,11 @@
                                                 <input type="text" id="txtNombrecortoEdit" name="txtNombrecortoEdit" class="form-control form-control-sm" placeholder="EJ: LTS" maxlength="7" required>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <label>Plantel</label>
-                                                <select class="form-control form-control-sm" id="listPlantelEdit" name="listPlantelEdit"  required>
-                                                    <?php foreach ($data['planteles'] as $value) {
+                                                <label>Institución</label>
+                                                <select class="form-control form-control-sm" id="listInstitucionEdit" name="listInstitucionEdit"  required>
+                                                    <?php foreach ($data['instituciones'] as $value) {
                                                         ?>
-                                                            <option id="<?php echo $value['id'] ?>"value="<?php echo $value['id'] ?>"><?php echo($value['nombre_plantel'].' ('.$value['municipio'].')') ?></option>
+                                                            <option id="<?php echo $value['id'] ?>"value="<?php echo $value['id'] ?>"><?php echo($value['nombre_plantel_fisico'].' / '.$value['nombre_institucion']) ?></option>
                                                         <?php
                                                     } ?>
                                                 </select>

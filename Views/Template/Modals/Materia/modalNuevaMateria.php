@@ -56,13 +56,13 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-md-12">
-                                        <label>Plantel</label>
-                                        <select class="form-control form-control-sm" id="listPlantelNuevo" name="listPlantelNuevo" onchange="plantelSeleccionado(value)" required >
-                                            <option value="">Selecciona un Plantel</option>
+                                        <label>Institución</label>
+                                        <select class="form-control form-control-sm" id="listInstitucionNuevo" name="listInstitucionNuevo" onchange="institucionSeleccionado(value)" required >
+                                            <option value="">Selecciona una institución</option>
                                             <?php
-                                                foreach ($data['plantel'] as $value) {
+                                                foreach ($data['instituciones'] as $value) {
                                                     ?>
-                                                        <option value="<?php echo $value['id'] ?>"><?php echo($value['nombre_plantel'].' ('.$value['municipio'].')') ?></option>
+                                                        <option value="<?php echo $value['id'] ?>"><?php echo($value['nombre_plantel_fisico'].' / '.$value['nombre_institucion']) ?></option>
                                                     <?php
                                                 }
                                             ?>

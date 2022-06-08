@@ -67,7 +67,6 @@ formPersonaNueva.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            //console.log(objData)
             if(objData.estatus){
                 formPersonaNueva.reset();
                 swal.fire("Persona",objData.msg,"success").then((result) =>{
@@ -76,7 +75,7 @@ formPersonaNueva.onsubmit = function(e){
                 tablePersonas.api().ajax.reload();
             }else{
                 swal.fire("Error",objData.msg,"error");
-            }
+            } 
         }
         divLoading.style.display = "none";
         return false;
@@ -260,30 +259,29 @@ function fntEditPersona(idPersona){
                 }else{
                     document.querySelector('#listNivelCarreraInteresEdit').querySelector('option[value="'+objData.id_nivel_carrera_interes+'"]').selected = true;
                 }
-                let urlCarreraInteres = base_url+"/Persona/getCarrerasInteres?idNivel="+objData.id_nivel_carrera_interes;
-                fetch(urlCarreraInteres)
-                .then(res => res.json())
-                .then((resultadoCarreraInteres) =>{
-                    resultadoCarreraInteres.forEach(element => {
-                        document.querySelector('#listCarreraInteresEdit').innerHTML += "<option value='"+element['id']+"'>"+element['nombre_carrera']+"</option>"
-                        if(element['id'] == objData.id_carrera_interes){
-                            document.querySelector('#listCarreraInteresEdit').querySelector('option[value="'+objData.id_carrera_interes+'"]').selected = true;
-
-                        }
-                    });
-                })
-                .catch(err => {throw err});
+                if(objData.id_nivel_carrera_interes != null){
+                    let urlCarreraInteres = base_url+"/Persona/getCarrerasInteres?idNivel="+objData.id_nivel_carrera_interes;
+                    fetch(urlCarreraInteres)
+                    .then(res => res.json())
+                    .then((resultadoCarreraInteres) =>{
+                        resultadoCarreraInteres.forEach(element => {
+                            document.querySelector('#listCarreraInteresEdit').innerHTML += "<option value='"+element['id']+"'>"+element['nombre_carrera']+"</option>";
+                        });
+                        document.querySelector('#listCarreraInteresEdit').querySelector('option[value="'+objData.id_carrera_interes+'"]').selected = true;
+                    })
+                    .catch(err => {throw err});
+                }
                 document.querySelector("#txtCURPEdit").value = objData.curp;
                 var idEstadoPersona = "";
                 var idMunicipioPersona = "";
                 var idLocalidadPersona = "";
                 document.querySelector('#listMunicipioEdit').innerHTML = "";
                 document.querySelector('#listLocalidadEdit').innerHTML = "";
-                let url = base_url+"/Plantel/getListEstados";
+                let url = base_url+"/Planteles/getListEstados";
                 fetch(url)
                     .then(res => res.json())
                     .then((resultado) => {
-                    for (let i = 0; i < resultado.length; i++) {
+                        for (let i = 0; i < resultado.length; i++) {
                         document.querySelector('#listEstadoEdit').innerHTML += "<option value='"+resultado[i]['id']+"'>"+resultado[i]['nombre']+"</option>"
                         if(resultado[i]['id'] == objData.idest){
                             idEstadoPersona = resultado[i]['id'];
@@ -293,7 +291,7 @@ function fntEditPersona(idPersona){
                             opt.innerHTML = resultado[i]['nombre'];
                             opt.setAttribute("selected","");
                             select.appendChild(opt);
-                            let urlMunicipios = base_url+"/Plantel/getMunicipios?idestado="+idEstadoPersona;
+                            let urlMunicipios = base_url+"/Planteles/getMunicipios?idestado="+idEstadoPersona;
                             fetch(urlMunicipios)
                                 .then(res => res.json())
                                 .then((resultadoMunicipio) =>{
@@ -307,12 +305,14 @@ function fntEditPersona(idPersona){
                                             optMunicipio.innerHTML = element['nombre'];
                                             optMunicipio.setAttribute("selected","");
                                             selectMunicipio.appendChild(optMunicipio);
-                                            let urlLocalidades = base_url+"/Plantel/getLocalidades?idmunicipio="+idMunicipioPersona;
+                                            let urlLocalidades = base_url+"/Planteles/getLocalidades?idmunicipio="+idMunicipioPersona;
                                             fetch(urlLocalidades)
                                                 .then(res => res.json())
                                                 .then((resultadoLocalidad) =>{
+                                                    let options = "";
                                                     resultadoLocalidad.forEach(element => {
-                                                        document.querySelector('#listLocalidadEdit').innerHTML += "<option value='"+element['id']+"'>"+element['nombre']+"</option>"
+                                                        //options += "<option value='"+element['id']+"'>"+element['nombre']+"</option>";
+                                                        //document.querySelector('#listLocalidadEdit').innerHTML += "<option value='"+element['id']+"'>"+element['nombre']+"</option>";
                                                         if(element['id'] == objData.id_localidad){
                                                             idLocalidadPersona = element['id'];
                                                             selectLocalidades = document.querySelector('#listLocalidadEdit');
@@ -321,10 +321,10 @@ function fntEditPersona(idPersona){
                                                             optLocalidad.innerHTML = element['nombre'];
                                                             optLocalidad.setAttribute("selected","");
                                                             selectLocalidades.appendChild(optLocalidad);
-                                                        }
+                                                        } 
                                                     });
                                                 })
-                                                .catch(err => {throw err});
+                                            .catch(err => {throw err});
                                         }
 
                                     });
@@ -335,7 +335,7 @@ function fntEditPersona(idPersona){
                 })
                 .catch(err => { throw err });
                 document.querySelector('#listCategoriaEdit').querySelector('option[value="'+objData.id_categoria_persona+'"]').selected = true;
-                document.querySelector('#txtObservacionEdit').value = objData.observacion;
+                document.querySelector('#txtObservacionEdit').value = objData.observacion; 
                 //document.querySelector('#listEstatusEdit').querySelector('option[value="'+objData.estatus+'"]').selected = true;
 
 

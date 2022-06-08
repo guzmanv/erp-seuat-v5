@@ -1,7 +1,6 @@
 <?php
     class Modalidades extends Controllers{
         private $idUser;
-		private $nomConexion;
 		private $rol;
 		public function __construct()
 		{
@@ -13,7 +12,6 @@
 			    die();
 		    }
 			$this->idUser = $_SESSION['idUser'];
-			$this->nomConexion = $_SESSION['nomConexion'];
 			$this->rol = $_SESSION['claveRol'];
 		}
          //Funcion para la Vista de Modalidades
@@ -24,11 +22,10 @@
             $data['page_name'] = "modalidades";
             $data['page_content'] = "";
             $data['page_functions_js'] = "functions_modalidades.js";
-            
             $this->views->getView($this,"modalidades",$data);
         }
         public function getModalidades(){
-            $arrData = $this->model->selectModalidades($this->nomConexion);
+            $arrData = $this->model->selectModalidades();
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 if($arrData[$i]['estatus'] == 1){
@@ -65,7 +62,7 @@
                 $intIdModalidadEdit = intval($_POST['idModalidadEdit']);
             }
             if($intIdModalidadNueva == 1){
-                $arrData = $this->model->insertModalidad($data, $this->nomConexion);
+                $arrData = $this->model->insertModalidad($data);
                 if($arrData['estatus'] != TRUE){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
                 }else{
@@ -73,7 +70,7 @@
                 }
             }
             if($intIdModalidadEdit !=0){
-                $arrData = $this->model->updateModalidad($intIdModalidadEdit,$data, $this->nomConexion);
+                $arrData = $this->model->updateModalidad($intIdModalidadEdit,$data);
                 if($arrData['estatus'] != TRUE){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
                 }else{
@@ -85,7 +82,7 @@
         }
 
         public function getModalidad(int $idModalidad){
-            $arrData = $this->model->selectModalidad($idModalidad, $this->nomConexion);
+            $arrData = $this->model->selectModalidad($idModalidad);
             if($arrData){
                 echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
                 die();
@@ -96,7 +93,7 @@
 		public function delModalidad(){
 			if($_POST){
 				$intIdModalidad = intval($_POST['idModalidad']);
-				$requestDelete = $this->model->deleteModalidad($intIdModalidad, $this->nomConexion);
+				$requestDelete = $this->model->deleteModalidad($intIdModalidad);
 				if($requestDelete == 'ok'){
 					$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la modalidad.');
 				}else{

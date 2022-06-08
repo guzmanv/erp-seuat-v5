@@ -1,7 +1,6 @@
 <?php
 	class HistorialCorteCajas extends Controllers{
         private $idUser;
-		private $nomConexion;
 		private $rol;
 		public function __construct()
 		{
@@ -13,7 +12,6 @@
 			    die();
 		    }
 			$this->idUser = $_SESSION['idUser'];
-			$this->nomConexion = $_SESSION['nomConexion'];
 			$this->rol = $_SESSION['claveRol'];
 		}
 		public function historialcortecajas(){
@@ -25,7 +23,7 @@
 			$this->views->getView($this,"historialcortecajas",$data);
 		}
 		public function getCortesCajas(){
-			$arrData = $this->model->selectCortesCajas($this->nomConexion);
+			$arrData = $this->model->selectCortesCajas();
 			for($i = 0; $i<count($arrData); $i++){
 				$arrData[$i]['numeracion'] = $i+1;
 				//$arrData[$i]['plantel'] = $arrData[$i]['nombre_plantel'].'/'.$arrData[$i]['municipio'];

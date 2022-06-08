@@ -19,17 +19,17 @@
                 <div class="row">
                     <div class="col-12 mb-3 row">
                         <div class="col-lg-6 col-md-6">
-                            <label>Selecciona una base de datos para ver los datos de planteles</label>
-                            <select class="custom-select" id="listSuperplanteles" onchange="superPlantelSeleccionado(value)">
+                            <label>Selecciona un plantel</label>
+                            <select class="custom-select" id="listPlanteles" onchange="plantelSeleccionado(value)">
                                 <option value="all" selected="">Todos</option>
-                                <?php foreach (conexiones as $key => $conexion) { ?>
-                                    <option value="<?php echo $key ?>" ><?php echo $conexion['NAME'] ?></option>
+                                <?php foreach ($data['planteles'] as $key => $value) { ?>
+                                    <option value="<?php echo $value['id'] ?>" ><?php echo $value['nombre_plantel_fisico'] ?></option>
                                 <?php } ?>
                             </select>
                         </div>
                         <div class="col-lg-6 col-md-6">
-                            <label>Planteles</label>
-                            <select class="custom-select" id="listPlanteles" onchange="plantelSeleccionado(value)">
+                            <label>Instituciones</label>
+                            <select class="custom-select" id="listInstituciones" onchange="institucionSeleccionado(value)">
                         </select>
                     </div>
                     </div>
@@ -60,7 +60,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col mt-0">
-                                        <h5 class="card-title">Planteles</h5>
+                                        <h5 class="card-title">Instituciones</h5>
                                     </div>
                                     <div class="col-auto">
                                         <div class="avatar">
@@ -178,7 +178,7 @@
                                 <canvas id="sales-chart" height="200"
                                     style="display: block; width: 605px; height: 200px;" width="605"
                                     class="chartjs-render-monitor"></canvas>
-                                <canvas id="sales-chart-plantel" height="200"
+                                <canvas id="sales-chart-institucion" height="200"
                                     style="display: block; width: 605px; height: 200px;" width="605"
                                     class="chartjs-render-monitor"></canvas>
                             </div>

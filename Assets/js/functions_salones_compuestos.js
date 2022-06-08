@@ -7,7 +7,7 @@ window.addEventListener('load', function(){
     fntSelectSalonComPerio();
     fntSelectSalonComGrado();
     fntSelectSalonComGrupo();
-    fntSelectSalonComPlantel();
+    fntSelectSalonComInstitucion();
     fntSelectSalonComTurno();
     fntSelectSalonComSalon();
 }, false);
@@ -17,7 +17,7 @@ window.addEventListener('load', function(){
     fntSelectEditSalonComPerio();
     fntSelectEditSalonComGrado();
     fntSelectEditSalonComGrupo();
-    fntSelectEditSalonComPlantel();
+    fntSelectEditSalonComInstitucion();
     fntSelectEditSalonComTurno();
     fntSelectEditSalonComSalon();
 }, false);
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"anoCic"},
             {"data":"NomGrad"},
             {"data":"NomGrup"},
-            {"data":"NomPlant"},
+            {"data":"nomInst"},
             {"data":"NomTurn"},
             {"data":"NomSal"},
             {"data":"Est"},
@@ -78,12 +78,12 @@ document.addEventListener('DOMContentLoaded', function(){
             let intId_Periodos = document.querySelector('#listIdPeriodosNuevo').value;
             let intId_Grados = document.querySelector('#listIdGradosNuevo').value;
             let intId_Grupos = document.querySelector('#listIdGruposNuevo').value;
-            let intId_Planteles = document.querySelector('#listIdPlantelesNuevo').value;
+            let intId_Instituciones = document.querySelector('#listIdInstitucionesNuevo').value;
             let intId_Turnos = document.querySelector('#listIdTurnosNuevo').value;
             let intId_Salones = document.querySelector('#listIdSalonesNuevo').value;
             let intEstatus = document.querySelector('#listEstatus').value;
 
-            if ( strNombre_SalonCompuesto == '' || strFecha_Creacion == '' || intId_usuario_creacion == '' || intId_Periodos == '' || intId_Grados == '' || intId_Grupos == '' || intId_Planteles == '' || intId_Turnos == '' || intId_Salones == '' || intEstatus == '')
+            if ( strNombre_SalonCompuesto == '' || strFecha_Creacion == '' || intId_usuario_creacion == '' || intId_Periodos == '' || intId_Grados == '' || intId_Grupos == '' || intId_Instituciones == '' || intId_Turnos == '' || intId_Salones == '' || intEstatus == '')
             {
                 swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
                 return false;
@@ -129,12 +129,12 @@ document.addEventListener('DOMContentLoaded', function(){
             let intId_Periodos = document.querySelector('#listIdPeriodosEditar').value;
             let intId_Grados = document.querySelector('#listIdGradosEditar').value;
             let intId_Grupos = document.querySelector('#listIdGruposEditar').value;
-            let intId_Planteles = document.querySelector('#listIdPlantelesEditar').value;
+            let intId_Instituciones = document.querySelector('#listIdInstitucionesEditar').value;
             let intId_Turnos = document.querySelector('#listIdTurnosEditar').value;
             let intId_Salones = document.querySelector('#listIdSalonesEditar').value;
             let intEstatus = document.querySelector('#listEstatusUp').value;
             
-            if(strNombre_SalonCompuesto == '' || intEstatus == '' || intId_Periodos == '' || intId_Grados == '' || intId_Grupos == '' || intId_Planteles == '' || intId_Turnos == '' || intId_Salones == '' ||  intId_Usuario_Actualizacion == '')
+            if(strNombre_SalonCompuesto == '' || intEstatus == '' || intId_Periodos == '' || intId_Grados == '' || intId_Grupos == '' || intId_Instituciones == '' || intId_Turnos == '' || intId_Salones == '' ||  intId_Usuario_Actualizacion == '')
             {
                 swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
 				return false;
@@ -208,7 +208,7 @@ function fntEditSalonesComp(element, id){
                 document.querySelector("#listIdPeriodosEditar").value = objData.data.id_periodo;
                 document.querySelector("#listIdGradosEditar").value = objData.data.id_grado;
                 document.querySelector("#listIdGruposEditar").value = objData.data.id_grupo;
-                document.querySelector("#listIdPlantelesEditar").value = objData.data.id_plantel;
+                document.querySelector("#listIdInstitucionesEditar").value = objData.data.id_instituciones;
                 document.querySelector("#listIdTurnosEditar").value = objData.data.id_turnos;
                 document.querySelector("#listIdSalonesEditar").value = objData.data.id_salon;
                 document.querySelector("#txtId_Usuario_ActualizacionUp").value = 1;
@@ -324,17 +324,17 @@ function fntSelectSalonComGrupo(){
     }
 }
 
-function fntSelectSalonComPlantel(){
-    if(document.querySelector('#listIdPlantelesNuevo')){
+function fntSelectSalonComInstitucion(){
+    if(document.querySelector('#listIdInstitucionesNuevo')){
         /* let nombreGeneracion = document.querySelector('#listIdGeneracionesNuevo').options[document.querySelector('#listIdGeneracionesNuevo').selectedIndex].text; */
 
-        let ajaxUrl = base_url+'/Salones_compuestos/getSelectSalonComPlantel';
+        let ajaxUrl = base_url+'/Salones_compuestos/getSelectSalonComInstitucion';
         let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         request.open("GET",ajaxUrl,true);
         request.send();
         request.onreadystatechange = function() {
             if(request.readyState == 4 && request.status == 200) {
-                document.querySelector('#listIdPlantelesNuevo').innerHTML = request.responseText;
+                document.querySelector('#listIdInstitucionesNuevo').innerHTML = request.responseText;
             }
         }
     }
@@ -418,15 +418,15 @@ function fntSelectEditSalonComGrupo(){
     }
 }
 
-function fntSelectEditSalonComPlantel(){
-    if(document.querySelector('#listIdPlantelesEditar')){
-        let ajaxUrl = base_url+'/Salones_compuestos/getSelectEditSalonComPlantel';
+function fntSelectEditSalonComInstitucion(){
+    if(document.querySelector('#listIdInstitucionesEditar')){
+        let ajaxUrl = base_url+'/Salones_compuestos/getSelectEditSalonComInstitucion';
         let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         request.open("GET",ajaxUrl,true);
         request.send();
         request.onreadystatechange = function() {
             if(request.readyState == 4 && request.status == 200) {
-                document.querySelector('#listIdPlantelesEditar').innerHTML = request.responseText;
+                document.querySelector('#listIdInstitucionesEditar').innerHTML = request.responseText;
             }
         }
     }

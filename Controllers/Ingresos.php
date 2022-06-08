@@ -1,7 +1,6 @@
 <?php
     class Ingresos extends Controllers{
         private $idUser;
-		private $nomConexion;
 		private $rol;
 		public function __construct()
 		{
@@ -13,8 +12,7 @@
 			    die();
 		    }
 			$this->idUser = $_SESSION['idUser'];
-			$this->nomConexion = $_SESSION['nomConexion'];
-			$this->rol = $_SESSION['claveRol'];
+			$this->rol = 'aux';
 		}
         //Mostrar vista de ingresos
         public function ingresos(){
@@ -22,21 +20,22 @@
             $data['page_tag'] = "Ingresos";
             $data['page_title'] = "Caja (ingresos)";
             $data['page_content'] = "";
-            $data['metodos_pago'] = $this->model->selectMetodosPago($this->nomConexion);
-            $data['estatus_caja'] = $this->model->selectEstatusCaja($this->idUser, $this->nomConexion);
+            $data['metodos_pago'] = $this->model->selectMetodosPago();
+            $data['estatus_caja'] = $this->model->selectEstatusCaja($this->idUser);
             $data['page_functions_js'] = "functions_ingresos.js";
             $this->views->getView($this,"ingresos",$data);
+            
         }
         //Funcion obtener lista ingresos
         public function getIngresos(){
-            $arrData = $this->model->selectIngresos($this->nomConexion);
+            $arrData = $this->model->selectIngresos();
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
         //Funcion para buscar persona en el Modal
         public function buscarPersonaModal(){
             $data = $_GET['val'];
-            $arrData = $this->model->selectPersonasModal($data, $this->nomConexion);
+            $arrData = $this->model->selectPersonasModal($data);
             for($i = 0; $i <count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-primary btn-sm" rl="'.$arrData[$i]['nombre'].'" onclick="seleccionarPersona(this)">Seleccionar</button>';
@@ -47,7 +46,7 @@
         }
         //Funcion para obtener si una persona tiene estado de cuenta
         public function getEstatusEstadoCuenta($idPersonaSeleccionada){
-            $arrData = $this->model->selectStatusEstadoCuenta($idPersonaSeleccionada, $this->nomConexion);
+            $arrData = $this->model->selectStatusEstadoCuenta($idPersonaSeleccionada);
             if(count($arrData) == 0){
                 $arrRequest = false;
             }else{
@@ -64,11 +63,11 @@
             $idPersona = $valor[2];
             if($pago == 1){
                 $arrData['tipo'] = "COL";
-                $arrData['data'] = $this->model->selectColegiaturas($idPersona,$grado, $this->nomConexion);
+                $arrData['data'] = $this->model->selectColegiaturas($idPersona,$grado);
             }else{
                 $arrData['tipo'] = "SERV";
                 //$arrData['data'] = $this->model->selectServicios($idPersona,$grado);
-                $datos = $this->model->selectServicios($idPersona,$grado, $this->nomConexion);
+                $datos = $this->model->selectServicios($idPersona,$grado);
                 $arrData['data'] = $datos;
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
@@ -76,21 +75,21 @@
         }
         //Funcion para obtener promociones por Id del Servicio
         public function getPromociones($idServicio){
-            $arrData = $this->model->selecPromociones($idServicio, $this->nomConexion);
+            $arrData = $this->model->selecPromociones($idServicio);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
         //Funcion para generar un estado de cuenta
         public function generarEdoCuenta($idPersonaSeleccionada){
-            $arrPlantel = $this->model->selectPlantelAlumno($idPersonaSeleccionada, $this->nomConexion);
-            $arrCarrera = $this->model->selectCarreraAlumno($idPersonaSeleccionada, $this->nomConexion);
-            $arrGrado = $this->model->selectGradoAlumno($idPersonaSeleccionada, $this->nomConexion);
-            $arrPeriodo = $this->model->selectPeriodoAlumno($idPersonaSeleccionada, $this->nomConexion);
+            $arrPlantel = $this->model->selectPlantelAlumno($idPersonaSeleccionada);
+            $arrCarrera = $this->model->selectCarreraAlumno($idPersonaSeleccionada);
+            $arrGrado = $this->model->selectGradoAlumno($idPersonaSeleccionada);
+            $arrPeriodo = $this->model->selectPeriodoAlumno($idPersonaSeleccionada);
             $idPlantel = $arrPlantel['id'];
             $idCarrera = $arrCarrera['id_plan_estudios'];
             $idGrado = $arrGrado['grado'];
             $idPeriodo = $arrPeriodo['id'];
-            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$idPlantel,$idCarrera,$idGrado,$idPeriodo,$this->idUser, $this->nomConexion);
+            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$idPlantel,$idCarrera,$idGrado,$idPeriodo,$this->idUser);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -113,27 +112,27 @@
                     break;
                 }
             }
-            $folio = $this->model->selectFolioSig($idAlumno, $this->nomConexion);
+            $folio = $this->model->selectFolioSig($idAlumno);
             //$idPlantel = $this->model->selectPlantelAlumno($idAlumno);
-            $idPlantel = $this->model->selectPlantelUSer($this->idUser, $this->nomConexion);
+            $idPlantel = $this->model->selectPlantelUSer($this->idUser);
             if($idPlantel){
-                $reqIngreso = $this->model->insertIngresos($folio,$tipoPago,$tipoComprobante,$total,$observaciones,$idAlumno,$idPlantel['nom_plantel'],$this->idUser, $this->nomConexion);
+                $reqIngreso = $this->model->insertIngresos($folio,$tipoPago,$tipoComprobante,$total,$observaciones,$idAlumno,$idPlantel['nom_plantel'],$this->idUser);
                 if($reqIngreso){
                     foreach ($arrayDate as $key => $value) {
                         $idServicio = null;
                         $idPrecarga = null;
                         if($value->edo_cta == 1){ //Estado de Cuenta
                             $idPrecarga = $value->precarga;
-                            $reqIngDetalles = $this->model->insertIngresosDetalle($value->cantidad,$value->precio_unitario,$value->precio_unitario,$total,$value->subtotal,0,0,json_encode($value->promociones),$idServicio,$idPrecarga,$reqIngreso, $this->nomConexion);
+                            $reqIngDetalles = $this->model->insertIngresosDetalle($value->cantidad,$value->precio_unitario,$value->precio_unitario,$total,$value->subtotal,0,0,json_encode($value->promociones),$idServicio,$idPrecarga,$reqIngreso);
                             $idEstadoCta = $value->id_servicio;  //ID edo cta a actualizar como pagado
                             if($reqIngDetalles){
-                                $reqEdoCtaUpdate = $this->model->updateEdoCta($idEstadoCta,$this->idUser, $this->nomConexion);
+                                $reqEdoCtaUpdate = $this->model->updateEdoCta($idEstadoCta,$this->idUser);
                                 //$arrResponse = $reqEdoCtaUpdate; Se se guardo correcxtamnete a Pagado
                             }
                             
                         }else{ //Otros Servicios
                             $idServicio = $value->id_servicio;
-                            $reqIngDetalles = $this->model->insertIngresosDetalle($value->cantidad,$value->precio_unitario,$value->precio_unitario,$total,$value->subtotal,0,0,json_encode($value->promociones),$idServicio,$idPrecarga,$reqIngreso, $this->nomConexion);
+                            $reqIngDetalles = $this->model->insertIngresosDetalle($value->cantidad,$value->precio_unitario,$value->precio_unitario,$total,$value->subtotal,0,0,json_encode($value->promociones),$idServicio,$idPrecarga,$reqIngreso);
                         }
                         if($reqIngDetalles){
                             $arrResponse = array('estatus' => true, 'id'=>$reqIngreso,'msg' => 'Datos guardados correctamente!');                       
@@ -152,9 +151,9 @@
         public function imprimir_comprobante_venta(string $idVenta){
             $idIngreso = $this->reverse64($idVenta);
             //$data['datosInstitucion'] = $this->model->selectDatosInstitucion($idIngreso, $this->nomConexion); //Datos del plantel
-            $data['datos_venta'] = $this->model->selectDatosVenta($idIngreso, $this->nomConexion);//Datos del ingreso/venta
-            $data['datos_alumno'] = $this->model->selectDatosAlumno($idIngreso, $this->nomConexion);//Datos del Alumno
-            $data['datos_usuario'] = $this->model->selectDatosUsuario($this->idUser, $this->nomConexion);//Datos del Usuario Admin
+            $data['datos_venta'] = $this->model->selectDatosVenta($idIngreso);//Datos del ingreso/venta
+            $data['datos_alumno'] = $this->model->selectDatosAlumno($idIngreso);//Datos del Alumno
+            $data['datos_usuario'] = $this->model->selectDatosUsuario($this->idUser);//Datos del Usuario Admin
             $arrDatosVenta = [];
             $total = 0;
             $inscripcion = 0;
@@ -183,9 +182,9 @@
             $idCaja = $arg[0];
             $estatus = 1;
             $monto = $arg[1];
-            $apertura = $this->model->updateEstatusCaja($idCaja,$estatus,$monto, $this->nomConexion);
+            $apertura = $this->model->updateEstatusCaja($idCaja,$estatus,$monto);
             if($apertura){
-               $caja = $this->model->insertCorteCaja($monto,$idCaja, $this->nomConexion);
+               $caja = $this->model->insertCorteCaja($monto,$idCaja);
                 if($caja){
                     $arrResponse = array('estatus' => true, 'msg' => 'Caja aperturado correctamente!');
                 }

@@ -1,108 +1,108 @@
 var $salesChart = $('#sales-chart');
-var $salesChartPlantel= $('#sales-chart-plantel');
-var arrPlanteles = [];
+var $salesChartPlantel= $('#sales-chart-institucion');
+var arrInstitucion = [];
 var carreras = [];
 var materias = [];
 var rvoes = [];
-let conexionSeleccionado = null;
 let idPlantelSeleccionado = null;
+let idInstitucionSeleccionado = null;
 
 document.addEventListener('DOMContentLoaded', function(){
-    conexionSeleccionado = 'all';
     idPlantelSeleccionado = 'all';
+    idInstitucionSeleccionado = 'all';
     let plantel = "all";
     fnTotalesCard(plantel,'all');
-    plEstudioMateriabyPlantel(plantel,'all');
-    document.querySelector('#sales-chart-plantel').style.display = "none";
+    plEstudioMateriabyInstitucion(plantel,'all');
+    document.querySelector('#sales-chart-institucion').style.display = "none";
     document.querySelector('#sales-chart').style.display = "none";
     document.querySelector('.divnomplant').style.display = "none";
-    document.querySelector('#listPlanteles').innerHTML = '<option value="all">Todos</option>';
+    document.querySelector('#listInstituciones').innerHTML = '<option value="all">Todos</option>';
 });
 //var $salesChartPlantel = $('#sales-chart-plantel');
-function superPlantelSeleccionado(nomConexion){
-    conexionSeleccionado = nomConexion;
-    if(nomConexion == 'all'){
-        document.querySelector('#listPlanteles').innerHTML = '<option value="all" selected>Todos</option>';
-        idPlantelSeleccionado = 'all';
-        fnTotalesCard(nomConexion,'all');
-        plEstudioMateriabyPlantel(nomConexion,'all');
+function plantelSeleccionado(plantel){
+    console.log(plantel)
+    idPlantelSeleccionado = plantel;
+    if(plantel == 'all'){
+        document.querySelector('#listInstituciones').innerHTML = '<option value="all" selected>Todos</option>';
+        idInstitucionSeleccionado = 'all';
+        fnTotalesCard(plantel,idInstitucionSeleccionado);
+        plEstudioMateriabyInstitucion(plantel,institucionSeleccionado);
     }else{
-        document.querySelector('#listPlanteles').innerHTML = '<option value="all" selected>Todos</option>';
-        let url = `${base_url}/DashboardDirc/getPlanteles/${nomConexion}`;
+        document.querySelector('#listInstituciones').innerHTML = '<option value="all" selected>Todos</option>';
+        let url = `${base_url}/DashboardDirc/getInstituciones/${plantel}`;
         fetch(url).then((res) => res.json()).then(resultado =>{
-            resultado.forEach(plantel => {
-                document.querySelector('#listPlanteles').innerHTML += '<option value="'+plantel.id+'">'+plantel.nombre_plantel+'</option>';
+            resultado.forEach(institucion => {
+                document.querySelector('#listInstituciones').innerHTML += '<option value="'+institucion.id+'">'+institucion.nombre_institucion+'</option>';
             });
         }).catch(err => {throw err});
-        fnTotalesCard(nomConexion,'all');
-        plEstudioMateriabyPlantel(nomConexion,'all');
-    }
+        fnTotalesCard(plantel,idInstitucionSeleccionado);
+        plEstudioMateriabyInstitucion(plantel,'all');
+    } 
 
 }
-function fnTotalesCard(nomConexion,plantel){
-    let url = base_url+"/DashboardDirc/getTotalesCard/"+nomConexion+"/"+plantel;
+function fnTotalesCard(plantel,institucion){
+    let url = base_url+"/DashboardDirc/getTotalesCard/"+plantel+"/"+institucion;
     fetch(url).then(res => res.json()).then((resultado) => {
         if(resultado.tipo == "all"){
             document.querySelector('.divnomplant').style.display = "none";
             document.querySelector('.divplant').style.display = "block";
             document.querySelector('#sales-chart').style.display = "flex";
-            document.querySelector('#sales-chart-plantel').style.display = "none";
-            document.querySelector('.plnt').innerHTML=resultado.planteles;
+            document.querySelector('#sales-chart-institucion').style.display = "none";
+            document.querySelector('.plnt').innerHTML=resultado.instituciones;
             document.querySelector('.ple').innerHTML=resultado.plan_estudios;
             document.querySelector('.mat').innerHTML=resultado.materias;
             document.querySelector('.rvoeexp').innerHTML=resultado.rvoes;
             document.getElementById('btnRvoesExp').setAttribute('onClick', 'fnRvoeExp();' );
         }else{
-            /* document.querySelector('.divnomplant').style.display = "block";
+            document.querySelector('.divnomplant').style.display = "block";
             document.querySelector('#sales-chart').style.display = "none";
-            document.querySelector('#sales-chart-plantel').style.display = "flex";
+            document.querySelector('#sales-chart-institucion').style.display = "flex";
             document.querySelector('.divplant').style.display = "none";
             document.querySelector('.ple').innerHTML=resultado.plan_estudios;
             document.querySelector('.mat').innerHTML=resultado.materias;
             document.querySelector('.rvoeexp').innerHTML=resultado.rvoes;
-            document.getElementById('btnRvoesExp').setAttribute('onClick', 'fnRvoeExp('+plantel+');' ); */
+            document.getElementById('btnRvoesExp').setAttribute('onClick', 'fnRvoeExp('+institucion+');' );
         }
         }).catch(err => { throw err });
 }
 
-function plantelSeleccionado(value){
-    idPlantelSeleccionado = value;
-    let nomConexion = document.getElementById('listSuperplanteles').value;
-    if(value == 'all'){
-        fnTotalesCard(nomConexion,'all');
-        plEstudioMateriabyPlantel(nomConexion,'all')
+function institucionSeleccionado(value){
+    idInstitucionSeleccionado = value;
+    let plantel = document.getElementById('listPlanteles').value;
+    if(idInstitucionSeleccionado == 'all'){
+        fnTotalesCard(plantel,'all');
+        plEstudioMateriabyInstitucion(plantel,'all')
     }else{
-        fnTotalesCard(nomConexion,value);
-        plEstudioMateriabyPlantel(nomConexion,value)
+        fnTotalesCard(plantel,value);
+        plEstudioMateriabyInstitucion(plantel,value)
     }
 }
 
 
-function plEstudioMateriabyPlantel(nomConexion,plantel){
-    let url = base_url+"/DashboardDirc/getPlanEstudiosMateriabyPlantel/"+nomConexion+"/"+plantel;
+function plEstudioMateriabyInstitucion(plantel,institucion){
+    let url = base_url+"/DashboardDirc/getPlanEstudiosMateriabyInstitucion/"+plantel+"/"+institucion;
     fetch(url).then(res => res.json()).then((resultado) => {
-        arrPlanteles = [];
+        console.log(resultado)
+        arrInstitucion = [];
         carreras = [];
         materias = [];
         rvoes = [];
         for ( const [key,value] of Object.entries( resultado ) ) {
-            arrPlanteles.push(value.abreviacion_plantel+'('+value.municipio+')');
+            arrInstitucion.push(value.abreviacion_institucion+'('+value.municipio+')');
             carreras.push(value.carreras);
             materias.push(value.materias);
             rvoes.push(value.rvoes);
         }
-        if(arrPlanteles[0]!= null){
-            fnMostrarGrafica(arrPlanteles,carreras,materias);
+        if(arrInstitucion[0]!= null){
+            fnMostrarGrafica(arrInstitucion,carreras,materias);
             document.querySelector('#sales-chart').style.display = 'block';
-            document.querySelector('#sales-chart-plantel').style.display = "none";
+            document.querySelector('#sales-chart-institucion').style.display = "none";
         }else{
-            /* fnMostrarGraficaPlantel(carreras,materias);
-            document.querySelector('#sales-chart').style.display = "none";
-            document.querySelector('#sales-chart-plantel').style.display = "block"; */
+            
         }
-        }).catch(err => { throw err }); 
+        }).catch(err => { throw err });
 }
-function fnMostrarGrafica(arrPlanteles,carreras,materias){
+function fnMostrarGrafica(arrInstitucion,carreras,materias){
     var ticksStyle = {
         fontColor: '#495057',
         fontStyle: 'bold'
@@ -113,7 +113,7 @@ function fnMostrarGrafica(arrPlanteles,carreras,materias){
     var salesChart = new Chart($salesChart, {
       type: 'bar',
       data: {
-        labels: arrPlanteles,
+        labels: arrInstitucion,
         datasets: [
           {
             backgroundColor: '#007bff',
@@ -222,27 +222,17 @@ function fnMostrarGraficaPlantel(carreras,materias){
 function fnRvoeExp(){
     document.querySelector('#tableRvoesExp').innerHTML = "";
     document.querySelector('#alertSinRvoeExp').innerHTML = "";
-    let url = base_url+"/DashboardDirc/getListaRvoesExpirar/"+conexionSeleccionado+"/"+idPlantelSeleccionado;
+    let url = base_url+"/DashboardDirc/getListaRvoesExpirar/"+idPlantelSeleccionado+"/"+idInstitucionSeleccionado;
     fetch(url).then(res => res.json()).then((resultado) => {
+        console.log(resultado)
         if(resultado.length != 0){
             let contador = 0;
             resultado.forEach(element => {
                 contador += 1;
-                document.querySelector('#tableRvoesExp').innerHTML += "<tr><td>"+contador+"</td><td>"+element.nombre_carrera+"</td><td>"+element.abreviacion_sistema+"</td><td>"+element.abreviacion_plantel+"("+element.municipio+")"+"</td><td>"+element.rvoe+"</td><td><span class='badge badge-danger'>"+element.fecha_actualizacion_rvoe+"</span></td></tr>";                
+                document.querySelector('#tableRvoesExp').innerHTML += "<tr><td>"+contador+"</td><td>"+element.nombre_carrera+"</td><td>"+element.nom_plantel+"</td><td>"+element.abreviacion_institucion+"("+element.municipio+")"+"</td><td>"+element.rvoe+"</td><td><span class='badge badge-danger'>"+element.fecha_actualizacion_rvoe+"</span></td></tr>";                
             });
         }else{
             document.querySelector('#alertSinRvoeExp').innerHTML += '<div class="alert alert-warning" role="alert">No hay datos que mostrar</div>';                
-        } 
+        }
     }).catch(err => { throw err });
-    /* if(value != undefined){
-    }else{
-        let url = base_url+"/DashboardDirc/getListaRvoesExpirar/all";
-        fetch(url).then(res => res.json()).then((resultado) => {
-            let contador = 0;
-            resultado.forEach(element => {
-                contador += 1;
-                document.querySelector('#tableRvoesExp').innerHTML += "<tr><td>"+contador+"</td><td>"+element.nombre_carrera+"</td><td>"+element.abreviacion_sistema+"</td><td>"+element.abreviacion_plantel+"("+element.municipio+")"+"</td><td>"+element.rvoe+"</td><td><span class='badge badge-danger'>"+element.fecha_actualizacion_rvoe+"</span></td></tr>";                
-            });
-        }).catch(err => { throw err });
-    } */
 }

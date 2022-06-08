@@ -20,12 +20,11 @@ document.addEventListener('DOMContentLoaded', function(){
     document.querySelector('.div_datos_precarga').style.display = "none";
 });
 
+
 function fnPlantelSeleccionadoDatatable(value,nivel){
     idPlantel = value;
     let url = `${base_url}/PrecargaCuenta/getPlanEstudios/${idPlantel}/${nivel}`;
-    // fetch(url).then((res) => res.json()).then(resultado =>{
-    //     console.log(resultado)
-    // }).catch(err => {throw err});
+
     tablePlanEstudios = $('#tablePlanEstudios').dataTable( {
 		"aProcessing":true,
 		"aServerSide":true,
@@ -38,7 +37,7 @@ function fnPlantelSeleccionadoDatatable(value,nivel){
         },
         "columns":[
             {"data":"numeracion"},
-            {"data":"nombre_plantel"},
+            {"data":"nombre_plantel_fisico"},
             {"data":"nombre_carrera"},
             {"data":"nombre_nivel_educativo"},
             {"data":"options"}
@@ -99,7 +98,6 @@ function fnListNiveles(idPlantel,nivel){
         if(nivel > 0){
             document.querySelector('#listNivelDatatable').querySelector('option[value="'+nivel+'"]').selected = true;
         }
-        // console.log(resultado);
     }).catch(err => {throw err});
 }
 function fnNivelSeleccionadoDatatable(value){
@@ -262,9 +260,7 @@ function fnGuardarPrecarga(){
                         swal.fire("Atención", resultado.msg, "warning")
                         return false;
                     }
-                    fnMostrarData();
-                    
-                    // location.reload(true);
+                    fnMostrarData();                    
                     setTimeout(function () { location.reload(1); }, 2000);
                 }).catch(err => {throw err});
             }else{
@@ -349,8 +345,8 @@ function mostrarServiciosTabla(){
     let contador = 0;
     arrDatosNew.forEach(element => {
         contador += 1;
-        document.querySelector('#tableServicioss').innerHTML += '<tr><th><input type="checkbox" aria-label="Checkbox for following text input"></th><th scope="row">'+contador+'</th><td>'+element.codigo+'</td><td>'+element.nombre_servicio+'</td><td>'+formatoMoneda(element.precio_unitario)+'</td><td id="np-'+element.id_servicio+'">$0.00</td><td><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnEditServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#modal_editar_servicio"><i class="fas fa-pencil-alt"></i></a><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnVerServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#modal_ver_servicio"><i class="far fa-eye ml-3"></i></a><a type="button" onclick="fnDelServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#exampleModal"><i class="far fa-trash-alt ml-3"></i></a></td></tr>';
-        console.log(element)
+        let nuevoPrecio = (element.nuevo_precio == null || element.nuevo_precio == '')?'$0.00':formatoMoneda(element.nuevo_precio);
+        document.querySelector('#tableServicioss').innerHTML += '<tr><th><input type="checkbox" aria-label="Checkbox for following text input"></th><th scope="row">'+contador+'</th><td>'+element.codigo+'</td><td>'+element.nombre_servicio+'</td><td>'+formatoMoneda(element.precio_unitario)+'</td><td id="np-'+element.id_servicio+'">'+nuevoPrecio+'</td><td><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnEditServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#modal_editar_servicio"><i class="fas fa-pencil-alt"></i></a><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnVerServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#modal_ver_servicio"><i class="far fa-eye ml-3"></i></a><a type="button" onclick="fnDelServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#exampleModal"><i class="far fa-trash-alt ml-3"></i></a></td></tr>';
     });
     // console.log(arrDatosNew);
 }

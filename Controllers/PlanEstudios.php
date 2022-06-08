@@ -2,7 +2,6 @@
 class PlanEstudios extends Controllers
 {
     private $idUser;
-    private $nomConexion;
     private $rol;
     public function __construct()
     {
@@ -13,7 +12,6 @@ class PlanEstudios extends Controllers
             die();
         }
         $this->idUser = $_SESSION['idUser'];
-        $this->nomConexion = $_SESSION['nomConexion'];
         $this->rol = $_SESSION['claveRol'];
     }
     public function planestudios()
@@ -23,21 +21,22 @@ class PlanEstudios extends Controllers
         $data['page_title'] = "Planes de estudios";
         $data['page_content'] = "";
         $data['page_functions_js'] = "functions_plan_estudios.js";
-        $data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
-        $data['niveles_educativos'] = $this->model->selectNivelEducativo($this->nomConexion);
-        $data['categorias'] = $this->model->selectCategorias($this->nomConexion);
-        $data['modalidad'] = $this->model->selectModalidades($this->nomConexion);
-        $data['plan'] = $this->model->selectPlanes($this->nomConexion);
-        $data['clasificacion'] = $this->model->selectClasificaciones($this->nomConexion);
+        //$data['planteles'] = $this->model->selectPlanteles();
+        $data['instituciones'] = $this->model->selectInstituciones();
+        $data['niveles_educativos'] = $this->model->selectNivelEducativo();
+        $data['categorias'] = $this->model->selectCategorias();
+        $data['modalidad'] = $this->model->selectModalidades();
+        $data['plan'] = $this->model->selectPlanes();
+        $data['clasificacion'] = $this->model->selectClasificaciones();
         $this->views->getView($this, "planestudios", $data);
     }
 
     public function getPlanEstudios()
     {
-        $arrData = $this->model->selectPlanEstudios($this->nomConexion);
+        $arrData = $this->model->selectPlanEstudios();
         for ($i = 0; $i < count($arrData); $i++) {
             $arrData[$i]['numeracion'] = $i + 1;
-            $arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'] . ' (' . $arrData[$i]['municipio'] . ')';
+            //$arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'] . ' (' . $arrData[$i]['municipio'] . ')';
             if ($arrData[$i]['estatus'] == 1) {
                 $arrData[$i]['estatus'] = '<span class="badge badge-dark">Activo</span>';
             } else {
@@ -76,15 +75,15 @@ class PlanEstudios extends Controllers
         }
 
         if ($idPlanEstudiosEdit != 0) {
-            $arrData = $this->model->updatePlanEstudios($idPlanEstudiosEdit, $data, $arreglo, $this->nomConexion);
-            if ($arrData) {
+            $arrData = $this->model->updatePlanEstudios($idPlanEstudiosEdit, $data, $arreglo);
+             if ($arrData) {
                 $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
             } else {
                 $arrResponse = array('estatus' => false, 'msg' => 'No es posible actualizar los datos.');
             }
         }
         if ($idPlanEstudiosNuevo == 1) {
-            $arrData = $this->model->insertPlanEstudios($data, $arreglo, $this->nomConexion);
+            $arrData = $this->model->insertPlanEstudios($data, $arreglo);
             if ($arrData) {
                 $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente.');
             } else {
@@ -97,15 +96,15 @@ class PlanEstudios extends Controllers
 
     public function getPlanEstudio(int $idPlanEstudio)
     {
-        $arrData['plan_estudio'] = $this->model->selectPlanEstudio($idPlanEstudio, $this->nomConexion);
-        $arrData['clasificaciones'] = $this->model->selectClasificacionPlanEstudio($idPlanEstudio, $this->nomConexion);
+        $arrData['plan_estudio'] = $this->model->selectPlanEstudio($idPlanEstudio);
+        $arrData['clasificaciones'] = $this->model->selectClasificacionPlanEstudio($idPlanEstudio);
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         die();
     }
     public function getPlanEstudioEdit(int $idPlanEstudio)
     {
-        $arrData['plan_estudio'] = $this->model->selectPlanEstudioEdit($idPlanEstudio, $this->nomConexion);
-        $arrData['clasificaciones'] = $this->model->selectClasificacionPlanEstudio($idPlanEstudio, $this->nomConexion);
+        $arrData['plan_estudio'] = $this->model->selectPlanEstudioEdit($idPlanEstudio);
+        $arrData['clasificaciones'] = $this->model->selectClasificacionPlanEstudio($idPlanEstudio);
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         die();
     }
@@ -114,15 +113,15 @@ class PlanEstudios extends Controllers
     {
         if ($_POST) {
             $intIdPlanEstudio = intval($_POST['idPlanEstudio']);
-            $requestTablaRef = $this->model->getTablasRef($this->nomConexion);
+            $requestTablaRef = $this->model->getTablasRef();
             if (count($requestTablaRef) > 0) {
                 $requestStatus = 0;
                 foreach ($requestTablaRef as $key => $tabla) {
                     $nombreTabla = $tabla['tablas'];
                     if ($nombreTabla != 't_plan_x_clasificacion') {
-                        $existColumn = $this->model->selectColumn($nombreTabla, $this->nomConexion);
+                        $existColumn = $this->model->selectColumn($nombreTabla);
                         if ($existColumn) {
-                            $requestEstatusRegistro = $this->model->estatusRegistroTabla($nombreTabla, $intIdPlanEstudio, $this->nomConexion);
+                            $requestEstatusRegistro = $this->model->estatusRegistroTabla($nombreTabla, $intIdPlanEstudio);
                             if ($requestEstatusRegistro) {
                                 $requestStatus += count($requestEstatusRegistro);
                             } else {
@@ -132,7 +131,7 @@ class PlanEstudios extends Controllers
                     }
                 }
                 if ($requestStatus == 0) {
-                    $requestDelete = $this->model->deletePlanEdtudio($intIdPlanEstudio, $this->nomConexion);
+                    $requestDelete = $this->model->deletePlanEdtudio($intIdPlanEstudio);
                     if ($requestDelete == 'ok') {
                         $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el plan de estudios.');
                     } else if ($requestDelete == 'exist') {
@@ -145,7 +144,7 @@ class PlanEstudios extends Controllers
                 }
             } else {
                 $arrResponse = "eliminando";
-                $requestDelete = $this->model->deletePlanEdtudio($intIdPlanEstudio, $this->nomConexion);
+                $requestDelete = $this->model->deletePlanEdtudio($intIdPlanEstudio);
                 if ($requestDelete == 'ok') {
                     $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el plan de estudios.');
                 } else if ($requestDelete == 'exist') {

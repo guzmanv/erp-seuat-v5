@@ -1,7 +1,6 @@
 <?php
     class Materias extends Controllers{
         private $idUser;
-		private $nomConexion;
 		private $rol;
 		public function __construct()
 		{
@@ -13,7 +12,6 @@
 			    die();
 		    }
 			$this->idUser = $_SESSION['idUser'];
-			$this->nomConexion = $_SESSION['nomConexion'];
 			$this->rol = $_SESSION['claveRol'];
 		}
 
@@ -22,14 +20,15 @@
             $data['page_tag'] = "Materias";
             $data['page_title'] = "Materias";
             $data['page_content'] = "";
-            $data['grados'] = $this->model->selectGrados($this->nomConexion);
-            $data['plantel'] = $this->model->selectPlanteles($this->nomConexion);
-            $data['clasificacion_materia'] = $this->model->selectClasificacion($this->nomConexion);
+            $data['grados'] = $this->model->selectGrados();
+            //$data['plantel'] = $this->model->selectPlanteles();
+            $data['instituciones'] = $this->model->selectInstituciones();
+            $data['clasificacion_materia'] = $this->model->selectClasificacion();
             $data['page_functions_js'] = "functions_materias.js";
             $this->views->getView($this,"materias",$data);
         }
         public function getMaterias(){
-            $arrData = $this->model->selectMaterias($this->nomConexion);
+            $arrData = $this->model->selectMaterias();
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 if($arrData[$i]['estatus'] == 1){
@@ -66,7 +65,7 @@
                 $intIdMateriaEdit = intval($_POST['idEdit']);
             }
             if($intIdMateriaNueva == 1){
-                $arrData = $this->model->insertMateria($data, $this->nomConexion);
+                $arrData = $this->model->insertMateria($data);
                 if($arrData['estatus'] != TRUE){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
                 }else{
@@ -74,7 +73,7 @@
                 }
             }
             if($intIdMateriaEdit !=0){
-                $arrData = $this->model->updateMateria($intIdMateriaEdit,$data, $this->nomConexion);
+                $arrData = $this->model->updateMateria($intIdMateriaEdit,$data);
                 if($arrData){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
                 }else{
@@ -87,7 +86,7 @@
         }
 
         public function getMateria(int $idMateria){
-            $arrData = $this->model->selectMateria($idMateria, $this->nomConexion);
+            $arrData = $this->model->selectMateria($idMateria);
             if($arrData){
                 echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
                 die();
@@ -96,12 +95,12 @@
         
         public function getPlanEstudiosNuevo(){
             $id = $_GET['id'];
-            $arrData = $this->model->selectPlanEstudiosNuevo($id, $this->nomConexion);
+            $arrData = $this->model->selectPlanEstudiosNuevo($id);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function getPlanEstudios(){
-            $arrData = $this->model->selectPlanEstudios($this->nomConexion);
+            $arrData = $this->model->selectPlanEstudios();
             if($arrData){
                 echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
                 die();
@@ -109,7 +108,7 @@
         }
 
         public function getGrados(){
-            $arrData = $this->model->selectGrados($this->nomConexion);
+            $arrData = $this->model->selectGrados();
             if($arrData){
                 echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
                 die();
@@ -120,13 +119,13 @@
 		public function delMateria(){
 			if($_POST){
 				$intIdMateria = intval($_POST['idMateria']);
-				$requestDelete = $this->model->deleteMateria($intIdMateria, $this->nomConexion);
+				$requestDelete = $this->model->deleteMateria($intIdMateria);
 				if($requestDelete == 'ok'){
 					$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la materia.');
 				}else{
 					$arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar la materia.');
 				}
-				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+				//echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			}
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 		}
@@ -135,9 +134,9 @@
             $clasificacion = intval($_GET['clasificacion']);
             $credito = intval($_GET['credito']);
             $plnEstudio = intval($_GET['plan_estudio']);
-            $arrData = $this->model->selectPlanEstudio($plnEstudio, $this->nomConexion);
-            $arrDataClasificaciones = $this->model->selectClasificacionPlanEstudio($plnEstudio,$this->nomConexion);
-            $arrDataCreditoClasificacion = $this->model->selectCreditoClasificacionPlanEstudio($plnEstudio,$clasificacion,$this->nomConexion);
+            $arrData = $this->model->selectPlanEstudio($plnEstudio);
+            $arrDataClasificaciones = $this->model->selectClasificacionPlanEstudio($plnEstudio);
+            $arrDataCreditoClasificacion = $this->model->selectCreditoClasificacionPlanEstudio($plnEstudio,$clasificacion);
             //$arrData = $this->model->selectClasificacionPlanEstudio($planEstudio, $this->nomConexion);
             $totalCreditoClasificacion = 0;
             $sumCreditosUtilizados = 0;
@@ -181,9 +180,9 @@
             $credito = intval($_GET['creditoNuevo']);
             $plnEstudio = intval($_GET['plan_estudio']);
             $idClasifActual = intval($_GET['idClasifActual']);
-            $arrData = $this->model->selectPlanEstudio($plnEstudio, $this->nomConexion);
-            $arrDataClasificaciones = $this->model->selectClasificacionPlanEstudio($plnEstudio,$this->nomConexion);
-            $arrDataCreditoClasificacion = $this->model->selectCreditoClasificacionPlanEstudio($plnEstudio,$clasificacion,$this->nomConexion);
+            $arrData = $this->model->selectPlanEstudio($plnEstudio);
+            $arrDataClasificaciones = $this->model->selectClasificacionPlanEstudio($plnEstudio);
+            $arrDataCreditoClasificacion = $this->model->selectCreditoClasificacionPlanEstudio($plnEstudio,$clasificacion);
             //$arrData = $this->model->selectClasificacionPlanEstudio($planEstudio, $this->nomConexion);
             $totalCreditoClasificacion = 0;
             $sumCreditosUtilizados = 0;

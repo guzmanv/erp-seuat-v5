@@ -43,7 +43,7 @@
                                             foreach ($data['planteles'] as $key => $value) {
                                                 ?>
                                         <option value="<?php echo $value['id']?>">
-                                            <?php echo $value['nombre_plantel'].' ('.$value['municipio'].')'?></option>
+                                            <?php echo $value['nombre_plantel_fisico'].' ('.$value['municipio'].')'?></option>
                                         <?php
                                             }
                                         ?>

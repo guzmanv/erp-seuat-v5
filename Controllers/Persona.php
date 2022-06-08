@@ -1,8 +1,8 @@
 <?php
     class Persona extends Controllers{
         private $idUser;
-		private $nomConexion;
 		private $rol;
+        private $idPlantel;
 		public function __construct()
 		{
 			parent::__construct();
@@ -13,8 +13,8 @@
 			    die();
 		    }
 			$this->idUser = $_SESSION['idUser'];
-			$this->nomConexion = $_SESSION['nomConexion'];
-			$this->rol = $_SESSION['claveRol'];
+			$this->rol = 'aux';
+            $this->idPlantel = 1;
 		}
         public function persona(){
             $data['page_id'] = 9;
@@ -22,34 +22,33 @@
             $data['page_title'] = "Personas";
             $data['page_content'] = "";
             $data['page_functions_js'] = "functions_persona.js";
-            $data['estados'] = $this->model->selectEstados($this->nomConexion);
-            $data['categoria_persona'] = $this->model->selectCategoriasPersona($this->nomConexion);
-            $data['grados_estudios'] = $this->model->selectGradosEstudios($this->nomConexion);
-            //$data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
-            $data['nivel_carrera_interes'] = $this->model->selectNivelesEducativos($this->nomConexion);
-            $data['medios_captacion'] = $this->model->selectMediosCaptacion($this->nomConexion);
+            $data['estados'] = $this->model->selectEstados();
+            $data['categoria_persona'] = $this->model->selectCategoriasPersona();
+            $data['grados_estudios'] = $this->model->selectGradosEstudios();
+            $data['planteles'] = $this->model->selectPlanteles();
+            $data['nivel_carrera_interes'] = $this->model->selectNivelesEducativos();
+            $data['medios_captacion'] = $this->model->selectMediosCaptacion();
             $this->views->getView($this,"persona",$data);
         }
         public function getPersona($idPersona){
             $idPersona = $idPersona;
-            $arrData = $this->model->selectPersona($idPersona, $this->nomConexion);
+            $arrData = $this->model->selectPersona($idPersona);
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
         public function getPersonaEdit($idPersona){
             $idPersona = $idPersona;
-            $arrData = $this->model->selectPersonaEdit($idPersona, $this->nomConexion);
-            $arrData['id_plantel_interes'] = $arrData['plantel_interes'];
-            if($arrData['plantel_interes'] == null){
+            $arrData = $this->model->selectPersonaEdit($idPersona);
+            if($arrData['nombre_plantel_fisico'] == null){
                 $arrData['plantel_interes'] = "Sin Plantel";
             }else{
-                $arrData['plantel_interes'] = conexiones[$arrData['plantel_interes']]['NAME'];
+                $arrData['plantel_interes'] = $arrData['nombre_plantel_fisico'].' ('.$arrData['munplantel'].' )';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
         public function getPersonas(){
-            $arrData = $this->model->selectPersonas($this->nomConexion);
+            $arrData = $this->model->selectPersonas($this->idPlantel);
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 $arrData[$i]['apellidos'] = $arrData[$i]['ap_paterno'].' '.$arrData[$i]['ap_materno'];
@@ -82,20 +81,27 @@
                 $intIdPersonaEdit = intval($_POST['idEdit']);
             }
             if($intIdPersonaNueva == 1){
-                $id_subcampania = $this->model->selectSubcampania($this->nomConexion);
+                $id_subcampania = $this->model->selectSubcampania();
                 if($id_subcampania){
-                    $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id'], $this->nomConexion);
-                    if($arrData){
-                        $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
+                    if($_SESSION['numeroPermisos']>0){
+                        $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id'], $this->idPlantel);
+                        if($arrData){
+                            $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
+                        }else{
+                            $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar los datos');
+                            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                            die();
+                        }
                     }else{
                         $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar los datos');
+                        
                     }
                 }else{
                     $arrResponse = array('estatus' => false, 'msg' => 'No existe una subcampania activa');
                 }
             }
             if($intIdPersonaEdit !=0){
-                $arrData = $this->model->updatePersona($intIdPersonaEdit,$data,$this->idUser,$this->nomConexion);
+                $arrData = $this->model->updatePersona($intIdPersonaEdit,$data,$this->idUser);
                 if($arrData){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos Actualizados Correctamente');
                 }else{
@@ -103,30 +109,31 @@
                 }
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
         }
 
         public function getMunicipios(){
             $idEstado = $_GET['idestado'];
-            $arrData = $this->model->selectMunicipios($idEstado, $this->nomConexion);
+            $arrData = $this->model->selectMunicipios($idEstado);
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
         public function getLocalidades(){
             $idMunicipio = $_GET['idmunicipio'];
-            $arrData = $this->model->selectLocalidades($idMunicipio, $this->nomConexion);
+            $arrData = $this->model->selectLocalidades($idMunicipio);
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
         public function getCarrerasInteres(){
             $idNivel = $_GET['idNivel'];
-            $arrData = $this->model->selectCarrerasInteres($idNivel, $this->nomConexion);
+            $arrData = $this->model->selectCarrerasInteres($idNivel);
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
         public function delPersona(){
             if($_POST){
 				$intIdPersona = intval($_POST['idPersona']);
-				$requestDelete = $this->model->deletePersona($intIdPersona, $this->nomConexion);
+				$requestDelete = $this->model->deletePersona($intIdPersona);
 				if($requestDelete == 'ok'){
 					$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la Persona.');
 				}else{

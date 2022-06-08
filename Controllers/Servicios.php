@@ -2,7 +2,6 @@
 	class Servicios extends Controllers{
 
 		private $idUser;
-        private $nomConexion;
         private $rol;
 
 		public function __construct(){
@@ -13,22 +12,22 @@
 				die();
 			}
 			$this->idUser = $_SESSION['idUser'];
-            $this->nomConexion = $_SESSION['nomConexion'];
-            // $this->rol = $_SESSION['claveRol'];
+            $this->rol = $_SESSION['claveRol'];
 		}
 		public function Servicios(){
 			$data['page_tag'] = "Servicios";
 			$data['page_title'] = "Servicios";
 			$data['page_name'] = "servicios";
 			$data['page_functions_js'] = "functions_servicios.js";
-			$data['categoria'] = $this->model->selectCategoriaServicios($this->nomConexion);
-			$data['unidad_medida'] = $this->model->selectUnidadMedida($this->nomConexion);
-			$data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
+			$data['categoria'] = $this->model->selectCategoriaServicios();
+			$data['unidad_medida'] = $this->model->selectUnidadMedida();
+			$data['instituciones'] = $this->model->selectInstituciones();
+			$data['planteles'] = $this->model->selectPlanteles();
 			$this->views->getView($this,"servicios",$data);
 		}
 
 		public function getServicios(){
-			$arrData = $this->model->selectServicios($this->nomConexion);
+			$arrData = $this->model->selectServicios();
 			for ($i=0; $i < count($arrData); $i++) {
 				$arrData[$i]['numeracion'] = $i+1;
 				if($arrData[$i]['EstatusServicios'] == 1){
@@ -60,7 +59,7 @@
 		}
 
 		public function getServicio(int $id){
-			$arrData = $this->model->selectServicio($id, $this->nomConexion);
+			$arrData = $this->model->selectServicio($id);
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
@@ -68,7 +67,7 @@
 
 		public function getSelectUnidadMedida(){
 			$htmlOptions = "<option value='' selected>- Elige una unidad de medida -</option>";
-			$arrData = $this->model->selectUnidadMedida($this->nomConexion);
+			$arrData = $this->model->selectUnidadMedida();
 			if(count($arrData) > 0 ){
 				for ($i=0; $i < count($arrData); $i++) {
 					if($arrData[$i]['estatus'] == 1){
@@ -82,7 +81,7 @@
 		}
 		public function getSelectCategoriaServicios(){
 			$htmlOptions = "<option value='' selected>- Elige una categoría para el servicio -</option>";
-			$arrData = $this->model->selectCategoriaServicios($this->nomConexion);
+			$arrData = $this->model->selectCategoriaServicios();
 			if(count($arrData) > 0 ){
 				for ($i=0; $i < count($arrData); $i++) {
 					if($arrData[$i]['estatus'] == 1){
@@ -95,14 +94,14 @@
 			die();
 		}
 		
-		public function getSelectPlanteles(){
-			$htmlOptions = "<option value='' selected>- Elige un plantel -</option>";
-			$arrData = $this->model->selectPlanteles($this->nomConexion);
+		public function getSelectInstituciones(){
+			$htmlOptions = "<option value='' selected>- Elige una institución -</option>";
+			$arrData = $this->model->selectInstituciones();
 			if(count($arrData) > 0 ){
 				for ($i=0; $i < count($arrData); $i++) {
 					if($arrData[$i]['estatus'] == 1){
 						
-						$htmlOptions .= '<option value="'.$arrData[$i]['id'].'">'.$arrData[$i]['nombre_plantel'].', '.$arrData[$i]['municipio'].', '.$arrData[$i]['estado'].'</option>';
+						$htmlOptions .= '<option value="'.$arrData[$i]['id'].'">'.$arrData[$i]['nombre_institucion'].', '.$arrData[$i]['municipio'].', '.$arrData[$i]['estado'].'</option>';
 					}
 				}
 			}
@@ -112,7 +111,7 @@
 		public function setServicio(){
 			if($_POST){ //dep($_POST); die();
 			//if($_SESSION['permisosMod']['w']){
-				if(empty($_POST['txtCodigo_servicio']) || empty($_POST['txtNombre_servicio']) || empty($_POST['txtPrecio_unitario']) || empty($_POST['listAnioFiscal']) || empty($_POST['listEstatus']) || empty($_POST['txtFecha_creacion']) || empty($_POST['txtId_usuario_creacion'])  || empty($_POST['listIdPlantel']) || empty($_POST['listIdCategoria_servicio']) || empty($_POST['listIdUnidades_medida']) )
+				if(empty($_POST['txtCodigo_servicio']) || empty($_POST['txtNombre_servicio']) || empty($_POST['txtPrecio_unitario']) || empty($_POST['listAnioFiscal']) || empty($_POST['listEstatus']) || empty($_POST['txtFecha_creacion']) || empty($_POST['txtId_usuario_creacion'])  || empty($_POST['listIdInstitucion']) || empty($_POST['listIdCategoria_servicio']) || empty($_POST['listIdUnidades_medida']) )
 					{
 						$arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
 					}else{
@@ -128,12 +127,12 @@
 					$strFecha_actualizacion = strClean($_POST['txtFecha_actualizacion']);
 					$intId_usuario_creacion = strClean($_POST['txtId_usuario_creacion']);
 					$intId_usuario_actualizacion = intval($_POST['txtId_usuario_actualizacion']);
-					$intIdPlantel = intval($_POST['listIdPlantel']);
+					$intIdInstitucion = intval($_POST['listIdInstitucion']);
 					$intIdCategoria_servicio = intval($_POST['listIdCategoria_servicio']);
 					$intIdUnidades_medida = intval($_POST['listIdUnidades_medida']);
 
 					if($intIdServicio == 0){
-						$request_servicio = $this->model->insertServicio($strCodigo_servicio,$strNombre_servicio, $intPrecio_unitario, $intAplica_edo_cuenta, $strAnio_fiscal,$intEstatus,$strFecha_creacion,$strFecha_actualizacion,$intId_usuario_creacion,$intId_usuario_actualizacion, $intIdPlantel,$intIdCategoria_servicio,$intIdUnidades_medida, $this->nomConexion);
+						$request_servicio = $this->model->insertServicio($strCodigo_servicio,$strNombre_servicio, $intPrecio_unitario, $intAplica_edo_cuenta, $strAnio_fiscal,$intEstatus,$strFecha_creacion,$strFecha_actualizacion,$intId_usuario_creacion,$intId_usuario_actualizacion, $intIdInstitucion,$intIdCategoria_servicio,$intIdUnidades_medida);
 						$option = 1;
 					} 
 					if($request_servicio > 0 ){
@@ -156,7 +155,7 @@
 			if($_POST){
 				if(empty($_POST['idServicioEdit'])  || empty($_POST['txtCodigo_servicio_edit']) || empty($_POST['txtNombre_servicio_edit']) || 
 				empty($_POST['txtPrecio_unitario_edit']) || empty($_POST['listIdCategoria_servicio_edit']) || empty($_POST['listIdUnidades_medida_edit']) || 
-				empty($_POST['listAnioFiscal_edit']) || empty($_POST['listIdPlantel_edit']) || empty($_POST['list_estatus_servicios_edit']) ){
+				empty($_POST['listAnioFiscal_edit']) || empty($_POST['listIdInstitucion_edit']) || empty($_POST['list_estatus_servicios_edit']) ){
 					$arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
 				}else{
 					$intIdServicio = intval($_POST['idServicioEdit']);
@@ -168,10 +167,10 @@
 					$strAnio_fiscal = strClean($_POST['listAnioFiscal_edit']);
 					// $intAplica_edo_cuenta = intval($_POST['chkAplica_edo_cuenta_edit']);
 					$intAplica_edo_cuenta = (empty($_POST['chkAplica_edo_cuenta_edit'])?0:1);
-					$intIdPlantel = intval($_POST['listIdPlantel_edit']);
+					$intIdInstitucion = intval($_POST['listIdInstitucion_edit']);
 					$intEstatus = intval($_POST['list_estatus_servicios_edit']);
 					$arrRequest = $this->model->updateServicio($intIdServicio,$strCodigo_servicio,$strNombre_servicio,$intPrecio_unitario,
-						$intIdCategoria_servicio,$intIdUnidades_medida,$strAnio_fiscal,$intAplica_edo_cuenta,$intIdPlantel,$intEstatus,$_SESSION['idUser'],$this->nomConexion);
+						$intIdCategoria_servicio,$intIdUnidades_medida,$strAnio_fiscal,$intAplica_edo_cuenta,$intIdInstitucion,$intEstatus,$_SESSION['idUser']);
 					if($arrRequest){
 						$arrResponse = array("estatus" => true, "msg" => 'Datos actualizados correctamente.');
 					}else{
@@ -187,7 +186,7 @@
 			if($_POST){
 				//if($_SESSION['permisosMod']['d']){ 
 				$intIdServicio = intval($_POST['idServicio']);
-				$requestDelete = $this->model->deleteServicio($intIdServicio, $this->nomConexion);
+				$requestDelete = $this->model->deleteServicio($intIdServicio);
 				if($requestDelete == 'ok'){
 					$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el servicio correctamente.');
 				}else if($requestDelete == 'exist'){

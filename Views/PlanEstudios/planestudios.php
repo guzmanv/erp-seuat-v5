@@ -36,6 +36,7 @@
                                                 <th>Carrera</th>
                                                 <th>Categoria</th>
                                                 <th>Plantel</th>
+                                                <th>Institucion</th>
                                                 <th>RVOE</th>
                                                 <th>Vigencia</th>
                                                 <th>Estatus</th>

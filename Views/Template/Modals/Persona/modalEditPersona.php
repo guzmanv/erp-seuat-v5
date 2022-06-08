@@ -124,8 +124,8 @@
                                             <label>Plantel de interés</label>
                                             <select class="form-control form-control-sm" id="listPlantelInteresEdit" name="listPlantelInteresEdit">
                                                 <option value="">Seleccionar</option>
-                                                <?php  foreach (conexiones as $key => $plantel) { ?>
-                                                    <option value="<?php echo $key ?>"><?php echo($plantel['NAME']) ?></option>
+                                                <?php  foreach ($data['planteles'] as $key => $plantel) { ?>
+                                                    <option value="<?php echo $plantel['id'] ?>"><?php echo($plantel['nombre_plantel_fisico'].'('.$plantel['municipio'].')') ?></option>
                                                 <?php }?>
                                             </select>
                                         </div>
@@ -134,9 +134,9 @@
                                             <select class="form-control form-control-sm" id="listNivelCarreraInteresEdit" name="listNivelCarreraInteresEdit" onchange="nivelCarreraInteresSeleccionadoEdit(value)">
                                                 <option value="">Seleccionar</option>
                                                 <?php 
-                                                    foreach ($data['grados_estudios'] as $value) {
+                                                    foreach ($data['nivel_carrera_interes'] as $value) {
                                                         ?>
-                                                            <option value="<?php echo $value['id'] ?>" ><?php echo $value['nombre_escolaridad'] ?></option>                
+                                                            <option value="<?php echo $value['id'] ?>" ><?php echo $value['nombre_nivel_educativo'] ?></option>                
                                                         <?php
                                                     }
                                                 ?>

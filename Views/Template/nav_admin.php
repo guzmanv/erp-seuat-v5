@@ -5,6 +5,7 @@
         </div>
     </div>
     <div class="wrapper">
+
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
@@ -181,8 +182,8 @@
         </div>
       </div>-->
 
-
-                <nav class="mt-2">
+                <?php if($_SESSION['numeroPermisos'] > 0){ ?>
+                    <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar nav-legacy text-sm nav-compact flex-column"
                         data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
@@ -222,7 +223,7 @@
                             <h6>DIRC</h6>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo BASE_URL ?>/Sistemas" class="nav-link">
+                            <a href="<?php echo BASE_URL ?>/SistemasEducativos" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="box"></i>
                                 <p>
                                     Sistemas educativos
@@ -230,10 +231,18 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo BASE_URL ?>/Plantel" class="nav-link">
-                                <i class="ml-3 mr-2" data-feather="layout"></i>
+                            <a href="<?php echo BASE_URL ?>/Planteles" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="map-pin"></i>
                                 <p>
                                     Planteles
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Instituciones" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="layout"></i>
+                                <p>
+                                    Instituciones
                                 </p>
                             </a>
                         </li>
@@ -249,7 +258,7 @@
                             <a href="<?php echo BASE_URL ?>/CategoriaCarrera" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="server"></i>
                                 <p>
-                                    Categorias Carreras
+                                    Categorias carreras
                                 </p>
                             </a>
                         </li>
@@ -257,13 +266,13 @@
                             <a href="<?php echo BASE_URL ?>/NivelEducativo" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="tag"></i>
                                 <p>
-                                    Nivel Educativo
+                                    Nivel educativo
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Plan" class="nav-link">
-                                <i class="ml-3 mr-2" data-feather="layout"></i>
+                                <i class="ml-3 mr-2" data-feather="book"></i>
                                 <p>
                                     Org. plan de programas
                                 </p>
@@ -271,15 +280,15 @@
                         </li>
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/PlanEstudios" class="nav-link">
-                                <i class="ml-3 mr-2" data-feather="server"></i>
+                                <i class="ml-3 mr-2" data-feather="clipboard"></i>
                                 <p>
-                                    Plan de Estudios
+                                    Plan de estudios
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Materias" class="nav-link">
-                                <i class="ml-3 mr-2" data-feather="layers"></i>
+                                <i class="ml-3 mr-2" data-feather="copy"></i>
                                 <p>
                                     Materias
                                 </p>
@@ -304,14 +313,14 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/ExportarProspectos/" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="arrow-down"></i>
                                 <p>
                                     Exportar prospectos
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
                         <!-- <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/ImportarProspectos/" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="arrow-up"></i>
@@ -483,18 +492,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo BASE_URL ?>/Grados/grados" class="nav-link">
-                                <i class="ml-3 mr-2" data-feather="clock"></i>
-                                <p>
-                                    Grados
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Secciones/secciones" class="nav-link">
-                                <i class="ml-3 mr-2" data-feather="clock"></i>
+                                <i class="ml-3 mr-2" data-feather="package"></i>
                                 <p>
-                                    Secciones
+                                    Secciones (Grupos)
                                 </p>
                             </a>
                         </li>
@@ -502,18 +503,18 @@
                             <h6>Servicios</h6>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo BASE_URL ?>/Servicios" class="nav-link">
-                                <i class="ml-3 mr-2" data-feather="shopping-bag"></i>
-                                <p>
-                                    Servicios
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Categoria_servicios" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="globe"></i>
                                 <p>
                                     Categoria Servicios
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Servicios" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="shopping-bag"></i>
+                                <p>
+                                    Servicios
                                 </p>
                             </a>
                         </li>
@@ -623,5 +624,8 @@
                         </li>
                     </ul>
                 </nav>
+                <?php } else{ ?>
+
+                <?php }?>
             </div>
         </aside>

@@ -2,7 +2,6 @@
 	class PrecargaCuenta extends Controllers{
 
 		private $idUser;
-		private $nomConexion;
 		private $rol;
 
 		public function __construct()
@@ -15,8 +14,7 @@
 				die();
 			}
 			$this->idUser = $_SESSION['idUser'];
-			$this->nomConexion = $_SESSION['nomConexion'];
-			// $this->rol = $_SESSION['claveRol'];
+			$this->rol = $_SESSION['claveRol'];
 		}
 		//Funcion para la Vista de Planteles
 		public function precargacuenta()
@@ -25,10 +23,10 @@
 			$data['page_title'] = "Precarga cuenta";
 			$data['page_name'] = "Precarga cuenta";
 			$data['page_content'] = "";
-            $data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
+            $data['planteles'] = $this->model->selectPlanteles();
 			// $data['niveles'] = $this->model->selectNiveles($this->nomConexion);
-            $data['periodos'] = $this->model->selectPeriodos($this->nomConexion);
-            $data['grados'] = $this->model->selectGrados($this->nomConexion);
+            $data['periodos'] = $this->model->selectPeriodos();
+            $data['grados'] = $this->model->selectGrados();
 			$data['page_functions_js'] = "functions_precarga_cuenta.js";
 			$this->views->getView($this,"precargaCuenta",$data);
 		}
@@ -39,18 +37,18 @@
             $idNivel = intval($args[1]);
             if($idPlantel == 'Todos'){
 				if($idNivel == 'null'){
-					$arrData = $this->model->selectPlanEstudios($this->nomConexion);
+					$arrData = $this->model->selectPlanEstudios();
 				}else{
-					$arrData = $this->model->selectPlanEstudiosByNivel($idNivel,$this->nomConexion);
+					$arrData = $this->model->selectPlanEstudiosByNivel($idNivel);
 				}
             }
 			else{
                 $idPlantel = intval($idPlantel);
 				if($idNivel == 'null' || $idNivel == 'Todos'){
-					$arrData = $this->model->selectPlanEstudiosByPlantel($idPlantel,$this->nomConexion);
+					$arrData = $this->model->selectPlanEstudiosByPlantel($idPlantel);
 				}
 				else{
-					$arrData = $this->model->selectPlanEstudiosByPlantelNivel($idPlantel,$idNivel,$this->nomConexion);
+					$arrData = $this->model->selectPlanEstudiosByPlantelNivel($idPlantel,$idNivel);
 				}
             }
             for($i = 0; $i<count($arrData); $i++){
@@ -63,17 +61,17 @@
 		
         public function getServicios(int $idPlantel){
             $idPlantel = intval($idPlantel);
-            $arrData = $this->model->selectServicios($idPlantel,$this->nomConexion);
+            $arrData = $this->model->selectServicios($idPlantel);
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
 
 		public function getNivelesByPlantel($idPlantel){
 			if($idPlantel == 'Todos'){
-				$arrData = $this->model->seletNiveles($this->nomConexion);
+				$arrData = $this->model->seletNiveles();
 			}else{
 				$idPlantel = intval($idPlantel);
-				$arrData = $this->model->selectNivelesByPlantel($idPlantel,$this->nomConexion);
+				$arrData = $this->model->selectNivelesByPlantel($idPlantel);
 			}
 			echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
 			die();
@@ -92,7 +90,7 @@
             if(empty($idPlantel) && empty($idPlanEstudios) && empty($idNivel) && empty($idPeriodo) && empty($idGrado) && empty($idServicio) ){
                 $arrResponse = array('estatus' => false, 'msg' => 'Error en los datos.');
             }else{
-                $arrData = $this->model->insertPrecargaCuenta($idPlantel,$idPlanEstudios,$idNivel,$idPeriodo,$idGrado,$idServicio,$precioNuevo,$fechaLimitePago,$_SESSION['idUser'],$this->nomConexion);
+                $arrData = $this->model->insertPrecargaCuenta($idPlantel,$idPlanEstudios,$idNivel,$idPeriodo,$idGrado,$idServicio,$precioNuevo,$fechaLimitePago,$_SESSION['idUser']);
                 $option = 1;
             }
             if($arrData > 0)
@@ -141,7 +139,7 @@
 		public function getServiciosByInput($valueInput){
 			$input = strClean($valueInput);
 			if($input != ""){
-				$arrData = $this->model->selectServiciosByInput($input,$this->nomConexion);
+				$arrData = $this->model->selectServiciosByInput($input);
 				for($i = 0; $i<count($arrData); $i++){
 					$arrData[$i]['numeracion'] = $i+1;
 					$arrData[$i]['precio'] = '$'.formatoMoneda($arrData[$i]['precio_unitario']);
@@ -157,7 +155,7 @@
 
 		//PARA ENLISTAR TODAS LAS PRECARGAS
         public function getPrecargas(){
-            $arrData = $this->model->selectPrecargas($this->nomConexion);
+            $arrData = $this->model->selectPrecargas();
             for($i=0; $i < count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 if($arrData[$i]['est'] == 1){
@@ -193,7 +191,7 @@
             $intIdPrecarga = intval(strClean($id));
             if($intIdPrecarga > 0)
             {
-                $arrData = $this->model->selectPrecargaCuenta($intIdPrecarga, $this->nomConexion);
+                $arrData = $this->model->selectPrecargaCuenta($intIdPrecarga);
                 if(empty($arrData))
                 {
                     $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
@@ -234,8 +232,7 @@
 																				   $strFechaLimCobro,
                                                                                    $intEstatus,
                                                                                    $strFecha_Actualizacion,
-                                                                                   $intId_Usuario_Actualizacion,
-                                                                                   $this->nomConexion);
+                                                                                   $intId_Usuario_Actualizacion);
                                                                                    $option = 1;
                     }
 
@@ -260,7 +257,7 @@
             if($_POST)
             {
                 $intIdPrecargaCuenta = intval($_POST['idPre']);
-                $requestDelete = $this->model->deletePrecargaCuenta($intIdPrecargaCuenta, $this->nomConexion);
+                $requestDelete = $this->model->deletePrecargaCuenta($intIdPrecargaCuenta);
                 if($requestDelete == 'ok')
                 {
                     $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el precarga correctamente.');
