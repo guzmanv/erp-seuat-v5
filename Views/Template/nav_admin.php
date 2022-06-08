@@ -492,18 +492,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo BASE_URL ?>/Grados/grados" class="nav-link">
-                                <i class="ml-3 mr-2" data-feather="clock"></i>
-                                <p>
-                                    Grados
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Secciones/secciones" class="nav-link">
-                                <i class="ml-3 mr-2" data-feather="clock"></i>
+                                <i class="ml-3 mr-2" data-feather="package"></i>
                                 <p>
-                                    Secciones
+                                    Secciones (Grupos)
                                 </p>
                             </a>
                         </li>
@@ -511,18 +503,18 @@
                             <h6>Servicios</h6>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo BASE_URL ?>/Servicios" class="nav-link">
-                                <i class="ml-3 mr-2" data-feather="shopping-bag"></i>
-                                <p>
-                                    Servicios
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Categoria_servicios" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="globe"></i>
                                 <p>
                                     Categoria Servicios
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Servicios" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="shopping-bag"></i>
+                                <p>
+                                    Servicios
                                 </p>
                             </a>
                         </li>
