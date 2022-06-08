@@ -4,7 +4,7 @@
 
     public $strMedioCaptacion;
     public $strFechaCreacion;
-    public $intIdMediioCaptacion;
+    public $intIdMedioCaptacion;
     public $intIdUsuario;
     public $intEstatus;
 
@@ -14,10 +14,17 @@
 
     public function selectMediosCaptacion(){
 
-      $sql = "SELECT * FROM t_medio_captacion WHERE estatus !=0";
+      $sql = "SELECT * FROM t_medio_captacion WHERE estatus !=0 ORDER BY id DESC";
       $request = $this->select_all($sql);
       return $request;
 
+    }
+
+    public function selectMedioCaptacion(int $id){
+      $this->intIdMedioCaptacion = $id;
+      $sql = "SELECT * FROM t_medio_captacion WHERE id=$intIdMedioCaptacion";
+      $request = $this->select($sql);
+      return $request;
     }
 
     public function insertMedioCaptacion(string $nombreMedioCaptacion, string $fechaCreacion){

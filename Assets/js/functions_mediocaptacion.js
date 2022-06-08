@@ -7,13 +7,14 @@ document.addEventListener('DOMContentLoaded', function(){
         "aProcessing":true,
         "aServerSide":true,
         "language":{
-            "url": `${base_url}/Assets/plugins/Spanish.json`
+            "url": " "+base_url+"/Assets/plugins/Spanish.json"
         },
         "ajax":{
-            "url": `${base_url}/MedioCaptacion/getMediosCaptacion`,
+            "url": " "+base_url+"/MedioCaptacion/getMediosCaptacion",
             "dataSrc":""
         },
         "columns":[
+            {"data":"numeracion"},
             {"data":"medio_captacion"},
             {"data":"estatus"},
             {"data":"options"}
@@ -34,3 +35,20 @@ document.addEventListener('DOMContentLoaded', function(){
 })
 
 $('#tableMediosCap').DataTable();
+
+function fnEditarMedCap(idMed)
+{
+    let idMedioCaptacion = idMed;
+    let url = `${base_url}/MedioCaptacion/getMedioCaptacion/${idMedioCaptacion}`;
+    let idMedio = document.querySelector('#idMedCapEdit');
+    let estatus = document.querySelector('#listEstatusMed')
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+
+        })
+
+        //.catch(err => console.log(err))
+}

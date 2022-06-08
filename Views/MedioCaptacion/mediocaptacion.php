@@ -1,5 +1,7 @@
 <?php
     headerAdmin($data);
+    getModal('MedioCaptacion/modalEditMedioCaptacion',$data);
+    getModal('MedioCaptacion/modalNvoMedioCaptacion',$data);
 ?>
 <div class="wrapper">
     <div class="content-wrapper">
