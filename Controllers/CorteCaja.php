@@ -85,12 +85,13 @@
 			$sobrante = $array[6];
 			$comentario = $datos->observaciones;
 
-			$codigo_plantel = $this->model->selectPlantelCajero($this->idUser);
-			/*$consecFolio = $this->model->sigFoliocorte($codigo_plantel['codigo_plantel']);
+			//$codigo_plantel = $this->model->selectPlantelCajero($this->idUser);  //Checar
+            $codigo_plantel = "TGZ";
+			$consecFolio = $this->model->sigFoliocorte($codigo_plantel);
 			$nuevoFolio = $consecFolio['num_folios']+1;
-            $nuevoFolioConsecutivo = $codigo_plantel['codigo_plantel'].'CC'.date("mY").substr(str_repeat(0,4).$nuevoFolio,-4);
-			$resCorteCaja = $this->model->updateCorteCaja($nuevoFolioConsecutivo,$id_corte_caja,$total_entregada,$this->idUser,$id_usuario_recibe['id_usuario_atiende'],$comentario); */
-			/* if($resCorteCaja){
+            $nuevoFolioConsecutivo = $codigo_plantel.'CC'.date("mY").substr(str_repeat(0,4).$nuevoFolio,-4);
+			$resCorteCaja = $this->model->updateCorteCaja($nuevoFolioConsecutivo,$id_corte_caja,$total_entregada,$this->idUser,$id_usuario_recibe['id_usuario_atiende'],$comentario);
+			if($resCorteCaja){
 				$resStatuscaja = $this->model->updateStatusCaja($id_caja,$total_entregada);
 				if($resStatuscaja){
 					foreach ($datos->totales as $key => $value) {
@@ -109,8 +110,8 @@
 			}
 			if($faltante != 0 || $sobrante != 0){
 				$this->model->insertDineroCaja($id_corte_caja,$faltante,$sobrante,$this->idUser,$comentario);
-			} */
-			echo json_encode($codigo_plantel,JSON_UNESCAPED_UNICODE);
+			}
+			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			die();
 		}
 		public function getCajeros(){

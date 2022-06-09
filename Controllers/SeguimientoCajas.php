@@ -53,10 +53,10 @@
             }
         }
         foreach ($arrData as $key => $value) {
-            if(empty($planteles[$value['nom_plantel']])){
-                $planteles[$value['nom_plantel']] = null;
+            if(empty($planteles[$value['nombre_plantel_fisico']])){
+                $planteles[$value['nombre_plantel_fisico']] = null;
             }
-            $planteles[$value['nom_plantel']] = conexiones[$value['nom_plantel']]['NAME'] ;
+            $planteles[$value['nombre_plantel_fisico']] = $value['nombre_plantel_fisico'];
         }
         $arrColores = ['#f44336','#e91e63','#9c27b0','#673ab7','#3f51b5','#2196f3','#03a9f4','#00bcd4','#009688','#4caf50','#ff5722','#ff5722','#f50057'];
         foreach ($planteles as $keyPlantel => $valuePlantel) {
@@ -67,7 +67,7 @@
                 $dia = $valueDias;
                 $valor = 0;
                 foreach ($arrData as $key => $value) {
-                    if($value['nom_plantel'] == $id_plantel && $value['fecha'] == $dia){
+                    if($value['nombre_plantel_fisico'] == $id_plantel && $value['fecha'] == $dia){
                         //array_push($data,$value['total']);
                         $valor = intval($value['total']);
                     }
@@ -79,7 +79,7 @@
             $data = array();
         }
         $array['dias'] = $dias;
-        $array['datos'] = $arrGrafica;
+        $array['datos'] = $arrGrafica; 
         echo json_encode($array,JSON_UNESCAPED_UNICODE);
 		die();
     }

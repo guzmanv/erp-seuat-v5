@@ -32,8 +32,9 @@
         }
 
         public function selectVentasTotalAll(){
-            $sql = "SELECT i.nom_plantel,SUM(total) AS total,DATE_FORMAT(i.fecha,'%Y-%m-%d') AS fecha FROM t_ingresos AS i
-            GROUP BY YEAR(i.fecha),MONTH(i.fecha),DAY(i.fecha), i.nom_plantel ORDER BY i.fecha ASC";
+            $sql = "SELECT pl.nombre_plantel_fisico,SUM(total) AS total,DATE_FORMAT(i.fecha,'%Y-%m-%d') AS fecha FROM t_ingresos AS i
+            INNER JOIN t_planteles AS pl ON i.id_plantel = pl.id
+            GROUP BY YEAR(i.fecha),MONTH(i.fecha),DAY(i.fecha), pl.nombre_plantel_fisico ORDER BY i.fecha ASC";
             $request = $this->select_all($sql);
             return $request;
         }
