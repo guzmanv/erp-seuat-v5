@@ -113,16 +113,16 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
         <div class="c_encabezado">
             <table class="sin_borde">
                 <tr>
-                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;"><?php //echo(strtoupper($data['datosInstitucion']['nombre_sistema']))?></th>
+                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;"><?php echo(strtoupper($data['datosInstitucion']['nombre_sistema']))?></th>
                 </tr>
                 <tr>
-                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;">R.F.C.: <?php //echo(strtoupper($data['datosInstitucion']['rfc'])) ?></th>
+                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;">R.F.C.: <?php echo(strtoupper($data['datosInstitucion']['rfc'])) ?></th>
                 </tr>
                 <tr>
-                    <th colspan="5" style="font-size:11px;font-weight:normal;text-align: left;"><?php //echo(strtoupper($data['datosInstitucion']['domicilio'])) ?></th>
+                    <th colspan="5" style="font-size:11px;font-weight:normal;text-align: left;"><?php echo(strtoupper($data['datosInstitucion']['domicilio'])) ?></th>
                 </tr>
                 <tr>
-                    <th colspan="5" style="font-size:11px;font-weight:norml; text-align: left;"><?php //echo(strtoupper($data['datosInstitucion']['colonia'].','.$data['datosInstitucion']['localidad'].','.$data['datosInstitucion']['municipio'].','. ','.$data['datosInstitucion']['estado'].',CP: '.$data['datosInstitucion']['cod_postal'])) ?></th>
+                    <th colspan="5" style="font-size:11px;font-weight:norml; text-align: left;"><?php echo(strtoupper($data['datosInstitucion']['colonia'].','.$data['datosInstitucion']['localidad'].','.$data['datosInstitucion']['municipio'].','. ','.$data['datosInstitucion']['estado'].',CP: '.$data['datosInstitucion']['cod_postal'])) ?></th>
                 </tr>
             </table>
         </div>
@@ -130,14 +130,14 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
             <table class="sin_borde">
                 <tr><th><th><th></tr>
                 <tr>
-                    <th colspan="1" style="font-size:12px;font-weight: bold; text-align: left; background-color:#EEEEEE"><?php //echo(strtoupper($data['datosInstitucion']['municipio'])) ?></th>
-                    <th colspan="2" style="font-size:12px;font-weight: normal; text-align: left; background-color:#CBCBCB">FOLIO: <?php //echo(strtoupper($data['datosInstitucion']['codigo_plantel'])) ?></th>
+                    <th colspan="1" style="font-size:12px;font-weight: bold; text-align: left; background-color:#EEEEEE"><?php echo(strtoupper($data['datosInstitucion']['municipio'])) ?></th>
+                    <th colspan="2" style="font-size:12px;font-weight: normal; text-align: left; background-color:#CBCBCB">FOLIO: <?php echo(strtoupper($data['datosInstitucion']['folio_identificador'])) ?></th>
                 </tr>
                 <tr>
-                    <th colspan="3" style="font-size:10px;font-weight: normal; text-align: left; background-color:#F9F7F7"><?php //echo(strtoupper($data['datosInstitucion']['domicilio'])) ?></th>
+                    <th colspan="3" style="font-size:10px;font-weight: normal; text-align: left; background-color:#F9F7F7"><?php echo(strtoupper($data['datosInstitucion']['domicilio'])) ?></th>
                 </tr>
                 <tr>
-                    <!-- <th colspan="3" style="font-size:10px;font-weight:normal; text-align: left; background-color: #F9F7F7"><?php //echo(strtoupper($data['datosInstitucion']['colonia'].','.$data['datosInstitucion']['localidad'].','.$data['datosInstitucion']['municipio'].','. ','.$data['datosInstitucion']['estado'].',CP: '.$data['datosInstitucion']['cod_postal'])) ?></th> -->
+                    <th colspan="3" style="font-size:10px;font-weight:normal; text-align: left; background-color: #F9F7F7"><?php echo(strtoupper($data['datosInstitucion']['colonia'].','.$data['datosInstitucion']['localidad'].','.$data['datosInstitucion']['municipio'].','. ','.$data['datosInstitucion']['estado'].',CP: '.$data['datosInstitucion']['cod_postal'])) ?></th> 
                 </tr>
             </table>
         </div>
@@ -149,20 +149,20 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
         <br>
         <div id="fila-normal" >
             <div class="subfila" style="width: 156px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">RECIBÍ DEL (A) ALUMNO (A):</div>
-            <div class="subfila" style="width:262px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><b><?php //echo(strtoupper($data['datos_alumno']['nombre_persona'].' '.$data['datos_alumno']['ap_paterno'].' '.$data['datos_alumno']['ap_materno'])) ?></b></div>
+            <div class="subfila" style="width:262px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><b><?php echo(strtoupper($data['datos_alumno']['nombre_persona'].' '.$data['datos_alumno']['ap_paterno'].' '.$data['datos_alumno']['ap_materno'])) ?></b></div>
         </div>
         <div id="fila-normal" >
             <div class="subfila" style="width: 96px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">PARA ESTUDIAR</div>
-            <div class="subfila" style="width:262px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php //echo(strtoupper($data['datos_alumno']['nombre_carrera'])) ?></div>
+            <div class="subfila" style="width:262px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php echo(strtoupper($data['datos_alumno']['nombre_carrera'])) ?></div>
         </div>
         <div id="fila-normal">
             <div class="subfila" style="width: 180px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">POR CONCEPTO DE: <b>INSCRIPCION</b></div>
             <div class="subfila" style="width: 50px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
-            /* if($data['datos_venta']['inscripcion'] != 0){
+            if($data['datos_venta']['inscripcion'] != 0){
                 echo ('$ '.formatoMoneda($data['datos_venta']['inscripcion']));
             }else{
                 echo '';
-            } */
+            }
             ?></div>
             <div class="subfila" style="width: 90px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left"><b>COLEGIATURA</b></div>
             <div class="subfila" style="width: 50px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 

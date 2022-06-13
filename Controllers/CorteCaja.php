@@ -85,10 +85,11 @@
 			$sobrante = $array[6];
 			$comentario = $datos->observaciones;
 
-			$codigo_plantel = $this->model->selectPlantelCajero($this->idUser);
-			$consecFolio = $this->model->sigFoliocorte($codigo_plantel['codigo_plantel']);
+			//$codigo_plantel = $this->model->selectPlantelCajero($this->idUser);  //Checar
+            $codigo_plantel = "TGZ";
+			$consecFolio = $this->model->sigFoliocorte($codigo_plantel);
 			$nuevoFolio = $consecFolio['num_folios']+1;
-            $nuevoFolioConsecutivo = $codigo_plantel['codigo_plantel'].'CC'.date("mY").substr(str_repeat(0,4).$nuevoFolio,-4);
+            $nuevoFolioConsecutivo = $codigo_plantel.'CC'.date("mY").substr(str_repeat(0,4).$nuevoFolio,-4);
 			$resCorteCaja = $this->model->updateCorteCaja($nuevoFolioConsecutivo,$id_corte_caja,$total_entregada,$this->idUser,$id_usuario_recibe['id_usuario_atiende'],$comentario);
 			if($resCorteCaja){
 				$resStatuscaja = $this->model->updateStatusCaja($id_caja,$total_entregada);

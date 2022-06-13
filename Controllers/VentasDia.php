@@ -75,7 +75,7 @@
         private function getDatosAlumno(int $idAlumno){
             $arrData = $this->model->selectDatosAlumno($idAlumno);
             $arrData['nombre_completo'] = $arrData['nombre_persona'].' '.$arrData['ap_paterno'].' '.$arrData['ap_materno'];
-            $arrData['plantel'] = $arrData['abreviacion_sistema'].'('.$arrData['abreviacion_plantel'].' / '.$arrData['municipio'].' )';
+            $arrData['plantel'] = $arrData['abreviacion_sistema'].'('.$arrData['abreviacion_institucion'].' / '.$arrData['municipio'].' )';
             return $arrData;
         }
     }
