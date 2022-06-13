@@ -22,7 +22,7 @@
 
     public function selectMedioCaptacion(int $id){
       $this->intIdMedioCaptacion = $id;
-      $sql = "SELECT * FROM t_medio_captacion WHERE id=$intIdMedioCaptacion";
+      $sql = "SELECT * FROM t_medio_captacion WHERE id=$this->intIdMedioCaptacion";
       $request = $this->select($sql);
       return $request;
     }
