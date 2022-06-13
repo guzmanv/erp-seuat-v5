@@ -5,10 +5,11 @@
         }
         public function selectCajeros(){
             $sql = "SELECT ca.id AS id_caja, us.id AS id_usuario, per.id AS id_persona,ca.nombre AS nombre_caja,
-            per.nombre_persona,per.ap_paterno,per.ap_materno,ec.estatus_caja FROM t_cajas AS ca 
+            per.nombre_persona,per.ap_paterno,per.ap_materno,ec.estatus_caja,pla.id,pla.nombre_plantel_fisico  FROM t_cajas AS ca 
             INNER JOIN t_usuarios AS us ON ca.id_usuario_atiende = us.id
             INNER JOIN t_personas AS per ON us.id_persona = per.id
-            INNER JOIN t_estatus_caja AS ec ON ec.id_caja = ca.id";
+            INNER JOIN t_estatus_caja AS ec ON ec.id_caja = ca.id
+            INNER JOIN t_planteles AS pla ON ca.id_plantel = pla.id";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -32,8 +33,9 @@
         }
 
         public function selectVentasTotalAll(){
-            $sql = "SELECT i.nom_plantel,SUM(total) AS total,DATE_FORMAT(i.fecha,'%Y-%m-%d') AS fecha FROM t_ingresos AS i
-            GROUP BY YEAR(i.fecha),MONTH(i.fecha),DAY(i.fecha), i.nom_plantel ORDER BY i.fecha ASC";
+            $sql = "SELECT pl.nombre_plantel_fisico,SUM(total) AS total,DATE_FORMAT(i.fecha,'%Y-%m-%d') AS fecha FROM t_ingresos AS i
+            INNER JOIN t_planteles AS pl ON i.id_plantel = pl.id
+            GROUP BY YEAR(i.fecha),MONTH(i.fecha),DAY(i.fecha), pl.nombre_plantel_fisico ORDER BY i.fecha ASC";
             $request = $this->select_all($sql);
             return $request;
         }

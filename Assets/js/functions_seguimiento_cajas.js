@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function(){
         fetch(urlGraphMultiLine)
         .then(res => res.json())
         .then((resultado) => {
+            console.log(resultado)
             for(const [key, value] of Object.entries(resultado.dias)){
                 arrDias.push(value);
             }
