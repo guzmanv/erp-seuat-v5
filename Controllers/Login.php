@@ -45,12 +45,12 @@
                         $_SESSION['idRol'] = $arrDatosUser['id_rol'];
                         $_SESSION['nombreRol'] = $arrDatosUser['nombre_rol'];
 
-                        $arrPermisos = $this->model->selelectPermisos($arrData['id']);
-                        $intNumeroPermisos = count($arrPermisos);
-                        $_SESSION['permisos'] = $arrPermisos;
-                        $_SESSION['numeroPermisos'] = $intNumeroPermisos;
+                        //$arrPermisos = $this->model->selelectPermisos($arrData['id']);
+                        //$intNumeroPermisos = count($arrPermisos);
+                        //$_SESSION['permisos'] = $arrPermisos;
+                        //$_SESSION['numeroPermisos'] = $intNumeroPermisos;
                         $_SESSION['frase'] = true;
-                        $arrResponse = array('estatus' => true, 'msg' => 'ok'); 
+                        $arrResponse = array('estatus' => true, 'msg' => 'ok');
                    }else {
                       $arrResponse = array('estatus' => false, 'msg' => 'Usuario inactivo.');
                    }

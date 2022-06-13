@@ -182,7 +182,7 @@
         </div>
       </div>-->
 
-                <?php if($_SESSION['numeroPermisos'] > 0){ ?>
+                <?php if($_SESSION['numeroPermisos'] == null){ ?>
                     <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar nav-legacy text-sm nav-compact flex-column"
                         data-widget="treeview" role="menu" data-accordion="false">

@@ -2,7 +2,6 @@
 class Categoria_servicios extends Controllers
 {
     private $idUser;
-    private $rol;
     public function __construct()
     {
         parent::__construct();
@@ -12,7 +11,6 @@ class Categoria_servicios extends Controllers
             die();
         }
         $this->idUser = $_SESSION['idUser'];
-        $this->rol = $_SESSION['claveRol'];
     }
 
     public function Categoria_servicios()
