@@ -13,6 +13,7 @@ mostrarTab(tabActual);
 mostrarTabEdit(tabActualEdit);
 var tablePlanEstudios;
 
+
 //Mostrar Lista de Planteles de Datatable
 document.addEventListener('DOMContentLoaded', function(){
 	tableInstituciones = $('#tableInstituciones').dataTable( {
@@ -391,8 +392,8 @@ function fntEditInstitucion(idInstitucion){
             {   
                 document.querySelector("#idInstitucionEdit").value = objData.id
                 document.querySelector('#txt_nombre_edit').value = objData.nombre_institucion;
-                document.querySelector('#select_plantel_edit').querySelector('option[value="' +objData.id_plantel+ '"]').selected = true;
-                document.querySelector('#select_sistema_educativo_edit').querySelector('option[value="' +objData.id_sistema+ '"]').selected = true;
+                document.querySelector('#select_plantel_edit').querySelector('option[value="' +objData.id_planteles+ '"]').selected = true;
+                document.querySelector('#select_sistema_educativo_edit').querySelector('option[value="' +objData.id_sistemas_educativos+ '"]').selected = true;
                 document.querySelector('#select_estatus_edit').querySelector('option[value="' +objData.estatus+ '"]').selected = true;
                 document.querySelector('#txt_abreviacion_edit').value = objData.abreviacion_institucion;
                 document.querySelector('#txtRegimenEdit').value = objData.regimen;
@@ -478,8 +479,8 @@ function fntVerInstitucion(idInstitucion){
                 document.querySelector('#txtCedulaFuncionamientoVer').value = objData.cedula_funcionamiento;
                 document.querySelector('#txtClaveInstitucionDGPVer').value = objData.cve_institucion_dgp;
                 document.querySelector("#profileInstitucionVer").src = base_url+"/Assets/images/logos/"+objData.logo_institucion;
-                document.querySelector('#select_plantel_ver').querySelector('option[value="'+objData.id_plantel+'"]').selected = true;
-                document.querySelector('#select_sistema_educativo_ver').querySelector('option[value="'+objData.id_sistema+'"]').selected = true;
+                document.querySelector('#select_plantel_ver').querySelector('option[value="'+objData.id_planteles+'"]').selected = true;
+                document.querySelector('#select_sistema_educativo_ver').querySelector('option[value="'+objData.id_sistemas_educativos+'"]').selected = true;
             }else{
                 swal.fire("Error", objData.msg , "error");
             }    

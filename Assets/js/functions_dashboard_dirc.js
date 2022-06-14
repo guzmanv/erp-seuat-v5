@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 //var $salesChartPlantel = $('#sales-chart-plantel');
 function plantelSeleccionado(plantel){
-    console.log(plantel)
     idPlantelSeleccionado = plantel;
     if(plantel == 'all'){
         document.querySelector('#listInstituciones').innerHTML = '<option value="all" selected>Todos</option>';
@@ -82,7 +81,6 @@ function institucionSeleccionado(value){
 function plEstudioMateriabyInstitucion(plantel,institucion){
     let url = base_url+"/DashboardDirc/getPlanEstudiosMateriabyInstitucion/"+plantel+"/"+institucion;
     fetch(url).then(res => res.json()).then((resultado) => {
-        console.log(resultado)
         arrInstitucion = [];
         carreras = [];
         materias = [];
@@ -224,7 +222,6 @@ function fnRvoeExp(){
     document.querySelector('#alertSinRvoeExp').innerHTML = "";
     let url = base_url+"/DashboardDirc/getListaRvoesExpirar/"+idPlantelSeleccionado+"/"+idInstitucionSeleccionado;
     fetch(url).then(res => res.json()).then((resultado) => {
-        console.log(resultado)
         if(resultado.length != 0){
             let contador = 0;
             resultado.forEach(element => {

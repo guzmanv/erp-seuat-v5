@@ -76,7 +76,7 @@ class PlanEstudios extends Controllers
 
         if ($idPlanEstudiosEdit != 0) {
             $arrData = $this->model->updatePlanEstudios($idPlanEstudiosEdit, $data, $arreglo);
-             if ($arrData) {
+            if ($arrData) {
                 $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
             } else {
                 $arrResponse = array('estatus' => false, 'msg' => 'No es posible actualizar los datos.');
