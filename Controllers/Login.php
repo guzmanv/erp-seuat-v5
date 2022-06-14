@@ -42,7 +42,7 @@
                         $_SESSION['idPersona'] = $arrData['id'];
                         $_SESSION['nomPersona'] = $arrDatosUser['nombre_persona'].' '.$arrDatosUser['ap_paterno'].' '.$arrDatosUser['ap_materno'];
                         $_SESSION['claveRol'] = $arrDatosUser['clave_rol'];
-                        $_SESSION['idRol'] = $arrDatosUser['id_rol'];
+                        $_SESSION['idRol'] = $arrDatosUser['id_roles'];
                         $_SESSION['nombreRol'] = $arrDatosUser['nombre_rol'];
 
                         //$arrPermisos = $this->model->selelectPermisos($arrData['id']);
