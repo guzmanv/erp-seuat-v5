@@ -244,6 +244,7 @@ class Seguimiento extends Controllers{
         $strEmailNvo = $_POST['txtEmailNuevo'];
         $strPlantelProcNvo = $_POST['txtPlantelProcedencia'];
         $strPlantelIntNvo = $_POST['slctPlantelNvo'];
+        $strPlantelProspectadoNvo = $_POST['slctPlantelPros'];
         $strNivelNvo = $_POST['slctNivelEstudios'];
         $intCarreraNvo = $_POST['slctCarreraNuevoPro'];
         $intMedioNvo = $_POST['rad'];
@@ -263,7 +264,7 @@ class Seguimiento extends Controllers{
             $idSubcampana = $this->model->selectSubcampania(); 
             if($idSubcampana)
             {
-                $arrProspecto = $this->model->insertProspecto($strNombreNvo, $strApePatNvo, $strApeMatNvo, $strAliasNvo, $strEdoCivilNvo, $strOcupacionNvo, $strFechaNacNvo, $intEscolaridadNvo, $intEdadNvo, $strSexoNvo, $intLocalidadNvo, $intTelNvo, $intTelFijoNvo, $strEmailNvo, $strPlantelProcNvo, $strPlantelIntNvo, $strNivelNvo, $intCarreraNvo, $intMedioNvo, $strComentarioNvo, $idSubcampana['id']);
+                $arrProspecto = $this->model->insertProspecto($strNombreNvo, $strApePatNvo, $strApeMatNvo, $strAliasNvo, $strEdoCivilNvo, $strOcupacionNvo, $strFechaNacNvo, $intEscolaridadNvo, $intEdadNvo, $strSexoNvo, $intLocalidadNvo, $intTelNvo, $intTelFijoNvo, $strEmailNvo, $strPlantelProcNvo, $strPlantelIntNvo, $strPlantelProspectadoNvo, $strNivelNvo, $intCarreraNvo, $intMedioNvo, $strComentarioNvo, $idSubcampana['id']);
                 if($arrProspecto)
                 {
                     $arrResponse = array('estatus' => true, 'msg' => 'Se ha dado de alta un nuevo prospecto');

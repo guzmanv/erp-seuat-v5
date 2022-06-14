@@ -12,6 +12,7 @@ class SeguimientoModel extends Mysql{
     public $intIdNvlCarrInte; //$intNivelEstudiosInteresP
     public $intIdCarrInte; //$intCarreaInteresP
     public $strPltInteres; //$intPlantelInteresP
+    public $strPltProspectado;
     public $intCatPer; //$intIdCategoriaPersona
     public $intNotificacion;
     public $intEstatus;
@@ -43,7 +44,7 @@ class SeguimientoModel extends Mysql{
 
     public function selectMedioCaptacion()
     {
-        $sql = "SELECT * FROM t_medio_captacion";
+        $sql = "SELECT * FROM t_medios_captacion";
         $request = $this->select_all($sql);
         return $request;
     }
@@ -83,7 +84,7 @@ class SeguimientoModel extends Mysql{
         INNER JOIN t_prospectos as pro ON pe.id = pro.id_persona 
         INNER JOIN t_planteles as plt ON pro.id_plantel_interes = plt.id 
         INNER JOIN t_carrera_interes as crr ON pro.id_carrera_interes = crr.id 
-        INNER JOIN t_medio_captacion as med ON pro.id_medio_captacion = med.id
+        INNER JOIN t_medios_captacion as med ON pro.id_medios_captacion = med.id
         WHERE pe.estatus != 0 AND asig.id_categoria_persona = 1 OR asig.id_categoria_persona = 5
         ORDER BY pe.id DESC";
         $request = $this->select_all($sql);
@@ -186,7 +187,7 @@ class SeguimientoModel extends Mysql{
         INNER JOIN t_estados AS est ON mun.id_estados = est.id
         INNER JOIN t_prospectos AS pros ON pros.id_persona = pe.id
         INNER JOIN t_personas AS pe2 ON pe.id_usuario_creacion = pe2.id
-        INNER JOIN t_medio_captacion AS med ON pros.id_medio_captacion = med.id
+        INNER JOIN t_medios_captacion AS med ON pros.id_medios_captacion = med.id
         INNER JOIN t_nivel_educativos AS nvl ON pros.id_nivel_carrera_interes = nvl.id
         LEFT JOIN t_carrera_interes AS crr ON pros.id_carrera_interes = crr.id
         WHERE pe.id = $this->intIdPers";
@@ -227,7 +228,7 @@ class SeguimientoModel extends Mysql{
         return $request;
     }
 
-    public function insertProspecto(string $nom, string $apeP, string $apeM, string $ali, string $edo_civil, string $ocup, string $fecha_nac, int $escol, int $ed, string $sex, int $loc, string $telc, string $telf, string $correo, string $plantProc, string $plantInt, int $nivelInt, int $carrInt, int $med, string $coment, int $idSub)
+    public function insertProspecto(string $nom, string $apeP, string $apeM, string $ali, string $edo_civil, string $ocup, string $fecha_nac, int $escol, int $ed, string $sex, int $loc, string $telc, string $telf, string $correo, string $plantProc, string $plantInt, string $plntPros, int $nivelInt, int $carrInt, int $med, string $coment, int $idSub)
     {
         $this->strNombrePers = $nom;
         $this->strApePat = $apeP;
@@ -244,6 +245,7 @@ class SeguimientoModel extends Mysql{
         $this->strTelfijo = $telf;
         $this->strEmail = $correo;
         $this->strPltInteres = $plantInt;
+        $this->strPltProspectado = $plntPros;
         $this->strPlantelProcedencia = $plantProc;
         $this->intIdNvlCarrInte = $nivelInt;
         $this->intIdCarrInte = $carrInt;
@@ -252,8 +254,8 @@ class SeguimientoModel extends Mysql{
         $this->intIdUsuario = $_SESSION['idUser'];
         $this->intIdSubcampania = $idSub;
 
-        $sqlPersona = "INSERT INTO t_personas(nombre_persona, ap_paterno, ap_materno, sexo, alias, edad, edo_civil, ocupacion, id_escolaridad,fecha_nacimiento, estatus, id_localidad, tel_celular, tel_fijo, email, fecha_creacion, id_usuario_creacion, id_rol) 
-        VALUES(?,?,?,?,?,?,?,?,?,?,1,?,?,?,?,NOW(),?,1)";
+        $sqlPersona = "INSERT INTO t_personas(nombre_persona, ap_paterno, ap_materno, sexo, alias, edad, edo_civil, ocupacion, id_escolaridad,fecha_nacimiento, estatus, id_localidad, tel_celular, tel_fijo, email, fecha_creacion, id_usuario_creacion) 
+        VALUES(?,?,?,?,?,?,?,?,?,?,1,?,?,?,?,NOW(),?)";
         $arrPersona = array($this->strNombrePers,$this->strApePat,$this->strApeMat,$this->strSexo,$this->strAlias, $this->intEdad,$this->strEstadoCivil, $this->strOcupacion, $this->intEscolaridad,$this->strFechaNacimiento,$this->intLocalidad,$this->strTelCel,$this->strTelfijo, $this->strEmail,$this->intIdUsuario);
         $requestPersona = $this->insert($sqlPersona,$arrPersona);
         if($requestPersona)
@@ -264,7 +266,7 @@ class SeguimientoModel extends Mysql{
             $requestAsig = $this->insert($sqlAsignacion,$arrDataAsig);
             if($requestAsig)
             {
-                $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones, id_plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_persona) VALUES(?,?,?,?,?,?,?)";
+                $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones, id_plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medios_captacion,id_persona) VALUES(?,?,?,?,?,?,?)";
                 $arrDataProspecto = array($this->strPlantelProcedencia, $this->strComentario, $this->strPltInteres, $this->intIdNvlCarrInte, $this->intIdCarrInte, $this->intMedioCaptacion, $idPersona);
                 $requestProspecto = $this->insert($sqlProspecto,$arrDataProspecto);
             }
@@ -294,14 +296,6 @@ class SeguimientoModel extends Mysql{
 
         $idMunicipio = $idMunicipio;
         $sql = "SELECT *FROM t_localidades WHERE id_municipio = $idMunicipio";
-        $request = $this->select_all($sql);
-        return $request;
-
-    }
-
-    public function selectMediosCaptacion(){
-
-        $sql = "SELECT * FROM t_medio_captacion";
         $request = $this->select_all($sql);
         return $request;
 

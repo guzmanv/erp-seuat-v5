@@ -134,24 +134,37 @@
                                         <h5 class="card-title mb-0"><i class="fas fa-layer-group"></i> &nbsp;Prospecto</h5>
                                     </div>
                                     <div class="card-body row">
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-4">
                                             <label>Escuela Procedencia <span class="required">*</span></label>
                                             <input type="text" id="txtPlantelProcedencia" name="txtPlantelProcedencia" class="form-control form-control-sm" placeholder="Plantel de Procedencia" name="" required>
                                         </div>
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-4">
+                                            <label>Plantel de prospección <span class="required">*</span></label>
+                                            <select class="form-control form-control-sm" name="slctPlantelPros" id="slctPlantelPros">
+                                                <option value="">Seleccionar...</option>
+                                                <?php
+                                                foreach ($data['planteles'] as $planteles) {
+                                                ?>
+                                                    <option value="<?= $planteles['id'] ?>"><?= $planteles['nombre_plantel_fisico'] ?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
                                             <label>Plantel de interés <span class="required">*</span></label>
                                             <select class="form-control form-control-sm" name="slctPlantelNvo" id="slctPlantelNvo">
                                                 <option value="">Seleccionar...</option>
                                                 <?php
                                                 foreach ($data['planteles'] as $planteles) {
                                                 ?>
-                                                    <option value="<?= $planteles['id']?>"><?= $planteles['nombre_plantel_fisico'] ?></option>
+                                                    <option value="<?= $planteles['id'] ?>"><?= $planteles['nombre_plantel_fisico'] ?></option>
                                                 <?php
                                                 }
                                                 ?>
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-6">
                                             <label>Nivel de estudios de interés <span class="required">*</span></label>
                                             <select class="form-control form-control-sm" name="slctNivelEstudios" id="slctNivelEstudios" onchange="nvlSeleccionadoPros(value)">
                                                 <option value="">Seleccionar...</option>
@@ -163,13 +176,21 @@
                                                 ?>
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-6">
                                             <label>Carrera de interés <span class="required">*</span></label>
                                             <select class="form-control form-control-sm" name="slctCarreraNuevoPro" id="slctCarreraNuevoPro">
-
+                                                <option value="">Seleccionar...</option>
+                                                <?php
+                                                foreach ($data['carrera_interes'] as $carrera) {?>
+                                                    <option value="<?php $carrera['id']?>"><?php echo ($carrera['nombre_carrera']) ?></option>
+                                                <?php                                                                                                       
+                                                }
+                                                ?>
                                             </select>
                                         </div>
                                     </div>
+
+
                                 </div>
                                 <div class="card card-secondary col-md-12 p-0">
                                     <div class="card-header">
