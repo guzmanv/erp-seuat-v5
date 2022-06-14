@@ -198,7 +198,7 @@
                             <a href="<?php echo BASE_URL ?>/DashboardDirc" class="nav-link active">
                                 <i class="ml-3 mr-2" data-feather="grid"></i>
                                 <p>
-                                    Dashboard DIRC
+                                    Dashboard Adminitración Educativa
                                 </p>
                             </a>
                         </li>
@@ -219,7 +219,7 @@
                             </a>
                         </li>
                         <li class="nav-header">
-                            <h6>DIRC</h6>
+                            <h6>Administración Educativa</h6>
                         </li>
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/SistemasEducativos" class="nav-link">
