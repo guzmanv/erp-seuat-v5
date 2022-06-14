@@ -79,9 +79,9 @@ class SeguimientoModel extends Mysql{
         $sql = "SELECT pe.id, CONCAT(pe.nombre_persona, ' ', pe.ap_paterno, ' ', pe.ap_materno) as nombre_completo, 
         cat.nombre_categoria, pe.alias, pe.tel_celular, plt.nombre_plantel_fisico, crr.nombre_carrera, med.medio_captacion
         FROM t_personas as pe
-        INNER JOIN t_asignacion_categoria_persona as asig ON pe.id = asig.id_persona
+        INNER JOIN t_asignacion_categoria_persona as asig ON pe.id = asig.id_personas
         INNER JOIN t_categoria_personas as cat ON asig.id_categoria_persona = cat.id
-        INNER JOIN t_prospectos as pro ON pe.id = pro.id_persona 
+        INNER JOIN t_prospectos as pro ON pe.id = pro.id_personas 
         INNER JOIN t_planteles as plt ON pro.id_plantel_interes = plt.id 
         INNER JOIN t_carrera_interes as crr ON pro.id_carrera_interes = crr.id 
         INNER JOIN t_medios_captacion as med ON pro.id_medios_captacion = med.id
@@ -109,7 +109,7 @@ class SeguimientoModel extends Mysql{
         pro.id_carrera_interes,
         pro.id as pro_id
         FROM t_personas as per
-        INNER JOIN t_prospectos AS pro ON pro.id_persona = per.id
+        INNER JOIN t_prospectos AS pro ON pro.id_personas = per.id
         WHERE per.id = $this->intIdPers";
         $request = $this->select($sql);
         return $request;
@@ -150,7 +150,7 @@ class SeguimientoModel extends Mysql{
         $this->intNotificacion = 0;
         $this->intEstatus = 1;
         $this->strDetalle = $detalleLlamada;
-        $sql = "INSERT INTO t_agenda(fecha_registro, fecha_programada, hora_programada, asunto, detalle, notificacion, estatus, id_usuario_atendio, id_persona) VALUES(?,?,?,?,?,?,?,?,?)";
+        $sql = "INSERT INTO t_agenda(fecha_registro, fecha_programada, hora_programada, asunto, detalle, notificacion, estatus, id_usuario_atendio, id_personas) VALUES(?,?,?,?,?,?,?,?,?)";
         $arrData = array($this->strFechaRegistro, $this->strFechaProgramada, $this->strHoraProgramada, $this->strAsunto, $this->strDetalle,$this->intNotificacion, $this->intEstatus, $this->intIdUsuarioAtendio, $this->intIdPers);
         $request = $this->insert($sql, $arrData);
         return $request;
@@ -185,7 +185,7 @@ class SeguimientoModel extends Mysql{
         INNER JOIN t_localidades AS loc ON pe.id_localidad = loc.id
         INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
         INNER JOIN t_estados AS est ON mun.id_estados = est.id
-        INNER JOIN t_prospectos AS pros ON pros.id_persona = pe.id
+        INNER JOIN t_prospectos AS pros ON pros.id_personas = pe.id
         INNER JOIN t_personas AS pe2 ON pe.id_usuario_creacion = pe2.id
         INNER JOIN t_medios_captacion AS med ON pros.id_medios_captacion = med.id
         INNER JOIN t_nivel_educativos AS nvl ON pros.id_nivel_carrera_interes = nvl.id
@@ -201,7 +201,7 @@ class SeguimientoModel extends Mysql{
         $this->strComentario = $comentario;
         $this->intIdPros = $idPros;
         $this->intIdUsuario = $_SESSION['idUser'];
-        $sql = "INSERT INTO t_seguimiento_prospecto(fecha_de_seguimiento,comentario,id_usuario_atendio,id_respuesta_rapida,id_prospecto) VALUES (NOW(), ?, ?, ? ,?)";
+        $sql = "INSERT INTO t_seguimiento_prospecto(fecha_de_seguimiento,comentario,id_usuario_atendio,id_respuesta_rapida,id_prospectos) VALUES (NOW(), ?, ?, ? ,?)";
         $arrData = array($this->strComentario, $this->intIdUsuario, $this->intRespRap, $this->intIdPros);
         $request = $this->insert($sql,$arrData);
         return $request;
@@ -212,8 +212,8 @@ class SeguimientoModel extends Mysql{
         $this->intIdPers = $idPer;
         $sql = "SELECT DATE_FORMAT(sp.fecha_de_seguimiento,'%d-%m-%Y') AS fecha_de_seguimiento, sp.comentario, CONCAT(per2.nombre_persona, ' ', per2.ap_paterno,' ', per2.ap_materno) as nombre_asesor, resp.respuesta_rapida
         FROM t_seguimiento_prospecto AS sp
-        LEFT JOIN t_prospectos AS p ON sp.id_prospecto = p.id
-        INNER JOIN t_personas AS per ON p.id_persona = per.id
+        LEFT JOIN t_prospectos AS p ON sp.id_prospectos = p.id
+        INNER JOIN t_personas AS per ON p.id_personas = per.id
         INNER JOIN t_respuesta_rapida as resp ON sp.id_respuesta_rapida = resp.id
         INNER JOIN t_personas as per2 ON sp.id_usuario_atendio = per2.id
         WHERE per.id = $this->intIdPers
