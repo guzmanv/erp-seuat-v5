@@ -5,10 +5,10 @@
         }
         public function selectMaterias(){
             $sql = "SELECT mat.id,mat.nombre_materia,pe.nombre_carrera,mat.id_grados,mat.tipo,
-            mat.estatus,gr.numero_romano,mat.id_clasificacion_materia,clma.nombre_clasificacion_materia FROM t_materias AS mat
+            mat.estatus,gr.numero_romano,mat.id_clasificacion_materias,clma.nombre_clasificacion_materia FROM t_materias AS mat
             INNER JOIN t_plan_estudios AS pe ON mat.id_plan_estudios = pe.id
             INNER JOIN t_grados AS gr ON mat.id_grados = gr.id
-            INNER JOIN t_clasificacion_materias AS clma ON mat.id_clasificacion_materia = clma.id
+            INNER JOIN t_clasificacion_materias AS clma ON mat.id_clasificacion_materias = clma.id
             WHERE mat.estatus !=0 ORDER BY mat.id DESC";
             $request = $this->select_all($sql);
             return $request;
@@ -24,8 +24,14 @@
             return $request;
         }
 
+        public function selectPlanEstudiosByInstitucion(int $idInstitucion){
+            $sql = "SELECT *FROM t_plan_estudios WHERE id_instituciones = $idInstitucion AND estatus = 1 ORDER BY nombre_carrera ASC";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+
         public function selectPlanEstudiosNuevo($id){
-            $sql = "SELECT *FROM t_plan_estudios WHERE id_institucion = $id AND estatus = 1 ORDER BY nombre_carrera ASC";
+            $sql = "SELECT *FROM t_plan_estudios WHERE id_instituciones = $id AND estatus = 1 ORDER BY nombre_carrera ASC";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -39,7 +45,7 @@
         public function selectInstituciones()
         {
             $sql ="SELECT inst.id,inst.nombre_institucion,plant.nombre_plantel_fisico FROM t_instituciones AS inst
-            INNER JOIN t_planteles AS plant ON inst.id_plantel = plant.id
+            INNER JOIN t_planteles AS plant ON inst.id_planteles = plant.id
             WHERE inst.estatus = 1";
             $request = $this->select_all($sql);
             return $request;
@@ -74,7 +80,7 @@
                 $request['estatus'] = TRUE;
             }else{
                 $sqlNew = "INSERT INTO t_materias(clave,nombre_materia,hrs_teoria,hrs_practicas,creditos,tipo,id_grados,id_plan_estudios,
-                    id_clasificacion_materia,estatus,fecha_creacion,fecha_actualizacion,id_usuario_creacion,id_usuario_actualizacion) 
+                    id_clasificacion_materias,estatus,fecha_creacion,fecha_actualizacion,id_usuario_creacion,id_usuario_actualizacion) 
                     VALUES (?,?,?,?,?,?,?,?,?,?,NOW(),NOW(),?,?)";
                 $requestNew = $this->insert($sqlNew,array($clave,$nombreMateria,$horasTeoria,$horasPracticas,$creditos,$tipo,$grado,$planEstudio,
                         $clasificacion,1,$idUser,$idUser));
@@ -86,10 +92,10 @@
         public function selectMateria(int $idMateria){
             $sql = "SELECT mat.id,mat.clave,mat.nombre_materia,mat.hrs_teoria,mat.hrs_practicas,mat.creditos,mat.tipo,pe.id AS id_plan,pe.nombre_carrera,
             mat.id_grados,mat.tipo,
-                        mat.id_clasificacion_materia,mat.estatus,gr.id AS id_grado,gr.nombre_grado,gr.numero_romano,inst.id AS idplantel,inst.nombre_institucion,plant.nombre_plantel_fisico,inst.id AS idInstitucion FROM t_materias AS mat
+                        mat.id_clasificacion_materias,mat.estatus,gr.id AS id_grado,gr.nombre_grado,gr.numero_romano,inst.id AS idplantel,inst.nombre_institucion,plant.nombre_plantel_fisico,inst.id AS idInstitucion FROM t_materias AS mat
                         INNER JOIN t_plan_estudios AS pe ON mat.id_plan_estudios = pe.id
-                        INNER JOIN t_instituciones AS inst ON pe.id_institucion = inst.id
-                        INNER JOIN t_planteles AS plant ON inst.id_plantel = plant.id
+                        INNER JOIN t_instituciones AS inst ON pe.id_instituciones = inst.id
+                        INNER JOIN t_planteles AS plant ON inst.id_planteles = plant.id
                         INNER JOIN t_grados AS gr ON mat.id_grados = gr.id WHERE mat.id = $idMateria";
             $request = $this->select($sql);
             return $request;
@@ -114,7 +120,7 @@
                 $tipo = "Ordinaria";
             }
             $sql = "UPDATE t_materias SET clave = ? ,nombre_materia = ? ,hrs_teoria = ?,hrs_practicas = ?,creditos = ?,tipo = ?,id_grados = ?,
-            id_plan_estudios = ? ,id_clasificacion_materia = ? ,estatus = ?,
+            id_plan_estudios = ? ,id_clasificacion_materias = ? ,estatus = ?,
             fecha_actualizacion = NOW() ,id_usuario_creacion = ? ,id_usuario_actualizacion = ? WHERE id = $intIdMateriaEdit"; 
             $request = $this->update($sql,array($clave,$nombreMateria,$horasTeoria,$horasPracticas,$creditos,$tipo,$grado,$planEstudio,
                         $clasificacion,$estatus,$idUser,$idUser));
@@ -150,7 +156,7 @@
         }
         public function selectCreditoClasificacionPlanEstudio(int $idPlanEstudio,int $idClasificacion){
             $sql = "SELECT *FROM t_materias AS m
-            WHERE m.id_plan_estudios = $idPlanEstudio AND m.id_clasificacion_materia = $idClasificacion";
+            WHERE m.id_plan_estudios = $idPlanEstudio AND m.id_clasificacion_materias = $idClasificacion";
             $request = $this->select_all($sql);
             return $request;
         }

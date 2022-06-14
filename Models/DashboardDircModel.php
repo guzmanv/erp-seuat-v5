@@ -11,7 +11,7 @@
             return $request;
         }
         public function selectTotalInstituciones(int $idPlantel){
-            $sqlInstituciones = "SELECT COUNT(*) AS total FROM t_instituciones WHERE id_plantel = $idPlantel AND estatus = 1";
+            $sqlInstituciones = "SELECT COUNT(*) AS total FROM t_instituciones WHERE id_planteles = $idPlantel AND estatus = 1";
             $requestInstituciones = $this->select($sqlInstituciones);
             return $requestInstituciones;
         }
@@ -19,8 +19,8 @@
 
         public function selectTotalesPlanEstudios(int $idPlantel){
             $sqlPlanEstudios = "SELECT COUNT(*) AS total FROM t_plan_estudios AS pe
-            INNER JOIN t_instituciones  AS i ON pe.id_institucion =i.id
-            INNER JOIN t_planteles AS p ON i.id_plantel = p.id
+            INNER JOIN t_instituciones  AS i ON pe.id_instituciones =i.id
+            INNER JOIN t_planteles AS p ON i.id_planteles = p.id
             WHERE pe.estatus = 1 AND p.id = $idPlantel";
             $requestPlanEstudios = $this->select($sqlPlanEstudios);
             return $requestPlanEstudios;
@@ -28,16 +28,16 @@
         public function selectTotalesMaterias(int $idPlantel){
             $sqlMaterias = "SELECT COUNT(*) AS total FROM t_materias AS m 
             INNER JOIN t_plan_estudios AS pe ON m.id_plan_estudios = pe.id 
-            INNER JOIN t_instituciones AS i ON pe.id_institucion = i.id 
-            INNER JOIN t_planteles AS p ON i.id_plantel = p.id 
+            INNER JOIN t_instituciones AS i ON pe.id_instituciones = i.id 
+            INNER JOIN t_planteles AS p ON i.id_planteles = p.id 
             WHERE m.estatus = 1 AND p.id = $idPlantel";
             $requestMaterias = $this->select($sqlMaterias);
             return $requestMaterias;
         }
         public function selectTotalesRVOES(int $idPlantel){
             $sqlRVOES = "SELECT COUNT(*) AS total FROM t_plan_estudios AS pe
-            INNER JOIN t_instituciones AS i ON pe.id_institucion = i.id
-            INNER JOIN t_planteles AS p ON i.id_plantel = p.id 
+            INNER JOIN t_instituciones AS i ON pe.id_instituciones = i.id
+            INNER JOIN t_planteles AS p ON i.id_planteles = p.id 
             WHERE DATEDIFF(pe.fecha_actualizacion_rvoe,CURRENT_DATE) <= 365 AND pe.estatus = 1 AND p.id = $idPlantel";
             $requestRVOES = $this->select($sqlRVOES);
             return $requestRVOES;
@@ -78,15 +78,15 @@
         public function selectRvoesExpirar($idPlantel,$idInstitucion){
             if($idInstitucion == "all"){
                 $sqlRVOES = "SELECT pl.id,pl.nombre_carrera,pl.nombre_carrera_corto,inst.abreviacion_institucion,plant.municipio,pl.rvoe,pl.fecha_actualizacion_rvoe FROM t_plan_estudios AS pl 
-                INNER JOIN t_instituciones AS inst ON pl.id_institucion = inst.id 
-                INNER JOIN t_planteles AS plant ON inst.id_plantel = plant.id
+                INNER JOIN t_instituciones AS inst ON pl.id_instituciones = inst.id 
+                INNER JOIN t_planteles AS plant ON inst.id_planteles = plant.id
                 WHERE DATEDIFF(pl.fecha_actualizacion_rvoe,CURRENT_DATE) <= 365 AND pl.estatus = 1 AND plant.id = $idPlantel";
                 $requestRVOES = $this->select_all($sqlRVOES);
             }else{
                 $sqlRVOES = "SELECT pl.id,pl.nombre_carrera,pl.nombre_carrera_corto,inst.abreviacion_institucion,plant.municipio,pl.rvoe,pl.fecha_actualizacion_rvoe FROM t_plan_estudios AS pl 
-                INNER JOIN t_instituciones AS inst ON pl.id_institucion = inst.id
-                INNER JOIN t_planteles AS plant ON inst.id_plantel = plant.id
-                WHERE DATEDIFF(fecha_actualizacion_rvoe,CURRENT_DATE) <= 365 AND pl.id_institucion = $idInstitucion  AND plant.id = $idPlantel AND pl.estatus = 1";
+                INNER JOIN t_instituciones AS inst ON pl.id_instituciones = inst.id
+                INNER JOIN t_planteles AS plant ON inst.id_planteles = plant.id
+                WHERE DATEDIFF(fecha_actualizacion_rvoe,CURRENT_DATE) <= 365 AND pl.id_instituciones = $idInstitucion  AND plant.id = $idPlantel AND pl.estatus = 1";
                 $requestRVOES = $this->select_all($sqlRVOES);
             }
             return $requestRVOES;
@@ -102,8 +102,8 @@
 
         public function selectPlanEstudiosbyInstitucion($idPlantel,$idInstitucion){
             $sql = "SELECT COUNT(*) AS total FROM t_plan_estudios AS pe
-            INNER JOIN t_instituciones  AS i ON pe.id_institucion =i.id
-            INNER JOIN t_planteles AS p ON i.id_plantel = p.id
+            INNER JOIN t_instituciones  AS i ON pe.id_instituciones =i.id
+            INNER JOIN t_planteles AS p ON i.id_planteles = p.id
             WHERE pe.estatus = 1 AND p.id = $idPlantel AND i.id = $idInstitucion";
             $request = $this->select($sql);
             return $request;
@@ -111,8 +111,8 @@
         public function selectMateriasbyInstitucion($idPlantel, $idInstitucion){
             $sql = "SELECT COUNT(*) AS total FROM t_materias AS mat
             INNER JOIN t_plan_estudios AS ples ON mat.id_plan_estudios = ples.id
-            INNER JOIN t_instituciones AS ins ON ples.id_institucion = ins.id 
-            INNER JOIN t_planteles AS pl ON ins.id_plantel = pl.id 
+            INNER JOIN t_instituciones AS ins ON ples.id_instituciones = ins.id 
+            INNER JOIN t_planteles AS pl ON ins.id_planteles = pl.id 
             WHERE pl.id = $idPlantel AND ins.id = $idInstitucion AND mat.estatus = 1";
             $request = $this->select($sql);
             return $request;
@@ -121,16 +121,16 @@
             $sql = "SELECT pl.id,pl.nombre_carrera,pl.nombre_carrera_corto,se.abreviacion_sistema,
             ins.abreviacion_institucion,p.municipio,pl.rvoe,pl.fecha_actualizacion_rvoe 
             FROM t_plan_estudios AS pl 
-            INNER JOIN t_instituciones AS ins ON pl.id_institucion  = ins .id 
-            INNER JOIN t_planteles AS p ON ins.id_plantel = p.id 
-            INNER JOIN t_sistemas_educativos AS se ON ins.id_sistema = se.id
+            INNER JOIN t_instituciones AS ins ON pl.id_instituciones  = ins .id 
+            INNER JOIN t_planteles AS p ON ins.id_planteles = p.id 
+            INNER JOIN t_sistemas_educativos AS se ON ins.id_sistemas_educativos = se.id
             WHERE DATEDIFF(pl.fecha_actualizacion_rvoe,CURRENT_DATE) <= 365 
-            AND ins.id_plantel = $idPlantel AND ins.id = $idInstitucion AND pl.estatus = 1";
+            AND ins.id_planteles = $idPlantel AND ins.id = $idInstitucion AND pl.estatus = 1";
             $request = $this->select_all($sql);
             return $request;
         }
         public function selectDatosInstitucion($idPlantel){
-            $sql = "SELECT *FROM t_instituciones WHERE id_plantel = $idPlantel";
+            $sql = "SELECT *FROM t_instituciones WHERE id_planteles = $idPlantel";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -146,7 +146,7 @@
         }
         public function selectInstitucionesByPlantel($idPlantel)
         {
-            $sql = "SELECT *FROM t_instituciones WHERE estatus = 1 AND id_plantel = $idPlantel";
+            $sql = "SELECT *FROM t_instituciones WHERE estatus = 1 AND id_planteles = $idPlantel";
             $request = $this->select_all($sql);
             return $request;
         }

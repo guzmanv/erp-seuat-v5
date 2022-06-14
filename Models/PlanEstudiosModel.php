@@ -13,7 +13,7 @@
         public function selectInstituciones()
         {
             $sql = "SELECT inst.id,inst.nombre_institucion,plant.nombre_plantel_fisico FROM t_instituciones AS inst 
-            INNER JOIN t_planteles AS plant ON inst.id_plantel = plant .id 
+            INNER JOIN t_planteles AS plant ON inst.id_planteles = plant .id 
             WHERE inst.estatus = 1";
             $request = $this->select_all($sql);
             return $request;
@@ -43,9 +43,9 @@
         public function selectPlanEstudios(){
             $sql = "SELECT plan.id,plan.nombre_carrera,plan.rvoe,plan.fecha_vigencia,plan.estatus,
             inst.nombre_institucion,cat.nombre_categoria_carrera,plant.nombre_plantel_fisico FROM t_plan_estudios AS plan
-                        INNER JOIN t_instituciones AS inst ON plan.id_institucion = inst.id 
-                        INNER JOIN t_planteles AS plant ON inst.id_plantel = plant.id 
-                        INNER JOIN t_categoria_carreras AS cat ON plan.id_categoria_carrera = cat.id
+                        INNER JOIN t_instituciones AS inst ON plan.id_instituciones = inst.id 
+                        INNER JOIN t_planteles AS plant ON inst.id_planteles = plant.id 
+                        INNER JOIN t_categoria_carreras AS cat ON plan.id_categoria_carreras = cat.id
                         WHERE plan.estatus != 0
                         ORDER BY id DESC";
             $request = $this->select_all($sql);
@@ -72,7 +72,7 @@
             $campoLaboral = $data['txtCampoLaboralNuevo'];
             //$estatus = $data['listEstatusNuevo'];
             $idPlan = $data['listPlanNuevo'];
-            $idInstitucion = $data['listNivelEdNuevo'];
+            $idInstitucion = $data['listInstitucionNuevo'];
             $idNiveleducativo = $data['listNivelEdNuevo'];
             $idCategoriaCarrera = $data['listCategoriaNuevo'];
             $idModalidad = $data['listModalidadNuevo'];
@@ -85,8 +85,8 @@
             $aplicaCalsificacion = (count($arreglo)>0)?true:false;
             if($aplicaCalsificacion == true){
                 $sqlPlanEstudio = "INSERT INTO t_plan_estudios(nombre_carrera,nombre_carrera_corto,perfil_egreso,duracion_carrera,materias_totales,total_horas,total_creditos,clave_profesiones,
-                    tipo_rvoe,rvoe,turno,fecha_vigencia,calificacion_minima,fecha_otorgamiento,perfil_ingreso,campo_laboral,estatus,aplica_clasificacion,fecha_creacion,fecha_actualizacion,id_plan,
-                    id_institucion,id_nivel_educativo,id_categoria_carrera,id_modalidad,id_usuario_creacion,id_usuario_actualizacion,fecha_actualizacion_rvoe) 
+                    tipo_rvoe,rvoe,turno,fecha_vigencia,calificacion_minima,fecha_otorgamiento,perfil_ingreso,campo_laboral,estatus,aplica_clasificacion,fecha_creacion,fecha_actualizacion,id_organizacion_planes,
+                    id_instituciones,id_nivel_educativos,id_categoria_carreras,id_modalidades,id_usuario_creacion,id_usuario_actualizacion,fecha_actualizacion_rvoe) 
             VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW(),?,?,?,?,?,?,?,?)";
                 $requestPlanEstudio = $this->insert($sqlPlanEstudio,array($nombrePlanEstudios,$nombreCorto,$perfilEgreso,$duracionCarrera,$materiasTotales,$totalHoras,$totalCreditos,$claveProfesiones,
                         $tipoREVOE,$REVOE,$turnoRVOE,$vigenciaREVOE,$calificacionMinima,$fechaOtorgamiento,$perfilIngreso,$campoLaboral,1,1,$idPlan,$idInstitucion,$idNiveleducativo,
@@ -98,8 +98,8 @@
                 return $requestClasificacion; 
             }else{
                 $sqlPlanEstudio = "INSERT INTO t_plan_estudios(nombre_carrera,nombre_carrera_corto,perfil_egreso,duracion_carrera,materias_totales,total_horas,total_creditos,clave_profesiones,
-                tipo_rvoe,rvoe,turno,fecha_vigencia,calificacion_minima,fecha_otorgamiento,perfil_ingreso,campo_laboral,estatus,aplica_clasificacion,fecha_creacion,fecha_actualizacion,id_plan,
-                id_institucion,id_nivel_educativo,id_categoria_carrera,id_modalidad,id_usuario_creacion,id_usuario_actualizacion,fecha_actualizacion_rvoe) 
+                tipo_rvoe,rvoe,turno,fecha_vigencia,calificacion_minima,fecha_otorgamiento,perfil_ingreso,campo_laboral,estatus,aplica_clasificacion,fecha_creacion,fecha_actualizacion,id_organizacion_planes,
+                id_instituciones,id_nivel_educativos,id_categoria_carreras,id_modalidades,id_usuario_creacion,id_usuario_actualizacion,fecha_actualizacion_rvoe) 
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW(),?,?,?,?,?,?,?,?)";
                 $requestPlanEstudio = $this->insert($sqlPlanEstudio,array($nombrePlanEstudios,$nombreCorto,$perfilEgreso,$duracionCarrera,$materiasTotales,$totalHoras,$totalCreditos,$claveProfesiones,
                         $tipoREVOE,$REVOE,$turnoRVOE,$vigenciaREVOE,$calificacionMinima,$fechaOtorgamiento,$perfilIngreso,$campoLaboral,1,0,$idPlan,$idInstitucion,$idNiveleducativo,
@@ -136,12 +136,12 @@
 
             $sql = "UPDATE t_plan_estudios SET nombre_carrera = ?,nombre_carrera_corto = ?,perfil_egreso = ?,duracion_carrera = ?,materias_totales = ?,
             total_horas = ?,total_creditos = ?,clave_profesiones = ?,tipo_rvoe = ?,rvoe = ?,fecha_vigencia = ?,calificacion_minima = ?,fecha_otorgamiento = ?,turno = ?,
-            perfil_ingreso = ?,campo_laboral = ?,estatus = ?,fecha_actualizacion = NOW(),id_plan = ?,id_institucion = ?,id_nivel_educativo = ?,
-            id_categoria_carrera = ?,id_modalidad = ?,id_usuario_creacion = ?,id_usuario_actualizacion = ?,fecha_actualizacion_rvoe = ? WHERE id = $idPlanEstudiosEdit";
+            perfil_ingreso = ?,campo_laboral = ?,estatus = ?,fecha_actualizacion = NOW(),id_organizacion_planes = ?,id_instituciones = ?,id_nivel_educativos = ?,
+            id_categoria_carreras = ?,id_modalidades = ?,id_usuario_creacion = ?,id_usuario_actualizacion = ?,fecha_actualizacion_rvoe = ? WHERE id = $idPlanEstudiosEdit";
             $request = $this->update($sql,array($nombrePlanEstudios,$nombreCorto,$perfilEgreso,$duracionCarrera,$materiasTotales,$totalHoras,$totalCreditos,
             $claveProfesiones,$tipoREVOE,$REVOE,$vigenciaREVOE,$calificacionMinima,$fechaOtorgamiento,$turnoRVOE,$perfilIngreso,$campoLaboral,$estatus,$idPlan,$idInstitucion,
             $idNiveleducativo,$idCategoriaCarrera,$idModalidad,$idUser,$idUser,$fechaEstimadaTermino));
-/*             if($request){
+            if($request){
                 foreach ($arreglo as $key => $value) {
                     if($value->id != 0){
                         $arreglo = "es cero";
@@ -156,8 +156,8 @@
                 } 
             }else{
                 $estatusUp = false;
-            } */
-            return $request;
+            }
+            return $estatusUp;
         }
 
         public function selectPlanEstudio($idPlanestudio){
@@ -168,12 +168,12 @@
                         inst.nombre_institucion,niv.nombre_nivel_educativo,cat.nombre_categoria_carrera,moda.nombre_modalidad,
                         pl.nombre_plan,plan.fecha_actualizacion_rvoe,plan.turno,plant.nombre_plantel_fisico
                         FROM t_plan_estudios AS plan
-                        INNER JOIN t_instituciones AS inst ON plan.id_institucion = inst.id
-                        INNER JOIN t_planteles AS plant ON inst.id_plantel = plant.id 
-                        INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
-                        INNER JOIN t_categoria_carreras AS cat ON plan.id_categoria_carrera = cat.id
-                        INNER JOIN t_modalidades AS moda ON plan.id_modalidad = moda.id
-                        INNER JOIN t_organizacion_planes AS pl ON plan.id_plan = pl.id
+                        INNER JOIN t_instituciones AS inst ON plan.id_instituciones = inst.id
+                        INNER JOIN t_planteles AS plant ON inst.id_planteles = plant.id 
+                        INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativos = niv.id
+                        INNER JOIN t_categoria_carreras AS cat ON plan.id_categoria_carreras = cat.id
+                        INNER JOIN t_modalidades AS moda ON plan.id_modalidades = moda.id
+                        INNER JOIN t_organizacion_planes AS pl ON plan.id_organizacion_planes = pl.id
             WHERE plan.id = $idPlanestudio LIMIT 1";
             $request = $this->select($sql);
             return $request;

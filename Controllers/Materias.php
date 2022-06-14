@@ -107,6 +107,15 @@
             }
         }
 
+        public function getPlanEstudiosByInstitucion(){
+            $idInstitucion = $_GET['idinst'];
+            $arrData = $this->model->selectPlanEstudiosByInstitucion($idInstitucion);
+            if($arrData){
+                echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+                die();
+            }
+        }
+
         public function getGrados(){
             $arrData = $this->model->selectGrados();
             if($arrData){

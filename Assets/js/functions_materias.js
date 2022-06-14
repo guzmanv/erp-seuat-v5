@@ -129,7 +129,7 @@ function fntVerMateria(idMateria){
                 document.querySelector('#listGradoVer').innerHTML = "<option selcted>"+objData.nombre_grado+"("+objData.numero_romano+")"+"</option>";
                 document.querySelector('#listPlanEstudioVer').innerHTML = "<option selected>"+objData.nombre_carrera+"</option>";
 
-                document.querySelector('#listClasificacionVer').querySelector('option[value="'+objData.id_clasificacion_materia+'"]').selected = true;
+                document.querySelector('#listClasificacionVer').querySelector('option[value="'+objData.id_clasificacion_materias+'"]').selected = true;
                 if(objData.estatus == 1){
                     document.querySelector('#listEstatusVer').innerHTML = "<option selected>Activo</option>";
                 }else{
@@ -193,20 +193,22 @@ function fntEditMateria(idMateria){
                     .catch(err => { throw err });
                 document.querySelector('#listPlanEstudioEdit').innerHTML = "<option value ='"+objData.id_plan+"'selected>"+objData.nombre_carrera+"</option>";
                 const selPlanEstudios = document.querySelector('#listPlanEstudioEdit');
-                let url_plan = base_url+"/Materias/getPlanEstudios";
+                let url_plan = base_url+"/Materias/getPlanEstudiosByInstitucion?idinst="+objData.idInstitucion;
                 fetch(url_plan)
                     .then(res => res.json())
                     .then((resultado) => {
                         for (let i = 0; i < resultado.length; i++) {
-                            opcion = document.createElement('option');
-                            opcion.text = resultado[i]['nombre_carrera'];
-                            opcion.value = resultado[i]['id'];
-                            selPlanEstudios.appendChild(opcion);
+                            if(resultado[i]['id'] != objData.id_plan){
+                                opcion = document.createElement('option');
+                                opcion.text = resultado[i]['nombre_carrera'];
+                                opcion.value = resultado[i]['id'];
+                                selPlanEstudios.appendChild(opcion);
+                            }
                         }
                     })
                     .catch(err => { throw err });
-                    document.querySelector('#listClasificacionEdit').querySelector('option[value="'+objData.id_clasificacion_materia+'"]').selected = true;
-                    idClasifMAteriaActualSelec = objData.id_clasificacion_materia;
+                    document.querySelector('#listClasificacionEdit').querySelector('option[value="'+objData.id_clasificacion_materias+'"]').selected = true;
+                    idClasifMAteriaActualSelec = objData.id_clasificacion_materias;
 
                 if(objData.estatus == 1)
                 {
@@ -348,20 +350,22 @@ function institucionSeleccionado(id){
 function institucionSeleccionadoEdit(id){
     const selLocalidades = document.querySelector('#listPlanEstudioEdit');
     let url_plan = base_url+"/Materias/getPlanEstudiosNuevo?id="+id;
-    divLoading.style.display = "flex";
-    fetch(url_plan)
-        .then(res => res.json())
-        .then((resultado) => {
-            document.querySelector('#listPlanEstudioEdit').innerHTML = "<option value=''>Selecciona un Plan de Estudio</option>";
-            for (let i = 0; i < resultado.length; i++) {
-                opcion = document.createElement('option');
-                opcion.text = resultado[i]['nombre_carrera']+' ('+resultado[i]['revoe']+')'+' ('+resultado[i]['vigencia_revoe']+')';
-                opcion.value = resultado[i]['id'];
-                selLocalidades.appendChild(opcion);
-            }
-            divLoading.style.display = "none";
-        })
-        .catch(err => { throw err });
+    if(id != ''){
+        divLoading.style.display = "flex";
+        fetch(url_plan)
+            .then(res => res.json())
+            .then((resultado) => {
+                document.querySelector('#listPlanEstudioEdit').innerHTML = "<option value=''>Selecciona un Plan de Estudio</option>";
+                for (let i = 0; i < resultado.length; i++) {
+                    opcion = document.createElement('option');
+                    opcion.text = resultado[i]['nombre_carrera']+' ('+resultado[i]['rvoe']+')'+' ('+resultado[i]['fecha_vigencia']+')';
+                    opcion.value = resultado[i]['id'];
+                    selLocalidades.appendChild(opcion);
+                }
+                divLoading.style.display = "none";
+            })
+            .catch(err => { throw err });
+    }
 }
 
 //Funcion para Aceptar solo Numeros en un Input

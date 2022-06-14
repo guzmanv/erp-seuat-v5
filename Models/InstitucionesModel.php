@@ -87,7 +87,7 @@
 				if(move_uploaded_file($files["profileImageInstitucion"]["tmp_name"],$nombreImagenInstitucionFile)){
                 	$sqlNew = "INSERT INTO t_instituciones(nombre_institucion,abreviacion_institucion,regimen,servicio,categoria,zona_escolar, 
 					logo_institucion,cve_centro_trabajo,cedula_funcionamiento,cve_institucion_dgp,estatus,fecha_creacion,id_usuario_creacion, 
-					id_sistema,id_plantel) VALUES(?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?)";
+					id_sistemas_educativos,id_planteles) VALUES(?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?)";
 			    	$requestNew = $this->insert($sqlNew,array($nombreInstitucion,$abreviacionInstitucion,$regimen,$servicio,$categoria,$zonaEscolar,$nombreImagenInstitucion,$claveCentroTrabajo,$cedulaFuncionamiento,$cveInstitucionDGP,$estatus,$idUser,$idSistemaEducativo,$idPlantel));
 					$request['estatus'] = FALSE;
 					$request['imagen'] = true;
@@ -128,14 +128,14 @@
 			}else{
 				if($files["profileImageInstitucion"]["name"] == ""){
  					$sqlUpdate = "UPDATE t_instituciones SET nombre_institucion = ?,abreviacion_institucion = ?,regimen = ?,servicio = ?,categoria = ?,
-					cve_centro_trabajo = ?,zona_escolar = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? ,id_sistema = ?,id_plantel = ? WHERE id = $idInstitucionEdit";
+					cve_centro_trabajo = ?,zona_escolar = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? ,id_sistemas_educativos = ?,id_planteles = ? WHERE id = $idInstitucionEdit";
 					$requestUpdate = $this->update($sqlUpdate,array($nombreInstitucion,$abreviacionInstitucion,$regimen,$servicio,$idCategoria,
 						$claveCentroTrabajo,$zonaEscolar,$cedulaFuncionamiento,$cveInstitucionDGP,$intEstatus,$idUser,$idSistemaEducativo,$idPlantel));
 					$request['estatus'] = FALSE;
 				}else{
 					if(move_uploaded_file($files["profileImageInstitucion"]["tmp_name"],$nombreImagenInstitucionFile)){
                         $sqlUpdate = "UPDATE t_instituciones SET nombre_institucion = ?,abreviacion_institucion = ?,regimen = ?,servicio = ?,categoria = ?,
-                        cve_centro_trabajo = ?,zona_escolar = ?,logo_institucion = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? ,id_sistema = ?,id_plantel = ? WHERE id = $idInstitucionEdit";
+                        cve_centro_trabajo = ?,zona_escolar = ?,logo_institucion = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? ,id_sistemas_educativos = ?,id_planteles = ? WHERE id = $idInstitucionEdit";
                         $requestUpdate = $this->update($sqlUpdate,array($nombreInstitucion,$abreviacionInstitucion,$regimen,$servicio,$idCategoria,
                             $claveCentroTrabajo,$zonaEscolar,$nombreImagenInstitucion,$cedulaFuncionamiento,$cveInstitucionDGP,$intEstatus,$idUser,$idSistemaEducativo,$idPlantel));
                         $request['estatus'] = FALSE;
@@ -168,7 +168,7 @@
 		}
 		public function estatusRegistroTabla(string $nombreTabla,int $idInstitucion){
 			$sqlEstatusRegistro = "SELECT * FROM t_instituciones
-			RIGHT JOIN $nombreTabla ON $nombreTabla.id_institucion = t_instituciones.id
+			RIGHT JOIN $nombreTabla ON $nombreTabla.id_instituciones = t_instituciones.id
 			WHERE t_instituciones.id = $idInstitucion AND  $nombreTabla.estatus != 0";
 			$requestEstatusRegistro = $this->select_all($sqlEstatusRegistro);
 			return $requestEstatusRegistro;

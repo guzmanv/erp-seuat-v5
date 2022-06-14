@@ -35,8 +35,8 @@
 			$arrData = $this->model->selectInstituciones();
 			for ($i=0; $i < count($arrData); $i++) {
 				$arrData[$i]['numeracion'] = $i+1;
-				$arrData[$i]['nom_sistema'] = $this->model->selectSistemaEducativo($arrData[$i]['id_sistema'])['nombre_sistema'];
-				$arrData[$i]['nom_plantel'] = $this->model->selectPlantel($arrData[$i]['id_plantel'])['nombre_plantel_fisico'];
+				$arrData[$i]['nom_sistema'] = $this->model->selectSistemaEducativo($arrData[$i]['id_sistemas_educativos'])['nombre_sistema'];
+				$arrData[$i]['nom_plantel'] = $this->model->selectPlantel($arrData[$i]['id_planteles'])['nombre_plantel_fisico'];
                 $arrData[$i]['status'] = ($arrData[$i]['estatus'] == 1)?'<span class="badge badge-pill badge-success">Activo</span>':'<span class="badge badge-pill badge-warning">Inactivo</span>';
 				$arrData[$i]['options'] = '<div class="text-center">
 				<div class="btn-group">

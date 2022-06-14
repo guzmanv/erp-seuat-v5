@@ -15,43 +15,43 @@
                         <div class="card-body row">
                             <div class="form-group col-12">
                                 <label>Nombre</label>
-                                <input type="text" id="txt_nombre_ver" class="form-control form-control-sm">
+                                <input type="text" id="txt_nombre_ver" class="form-control form-control-sm" disabled>
                             </div>
                             <div class="form-group col-4">
                                 <label>Estado</label>
-                                <input type="text" id="select_estado_ver" class="form-control form-control-sm">
+                                <input type="text" id="select_estado_ver" class="form-control form-control-sm" disabled>
                             </div>
                             <div class="form-group col-4">
                                 <label>Municipio</label>
-                                <input type="text" id="select_municipio_ver" class="form-control form-control-sm">
+                                <input type="text" id="select_municipio_ver" class="form-control form-control-sm" disabled>
                             </div>
                             <div class="form-group col-4">
                                 <label>Localidad</label>
-                                <input type="text" id="select_localidad_ver" class="form-control form-control-sm">
+                                <input type="text" id="select_localidad_ver" class="form-control form-control-sm" disabled>
                             </div>
                             <div class="form-group col-12">
                                 <label>Colonia</label>
-                                <input type="text" id="txt_colonia_ver" class="form-control form-control-sm">
+                                <input type="text" id="txt_colonia_ver" class="form-control form-control-sm" disabled>
                             </div>
                             <div class="form-group col-12">
                                 <label>Domicilio</label>
-                                <input type="text" id="txt_domicilio_ver" class="form-control form-control-sm">
+                                <input type="text" id="txt_domicilio_ver" class="form-control form-control-sm" disabled>
                             </div>
                             <div class="form-group col-4">
                                 <label>Codigo postal</label>
-                                <input type="text" id="txt_codigo_postal_ver" class="form-control form-control-sm">
+                                <input type="text" id="txt_codigo_postal_ver" class="form-control form-control-sm" disabled>
                             </div>
                             <div class="form-group col-4">
                                 <label>Latitud</label>
-                                <input type="text" id="txt_latitud_ver" class="form-control form-control-sm">
+                                <input type="text" id="txt_latitud_ver" class="form-control form-control-sm" disabled>
                             </div>
                             <div class="form-group col-4">
                                 <label>Longitud</label>
-                                <input type="text" id="txt_longitud_ver"  class="form-control form-control-sm">
+                                <input type="text" id="txt_longitud_ver"  class="form-control form-control-sm" disabled>
                             </div>
                             <div class="form-group col-4">
                                 <label>Estatus</label>
-                                <input type="text" id="select_estatus_ver" class="form-control form-control-sm">
+                                <input type="text" id="select_estatus_ver" class="form-control form-control-sm" disabled>
                             </div>
                         </div>
                 </div>
