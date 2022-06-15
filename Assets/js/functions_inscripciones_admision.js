@@ -27,6 +27,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 function buscarPersona(){
+    let url = base_url+"/Inscripcion/buscarPersonaModal?val="+textoBusqueda;
+    fetch(url).then((res) => res.json()).then(resultado =>{
+        console.log(resultado)
+    }).catch(err => {throw err});
+
     var textoBusqueda = $("input#busquedaPersona").val();
     var tablePersonas;
     tablePersonas = $('#tablePersonas').dataTable( {
@@ -479,10 +484,6 @@ function fnPlantelSeleccionadoDatatable(){
     var text= plantel.options[plantel.selectedIndex].text;
     document.querySelector('#nombrePlantelDatatable').innerHTML = text;
     
-    let url = base_url+"/Inscripcion/getInscripcionesAdmision?plantel="+plantel.value;
-    fetch(url).then((res) => res.json()).then(resultado =>{
-        console.log(resultado)
-    }).catch(err =>{throw err});
     tableInscripciones = $('#tableInscripciones').dataTable( {
 		"aProcessing":true,
 		"aServerSide":true,
