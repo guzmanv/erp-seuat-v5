@@ -10,7 +10,7 @@
                         INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
                         INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
                         INNER JOIN t_organizacion_planes AS orgp ON plan.id_plan = orgp.id
-                        LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
+                        LEFT JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
                         LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
                         LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
                         INNER JOIN t_instituciones AS inst ON plan.id_institucion = inst.id
@@ -29,9 +29,9 @@
             ins.grado,grup.nombre_grupo,orgp.nombre_plan,tur.id AS id_turno,tur.nombre_turno,plant.municipio,COUNT(*) AS total FROM t_inscripciones AS ins
                         INNER JOIN t_personas AS per ON ins.id_personas = per.id
                         INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
-                        INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
-                        INNER JOIN t_organizacion_planes AS orgp ON plan.id_plan = orgp.id
-                        LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
+                        INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativos = niv.id
+                        INNER JOIN t_organizacion_planes AS orgp ON plan.id_organizacion_planes = orgp.id
+                        LEFT JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
                         LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
                         LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
                         INNER JOIN t_instituciones AS inst ON plan.id_institucion = inst.id
@@ -54,7 +54,7 @@
                             INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
                             INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
                             INNER JOIN t_organizacion_planes AS orgp ON plan.id_plan = orgp.id
-                            LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
+                            LEFT JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
                             LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
                             LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
                             INNER JOIN t_instituciones AS inst ON plan.id_institucion = inst.id
@@ -72,7 +72,7 @@
                             INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
                             INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
                             INNER JOIN t_organizacion_planes AS orgp ON plan.id_plan = orgp.id
-                            LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
+                            LEFT JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
                             LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
                             LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
                             INNER JOIN t_instituciones AS inst ON plan.id_institucion = inst.id
@@ -191,7 +191,7 @@
         }
         public function selectSubcampanias(){
             $sql = "SELECT c.id AS id_campania,c.nombre_campania,c.fecha_fin AS fecha_fin_campania,s.id AS id_subcampania,s.nombre_sub_campania,s.fecha_fin AS fecha_fin_subcampania FROM t_campanias AS c
-            RIGHT JOIN t_subcampania AS s ON s.id_campania = c.id
+            RIGHT JOIN t_subcampania AS s ON s.id_campanias = c.id
             WHERE c.fecha_fin >= NOW()
             ORDER BY c.fecha_fin DESC";
             $request = $this->select_all($sql);

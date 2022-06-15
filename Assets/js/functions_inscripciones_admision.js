@@ -478,6 +478,11 @@ function fnPlantelSeleccionadoDatatable(){
     var plantel = document.querySelector('#listPlantelDatatable');
     var text= plantel.options[plantel.selectedIndex].text;
     document.querySelector('#nombrePlantelDatatable').innerHTML = text;
+    
+    let url = base_url+"/Inscripcion/getInscripcionesAdmision?plantel="+plantel.value;
+    fetch(url).then((res) => res.json()).then(resultado =>{
+        console.log(resultado)
+    }).catch(err =>{throw err});
     tableInscripciones = $('#tableInscripciones').dataTable( {
 		"aProcessing":true,
 		"aServerSide":true,

@@ -81,21 +81,17 @@
                 $intIdPersonaEdit = intval($_POST['idEdit']);
             }
             if($intIdPersonaNueva == 1){
+                $intIdPlantelProspectado = intval($_POST['listPlantelProspectado']);
                 $id_subcampania = $this->model->selectSubcampania();
                 if($id_subcampania){
-                    if($_SESSION['numeroPermisos']>0){
-                        $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id'], $this->idPlantel);
-                        if($arrData){
-                            $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
-                        }else{
-                            $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar los datos');
-                            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-                            die();
-                        }
+                    $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id'], $intIdPlantelProspectado);
+                    if($arrData){
+                        $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
                     }else{
                         $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar los datos');
-                        
-                    }
+                        echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                        die();
+                    } 
                 }else{
                     $arrResponse = array('estatus' => false, 'msg' => 'No existe una subcampania activa');
                 }

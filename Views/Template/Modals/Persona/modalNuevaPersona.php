@@ -117,6 +117,15 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
+                                            <label>Plantel prospectado  <span class="required">*</span></label>
+                                            <select class="form-control form-control-sm" id="listPlantelProspectado" name="listPlantelProspectado" required>
+                                                <option value="">Seleccionar</option>
+                                                <?php foreach ($data['planteles'] as $key => $plantel) { ?>
+                                                    <option value="<?php echo $plantel['id'] ?>"><?php echo $plantel['nombre_plantel_fisico'].'('.$plantel['municipio'].')' ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
                                             <label>Nivel carrera de interés</label>
                                             <select class="form-control form-control-sm" id="listNivelCarreraInteres" name="listNivelCarreraInteres" onchange="nivelCarreraInteresSeleccionado(value)">
                                                 <option value="">Seleccionar</option>
@@ -129,13 +138,13 @@
                                                 ?>
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label>Carrera de interés</label>
                                             <select class="form-control form-control-sm" id="listCarreraInteres" name="listCarreraInteres">
                                                 <option value="">Seleccionar</option>
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-8">
                                             <label>Escuela de procedencia</label>
                                             <input type="text" id="txtNombreEscuelaProc" name="txtNombreEscuelaProc" class="form-control form-control-sm" placeholder="Nombre de la escuela de procedencia" maxlength="100">
                                         </div>
