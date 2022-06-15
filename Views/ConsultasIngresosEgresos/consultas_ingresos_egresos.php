@@ -128,13 +128,13 @@
                                                 <th>Fecha</th>
                                                 <th>Concepto</th>
                                                 <th>Subconcepto</th>
-                                                <th>Descripcion</th>
+                                                <!-- <th>Descripcion</th> -->
                                                 <th>Cargo</th>
-                                                <th>Abono</th>
+                                                <th width="5%">Abono</th>
                                                 <th>Saldo</th>
                                                 <th>Fecha pago</th>
                                                 <th>Referencia</th>
-                                                <th>Tipo comprobante</th>
+                                                <th width="5%">Tipo comprobante</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
