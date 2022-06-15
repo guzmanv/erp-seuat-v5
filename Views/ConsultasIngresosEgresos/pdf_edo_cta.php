@@ -111,7 +111,7 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                     <th colspan="5" style="font-size:18px;font-weight: bold; text-align: left;"><?php echo(strtoupper($data['data']['datos']['nombre_sistema'])) ?></th>
                 </tr>
                 <tr>
-                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;"><?php  echo(strtoupper($data['data']['datos']['nombre_plantel'])) ?><br><br></th>
+                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;"><?php  echo(strtoupper($data['data']['datos']['nombre_plantel_fisico'])) ?><br><br></th>
                 </tr>
                 <tr>
                     <td colspan="5" style="padding-top: -15px; font-size: 8px; text-align: left;">
@@ -149,7 +149,7 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                     <td colspan="4">
                         <b>Nombre del alumno</b>: <?php echo $data['data']['datos']['nombre_persona'].' '.$data['data']['datos']['ap_paterno'].' '.$data['data']['datos']['ap_materno'] ?><br>
                         <b>Numero de cuenta</b>: <?php echo $data['data']['datos']['matricula_interna'] ?><br>
-                        <b>Plantel</b>: <?php echo $data['data']['datos']['nombre_plantel'] ?><br>
+                        <b>Plantel</b>: <?php echo $data['data']['datos']['nombre_plantel_fisico'] ?><br>
                         <b>Carrera</b>: <?php echo $data['data']['datos']['nombre_carrera'] ?><br>
                         <b>Periodo actualmente cursado</b>: <?php echo $data['data']['datos']['nombre_periodo']?>
                     </td>

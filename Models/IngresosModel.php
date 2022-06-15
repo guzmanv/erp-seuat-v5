@@ -133,9 +133,9 @@
             $sqlPlantel = "SELECT pl.id AS id_plantel,inst.abreviacion_institucion,sis.abreviacion_sistema,pl.folio_identificador FROM t_personas AS p
             INNER JOIN t_inscripciones AS i ON i.id_personas = p.id
             INNER JOIN t_plan_estudios AS ple ON i.id_plan_estudios = ple.id
-            INNER JOIN t_instituciones AS inst ON ple.id_institucion = inst.id
-            INNER JOIN t_planteles AS pl ON inst.id_plantel = pl.id
-            LEFT JOIN t_sistemas_educativos AS sis ON inst.id_sistema = sis.id
+            INNER JOIN t_instituciones AS inst ON ple.id_instituciones = inst.id
+            INNER JOIN t_planteles AS pl ON inst.id_planteles = pl.id
+            LEFT JOIN t_sistemas_educativos AS sis ON inst.id_sistemas_educativos = sis.id
             WHERE p.id = $idAlumno LIMIT 1";
             $requestPlantel = $this->select($sqlPlantel);
             $codigoPlantel = $requestPlantel['folio_identificador'];
@@ -178,12 +178,12 @@
         public function selectDatosInstitucion(int $idIngreso){
             $sql = "SELECT ing.id,inst.nombre_institucion,sist.nombre_sistema,inst.cve_centro_trabajo,plant.cod_postal,plant.colonia,plant.domicilio,
             plant.estado,plant.localidad,plant.municipio,sist.abreviacion_sistema,plant.folio_identificador,df.rfc FROM t_ingresos AS ing
-            INNER JOIN t_personas AS per ON ing.id_persona = per.id
+            INNER JOIN t_personas AS per ON ing.id_persona_paga = per.id
             INNER JOIN t_inscripciones AS ins ON ins.id_personas = per.id
             INNER JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id 
-            INNER JOIN t_instituciones AS inst ON pe.id_institucion = inst.id
-            INNER JOIN t_planteles AS plant ON inst.id_plantel = plant.id
-            INNER JOIN t_sistemas_educativos AS sist ON inst.id_sistema = sist.id
+            INNER JOIN t_instituciones AS inst ON pe.id_instituciones = inst.id
+            INNER JOIN t_planteles AS plant ON inst.id_planteles = plant.id
+            INNER JOIN t_sistemas_educativos AS sist ON inst.id_sistemas_educativos = sist.id
             LEFT JOIN t_datos_fiscales AS df ON sist.id_datos_fiscales = df.id
             WHERE ing.id = $idIngreso LIMIT 1";
             $request = $this->select($sql);
@@ -194,9 +194,9 @@
             $sql = "SELECT i.id AS id_ingreso,i.folio,i.fecha AS fecha_ingreso,id.cantidad,id.id AS id_ingreso_detalle,i.total,s.nombre_servicio,s.precio_unitario,s.codigo_servicio,
             id.id_precarga,sp.nombre_servicio AS nombre_servicio_precarga,sp.precio_unitario AS precio_unitario_precarga,sp.codigo_servicio AS codigo_servicio_precarga FROM t_ingresos AS i       
             RIGHT JOIN t_ingresos_detalles AS id ON id.id_ingresos = i.id
-            LEFT JOIN t_servicios AS s ON id.id_servicio = s.id
+            LEFT JOIN t_servicios AS s ON id.id_servicios = s.id
             LEFT JOIN t_precarga AS p ON id.id_precarga = p.id
-            LEFT JOIN t_servicios AS sp ON p.id_servicio = sp.id
+            LEFT JOIN t_servicios AS sp ON p.id_servicios = sp.id
             WHERE i.id = $idIngreso";
             $request = $this->select_all($sql);
             return $request;
@@ -205,19 +205,19 @@
         public function selectDatosAlumno(int $idIngreso){
             $sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,pe.nombre_carrera,h.matricula_interna,
             per.fecha_inicio_periodo,per.fecha_fin_periodo,pe.nombre_carrera FROM t_ingresos AS i
-            INNER JOIN t_personas AS p ON i.id_persona = p.id
-            INNER JOIN t_inscripciones AS ins ON i.id_persona = ins.id_personas
+            INNER JOIN t_personas AS p ON i.id_persona_paga = p.id
+            INNER JOIN t_inscripciones AS ins ON i.id_persona_paga = ins.id_personas
             INNER JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id
             INNER JOIN t_historiales AS h ON ins.id_historial = h.id
-            LEFT JOIN t_salones_compuesto AS sc ON ins.id_salon_compuesto = sc.id
-            LEFT JOIN t_periodos AS per ON sc.id_periodo = per.id
+            LEFT JOIN t_salones_compuesto AS sc ON ins.id_salones_compuesto = sc.id
+            LEFT JOIN t_periodos AS per ON sc.id_periodos = per.id
             WHERE i.id = $idIngreso LIMIT 1";
             $request = $this->select($sql);
             return $request;
         }
         public function selectDatosUsuario(int $idUsuario){
             $sql = "SELECT p.nombre_persona, p.ap_paterno, p.ap_materno, l.nombre AS localidad, m.nombre AS municipio, e.nombre AS estado FROM t_usuarios AS u 
-            INNER JOIN t_personas AS p ON u.id_persona = p.id 
+            INNER JOIN t_personas AS p ON u.id_personas = p.id 
             INNER JOIN t_localidades AS l ON p.id_localidad = l.id
             INNER JOIN t_municipios AS m ON l.id_municipio = m.id
             INNER JOIN t_estados AS e ON m.id_estados = e.id

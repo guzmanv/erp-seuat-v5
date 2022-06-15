@@ -17,9 +17,10 @@
 			LEFT JOIN t_precarga_cuenta AS p ON ingdet.id_precarga_cuenta = p.id
 			INNER JOIN t_servicios AS s ON ingdet.id_servicio = s.id
 			WHERE dfis.rfc = '$str' OR his.matricula_interna = '$str' AND s.aplica_edo_cuenta = 1";*/
-			$sql = "SELECT ing.id,s.codigo_servicio,s.nombre_servicio,ing.folio,ing.observaciones,ingdet.abono,ingdet.cargo,
-			s.precio_unitario,
-						ing.fecha AS fecha_pagado,ingdet.cantidad,ing.tipo_comprobante FROM t_ingresos AS ing 
+			$sql = "SELECT ing.id,s.codigo_servicio,s.nombre_servicio,ing.folio,ing.observaciones,ingdet.abono,
+						ingdet.cargo,s.precio_unitario,ing.fecha AS fecha_pagado,ingdet.cantidad,
+						ing.tipo_comprobante 
+						FROM t_ingresos AS ing 
 						INNER JOIN t_personas AS per ON ing.id_persona_paga = per.id
 						LEFT JOIN t_datos_fiscales AS dfis ON per.id_datos_fiscales = dfis.id
 						INNER JOIN t_inscripciones AS ins ON ins.id_personas = per.id

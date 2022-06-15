@@ -252,9 +252,9 @@
                 $datos[$i]['concepto'] = 'LA-C78MS';
                 //$arrData[$i]['subconcepto'] = $this->getSubConcepto(($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion'].'.'.$arrData[$i]['fecha_pago']:$arrData[$i]['codigo_servicio']);
                 //$arrData[$i]['descripcion'] = ($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion']:$arrData[$i]['nombre_servicio'];
-                $datos[$i]['cargo'] = ($datos[$i]['cargo']=='')?'$0.00':$datos[$i]['cargo']; 
+                $datos[$i]['cargo'] = ($datos[$i]['cargo']=='')?'$0.00':'$'.$datos[$i]['cargo']; 
                 $datos[$i]['recargo'] = '$0.00';
-                $datos[$i]['abono'] = $datos[$i]['abono'];
+                $datos[$i]['abono'] = '$'.$datos[$i]['abono'];
                 $datos[$i]['cantidad'] = ($datos[$i]['cantidad']=='')?'0':$datos[$i]['cantidad']; 
                 $datos[$i]['precio_unitario'] = '$'.$datos[$i]['precio_unitario'];
                 //$datos[$i]['fecha_pago'] = $datos[$i]['fecha_pagado'];
