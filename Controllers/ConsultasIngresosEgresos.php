@@ -249,7 +249,8 @@
             for ($i=0; $i<count($datos); $i++){
                 $datos[$i]['numeracion'] = $i+1;
                 $datos[$i]['fecha'] = ($datos[$i]['fecha_limite_cobro']== '')?'0000:00:00':$datos[$i]['fecha_limite_cobro'];
-                $datos[$i]['concepto'] = 'LA-C78MS';
+                // $datos[$i]['concepto'] = 'LA-C78MS';
+                $datos[$i]['concepto'] = $datos[$i]['codigo_servicio'];
                 //$arrData[$i]['subconcepto'] = $this->getSubConcepto(($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion'].'.'.$arrData[$i]['fecha_pago']:$arrData[$i]['codigo_servicio']);
                 //$arrData[$i]['descripcion'] = ($arrData[$i]['codigo_servicio'] == 'CM')?$arrData[$i]['descripcion']:$arrData[$i]['nombre_servicio'];
                 $datos[$i]['cargo'] = ($datos[$i]['cargo']=='')?'$0.00':'$'.$datos[$i]['cargo']; 
