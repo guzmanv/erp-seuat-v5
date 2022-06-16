@@ -44,7 +44,19 @@
                                                     <div class="card-body">
                                                         <div class="border-bottom border-gray-light pb-3 mb-3 row">
                                                             <div class="col-md-2 text-center">
-                                                                <img src="<?php echo media()?>/images/img/user.jpg" width="60" height="60" loading="lazy" alt="…" class="rounded-circle me-3">
+                                                            <!-- <?php 
+                                                            // $num = 1;
+                                                            // if ($num == 1) {
+                                                            //     $comp= '<img src="<?php echo media()?>/images/img/user7-128x128.jpg">';
+                                                            //     echo $comp;
+                                                            // } else{
+                                                            //     $comp= '<img src="<?php //echo media()?>/images/img/user.jpg">';
+                                                            //     echo $comp;
+                                                            // }
+                                                            ?> -->
+
+                                                            
+                                                                <img id="imgSexo" src="<?php echo media()?>/images/img/user7-128x128.jpg" width="60" height="60" loading="lazy" alt="…" class="rounded-circle me-3">
                                                             </div>
                                                             <div class="col-md-10 text-center">
                                                                 <h2 id="nomAlumEdoCta"></h2>

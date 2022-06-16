@@ -125,7 +125,7 @@
             return $request;
         } */
 		public function selectIdAlumnoByRFC($rfc){
-			$sql = "SELECT p.id FROM t_personas AS p
+			$sql = "SELECT p.id, p.sexo FROM t_personas AS p
 			LEFT JOIN t_datos_fiscales AS df ON p.id_datos_fiscales = df.id
 			WHERE df.rfc = '$rfc'";
 			$request = $this->select($sql);

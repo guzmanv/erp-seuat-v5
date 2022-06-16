@@ -157,6 +157,14 @@ function fnGetDatosAlumno(matriculaRFAlumno,idAlumno){
     }).catch(err => { throw err });
 }
 
+// $(document).on("click", "#btnBuscar", function () {
+//     if(('#sexo').val() == "M") {
+//         $('#imgSexo').attr("src", "Assets/images/img/user7-128x128.jpg");
+//     }else{
+//         $('#imgSexo').attr("src", "Assets/images/img/user.jpg");
+//     }
+// });
+
 //Funcion para Facturar
 function fnFacturarVenta(value){
     Swal.fire({

@@ -172,7 +172,7 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                     <td class="text-align-right">Saldo</td>
                 </tr>
                 <?php foreach ($data['edo_cta'] as $key => $value){
-                    if($value['codigo_servicio'] != 'CM'){ ?>
+                    if($value['codigo_servicio'] == 'CM'){ ?>
                         <tr class="item">
                             <td><?php echo $value['fecha_pago'] ?></td>
                             <td><?php echo $value['cantidad'] ?></td>
@@ -217,7 +217,7 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                     <td class="text-align-right">Saldo</td>
                 </tr>
                 <?php foreach ($data['edo_cta'] as $key => $value){
-                    if($value['codigo_servicio'] == 'CM'){ ?>
+                    if($value['codigo_servicio'] != 'CM'){ ?>
                         <tr class="item">
                             <td><p style="font-size:10px"><?php echo $value['fecha_pago'] ?></p></td>
                             <td><p style="font-size:10px"><?php echo $value['cantidad'] ?></p></td>
