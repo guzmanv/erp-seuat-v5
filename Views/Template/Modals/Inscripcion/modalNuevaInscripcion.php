@@ -59,7 +59,7 @@
                                                     <option value="">Seleccionar una carrera</option>
                                                 </select>                                    
                                             </div>
-                                            <div class="form-group col-md-3">
+                                            <div class="form-group col-md-5">
                                                 <label>Grado</label>
                                                 <select class="form-control form-control-sm" id="listGradoNuevo" name="listGradoNuevo" required>
                                                     <option value="">Seleccionar</option>
@@ -77,9 +77,34 @@
                                                     <?php }?>
                                                 </select>                                    
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-9">
                                                 <label>Empresa donde trabaja</label>
                                                 <input type="text" id="txtNombreEmpresa" name="txtNombreEmpresa" class="form-control form-control-sm" placeholder="Nombre de la empresa">
+                                            </div>
+                                            <div class="form-group col-12">
+                                                <div class="card">
+                                                    <div class="text-center"><label>Descuentos</label></div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <label>Selecciona descuento</label>
+                                                                <select class="form-control form-control-sm">
+                                                                    <option value="">Seleccionar ...</option>
+                                                                    <option value="1">Descuento para el Aniversario (50%) </option>
+                                                                    <option value="2">Otro descuento (20%) </option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label>Selecciona descuento</label>
+                                                                <select class="form-control form-control-sm">
+                                                                    <option value="">Seleccionar ...</option>
+                                                                    <option value="1">Descuento para el Aniversario</option>
+                                                                    <option value="2">Otro descuento</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label><b>Campaña</b></label>
