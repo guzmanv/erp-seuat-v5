@@ -249,10 +249,10 @@
             ins.grado,esc.nombre_escolaridad,tur.hora_entrada,tur.hora_salida,peralum.nombre_empresa
             FROM t_inscripciones AS ins 
             INNER JOIN t_plan_estudios AS plnes ON ins.id_plan_estudios = plnes.id
-            iNNER JOIN t_instituciones AS inst ON plnes.id_institucion = inst.id
+            iNNER JOIN t_instituciones AS inst ON plnes.id_instituciones = inst.id
             INNER JOIN t_planteles AS plntel ON inst.id_planteles = plntel.id
             INNER JOIN t_sistemas_educativos AS sis ON inst.id_sistemas_educativos = sis.id
-            INNER JOIN t_organizacion_planes AS orgpl ON plnes.id_plan = orgpl.id
+            INNER JOIN t_organizacion_planes AS orgpl ON plnes.id_organizacion_planes  = orgpl.id
             INNER JOIN t_personas AS peralum ON ins.id_personas = peralum.id
             INNER JOIN t_tutores AS tut ON ins.id_tutores = tut.id
             INNER JOIN t_localidades AS loc ON peralum.id_localidad = loc.id
@@ -268,8 +268,8 @@
         public function selectDocumentacionInscripcion(int $idPlanEstudios){
             $idPlanEstudios = $idPlanEstudios;
             $sql = "SELECT dest.tipo_documento FROM t_plan_estudios AS plnest 
-            INNER JOIN t_nivel_educativos AS nivel ON plnest.id_nivel_educativo = nivel.id 
-            INNER JOIN t_documentos AS doc ON doc.id_nivel_educativo = nivel.id
+            INNER JOIN t_nivel_educativos AS nivel ON plnest.id_nivel_educativos  = nivel.id 
+            INNER JOIN t_documentos AS doc ON doc.id_nivel_educativo  = nivel.id
             INNER JOIN t_detalle_documentos AS dest ON dest.id_documentos = doc.id
             WHERE plnest.id = $idPlanEstudios";
             $request = $this->select_all($sql);
