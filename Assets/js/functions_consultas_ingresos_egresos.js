@@ -65,7 +65,7 @@ function fnGetEstadoCuentaAlumno(matriculaRFAlumno,idAlumno){
             {"data":"fecha"},
             {"data":"concepto"},
             {"data":"nombre_servicio"},
-            {"data":"nombre_servicio"},
+            // {"data":"nombre_servicio"},
             {"data":"cargo"},
             {"data":"abono"},
             {"data":"precio_unitario"},
