@@ -65,8 +65,8 @@
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 $arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel_fisico'].' ('.$arrData[$i]['municipio'].')';
-                $valorDoctos;
-                $valorDatPer;
+                $valorDoctos = [];
+                $valorDatPer = [];
                 if($arrData[$i]['validacion_doctos'] == 0){
                     $arrData[$i]['validacion_doctos_status'] = '<span class="badge badge-danger">No validado</span>';
                     $valorDoctos['modal'] = "#ModalFormDocumentacion";
@@ -221,7 +221,7 @@
         }
 		public function setValidacionDatosPersonales(){
 			$data = $_POST;
-			$arrData = $this->model->insertValidacionDatosPersonales($data,$this->idUsergetDocumentacion);
+			$arrData = $this->model->insertValidacionDatosPersonales($data,$this->idUser);
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
@@ -300,7 +300,7 @@
             $datos = $_GET['data'];
             $valor = json_decode($datos,true);
             $folio = "";
-            $data;
+            $data = [];
             if(count($valor) >= 1){
                 $folio = $valor[0]['folio'];
                 $data = $valor[1];
@@ -404,6 +404,7 @@
             $arrDataIns = $this->model->selectDatosImprimirCartaAut($idInscripcionFormat);
             $data['datos'] = $arrDataIns;
             $this->views->getView($this,"viewpdf_carta_autenticidad",$data);
+            
         }
     }
 ?>
