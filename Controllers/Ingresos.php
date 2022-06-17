@@ -159,7 +159,7 @@
             $colegiatura = 0;
             $otros = 0;
             foreach ($data['datos_venta'] as $key => $venta) {
-                if($venta['codigo_servicio_precarga'] == 'CM'){
+                if($venta['codigo_servicio_precarga'] != 'CM'){
                     $colegiatura += $venta['precio_unitario_precarga'];
                 }else if($venta['codigo_servicio_precarga'] == 'IN'){
                     $inscripcion += $venta['precio_unitario_precarga'];

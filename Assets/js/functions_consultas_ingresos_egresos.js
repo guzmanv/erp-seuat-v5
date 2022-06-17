@@ -146,6 +146,7 @@ function fnGetDatosAlumno(matriculaRFAlumno,idAlumno){
             document.querySelector('#telCelAlumno').innerHTML = " "+resultado.datos.tel_celular;
             document.querySelector('#emailAlumno').innerHTML = " "+resultado.datos.email;
             document.querySelector('#domicilioAlumno').innerHTML = " "+resultado.datos.domicilio;
+            document.querySelector('#sexoAlumno').innerHTML = " "+resultado.datos.sexo;
             document.querySelector('#carreraAlumno').innerHTML = " "+resultado.datos.nombre_carrera;
             document.querySelector('#nombreSalon').innerHTML = " "+resultado.datos.nombre_salon;
             document.querySelector('#saldoColegiaturas').innerHTML = formatoMoneda(resultado.saldoColegiaturas.toFixed(2));

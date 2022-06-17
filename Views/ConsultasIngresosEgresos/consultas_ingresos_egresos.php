@@ -44,16 +44,18 @@
                                                     <div class="card-body">
                                                         <div class="border-bottom border-gray-light pb-3 mb-3 row">
                                                             <div class="col-md-2 text-center">
-                                                            <!-- <?php 
-                                                            // $num = 1;
-                                                            // if ($num == 1) {
-                                                            //     $comp= '<img src="<?php echo media()?>/images/img/user7-128x128.jpg">';
-                                                            //     echo $comp;
-                                                            // } else{
-                                                            //     $comp= '<img src="<?php //echo media()?>/images/img/user.jpg">';
-                                                            //     echo $comp;
-                                                            // }
-                                                            ?> -->
+                                                            <?php 
+                                                            $sexo = 'M';
+                                                            if ($sexo == 'M') {
+                                                                /*$comp= '<img src="<?php echo media()?>/images/img/user7-128x128.jpg">';
+                                                                echo $comp;*/
+                                                                echo 'mujer';
+                                                            } else{
+                                                                /*$comp= '<img src="<?php //echo media()?>/images/img/user.jpg">';
+                                                                echo $comp;*/
+                                                                echo 'hombre';
+                                                            }
+                                                            ?>
 
                                                             
                                                                 <img id="imgSexo" src="<?php echo media()?>/images/img/user7-128x128.jpg" width="60" height="60" loading="lazy" alt="…" class="rounded-circle me-3">
@@ -71,6 +73,10 @@
                                                             </div>
                                                         </div>
                                                         <ul>
+                                                            <li class="mb-1">
+                                                                <h3 class="h6 me-4 d-inline-block"><b>Sexo: </b></h3>
+                                                                <span id="sexoAlumno" class="text-muted"></span>
+                                                            </li>
                                                             <li class="mb-1">
                                                                 <h3 class="h6 me-4 d-inline-block"><b>Dirección: </b></h3>
                                                                 <span id="domicilioAlumno" class="text-muted"></span>
@@ -138,7 +144,7 @@
                                             <tr>
                                                 <th width="5%">#</th>
                                                 <th>Fecha</th>
-                                                <th>Concepto</th>
+                                                <th>Código servicio</th>
                                                 <th>Subconcepto</th>
                                                 <!-- <th>Descripcion</th> -->
                                                 <th>Cargo</th>

@@ -81,7 +81,7 @@
 			return $request;
 		}
 		public function selectDatosAlumnoById(int $idAlumno){
-			$sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,h.matricula_interna,sis.nombre_sistema ,
+			$sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,p.sexo,h.matricula_interna,sis.nombre_sistema ,
 			pl.nombre_plantel_fisico,pe.nombre_carrera,ins.categoria,ins.cve_centro_trabajo,pl.domicilio,pl.cod_postal,pl.colonia,
 			pl.localidad,pl.municipio,pl.estado,pr.nombre_periodo,p.tel_celular,p.email,sa.nombre_salon FROM t_inscripciones AS i
 			INNER JOIN t_historiales AS h ON i.id_historial = h.id
@@ -125,7 +125,7 @@
             return $request;
         } */
 		public function selectIdAlumnoByRFC($rfc){
-			$sql = "SELECT p.id, p.sexo FROM t_personas AS p
+			$sql = "SELECT p.id FROM t_personas AS p
 			LEFT JOIN t_datos_fiscales AS df ON p.id_datos_fiscales = df.id
 			WHERE df.rfc = '$rfc'";
 			$request = $this->select($sql);
