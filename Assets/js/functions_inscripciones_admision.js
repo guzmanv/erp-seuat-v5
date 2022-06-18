@@ -12,6 +12,8 @@ document.getElementById("btnSiguienteEdit").style.display = "none";
 document.getElementById("btnActionFormNuevo").style.display = "none";
 document.getElementById("btnActionFormEdit").style.display = "none";
 document.querySelector('.listCampSubPos').style.display = "none";
+document.querySelector('#div_chck_colegiaturas').style.display = "none";
+document.querySelector('#div_chck_inscripcion').style.display = "none";
 let divLoading = document.querySelector("#divLoading");
 var tabActual = 0;
 var tabActualEdit = 0;
@@ -27,6 +29,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 function buscarPersona(){
+    let url = base_url+"/Inscripcion/buscarPersonaModal?val="+textoBusqueda;
+    fetch(url).then((res) => res.json()).then(resultado =>{
+        console.log(resultado)
+    }).catch(err => {throw err});
+
     var textoBusqueda = $("input#busquedaPersona").val();
     var tablePersonas;
     tablePersonas = $('#tablePersonas').dataTable( {
@@ -478,6 +485,7 @@ function fnPlantelSeleccionadoDatatable(){
     var plantel = document.querySelector('#listPlantelDatatable');
     var text= plantel.options[plantel.selectedIndex].text;
     document.querySelector('#nombrePlantelDatatable').innerHTML = text;
+    
     tableInscripciones = $('#tableInscripciones').dataTable( {
 		"aProcessing":true,
 		"aServerSide":true,
@@ -708,4 +716,20 @@ function fnNuevaInscripcion(){
 //Funcion para convertir json a String
 function jsonToString(json){
     return JSON.stringify(json);
+}
+
+function fnChckInscripcion(value){
+    if(value.checked){
+        document.querySelector('#div_chck_inscripcion').style.display = "inline";
+    }else{
+        document.querySelector('#div_chck_inscripcion').style.display = "none";
+    }
+}
+
+function fnChckColegiaturas(value){
+    if(value.checked){
+        document.querySelector('#div_chck_colegiaturas').style.display = "inline";
+    }else{
+        document.querySelector('#div_chck_colegiaturas').style.display = "none";
+    }
 }

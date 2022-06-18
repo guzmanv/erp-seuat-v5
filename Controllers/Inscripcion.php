@@ -29,6 +29,8 @@
             $data['subcampanias'] = $this->model->selectSubcampanias();
             $data['turnos'] = $this->model->selectturnos();
             $data['niveles_educativos'] = $this->model->selectNivelesEducativos();
+            $data['promocion_inscripcion'] = $this->model->selectPromocionesInscripcion();
+            $data['promocion_colegiatura'] = $this->model->selectPromocionesColegiatura();
             $data['page_functions_js'] = "functions_inscripciones_admision.js";
             $data['rol'] = $this->rol;
             $data['idPlantel'] = $this->idPlantel;
@@ -47,6 +49,8 @@
             $data['turnos'] = $this->model->selectturnos();
             $data['rol'] = $this->rol;
             $data['idPlantel'] = $this->idPlantel;
+            $data['promocion_inscripcion'] = $this->model->selectPromocionesInscripcion();
+            $data['promocion_colegiatura'] = $this->model->selectPromocionesColegiatura();
             $data['page_functions_js'] = "functions_inscripciones_controlescolar.js";
             $this->views->getView($this,"inscripcion",$data);
             
@@ -247,7 +251,8 @@
             $arrDataDoc = $this->model->selectDocumentacionInscripcion($idPlanEstudio);
             $data['datos'] = $arrDataIns;
             $data['doc'] = $arrDataDoc;
-            $this->views->getView($this,"viewpdf",$data);
+            $this->views->getView($this,"viewpdf",$data); 
+            
         }
 
         public function des_inscribir(int $idInscripcion){
@@ -260,6 +265,8 @@
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
+
+
         public function des_inscribir_usuarios($arr){
             $arr = json_decode($arr);
             foreach ($arr as $key => $value) {

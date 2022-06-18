@@ -54,7 +54,8 @@ formPersonaNueva.onsubmit = function(e){
     let txtLocalidad = document.querySelector('#listLocalidadNuevo').value;
     let txtObservacion = document.querySelector('#txtObservacion').value;
     let radioCaptacion = document.getElementsByName('radioMedios_captacion');
-    if (txtNombre == '' || txtAlias == '' || txtSexo == '' || txtMedioCaptacion == '' || txtLocalidad == '' || txtObservacion == ''){
+    let intPlantelPropectado = document.querySelector('#listPlantelProspectado').value;
+    if (txtNombre == '' || txtAlias == '' || txtSexo == '' || txtMedioCaptacion == '' || txtLocalidad == '' || txtObservacion == '' || intPlantelPropectado == ''){
         swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
         return false;
     }
@@ -75,7 +76,7 @@ formPersonaNueva.onsubmit = function(e){
                 tablePersonas.api().ajax.reload();
             }else{
                 swal.fire("Error",objData.msg,"error");
-            } 
+            }
         }
         divLoading.style.display = "none";
         return false;
