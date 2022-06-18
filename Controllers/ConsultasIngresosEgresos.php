@@ -21,6 +21,7 @@
             $data['page_title'] = "Consultas de estado de cuentas";
             $data['page_content'] = "";
             $data['page_functions_js'] = "functions_consultas_ingresos_egresos.js";
+            // $data['imgSexo'] = $this->model->selectDatosAlumnoById();
             $this->views->getView($this,"consultas_ingresos_egresos",$data);
         }
 

@@ -151,6 +151,8 @@ function fnGetDatosAlumno(matriculaRFAlumno,idAlumno){
             document.querySelector('#nombreSalon').innerHTML = " "+resultado.datos.nombre_salon;
             document.querySelector('#saldoColegiaturas').innerHTML = formatoMoneda(resultado.saldoColegiaturas.toFixed(2));
             document.querySelector('#saldoServicios').innerHTML = formatoMoneda(resultado.saldoServicios.toFixed(2));
+            // document.querySelector('#imgSexo').src = `${base_url}/Assets/images/img/${objData.data.imagen}`;
+            // document.getElementById("#foto").setAttribute('src', URL.createObjectURL(datos));
         }else{
             swal.fire("Atención",resultado.msg,"warning");
             return false; 

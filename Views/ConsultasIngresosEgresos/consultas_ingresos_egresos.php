@@ -44,21 +44,29 @@
                                                     <div class="card-body">
                                                         <div class="border-bottom border-gray-light pb-3 mb-3 row">
                                                             <div class="col-md-2 text-center">
-                                                            <?php 
-                                                            $sexo = 'M';
-                                                            if ($sexo == 'M') {
+                                                            <!--<?php 
+                                                            /*$sexo = 'M';
+                                                            if ($sexo == 'M') {*/
                                                                 /*$comp= '<img src="<?php echo media()?>/images/img/user7-128x128.jpg">';
                                                                 echo $comp;*/
-                                                                echo 'mujer';
-                                                            } else{
+                                                                /*echo 'mujer';
+                                                            } else{*/
                                                                 /*$comp= '<img src="<?php //echo media()?>/images/img/user.jpg">';
                                                                 echo $comp;*/
-                                                                echo 'hombre';
-                                                            }
-                                                            ?>
+                                                                /*echo 'hombre';
+                                                            }*/
+                                                            ?>-->
+                                                            <!--<?php 
+                                                                // foreach ($data['imgSexo'] as $value) {
+                                                                //     ?>
+                                                                //         <option value="<?php //echo $value['id'] ?>"><?php //echo $value['imagen'] ?></option>
+                                                                //     <?php
+                                                                // }    
+                                                            ?>-->
 
                                                             
-                                                                <img id="imgSexo" src="<?php echo media()?>/images/img/user7-128x128.jpg" width="60" height="60" loading="lazy" alt="…" class="rounded-circle me-3">
+                                                                <!-- <img id="imgSexo" src="<?php echo media()?>/images/img/user7-128x128.jpg" width="60" height="60" loading="lazy" alt="…" class="rounded-circle me-3"> -->
+                                                                <img id="imgSexo" src="" width="60" height="60" loading="lazy" alt="…" class="rounded-circle me-3">
                                                             </div>
                                                             <div class="col-md-10 text-center">
                                                                 <h2 id="nomAlumEdoCta"></h2>
