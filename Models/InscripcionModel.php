@@ -318,5 +318,23 @@
             return $request;
         }
 
+        public function selectPromocionesInscripcion()
+        {
+            $sql = "SELECT tp.id,tp.nombre_promocion,tp.porcentaje_descuento,ts.precio_unitario FROM t_promociones AS tp
+            INNER JOIN t_servicios AS ts ON tp.id_servicios = ts.id 
+            WHERE ts.codigo_servicio LIKE '%COL%'";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+
+        public function selectPromocionesColegiatura()
+        {
+            $sql = "SELECT tp.id,tp.nombre_promocion,tp.porcentaje_descuento,ts.precio_unitario FROM t_promociones AS tp
+            INNER JOIN t_servicios AS ts ON tp.id_servicios = ts.id 
+            WHERE ts.codigo_servicio LIKE '%INS%'";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+
     }
 ?>

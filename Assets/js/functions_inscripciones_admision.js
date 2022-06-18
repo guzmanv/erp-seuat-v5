@@ -12,6 +12,8 @@ document.getElementById("btnSiguienteEdit").style.display = "none";
 document.getElementById("btnActionFormNuevo").style.display = "none";
 document.getElementById("btnActionFormEdit").style.display = "none";
 document.querySelector('.listCampSubPos').style.display = "none";
+document.querySelector('#div_chck_colegiaturas').style.display = "none";
+document.querySelector('#div_chck_inscripcion').style.display = "none";
 let divLoading = document.querySelector("#divLoading");
 var tabActual = 0;
 var tabActualEdit = 0;
@@ -714,4 +716,20 @@ function fnNuevaInscripcion(){
 //Funcion para convertir json a String
 function jsonToString(json){
     return JSON.stringify(json);
+}
+
+function fnChckInscripcion(value){
+    if(value.checked){
+        document.querySelector('#div_chck_inscripcion').style.display = "inline";
+    }else{
+        document.querySelector('#div_chck_inscripcion').style.display = "none";
+    }
+}
+
+function fnChckColegiaturas(value){
+    if(value.checked){
+        document.querySelector('#div_chck_colegiaturas').style.display = "inline";
+    }else{
+        document.querySelector('#div_chck_colegiaturas').style.display = "none";
+    }
 }

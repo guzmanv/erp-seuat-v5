@@ -87,19 +87,31 @@
                                                     <div class="card-body">
                                                         <div class="row">
                                                             <div class="col-md-6">
-                                                                <label>Selecciona descuento</label>
-                                                                <select class="form-control form-control-sm">
+                                                                <div class="form-check mb-3">
+                                                                    <input class="form-check-input" type="checkbox" id="chck_inscripcion" onchange="fnChckInscripcion(this)">
+                                                                    <label class="form-check-label" for="chck_inscripcion">
+                                                                        Aplica descuento inscripcion
+                                                                    </label>
+                                                                </div>
+                                                                <select class="form-control form-control-sm" id="div_chck_inscripcion">
                                                                     <option value="">Seleccionar ...</option>
-                                                                    <option value="1">Descuento para el Aniversario (50%) </option>
-                                                                    <option value="2">Otro descuento (20%) </option>
+                                                                    <?php foreach ($data['promocion_inscripcion'] as $key => $inscripcion) { ?>
+                                                                        <option value="<?php echo $inscripcion['id'] ?>"><?php echo($inscripcion['nombre_promocion'].' (' . $inscripcion['porcentaje_descuento']. ' %)') ?></option>
+                                                                    <?php } ?>
                                                                 </select>
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <label>Selecciona descuento</label>
-                                                                <select class="form-control form-control-sm">
+                                                                <div class="form-check mb-3">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="chck_colegiatura" onchange="fnChckColegiaturas(this)">
+                                                                    <label class="form-check-label" for="chck_colegiatura">
+                                                                        Aplica descuento colegiaturas
+                                                                    </label>
+                                                                </div>
+                                                                <select class="form-control form-control-sm"  id="div_chck_colegiaturas">
                                                                     <option value="">Seleccionar ...</option>
-                                                                    <option value="1">Descuento para el Aniversario</option>
-                                                                    <option value="2">Otro descuento</option>
+                                                                    <?php foreach ($data['promocion_colegiatura'] as $key => $colegiatura) { ?>
+                                                                        <option value="<?php echo $colegiatura['id'] ?>"> <?php echo($colegiatura['nombre_promocion'].' (' . $colegiatura['porcentaje_descuento']. ' %)') ?> </option>
+                                                                    <?php } ?>
                                                                 </select>
                                                             </div>
                                                         </div>
