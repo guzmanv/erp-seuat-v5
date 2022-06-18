@@ -52,15 +52,15 @@
                 ins.grado,grup.nombre_grupo,orgp.nombre_plan,tur.id AS id_turno,tur.nombre_turno,plant.municipio,COUNT(*) AS total FROM t_inscripciones AS ins
                             INNER JOIN t_personas AS per ON ins.id_personas = per.id
                             INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
-                            INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
-                            INNER JOIN t_organizacion_planes AS orgp ON plan.id_plan = orgp.id
-                            LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
-                            LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
-                            LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
-                            INNER JOIN t_instituciones AS inst ON plan.id_institucion = inst.id
-                            INNER JOIN t_planteles AS plant ON inst.id_plantel = plant.id
-                            INNER JOIN 	t_sistemas_educativos AS se ON inst.id_sistema = se.id 
-                            INNER JOIN t_turnos AS tur ON ins.id_horario = tur.id
+                            INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativos = niv.id
+                            INNER JOIN t_organizacion_planes AS orgp ON plan.id_organizacion_planes = orgp.id
+                            LEFT JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
+                            LEFT JOIN t_grados AS gra ON sal.id_grados = gra.id
+                            LEFT JOIN t_grupos AS grup ON sal.id_grupos = grup.id
+                            INNER JOIN t_instituciones AS inst ON plan.id_instituciones = inst.id
+                            INNER JOIN t_planteles AS plant ON inst.id_planteles = plant.id
+                            INNER JOIN 	t_sistemas_educativos AS se ON inst.id_sistemas_educativos = se.id 
+                            INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
                             INNER JOIN t_historiales AS his ON ins.id_historial = his.id
                             WHERE his.inscrito = 1
                             GROUP BY plan.nombre_carrera,ins.grado,tur.nombre_turno HAVING COUNT(*)>=1";
@@ -70,15 +70,15 @@
                 ins.grado,grup.nombre_grupo,orgp.nombre_plan,tur.id AS id_turno,tur.nombre_turno,plant.municipio,COUNT(*) AS total FROM t_inscripciones AS ins
                             INNER JOIN t_personas AS per ON ins.id_personas = per.id
                             INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
-                            INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
-                            INNER JOIN t_organizacion_planes AS orgp ON plan.id_plan = orgp.id
-                            LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
-                            LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
-                            LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
-                            INNER JOIN t_instituciones AS inst ON plan.id_institucion = inst.id
-                            INNER JOIN t_planteles AS plant ON inst.id_plantel = plant.id
-                            INNER JOIN 	t_sistemas_educativos AS se ON inst.id_sistema = se.id 
-                            INNER JOIN t_turnos AS tur ON ins.id_horario = tur.id
+                            INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativos = niv.id
+                            INNER JOIN t_organizacion_planes AS orgp ON plan.id_organizacion_planes = orgp.id
+                            LEFT JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
+                            LEFT JOIN t_grados AS gra ON sal.id_grados = gra.id
+                            LEFT JOIN t_grupos AS grup ON sal.id_grupos = grup.id
+                            INNER JOIN t_instituciones AS inst ON plan.id_instituciones = inst.id
+                            INNER JOIN t_planteles AS plant ON inst.id_planteles = plant.id
+                            INNER JOIN 	t_sistemas_educativos AS se ON inst.id_sistemas_educativos = se.id 
+                            INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
                             INNER JOIN t_historiales AS his ON ins.id_historial = his.id
                             WHERE his.inscrito = 1 AND plant.id = $idPlantel
                             GROUP BY plan.nombre_carrera,ins.grado,tur.nombre_turno HAVING COUNT(*)>=1";
@@ -191,7 +191,7 @@
         }
         public function selectSubcampanias(){
             $sql = "SELECT c.id AS id_campania,c.nombre_campania,c.fecha_fin AS fecha_fin_campania,s.id AS id_subcampania,s.nombre_sub_campania,s.fecha_fin AS fecha_fin_subcampania FROM t_campanias AS c
-            RIGHT JOIN t_subcampania AS s ON s.id_campania = c.id
+            RIGHT JOIN t_subcampania AS s ON s.id_campanias = c.id
             WHERE c.fecha_fin >= NOW()
             ORDER BY c.fecha_fin DESC";
             $request = $this->select_all($sql);
@@ -231,7 +231,7 @@
             $sql = "SELECT ins.id,per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno) AS apellidos FROM t_inscripciones AS ins
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_historiales AS h ON ins.id_historial = h.id
-            WHERE ins.id_plan_estudios = $idCarrera AND ins.grado = $grado AND ins.id_horario = $turno AND h.inscrito = 1";
+            WHERE ins.id_plan_estudios = $idCarrera AND ins.grado = $grado AND ins.id_turnos = $turno AND h.inscrito = 1";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -249,17 +249,17 @@
             ins.grado,esc.nombre_escolaridad,tur.hora_entrada,tur.hora_salida,peralum.nombre_empresa
             FROM t_inscripciones AS ins 
             INNER JOIN t_plan_estudios AS plnes ON ins.id_plan_estudios = plnes.id
-            iNNER JOIN t_instituciones AS inst ON plnes.id_institucion = inst.id
-            INNER JOIN t_planteles AS plntel ON inst.id_plantel = plntel.id
-            INNER JOIN t_sistemas_educativos AS sis ON inst.id_sistema = sis.id
-            INNER JOIN t_organizacion_planes AS orgpl ON plnes.id_plan = orgpl.id
+            iNNER JOIN t_instituciones AS inst ON plnes.id_instituciones = inst.id
+            INNER JOIN t_planteles AS plntel ON inst.id_planteles = plntel.id
+            INNER JOIN t_sistemas_educativos AS sis ON inst.id_sistemas_educativos = sis.id
+            INNER JOIN t_organizacion_planes AS orgpl ON plnes.id_organizacion_planes = orgpl.id
             INNER JOIN t_personas AS peralum ON ins.id_personas = peralum.id
             INNER JOIN t_tutores AS tut ON ins.id_tutores = tut.id
             INNER JOIN t_localidades AS loc ON peralum.id_localidad = loc.id
             INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
             INNER JOIN t_estados AS est ON mun.id_estados = est.id
             INNER JOIN t_escolaridad AS esc ON ins.grado = esc.id
-            INNER JOIN t_turnos AS tur ON ins.id_horario = tur.id
+            INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
             WHERE ins.id = $idInscripcion LIMIT 1";
             $request = $this->select($sql);
             return $request;
@@ -268,7 +268,7 @@
         public function selectDocumentacionInscripcion(int $idPlanEstudios){
             $idPlanEstudios = $idPlanEstudios;
             $sql = "SELECT dest.tipo_documento FROM t_plan_estudios AS plnest 
-            INNER JOIN t_nivel_educativos AS nivel ON plnest.id_nivel_educativo = nivel.id 
+            INNER JOIN t_nivel_educativos AS nivel ON plnest.id_nivel_educativos = nivel.id 
             INNER JOIN t_documentos AS doc ON doc.id_nivel_educativo = nivel.id
             INNER JOIN t_detalle_documentos AS dest ON dest.id_documentos = doc.id
             WHERE plnest.id = $idPlanEstudios";

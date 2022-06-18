@@ -17,10 +17,10 @@ mostrarTab(tabActual);
 mostrarTabEdit(tabActualEdit);
 
 divCambiarSubcampania.style.display = "none";
-
 document.addEventListener('DOMContentLoaded', function(){
 	fnPlantelSeleccionadoDatatable(document.querySelector('#listPlantelDatatable').value);
 });
+
 function buscarPersona(){
     var textoBusqueda = $("input#busquedaPersona").val();
     var tablePersonas;
@@ -413,6 +413,8 @@ function fnPlantelSeleccionadoDatatable(value){
     var nombrePlantel = document.querySelector('#listPlantelDatatable');
     var text= nombrePlantel.options[nombrePlantel.selectedIndex].text;
     document.querySelector('#nombrePlantelDatatable').innerHTML = text;
+
+
     tableInscripciones = $('#tableInscripciones').dataTable( {
 		"aProcessing":true,
 		"aServerSide":true,

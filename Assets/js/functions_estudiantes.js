@@ -382,7 +382,7 @@ formDocumentacion.onsubmit = function(e){
                   }).then((result) =>{
                     $('.close').click();
                   })
-                  tableEstudiantes.api().ajax.reload();  
+                  tableEstudiantes.api().ajax.reload(); 
             }
             return false;
     }

@@ -49,6 +49,7 @@
             $data['idPlantel'] = $this->idPlantel;
             $data['page_functions_js'] = "functions_inscripciones_controlescolar.js";
             $this->views->getView($this,"inscripcion",$data);
+            
         }
         //Obtener Lista de Inscripciones(Admision)
         public function getInscripcionesAdmision(){
@@ -248,6 +249,7 @@
             $data['doc'] = $arrDataDoc;
             $this->views->getView($this,"viewpdf",$data);
         }
+
         public function des_inscribir(int $idInscripcion){
             $request = $this->model->updateEstatusInscripcion($idInscripcion);
             if($request){
