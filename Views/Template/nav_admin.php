@@ -185,7 +185,7 @@
                     <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar nav-legacy text-sm nav-compact flex-column"
                         data-widget="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="#" class="nav-link active">
                                 <i class="ml-3 mr-2" data-feather="grid"></i>
                                 <p>
@@ -193,16 +193,16 @@
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/DashboardDirc" class="nav-link active">
                                 <i class="ml-3 mr-2" data-feather="grid"></i>
                                 <p>
-                                    Dashboard Adminitración Educativa
+                                    Dashboard
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/DashboardAdmision" class="nav-link active">
                                 <i class="ml-3 mr-2" data-feather="grid"></i>
                                 <p>
@@ -217,7 +217,7 @@
                                     Dashboard Prospección
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-header">
                             <h6>Administración Educativa</h6>
                         </li>
@@ -293,7 +293,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-header">
+                        <!-- <li class="nav-header">
                             <h6>Admisión</h6>
                         </li>
                         <li class="nav-item">
@@ -311,7 +311,7 @@
                                     Inscripcion
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
                         <!-- <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/ExportarProspectos/" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="arrow-down"></i>
@@ -328,7 +328,7 @@
                                 </p>
                             </a>
                         </li> -->
-                        <li class="nav-header">
+                        <!-- <li class="nav-header">
                             <h6>Prospección</h6>
                         </li>
                         <li class="nav-item">
@@ -396,9 +396,9 @@
                                     Agenda
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
 
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/MedioCaptacion" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="crosshair"></i>
                                 <p>
@@ -457,8 +457,8 @@
                                     Periodos
                                 </p>
                             </a>
-                        </li>
-                        <li class="nav-item">
+                        </li> -->
+                        <!-- <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Grados/grados" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="award"></i>
                                 <p>
@@ -524,8 +524,8 @@
                                     Promoción
                                 </p>
                             </a>
-                        </li>
-                        <li class="nav-item">
+                        </li> -->
+                        <!-- <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Unidad_medida" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="flag"></i>
                                 <p>
@@ -620,7 +620,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
                     </ul>
                 </nav>
 
