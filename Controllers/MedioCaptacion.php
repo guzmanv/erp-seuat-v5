@@ -49,21 +49,49 @@ class MedioCaptacion extends Controllers{
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
     }
 
-    public function getMedioCatpacion(int $idMedio)
+
+    public function getMedioCaptacion(int $id)
     {
-        $intIdMedio = intval($idMedio);
-        if($intIdMedio > 0)
-        {
-            $arrData = $this->model->selectMedioCaptacion();
+        $idMedio = intval(strClean($id));
+        if($idMedio > 0){
+            $arrData = $this->model->selectMedioCaptacion($idMedio);
             if(empty($arrData)){
-                $arrResponse = array('estatus' => true, 'msg' => 'Datos no encontrados');
+                $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados');
+            }
+            else{
+                $arrResponse = array('estatus' => true, 'data'=>$arrData);
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function setMedioCaptacion()
+    {
+        $idMedioEdit = 0;
+        $idMedioNvo = 0;
+
+        if(isset($_POST['idMedCapNvo'])){
+            $idMedioNvo  = intval($_POST['idMedioCapNvo']);
+        }
+        if(isset($_POST['idMedCapEdit'])){
+            $idMedioEdit = intval($_POST['idMedCapEdit']);
+        }
+
+        if($idMedioNvo == 1)
+        {
+            $strMedio = strClean($_POST['txtMedioCaptacionNvo']);
+            //$arrData = $this->model->insertMedio($strMedio);
+            /* if($arrData['estatus'] != TRUE)
+            {
+                $arrResponse = array('estatus'=> true, 'msg'=> '¡Datos guardados correctamente!');
             }
             else
             {
-                
-            }
+                $arrResponse = array('estatus'=> false, 'msg' => 'Atención, el medio ya existe');
+            } */
         }
-        
-
+        echo json_encode($$_POST, JSON_UNESCAPED_UNICODE);
+        die();
     }
 }

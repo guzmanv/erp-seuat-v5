@@ -24,7 +24,7 @@
                                     <label for="">Estatus</label>
                                     <select class="custom-select" name="listEstatusMed" id="listEstatusMed">
                                         <option value="1">Activo</option>
-                                        <option value="0">Inactivo</option>
+                                        <option value="2">Inactivo</option>
                                     </select>
                                 </div>
 
