@@ -88,12 +88,12 @@
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                                 <div class="form-check mb-3">
-                                                                    <input class="form-check-input" type="checkbox" id="chck_inscripcion" onchange="fnChckInscripcion(this)">
+                                                                    <input class="form-check-input" type="checkbox" name="chck_inscripcion" id="chck_inscripcion" onchange="fnChckInscripcion(this)">
                                                                     <label class="form-check-label" for="chck_inscripcion">
                                                                         Aplica descuento inscripcion
                                                                     </label>
                                                                 </div>
-                                                                <select class="form-control form-control-sm" id="div_chck_inscripcion">
+                                                                <select class="form-control form-control-sm" id="div_chck_inscripcion" name="select_chck_inscripcion">
                                                                     <option value="">Seleccionar ...</option>
                                                                     <?php foreach ($data['promocion_inscripcion'] as $key => $inscripcion) { ?>
                                                                         <option value="<?php echo $inscripcion['id'] ?>"><?php echo($inscripcion['nombre_promocion'].' (' . $inscripcion['porcentaje_descuento']. ' %)') ?></option>
@@ -101,13 +101,14 @@
                                                                 </select>
                                                             </div>
                                                             <div class="col-md-6">
+                                                                
                                                                 <div class="form-check mb-3">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="chck_colegiatura" onchange="fnChckColegiaturas(this)">
+                                                                    <input class="form-check-input" type="checkbox" name="chck_colegiatura" id="chck_colegiatura" onchange="fnChckColegiaturas(this)">
                                                                     <label class="form-check-label" for="chck_colegiatura">
                                                                         Aplica descuento colegiaturas
                                                                     </label>
                                                                 </div>
-                                                                <select class="form-control form-control-sm"  id="div_chck_colegiaturas">
+                                                                <select class="form-control form-control-sm"  id="div_chck_colegiaturas" name="select_chck_colegiaturas">
                                                                     <option value="">Seleccionar ...</option>
                                                                     <?php foreach ($data['promocion_colegiatura'] as $key => $colegiatura) { ?>
                                                                         <option value="<?php echo $colegiatura['id'] ?>"> <?php echo($colegiatura['nombre_promocion'].' (' . $colegiatura['porcentaje_descuento']. ' %)') ?> </option>

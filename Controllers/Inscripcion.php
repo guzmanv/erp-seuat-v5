@@ -141,11 +141,11 @@
             }
             //Nueva
             if($intIdInscripcionNueva == 0){
-                if($_POST['idSubcampaniaNuevo'] != ''){
+               /*  if($_POST['idSubcampaniaNuevo'] != ''){
                     $idPersona = $data['idPersonaSeleccionada'];
                     $arrProspecto = $this->model->selectProspecto($idPersona);
                     //$folioTransferencia = ($arrProspecto['folio_transferencia'] == '')?null:$arrProspecto['folio_transferencia'];
-                    /* $plantelOrigen = ($arrProspecto['id_plantel_prospectado'] == '')?null:$arrProspecto['id_plantel_prospectado']; */
+                    //$plantelOrigen = ($arrProspecto['id_plantel_prospectado'] == '')?null:$arrProspecto['id_plantel_prospectado']; 
                     $arrData = $this->model->insertInscripcion($data,$this->idUser, $this->idPlantel);
                     if($arrData){
                         $arrResponse = array('estatus' => true,'data'=> $arrData, 'msg' => 'Inscripcion realizado correctamente!');
@@ -154,7 +154,7 @@
                     }
                 }else{
                     $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar sin subcampaña');
-                }
+                } */
             }
             //Editar
             if($intIdInscripcionEdit !=0){
@@ -165,7 +165,7 @@
                     $arrResponse = array('estatus' => false, 'msg' => 'No es posible Actualizar los datos');
                 }
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            echo json_encode($_POST,JSON_UNESCAPED_UNICODE);
         }
 
         //Obtener lista de niveles educativos
