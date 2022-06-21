@@ -343,44 +343,11 @@
                             <a href="<?php echo BASE_URL ?>/Subcampania" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="calendar"></i>
                                 <p>
-                                    Subcampanias
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?php echo BASE_URL ?>/Seguimiento" class="nav-link">
-                                <i class="ml-3 mr-2" data-feather="fast-forward"></i>
-                                <p>
-                                    Seguimiento
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?php echo BASE_URL ?>/Categoria_servicios" class="nav-link">
-                                <i class="ml-3 mr-2" data-feather="layout"></i>
-                                <p>
-                                    categoria servicios
+                                    Subcampañas
                                 </p>
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="<?php echo BASE_URL ?>/Campania" class="nav-link">
-                                <i class="ml-3 mr-2" data-feather="calendar"></i>
-                                <p>
-                                    Campaña
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="<?php echo BASE_URL ?>/Subcampania" class="nav-link">
-                                <i class="ml-3 mr-2" data-feather="calendar"></i>
-                                <p>
-                                    Subcampaña
-                                </p>
-                            </a>
-                        </li>
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Seguimiento/seguimiento_prospectos" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="fast-forward"></i>

@@ -98,7 +98,7 @@
                                                         <img src="<?php echo media();?>/images/img/logo-empty.png" id="profileDisplayInstitucionEdit" style="max-width:200px;">
                                                     </span>
                                                     <input type="file" name="profileImageInstitucion" onChange="displayImageInstitucionEdit(this)" id="profileImageInstitucionEdit" class="form-control" style="display: none;"
-                                                        accept=".png,.jpg,.jpeg,.svg">
+                                                        accept=".png,.jpg,.jpeg,.svg,.PNG,.JPG,.JPEG">
                                                 </div>
                                             </div>
                                         </div>

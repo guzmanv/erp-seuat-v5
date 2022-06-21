@@ -78,9 +78,9 @@ document.addEventListener('DOMContentLoaded', function(){
             request.onreadystatechange = function() {
                 if(request.readyState == 4 && request.status == 200) {
                     var objData = JSON.parse(request.responseText);
-                     if(objData.estatus){
-                        $('#modal_form_nueva_institucion').modal("hide");
+                    if(objData.estatus){
                         formInstitucionNuevo.reset();
+                        $('#modal_form_nueva_institucion').modal("hide");
                         swal.fire("Instituciones", objData.msg, "success").then((result) =>{
                             $('.close').click();
                         });
@@ -541,4 +541,8 @@ function validarNumeroInput(event){
 function btnNuevaInstitucion(){
     $('#step1-tab').click();
     tabActual = 0;
+    document.querySelector("#profileDisplayInstitucion").src = base_url+"/Assets/images/img/logo-empty.png";
+    document.getElementById('btnBuscarImagenInstitucion').textContent = "Agregar";
+    document.querySelector('#btnBuscarImagenInstitucion').classList.replace("btn-warning", "btn-primary");
+
 }

@@ -102,16 +102,21 @@
 				}
 			}
 			if($idInstitucionNuevo == 1){
-				$arrData = $this->model->insertInstitucion($data,$files);
-			    if($arrData['estatus'] != TRUE){
-			        if($arrData['imagen'] == false){
-						$arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar la imagen.');
-					}else{
-						$arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente.');
-					}
-			    }else{
-			    $arrResponse = array('estatus' => false, 'msg' => '¡Atención! La Clave del centro de trabajo ya existe'); 
-                }
+				if($files['profileImageInstitucion']['name'] != ''){
+					$arrData = $this->model->insertInstitucion($data,$files);
+			    	if($arrData['estatus'] != TRUE){
+			        	if($arrData['imagen'] == false){
+							$arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar la imagen.');
+						}else{
+							$arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente.');
+						}
+			    	}else{
+			    		$arrResponse = array('estatus' => false, 'msg' => '¡Atención! La Clave del centro de trabajo ya existe'); 
+                	} 
+				}else{
+					$arrResponse = array('estatus' => false, 'msg' => 'La imagen de la institución es obligatoria.');
+				}
+				
 			}
 			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			die();
