@@ -66,7 +66,7 @@
 							<label class="border-bottom bg-gray bg-disabled pl-2 border-secondary btn-block rounded-top mt-3"> <strong>Ubicación</strong></label>
 							<div class="form-row">
 								<div class="form-group col-md-12">
-								<label for="listIdInstitucion">Plantel</label>
+								<label for="listIdInstitucion">Institución</label>
 									<select class="form-control form-control-sm" id="listIdInstitucion" name="listIdInstitucion" style="width: 100%;" required="" ></select>
 								</div>
 							</div>

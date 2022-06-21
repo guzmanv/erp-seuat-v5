@@ -6,6 +6,7 @@ window.addEventListener('load', function(){
     fntUnidadMedida();
     fntCategoriaServicios();
     fntInstituciones();
+	// fntInstitucionesEdit();
 }, false);
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -29,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         }
                     },
                     {"data":"AplicaEdoCuenta"},
+					{"data":"nombre_institucion"},
                     {"data":"nombre_plantel_fisico"},
                     {"data":"Municipio"},
 					{"data":"EstatusServicios"},
@@ -304,14 +306,30 @@ function fntInstituciones(){
 	}
 }
 
+// function fntInstitucionesEdit(){
+// 	if(document.querySelector('#listIdInstitucion_edit')){
+// 		let ajaxUrl = base_url+'/Servicios/getSelectInstituciones';
+// 		let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+// 		request.open("GET",ajaxUrl,true);
+// 		request.send();
+// 		request.onreadystatechange = function() {
+// 			if(request.readyState == 4 && request.status == 200) {
+// 				document.querySelector('#listIdInstitucion_edit').innerHTML = request.responseText;
+// 			}
+// 		}
+// 	}
+// }
+
 function openModal(){
 	rowTable = "";
 	$('#modalFormServicios').modal({
 		backdrop: 'static',
 		keyboard: false,
 	});
+	document.querySelector("#formServicios").reset();
 	$('#modalFormServicios').modal('show');
 }
+
 
 $(".cerrarModal").click(function(){
 	$("#modalFormServicios").modal('hide');
@@ -361,14 +379,15 @@ function fnEditServicio(value,id){
 		document.querySelector('#txtCodigo_servicio_edit').value = resultado.codigo_servicio;
 		document.querySelector('#txtNombre_servicio_edit').value = resultado.nombre_servicio;
 		document.querySelector('#txtPrecio_unitario_edit').value = resultado.precio_unitario;
-		document.querySelector('#listIdCategoria_servicio_edit').querySelector('option[value="'+resultado.id_categoria_servicio+'"]').selected = true;
+		document.querySelector('#listIdCategoria_servicio_edit').querySelector('option[value="'+resultado.id_categoria_servicios+'"]').selected = true;
 		document.querySelector('#listIdUnidades_medida_edit').querySelector('option[value="'+resultado.id_unidades_medida+'"]').selected = true;
 		if(resultado.aplica_edo_cuenta == 1){
 			document.querySelector('#chkAplica_edo_cuenta_edit').checked = true;
 		}else{
 			document.querySelector('#chkAplica_edo_cuenta_edit').checked = false;
 		}
-		document.querySelector('#listIdInstitucion_edit').querySelector('option[value="'+resultado.id_plantel+'"]').selected = true;
+		document.querySelector('#listIdInstitucion_edit').querySelector('option[value="'+resultado.id_instituciones+'"]').selected = true;
+		// document.querySelector("#listIdInstitucion_edit").value = resultado.data.id_instituciones;
 		document.querySelector('#list_estatus_servicios_edit').querySelector('option[value="'+resultado.estatus+'"]').selected = true;
 		
 	}).catch(err => {throw err}); 

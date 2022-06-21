@@ -25,7 +25,7 @@ class PromocionModel extends Mysql
         $sql = "SELECT tp.id AS IdPromocion, tp.nombre_promocion AS NombrePromocion, tp.estatus AS EstatusPromocion, tp.porcentaje_descuento AS PorcentajeDescuento, ts.nombre_servicio AS NombreServicio
                 FROM t_promociones tp
                 INNER JOIN t_servicios ts
-                ON tp.id_servicio = ts.id
+                ON tp.id_servicios = ts.id
                 WHERE tp.estatus !=0
                 ORDER BY tp.nombre_promocion ASC ";
         $request = $this->select_all($sql);
@@ -42,8 +42,8 @@ class PromocionModel extends Mysql
     } */
     public function selectPromocion(int $intIdPromocion){
         $this->intIdPromocion = $intIdPromocion;
-        $sql = "SELECT p.id,p.nombre_promocion,p.id_servicio,p.descripcion,CONVERT(p.fecha_inicio, DATE) AS fecha_inicio,CONVERT(p.fecha_fin, DATE) AS fecha_fin,s.id_campania,s.id AS id_subcampania,p.porcentaje_descuento,p.estatus FROM t_promociones AS p 
-        INNER JOIN t_subcampania AS s ON p.id_subcampania = s.id
+        $sql = "SELECT p.id,p.nombre_promocion,p.id_servicios,p.descripcion,CONVERT(p.fecha_inicio, DATE) AS fecha_inicio,CONVERT(p.fecha_fin, DATE) AS fecha_fin,s.id_campanias,s.id AS id_subcampania,p.porcentaje_descuento,p.estatus FROM t_promociones AS p 
+        INNER JOIN t_subcampania AS s ON p.id_subcampanias = s.id
         WHERE p.id = $intIdPromocion";
         $request = $this->select($sql);
         return $request;
@@ -93,7 +93,7 @@ class PromocionModel extends Mysql
         $request = $this->select_all($sql);
 
         if (empty($request)) {
-            $query_insert = "INSERT INTO t_promociones(nombre_promocion,descripcion,estatus,porcentaje_descuento,fecha_inicio,fecha_fin,fecha_creacion,fecha_actualizacion,id_usuario_creacion,id_usuario_actualizacion,id_subcampania,id_servicio) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+            $query_insert = "INSERT INTO t_promociones(nombre_promocion,descripcion,estatus,porcentaje_descuento,fecha_inicio,fecha_fin,fecha_creacion,fecha_actualizacion,id_usuario_creacion,id_usuario_actualizacion,id_subcampanias,id_servicios) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
             $arrData = array($this->strNombre_promocion, $this->strDescripcion, $this->intEstatus, $this->strPorcentaje_descuento, $this->strFecha_inicio, $this->strFecha_fin, $this->strFecha_creacion, $this->strFecha_actualizacion, $this->intId_usuario_creacion, $this->intId_usuario_actualizacion, $this->intId_subcampania, $this->intId_servicio);
             $request_insert = $this->insert($query_insert, $arrData);
             $return = $request_insert;
@@ -105,7 +105,7 @@ class PromocionModel extends Mysql
 
 
     public function updatePromocion(int $intId_promocion,int $intId_campania,int $intId_servicio,int $intId_subcampania,string $strDescripcion,string $strFecha_fin,string $strFecha_inicio,string $strNombre_promocion,int $intPorcentaje_descuento,int $id_user,$intEstatus){
-        $sql = "UPDATE t_promociones SET nombre_promocion = ?,descripcion = ?,estatus = ?,porcentaje_descuento = ?,fecha_inicio = ?,fecha_fin = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ?,id_subcampania = ?,id_servicio = ? WHERE id = $intId_promocion";
+        $sql = "UPDATE t_promociones SET nombre_promocion = ?,descripcion = ?,estatus = ?,porcentaje_descuento = ?,fecha_inicio = ?,fecha_fin = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ?,id_subcampanias = ?,id_servicios = ? WHERE id = $intId_promocion";
         $request = $this->update($sql,array($strNombre_promocion,$strDescripcion,$intEstatus,$intPorcentaje_descuento,$strFecha_inicio,$strFecha_fin,$id_user,$intId_subcampania,$intId_servicio));
         return $request;
     }
