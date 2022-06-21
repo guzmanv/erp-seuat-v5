@@ -2,7 +2,7 @@
 
 	//define("BASE_URL", "http://localhost/erp-seuat-v1/");
 	const BASE_URL = "http://localhost:8012/erp-seuat-v5";
-	const VERSION_NAME = "v1.0.2Alpha";
+	const VERSION_NAME = "v1.0.3Alpha";
 
 	//Zona horaria
 	date_default_timezone_set('America/Mexico_City');
