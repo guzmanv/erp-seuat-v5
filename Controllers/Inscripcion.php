@@ -30,7 +30,6 @@
             $data['turnos'] = $this->model->selectturnos();
             $data['niveles_educativos'] = $this->model->selectNivelesEducativos();
             $data['promocion_inscripcion'] = $this->model->selectPromocionesInscripcion();
-            $data['promocion_colegiatura'] = $this->model->selectPromocionesColegiatura();
             $data['page_functions_js'] = "functions_inscripciones_admision.js";
             $data['rol'] = $this->rol;
             $data['idPlantel'] = $this->idPlantel;
@@ -139,22 +138,48 @@
             if(isset($_POST['idEdit'])){
                 $intIdInscripcionEdit = intval($_POST['idEdit']);
             }
+            if(isset($_POST['chck_colegiatura'])){
+                $checkColegiatura = 1;
+            }else{
+                $checkColegiatura = 0;
+            }
+            if(isset($_POST['chck_inscripcion'])){
+                $checkInscripcion = 1;
+            }else{
+                $checkInscripcion = 0;
+            }
             //Nueva
             if($intIdInscripcionNueva == 0){
-               /*  if($_POST['idSubcampaniaNuevo'] != ''){
+                if($_POST['idSubcampaniaNuevo'] != ''){
                     $idPersona = $data['idPersonaSeleccionada'];
                     $arrProspecto = $this->model->selectProspecto($idPersona);
                     //$folioTransferencia = ($arrProspecto['folio_transferencia'] == '')?null:$arrProspecto['folio_transferencia'];
                     //$plantelOrigen = ($arrProspecto['id_plantel_prospectado'] == '')?null:$arrProspecto['id_plantel_prospectado']; 
-                    $arrData = $this->model->insertInscripcion($data,$this->idUser, $this->idPlantel);
+                    /* $arrData = $this->model->insertInscripcion($data,$this->idUser, $this->idPlantel,$checkColegiatura,$checkInscripcion);
                     if($arrData){
-                        $arrResponse = array('estatus' => true,'data'=> $arrData, 'msg' => 'Inscripcion realizado correctamente!');
+                        $idInscripoion = $arrData;
+                        $estatus = 1;
+                        $total = 200;
+                        $arrIngreso = $this->model->insertIngresos($estatus,$total,$this->idUser,$this->idPlantel);
+                        if($arrIngreso){
+                            $idIngreso = $arrIngreso;
+                            $descuentoDinero = 200;
+                            $descuentoPorcentaje = 10;
+                            $arrIngDetalle = $this->model->insertIngresoDetalle($descuentoDinero,$descuentoPorcentaje,$idIngreso);
+                            if($arrIngDetalle){
+                                $arrResponse = array('estatus' => true,'data'=> $arrData, 'msg' => 'Inscripcion realizado correctamente!');
+                            }else{
+                                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar en ingresos detalles');
+                            }
+                        }else{
+                            $arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar en ingresos');
+                        }
                     }else{
-                        $arrResponse = array('estatus' => false, 'msg' => 'No es posible Guardar los Datos');
-                    }
+                        $arrResponse = array('estatus' => false, 'msg' => 'No se pudo realizar la inscripcion');
+                    } */
                 }else{
                     $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar sin subcampaña');
-                } */
+                }
             }
             //Editar
             if($intIdInscripcionEdit !=0){
@@ -297,6 +322,16 @@
                 }
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        
+        public function getPromocionescolegiaturas($idPlanEstudio)
+        {
+            //$idInstitucion = $this->model->selectPlanEstudio($idCarrera);
+            $arrData = $this->model->selectPromocionesColegiatura($idPlanEstudio);
+            /* if($idInstitucion['id']){
+            } */
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
     }

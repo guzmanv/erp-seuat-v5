@@ -55,7 +55,7 @@
                                             </div>
                                             <div class="form-group col-md-7">
                                                 <label>Carrera</label>
-                                                <select class="form-control form-control-sm" id="listCarreraNuevo" name="listCarreraNuevo" required>
+                                                <select class="form-control form-control-sm" id="listCarreraNuevo" name="listCarreraNuevo" onchange="fnSeleccionarCarrera(value)" required>
                                                     <option value="">Seleccionar una carrera</option>
                                                 </select>                                    
                                             </div>
@@ -96,7 +96,7 @@
                                                                 <select class="form-control form-control-sm" id="div_chck_inscripcion" name="select_chck_inscripcion">
                                                                     <option value="">Seleccionar ...</option>
                                                                     <?php foreach ($data['promocion_inscripcion'] as $key => $inscripcion) { ?>
-                                                                        <option value="<?php echo $inscripcion['id'] ?>"><?php echo($inscripcion['nombre_promocion'].' (' . $inscripcion['porcentaje_descuento']. ' %)') ?></option>
+                                                                        <option value="<?php echo $inscripcion['id'].','.$inscripcion['id_servicio'] ?>"><?php echo($inscripcion['nombre_promocion'].' (' . $inscripcion['porcentaje_descuento']. ' %)') ?></option>
                                                                     <?php } ?>
                                                                 </select>
                                                             </div>
@@ -110,9 +110,6 @@
                                                                 </div>
                                                                 <select class="form-control form-control-sm"  id="div_chck_colegiaturas" name="select_chck_colegiaturas">
                                                                     <option value="">Seleccionar ...</option>
-                                                                    <?php foreach ($data['promocion_colegiatura'] as $key => $colegiatura) { ?>
-                                                                        <option value="<?php echo $colegiatura['id'] ?>"> <?php echo($colegiatura['nombre_promocion'].' (' . $colegiatura['porcentaje_descuento']. ' %)') ?> </option>
-                                                                    <?php } ?>
                                                                 </select>
                                                             </div>
                                                         </div>

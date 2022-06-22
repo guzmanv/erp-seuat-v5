@@ -1,6 +1,7 @@
 var tableInscripciones;
 var idPersonaSeleccionada;
 let idPlantelSeleccionado = null;
+let carreraSeleccionada = null;
 var formInscripcionNueva = document.querySelector("#formInscripcionNueva");
 var formTutorNuevo = document.querySelector("#formAgregarTutor");
 let divCambiarSubcampania = document.querySelector('.cambiarsubcampania');
@@ -707,6 +708,13 @@ function sizeCheckInput(){
     return size;
 }
 
+//Function de seleccionar una carrera y guardar en una variable
+function fnSeleccionarCarrera(value){
+    if(value!=''){
+        carreraSeleccionada = value;
+    }
+}
+
 function fnNuevaInscripcion(){
     //fnPlantelSeleccionado(document.querySelector('#listPlantelNuevo').value);
     formInscripcionNueva.reset();
@@ -730,7 +738,20 @@ function fnChckInscripcion(value){
 function fnChckColegiaturas(value){
     if(value.checked){
         document.querySelector('#div_chck_colegiaturas').style.display = "inline";
+        let url = `${base_url}/Inscripcion/getPromocionescolegiaturas/${carreraSeleccionada}`;
+        if(carreraSeleccionada != null){
+            fetch(url).then((res) => res.json()).then(resultado =>{
+                console.log(resultado);
+                if(resultado.length >0){
+                    resultado.forEach(element => {
+                        document.querySelector('#div_chck_colegiaturas').innerHTML += "<option value="+element.id+","+element.id_servicio+">"+element.nombre_promocion+" ( "+element.porcentaje_descuento+" )"+"</option>"
+                    });
+                }else{
+    
+                }
+            }).catch(err =>{throw err});
+        }
     }else{
         document.querySelector('#div_chck_colegiaturas').style.display = "none";
-    }
+    } 
 }
