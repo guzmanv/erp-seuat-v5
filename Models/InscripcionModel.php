@@ -102,7 +102,7 @@
             return $request;
         }
 
-        public function insertInscripcion($data,int $idUser, int $idPlantel){
+        public function insertInscripcion($data,int $idUser, int $idPlantel, int $checkColegiatura, int $checkInscripcion){
             $idPersona = $data['idPersonaSeleccionada'];
             //$idPlantel = $data['listPlantelNuevo'];
             $idCarrera = $data['listCarreraNuevo'];
@@ -144,8 +144,8 @@
                     $sql_historial = "INSERT INTO t_historiales(aperturado,inscrito,egreso,pasante,titulado,baja,matricula_interna,matricula_externa,fecha_inscrito,fecha_egreso,fecha_pasante,fecha_titulado,fecha_baja) VALUES(?,?,?,?,?,?,?,?,NOW(),?,?,?,?)";
                     $request_historial = $this->insert($sql_historial,array(0,1,0,0,0,0,null,null,null,null,null,null));
                     if($request_historial){
-                        $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,id_turnos,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampanias,id_salones_compuesto,id_historial,id_usuario_creacion,fecha_creacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
-                        $request_inscripcion = $this->insert($sql_inscripcion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$turno,$idCarrera,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalon,$request_historial,$idUser));
+                        $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,aplica_descuento_inscripcion,aplica_descuento_colegiatura,id_turnos,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampanias,id_salones_compuesto,id_historial,id_usuario_creacion,fecha_creacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
+                        $request_inscripcion = $this->insert($sql_inscripcion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$checkInscripcion,$checkColegiatura, $turno,$idCarrera,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalon,$request_historial,$idUser));
                         if($request_inscripcion){
                             $sqlEmpresa = "UPDATE t_personas SET nombre_empresa = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id = $idPersona";
                             $requestEmpresa = $this->update($sqlEmpresa,array($empresa,$idUser));
@@ -258,7 +258,7 @@
             INNER JOIN t_localidades AS loc ON peralum.id_localidad = loc.id
             INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
             INNER JOIN t_estados AS est ON mun.id_estados = est.id
-            INNER JOIN t_escolaridad AS esc ON ins.grado = esc.id
+            LEFT JOIN t_escolaridad AS esc ON ins.grado = esc.id
             INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
             WHERE ins.id = $idInscripcion LIMIT 1";
             $request = $this->select($sql);
@@ -320,20 +320,60 @@
 
         public function selectPromocionesInscripcion()
         {
-            $sql = "SELECT tp.id,tp.nombre_promocion,tp.porcentaje_descuento,ts.precio_unitario FROM t_promociones AS tp
-            INNER JOIN t_servicios AS ts ON tp.id_servicios = ts.id 
+            $sql = "SELECT tp.id,ts.nombre_servicio,tcs.nombre_categoria,ts.codigo_servicio,tcs.clave_categoria,tpr.nombre_promocion,
+            tpr.porcentaje_descuento,ts.id AS id_servicio FROM t_precarga AS tp 
+            LEFT JOIN t_servicios AS ts ON tp.id_servicios = ts.id
+            LEFT JOIN t_promociones AS tpr ON tpr.id_servicios = ts.id 
+            LEFT JOIN t_categoria_servicios AS tcs ON ts.id_categoria_servicios = tcs.id
             WHERE ts.codigo_servicio LIKE '%COL%'";
+
+            /* $sql = "SELECT tp.id,tp.nombre_promocion,tp.porcentaje_descuento,ts.precio_unitario FROM t_promociones AS tp
+            INNER JOIN t_servicios AS ts ON tp.id_servicios = ts.id 
+            WHERE ts.codigo_servicio LIKE '%COL%'"; */
             $request = $this->select_all($sql);
             return $request;
         }
 
-        public function selectPromocionesColegiatura()
+        public function selectPlanEstudio(int $idPlanEstudio)
         {
-            $sql = "SELECT tp.id,tp.nombre_promocion,tp.porcentaje_descuento,ts.precio_unitario FROM t_promociones AS tp
-            INNER JOIN t_servicios AS ts ON tp.id_servicios = ts.id 
-            WHERE ts.codigo_servicio LIKE '%INS%'";
+            $sql = "SELECT *FROM t_plan_estudios as tpe WHERE tpe.id = $idPlanEstudio LIMIT 1";
+            $request = $this->select($sql);
+            return $request; 
+        }
+
+        public function selectPromocionesColegiatura(int $idPlanEstudio)
+        {
+            $sql = "SELECT tp.id,ts.nombre_servicio,tcs.nombre_categoria,ts.codigo_servicio,tcs.clave_categoria,tpr.nombre_promocion,
+            tpr.porcentaje_descuento,ts.id AS id_servicio FROM t_precarga AS tp 
+            LEFT JOIN t_servicios AS ts ON tp.id_servicios = ts.id
+            LEFT JOIN t_promociones AS tpr ON tpr.id_servicios = ts.id 
+            LEFT JOIN t_categoria_servicios AS tcs ON ts.id_categoria_servicios = tcs.id
+            WHERE ts.codigo_servicio LIKE '%INS%' AND tp.id_plan_estudios = $idPlanEstudio";
             $request = $this->select_all($sql);
             return $request;
+        }
+
+        public function insertIngresos($estatus,$total,$idUser,$idPlantel)
+        {
+           $sql = "INSERT INTO t_ingresos
+            (estatus, total, fecha_creacion, id_usuario_creacion, id_planteles)
+            VALUES(?, ?, NOW(), ?, ?)";
+            $request = $this->insert($sql,array($estatus,$total,$idUser,$idPlantel));
+            return $request;
+        }
+        public function insertIngresoDetalle($descuentoDinero,$descuentoPorcentaje,$idIngreso,$idPrecargaCol,$idServicioCol,$idPrecargaIns,$idServicioIns)
+        {
+            $sqlColegiatura = "INSERT INTO t_ingresos_detalles
+            (cantidad, cargo, precio_subtotal, descuento_dinero, descuento_porcentaje, id_servicios, id_ingresos, id_precarga)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            $requestColegiatura = $this->insert($sqlColegiatura,array(1,200,200,$descuentoDinero,$descuentoPorcentaje,$idServicioCol,$idIngreso,$idPrecargaCol));
+
+            $sqlInscripcion = "INSERT INTO t_ingresos_detalles
+            (cantidad, cargo, precio_subtotal, descuento_dinero, descuento_porcentaje, id_servicios, id_ingresos, id_precarga)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            $requestInscirpcion = $this->insert($sqlInscripcion,array(1,200,200,$descuentoDinero,$descuentoPorcentaje,$idServicioIns,$idIngreso,$idPrecargaIns));
+            
+            return $requestInscirpcion;
         }
 
     }
