@@ -30,10 +30,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 function buscarPersona(){
-    let url = base_url+"/Inscripcion/buscarPersonaModal?val="+textoBusqueda;
-    fetch(url).then((res) => res.json()).then(resultado =>{
-        console.log(resultado)
-    }).catch(err => {throw err});
 
     var textoBusqueda = $("input#busquedaPersona").val();
     var tablePersonas;
@@ -123,8 +119,8 @@ formInscripcionNueva.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            console.log(objData)
-            /*  if(objData.estatus){
+            
+            if(objData.estatus){
                 formInscripcionNueva.reset();
                 swal.fire("Inscripcion",objData.msg,"success").then((result) =>{
                     Swal.fire({
@@ -148,7 +144,7 @@ formInscripcionNueva.onsubmit = function(e){
                 tableInscripciones.api().ajax.reload();
             }else{
                  swal.fire("Error",objData.msg,"error");
-            }  */
+            }
         }
         divLoading.style.display = "none";
         return false;
@@ -741,7 +737,6 @@ function fnChckColegiaturas(value){
         let url = `${base_url}/Inscripcion/getPromocionescolegiaturas/${carreraSeleccionada}`;
         if(carreraSeleccionada != null){
             fetch(url).then((res) => res.json()).then(resultado =>{
-                console.log(resultado);
                 if(resultado.length >0){
                     resultado.forEach(element => {
                         document.querySelector('#div_chck_colegiaturas').innerHTML += "<option value="+element.id+","+element.id_servicio+">"+element.nombre_promocion+" ( "+element.porcentaje_descuento+" )"+"</option>"

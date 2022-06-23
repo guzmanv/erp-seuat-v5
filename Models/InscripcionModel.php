@@ -258,7 +258,7 @@
             INNER JOIN t_localidades AS loc ON peralum.id_localidad = loc.id
             INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
             INNER JOIN t_estados AS est ON mun.id_estados = est.id
-            INNER JOIN t_escolaridad AS esc ON ins.grado = esc.id
+            LEFT JOIN t_escolaridad AS esc ON ins.grado = esc.id
             INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
             WHERE ins.id = $idInscripcion LIMIT 1";
             $request = $this->select($sql);
@@ -355,15 +355,25 @@
 
         public function insertIngresos($estatus,$total,$idUser,$idPlantel)
         {
-            $sql = "INSERT INTO t_ingresos
+           $sql = "INSERT INTO t_ingresos
             (estatus, total, fecha_creacion, id_usuario_creacion, id_planteles)
             VALUES(?, ?, NOW(), ?, ?)";
             $request = $this->insert($sql,array($estatus,$total,$idUser,$idPlantel));
             return $request;
         }
-        public function nsertIngresoDetalle($descuentoDinero,$descuentoPorcentaje,$idIngreso)
+        public function insertIngresoDetalle($descuentoDinero,$descuentoPorcentaje,$idIngreso,$idPrecargaCol,$idServicioCol,$idPrecargaIns,$idServicioIns)
         {
+            $sqlColegiatura = "INSERT INTO t_ingresos_detalles
+            (cantidad, cargo, precio_subtotal, descuento_dinero, descuento_porcentaje, id_servicios, id_ingresos, id_precarga)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            $requestColegiatura = $this->insert($sqlColegiatura,array(1,200,200,$descuentoDinero,$descuentoPorcentaje,$idServicioCol,$idIngreso,$idPrecargaCol));
 
+            $sqlInscripcion = "INSERT INTO t_ingresos_detalles
+            (cantidad, cargo, precio_subtotal, descuento_dinero, descuento_porcentaje, id_servicios, id_ingresos, id_precarga)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            $requestInscirpcion = $this->insert($sqlInscripcion,array(1,200,200,$descuentoDinero,$descuentoPorcentaje,$idServicioIns,$idIngreso,$idPrecargaIns));
+            
+            return $requestInscirpcion;
         }
 
     }

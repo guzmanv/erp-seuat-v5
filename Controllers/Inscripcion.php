@@ -155,17 +155,26 @@
                     $arrProspecto = $this->model->selectProspecto($idPersona);
                     //$folioTransferencia = ($arrProspecto['folio_transferencia'] == '')?null:$arrProspecto['folio_transferencia'];
                     //$plantelOrigen = ($arrProspecto['id_plantel_prospectado'] == '')?null:$arrProspecto['id_plantel_prospectado']; 
-                    /* $arrData = $this->model->insertInscripcion($data,$this->idUser, $this->idPlantel,$checkColegiatura,$checkInscripcion);
+                    $arrData = $this->model->insertInscripcion($data,$this->idUser, $this->idPlantel,$checkColegiatura,$checkInscripcion);
+                    
                     if($arrData){
                         $idInscripoion = $arrData;
                         $estatus = 1;
                         $total = 200;
+                        $selectcolegiatura = $_POST['select_chck_colegiaturas'];
+                        $selectInscripcion = $_POST['select_chck_inscripcion'];
+                        $arrColegitura = explode(',',$selectcolegiatura);
+                        $arrInscripcion = explode(',',$selectInscripcion);
+                        $idPrecargaCol = $arrColegitura[0];
+                        $idServicioCol = $arrColegitura[1];
+                        $idPrecargaIns = $arrInscripcion[0];
+                        $idServicioIns = $arrInscripcion[1];
                         $arrIngreso = $this->model->insertIngresos($estatus,$total,$this->idUser,$this->idPlantel);
                         if($arrIngreso){
                             $idIngreso = $arrIngreso;
                             $descuentoDinero = 200;
                             $descuentoPorcentaje = 10;
-                            $arrIngDetalle = $this->model->insertIngresoDetalle($descuentoDinero,$descuentoPorcentaje,$idIngreso);
+                            $arrIngDetalle = $this->model->insertIngresoDetalle($descuentoDinero,$descuentoPorcentaje,$idIngreso,$idPrecargaCol,$idServicioCol,$idPrecargaIns,$idServicioIns);
                             if($arrIngDetalle){
                                 $arrResponse = array('estatus' => true,'data'=> $arrData, 'msg' => 'Inscripcion realizado correctamente!');
                             }else{
@@ -176,7 +185,7 @@
                         }
                     }else{
                         $arrResponse = array('estatus' => false, 'msg' => 'No se pudo realizar la inscripcion');
-                    } */
+                    }
                 }else{
                     $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar sin subcampaña');
                 }
@@ -190,7 +199,7 @@
                     $arrResponse = array('estatus' => false, 'msg' => 'No es posible Actualizar los datos');
                 }
             }
-            echo json_encode($_POST,JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
         }
 
         //Obtener lista de niveles educativos
@@ -277,6 +286,7 @@
             $data['datos'] = $arrDataIns;
             $data['doc'] = $arrDataDoc;
             $this->views->getView($this,"viewpdf",$data); 
+           
             
         }
 
