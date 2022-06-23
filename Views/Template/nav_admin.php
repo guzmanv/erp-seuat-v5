@@ -40,8 +40,7 @@
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <a href="#" class="dropdown-item">
                             <div class="media">
-                                <img src="<?php echo media(); ?>/images/img/user1-128x128.jpg" alt="User Avatar"
-                                    class="img-size-50 mr-3 img-circle">
+                                <img src="<?php echo media(); ?>/images/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                         Brad Diesel
@@ -55,8 +54,7 @@
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
                             <div class="media">
-                                <img src="<?php echo media(); ?>/images/img/user8-128x128.jpg" alt="User Avatar"
-                                    class="img-size-50 img-circle mr-3">
+                                <img src="<?php echo media(); ?>/images/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                         John Pierce
@@ -70,13 +68,11 @@
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
                             <div class="media">
-                                <img src="<?php echo media(); ?>/images/img/user3-128x128.jpg" alt="User Avatar"
-                                    class="img-size-50 img-circle mr-3">
+                                <img src="<?php echo media(); ?>/images/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                         Nora Silvester
-                                        <span class="float-right text-sm text-warning"><i
-                                                class="fas fa-star"></i></span>
+                                        <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
                                     </h3>
                                     <p class="text-sm">The subject goes here</p>
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
@@ -123,11 +119,8 @@
                     <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
                         <i class="align-middle" data-feather="settings"></i>
                     </a>
-                    <a class="nav-link dropdown-toggle d-none d-sm-inline-block mt-img-avatar" href="#"
-                        data-bs-toggle="dropdown">
-                        <img src="<?php echo media(); ?>/images/img/user2-160x160.jpg" height="32"
-                            class="img-circle elevation-1" alt="Perfil" /> <span
-                            class="text-dark"><?php echo ($_SESSION['nomPersona']) ?></span>
+                    <a class="nav-link dropdown-toggle d-none d-sm-inline-block mt-img-avatar" href="#" data-bs-toggle="dropdown">
+                        <img src="<?php echo media(); ?>/images/img/user2-160x160.jpg" height="32" class="img-circle elevation-1" alt="Perfil" /> <span class="text-dark"><?php echo ($_SESSION['nomPersona']) ?></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <!-- <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Perfil</a>
@@ -136,8 +129,7 @@
             <a class="dropdown-item" href="pages-settings.html"><i class="align-middle me-1" data-feather="settings"></i> Configuración & Privacidad</a>
             <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Centro de Ayuda</a>
             <div class="dropdown-divider"></div> -->
-                        <a class="dropdown-item" href="<?= base_url(); ?>/logout"><i class="align-middle me-1"
-                                data-feather="log-out"></i> Cerrar sesión</a>
+                        <a class="dropdown-item" href="<?= base_url(); ?>/logout"><i class="align-middle me-1" data-feather="log-out"></i> Cerrar sesión</a>
                     </div>
                 </li>
                 <!-- Personalización del tema
@@ -182,9 +174,8 @@
         </div>
       </div>-->
 
-                    <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar nav-legacy text-sm nav-compact flex-column"
-                        data-widget="treeview" role="menu" data-accordion="false">
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar nav-legacy text-sm nav-compact flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
                             <a href="#" class="nav-link active">
                                 <i class="ml-3 mr-2" data-feather="grid"></i>
@@ -505,6 +496,25 @@
                                 <i class="ml-3 mr-2" data-feather="navigation"></i>
                                 <p>
                                     Precarga cuenta
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-header">
+                            <h6>Becas</h6>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Becas/becas" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="list"></i>
+                                <p>
+                                    Catálogo de becas
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/RenovacionBecas/asignacion_becas" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="percent"></i>
+                                <p>
+                                    Renovación becas
                                 </p>
                             </a>
                         </li>
