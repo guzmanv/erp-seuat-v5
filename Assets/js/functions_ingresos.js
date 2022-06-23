@@ -547,3 +547,11 @@ function fnAperturarCaja(idcaja){
         }
     })
 }
+
+//Get notificaciones
+setInterval(async function () {
+    let url = `${base_url}/Ingresos/getNuevasInscripciones`;
+    fetch(url).then((res) => res.json()).then(resultado =>{
+        console.log(resultado);
+    }).catch(err =>{throw err});
+},2000)

@@ -278,5 +278,12 @@
             $request = $this->select_all($sql);
             return $request;
         }
+
+        public function selectNuevasInscripciones()
+        {
+            $sql = "SELECT *FROM t_ingresos WHERE folio = ''";
+            $request = $this->select_all($sql);
+            return $request;
+        }
 	}
 ?>  
