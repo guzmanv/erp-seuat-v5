@@ -199,6 +199,13 @@
         private function reverse64($arr){
             return base64_decode($arr);
         }
+
+        public function getNuevasInscripciones()
+        {
+            $arrInscripciones = $this->model->selectNuevasInscripciones();
+            echo json_encode($arrInscripciones,JSON_UNESCAPED_UNICODE);
+            die();
+        }
         
     }
 ?>
