@@ -106,11 +106,11 @@
                         </a> -->
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
-                            <i class="fas fa-file mr-2"></i><span id="numero_nuevas_inscripciones">0</span> nuevas inscripciones
-                            <span class="float-right text-muted text-sm" id="tiempo_ultima_inscripcion"></span>
+                            <i class="fas fa-file mr-2"></i><span id="numero_nuevas_notificaciones"></span>
+                            <span class="float-right text-muted text-sm" id="tiempo_ultima_notificacion"></span>
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="Ingresos/inscripciones" class="dropdown-item dropdown-footer">Ver todas las inscripciones</a>
+                        <a href="#" class="dropdown-item dropdown-footer" id="ver_todas_notificaciones"></a>
                     </div>
                 </li>
                 <li class="nav-item">
