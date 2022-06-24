@@ -24,18 +24,18 @@
         }
 
         public function selectVentaTotal(int $caja, string $fecha){
-            $sql = "SELECT i.id, i.total,u.id AS id_usuario,c.id AS id_caja,i.fecha FROM t_ingresos AS i
+            $sql = "SELECT i.id, i.total,u.id AS id_usuario,c.id AS id_caja,i.fecha_cobro FROM t_ingresos AS i
             INNER JOIN t_usuarios AS u ON i.id_usuario_cobro = u.id
             INNER JOIN t_cajas AS c ON c.id_usuario_atiende = u.id
-            WHERE i.fecha >= '$fecha' AND c.id = $caja";
+            WHERE i.fecha_cobro >= '$fecha' AND c.id = $caja";
             $request = $this->select_all($sql);
             return $request;
         }
 
         public function selectVentasTotalAll(){
-            $sql = "SELECT pl.nombre_plantel_fisico,SUM(total) AS total,DATE_FORMAT(i.fecha,'%Y-%m-%d') AS fecha FROM t_ingresos AS i
+            $sql = "SELECT pl.nombre_plantel_fisico,SUM(total) AS total,DATE_FORMAT(i.fecha_cobro,'%Y-%m-%d') AS fecha FROM t_ingresos AS i
             INNER JOIN t_planteles AS pl ON i.id_planteles = pl.id
-            GROUP BY YEAR(i.fecha),MONTH(i.fecha),DAY(i.fecha), pl.nombre_plantel_fisico ORDER BY i.fecha ASC";
+            GROUP BY YEAR(i.fecha_cobro),MONTH(i.fecha_cobro),DAY(i.fecha_cobro), pl.nombre_plantel_fisico ORDER BY i.fecha_cobro ASC";
             $request = $this->select_all($sql);
             return $request;
         }

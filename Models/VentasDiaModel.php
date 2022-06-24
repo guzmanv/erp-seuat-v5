@@ -6,8 +6,8 @@
 			parent::__construct();
 		}
 		public function selectVentasDia($fecha,int $idUser){
-			$sql = "SELECT i.id, i.folio,i.fecha,i.total,i.id_persona_paga  FROM t_ingresos AS i
-            WHERE i.fecha != '' AND i.fecha LIKE '$fecha%' AND i.id_usuario_cobro  = $idUser ORDER BY i.fecha DESC";
+			$sql = "SELECT i.id, i.folio,i.fecha_cobro,i.total,i.id_persona_paga  FROM t_ingresos AS i
+            WHERE i.fecha_cobro != '' AND i.fecha_cobro LIKE '$fecha%' AND i.id_usuario_cobro  = $idUser ORDER BY i.fecha_cobro DESC";
 			$request = $this->select_all($sql);
 			return $request;
 		}

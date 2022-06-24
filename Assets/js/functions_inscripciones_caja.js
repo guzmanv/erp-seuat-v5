@@ -1,3 +1,5 @@
+document.querySelector('#ver_todas_notificaciones').textContent = "Ver todas las inscripciones";
+document.querySelector('#ver_todas_notificaciones').href = `${base_url}/Ingresos/inscripciones`;
 let arrNuevasInscripciones = [];
 let time = 0;
 fnMostrarInscripcionesDatatable(null);
@@ -12,7 +14,7 @@ setInterval(async function () {
         let nuevos = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
         document.querySelector('#numero_notificaciones').textContent = nuevos;
         document.querySelector('#titulo_notificaciones').textContent = nuevos+" Notificaciones";
-        document.querySelector('#numero_nuevas_inscripciones').textContent = nuevos;
+        document.querySelector('#numero_nuevas_notificaciones').textContent = nuevos + " Inscripciones";
         if(sizeNuevaInscripion != nuevos && time > 2){
             fnMostrarInscripcionesDatatable(resultado);
             const Toast = Swal.mixin({
@@ -42,8 +44,11 @@ setInterval(async function () {
     }
 },500)
 
+let url = base_url+"/Ingresos/getEstudiantes";
+fetch(url).then((res) => res.json()).then(resultado =>{
+    console.log(resultado);
+}).catch(err =>{throw err});
 function fnMostrarInscripcionesDatatable(datos){
-    console.log(datos)
         tableEstudiantes = $('#tableInscripcionesCaja').dataTable( {
             "aProcessing":true,
             "aServerSide":true,

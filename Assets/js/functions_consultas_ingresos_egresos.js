@@ -3,10 +3,14 @@ let verEdoCta = document.querySelector("#btnVerEdoCta");
 let buscarAlumno = document.querySelector("#btnBuscarAlumno");
 let cardsEdoCta = document.querySelector('.card_dato_cta');
 let dataTableEdoCta = document.querySelector('#tableEstadoCuenta');
+document.querySelector('#ver_todas_notificaciones').textContent = "Ver todas las inscripciones";
+document.querySelector('#ver_todas_notificaciones').href = `${base_url}/Ingresos/inscripciones`;
 let matriculaRFAlumno = "";
 let idAlumnoSeleccionado;
 cardsEdoCta.style.display = "none";
 dataTableEdoCta.style.display = "row";
+let arrNuevasInscripciones = [];
+let time = 0;
 
 //click en boton buscar alumno
 buscar.addEventListener('click',function() {
@@ -235,3 +239,43 @@ function formatoMoneda(numero){
 function convStrToBase64(str){
     return window.btoa(unescape(encodeURIComponent( str ))); 
 }
+//Get notificaciones
+setInterval(async function () {
+    time += 1;
+    let sizeNuevaInscripion = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
+    let url = `${base_url}/Ingresos/getNuevasInscripciones`;
+    fetch(url).then((res) => res.json()).then(resultado =>{
+        resultado.forEach(element => {
+            arrNuevasInscripciones[element.id] = {'folio':element.folio,'visto':false}
+        });
+        let nuevos = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
+        document.querySelector('#numero_notificaciones').textContent = nuevos;
+        document.querySelector('#titulo_notificaciones').textContent = nuevos+" Notificaciones";
+        document.querySelector('#numero_nuevas_notificaciones').textContent = nuevos + " Inscripciones";
+        if(sizeNuevaInscripion != nuevos && time > 2){
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 7000,
+                iconColor: 'white',
+                background: '#ffc107',
+                timerProgressBar: true,
+                customClass: {
+                    popup: 'colored-toast'
+                },
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })    
+              Toast.fire({
+                icon: 'warning',
+                title: "<h5 style='color:white'>Nueva Inscripcion</h5>",  
+              })
+        }
+    }).catch(err =>{throw err});
+    if(time >=50){
+        time = 10;
+    }
+},500)

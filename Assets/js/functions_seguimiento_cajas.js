@@ -1,13 +1,18 @@
 let urlGraphMultiLine = `${base_url}/SeguimientoCajas/selectVentasAll`;
+document.querySelector('#ver_todas_notificaciones').textContent = "Ver todas las inscripciones";
+document.querySelector('#ver_todas_notificaciones').href = `${base_url}/Ingresos/inscripciones`;
 let arrDias = [];
 let time = false;
+let arrNuevasInscripciones = [];
+let time_n = 0;
+
 document.addEventListener('DOMContentLoaded', function(){
     function load(){
         arrDias = [];
         fetch(urlGraphMultiLine)
         .then(res => res.json())
         .then((resultado) => {
-            console.log(resultado)
+            //console.log(resultado)
             for(const [key, value] of Object.entries(resultado.dias)){
                 arrDias.push(value);
             }
@@ -49,3 +54,44 @@ function formatoMoneda(numero){
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return "$"+str.join(".");
 }
+
+//Get notificaciones
+setInterval(async function () {
+    time_n += 1;
+    let sizeNuevaInscripion = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
+    let url = `${base_url}/Ingresos/getNuevasInscripciones`;
+    fetch(url).then((res) => res.json()).then(resultado =>{
+        resultado.forEach(element => {
+            arrNuevasInscripciones[element.id] = {'folio':element.folio,'visto':false}
+        });
+        let nuevos = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
+        document.querySelector('#numero_notificaciones').textContent = nuevos;
+        document.querySelector('#titulo_notificaciones').textContent = nuevos+" Notificaciones";
+        document.querySelector('#numero_nuevas_notificaciones').textContent = nuevos + " Inscripciones";
+        if(sizeNuevaInscripion != nuevos && time_n > 2){
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 7000,
+                iconColor: 'white',
+                background: '#ffc107',
+                timerProgressBar: true,
+                customClass: {
+                    popup: 'colored-toast'
+                },
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })    
+              Toast.fire({
+                icon: 'warning',
+                title: "<h5 style='color:white'>Nueva Inscripcion</h5>",  
+              })
+        }
+    }).catch(err =>{throw err});
+    if(time_n >=50){
+        time_n = 10;
+    }
+},500)

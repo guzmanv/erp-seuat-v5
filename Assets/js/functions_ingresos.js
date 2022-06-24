@@ -8,6 +8,8 @@ let listPromociones = document.querySelector('.listPromociones');
 let btnAgregarServicio = document.querySelector('#btnAgregarServicio');
 let listTipoCobro = document.querySelector('#listTipoCobro');
 let listGrado = document.querySelector('.listGrado');
+document.querySelector('#ver_todas_notificaciones').textContent = "Ver todas las inscripciones";
+document.querySelector('#ver_todas_notificaciones').href = `${base_url}/Ingresos/inscripciones`;
 alertSinEdoCta.style.display = "none";
 listServicios.style.display = "none";
 listPromociones.style.display = "none";
@@ -19,6 +21,7 @@ let gradoSeleccionado;
 var formGenerarEdoCuenta = document.querySelector("#formGenerarEdoCuenta");
 let time = 0;
 
+
 document.addEventListener('DOMContentLoaded', function(){
     $('.select2').select2(); //Inicializar Select 2 en el input promociones
     let url = new URLSearchParams(location.search);
@@ -26,9 +29,10 @@ document.addEventListener('DOMContentLoaded', function(){
     if(i != null){
         let b64 = atob(i);
         let datos = JSON.parse(b64);
-        if(datos){
+        /* if(datos){
+            console.log(datos.id)
            insertDatosAlServ(datos.id,datos.id_alumno,datos.nombre_completo,datos.nombre_servicio,datos.pu,datos.tipo,datos.precarga,datos.id_precarga);
-        }
+        } */
     }
 });
 //Mostrar lista de servicios dependiendo del tipo de cobro a realizar   
@@ -281,7 +285,7 @@ function mostrarTotalCuentaServicios(){
 }
 //function para cambiar cantidad de los servicios en Tabla
 function modCantidadServ(val){
-    console.log(val);
+    //console.log(val);
     let cantidad = val.value;
     let idServicio = val.id.split('cantidad')[1];
     if(val.value.length >= 11){
@@ -475,7 +479,7 @@ function validarNumeroInput(event){
     return false;
 }
 function insertDatosAlServ(id,id_alumno,nombre_completo,nombre_servicio,precio_unitario,tipo,precarga,id_precarga){
-    console.log(id_precarga)
+    //console.log(id_precarga)
     idPersonaSeleccionada = id_alumno;
     document.querySelector('#txtNombreNuevo').value = nombre_completo;
     document.querySelector('#listTipoCobro').disabled = false;
@@ -562,8 +566,8 @@ setInterval(async function () {
         let nuevos = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
         document.querySelector('#numero_notificaciones').textContent = nuevos;
         document.querySelector('#titulo_notificaciones').textContent = nuevos+" Notificaciones";
-        document.querySelector('#numero_nuevas_inscripciones').textContent = nuevos;
-        console.log(time)
+        document.querySelector('#numero_nuevas_notificaciones').textContent = nuevos + " Inscripciones";
+        //console.log(time)
         if(sizeNuevaInscripion != nuevos && time > 2){
             const Toast = Swal.mixin({
                 toast: true,
