@@ -57,10 +57,8 @@ function fnMostrarInscripcionesDatatable(datos){
             "columns":[
                 {"data":"numeracion"},
                 {"data":"nombre_persona"},
-                {"data":"apellidos"},
-                {"data":"nombre_plantel"},
-                {"data":"nombre_carrera"},
-                {"data":"grado"},
+                {"data":"ap_paterno"},
+                {"data":"ap_materno"},
                 {"data":"options"}
             ],
             "responsive": true,

@@ -287,7 +287,7 @@
         }
         //Funcion para consultar lista de Estudiantes
 		public function selectEstudiantes(){
-			$sql = "SELECT ins.id,per.id AS id_personas, per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno)AS apellidos,
+			/* $sql = "SELECT ins.id,per.id AS id_personas, per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno)AS apellidos,
             plante.nombre_plantel_fisico,plante.municipio,planest.nombre_carrera,ins.grado,sa.nombre_salon,acp.validacion_doctos,
             acp.validacion_datos_personales,acp.id_usuario_verificacion_doctos,acp.id_usuario_verificacion_datos_personales 
             FROM t_inscripciones AS ins 
@@ -299,7 +299,15 @@
             LEFT JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
             LEFT JOIN t_salones AS sa ON sal.id_salones = sa.id 
             RIGHT JOIN t_asignacion_categoria_persona AS acp ON acp.id_personas = per.id 
-            WHERE his.inscrito = 1 AND acp.estatus = 1 AND acp.id_categoria_persona = 2";
+            WHERE his.inscrito = 1 AND acp.estatus = 1 AND acp.id_categoria_persona = 2"; */
+            $sql = "SELECT ti.id AS id_ingreso,ts.id AS id_servicio,tid.id_precarga,ti.id_persona_paga,
+            tp.nombre_persona,tp.ap_paterno,tp.ap_materno FROM t_ingresos_detalles AS tid
+            INNER JOIN t_ingresos AS ti ON tid.id_ingresos = ti.id 
+            INNER JOIN t_servicios AS ts ON tid.id_servicios = ts.id
+            INNER JOIN t_categoria_servicios AS tcs ON ts.id_categoria_servicios = tcs.id 
+            INNER JOIN t_personas AS tp ON ti.id_persona_paga = tp.id
+            WHERE (tcs.colegiatura = 1 OR tcs.clave_categoria LIKE '%INS%') AND ti.folio IS NULL
+            GROUP BY ti.id HAVING COUNT(*)>=1";
 			$request = $this->select_all($sql);
 			return $request;
 		}

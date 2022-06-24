@@ -29,10 +29,8 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombre</th>
-                                                <th>Apellidos</th>
-                                                <th>Plantel</th>
-                                                <th>Carrera</th>
-                                                <th>Grado</th>
+                                                <th>Apellido paterno</th>
+                                                <th>Apellido materno</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>

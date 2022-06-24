@@ -220,11 +220,8 @@
             $arrData = $this->model->selectEstudiantes();
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
-                $arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel_fisico'].' ('.$arrData[$i]['municipio'].')';
-
-               
-				
-                $arrData[$i]['options'] = 'null';
+                //$arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel_fisico'].' ('.$arrData[$i]['municipio'].')';
+                $arrData[$i]['options'] = '<h3><a href="Ingresos" class="badge badge-success">Cobrar</a></h3>';
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
