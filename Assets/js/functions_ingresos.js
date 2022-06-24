@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if(i != null){
         let b64 = atob(i);
         let datos = JSON.parse(b64);
+        console.log(datos);
         /* if(datos){
             console.log(datos.id)
            insertDatosAlServ(datos.id,datos.id_alumno,datos.nombre_completo,datos.nombre_servicio,datos.pu,datos.tipo,datos.precarga,datos.id_precarga);
@@ -553,6 +554,8 @@ function fnAperturarCaja(idcaja){
         }
     })
 }
+
+
 
 //Get notificaciones
 setInterval(async function () {

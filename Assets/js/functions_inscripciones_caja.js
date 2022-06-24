@@ -44,10 +44,7 @@ setInterval(async function () {
     }
 },500)
 
-let url = base_url+"/Ingresos/getEstudiantes";
-fetch(url).then((res) => res.json()).then(resultado =>{
-    console.log(resultado);
-}).catch(err =>{throw err});
+
 function fnMostrarInscripcionesDatatable(datos){
         tableEstudiantes = $('#tableInscripcionesCaja').dataTable( {
             "aProcessing":true,
@@ -80,4 +77,12 @@ function fnMostrarInscripcionesDatatable(datos){
             "iDisplayLength": 25
         });
     $('#tableInscripcionesCaja').DataTable();
+}
+
+function fnAgregarServicios(value){
+    let idIngreso = value;
+    let url = `${base_url}/Ingresos/getIngreso/${idIngreso}`;
+    fetch(url).then((res) => res.json()).then(resultado =>{
+        location.href = base_url + "/Ingresos/ingresos?type=obj";
+    }).catch(err => {throw err});
 }

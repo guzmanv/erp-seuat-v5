@@ -311,5 +311,14 @@
 			$request = $this->select_all($sql);
 			return $request;
 		}
+
+        public function selectIngreso(int $idIngreso)
+        {
+            $sql = "SELECT *FROM t_ingresos_detalles AS tid
+            INNER JOIN t_ingresos AS ti ON tid.id_ingresos = ti.id
+            WHERE ti.id = $idIngreso";
+            $request = $this->select_all($sql);
+            return $request;
+        }
 	}
 ?>  

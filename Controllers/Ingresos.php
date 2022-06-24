@@ -220,13 +220,14 @@
             $arrData = $this->model->selectEstudiantes();
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
-                //$arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel_fisico'].' ('.$arrData[$i]['municipio'].')';
-                /* $params = array('id'=>$datos[$i]['id_edo_cta'],'id_alumno'=>$datosAlumno['id'],'nombre_completo'=>$datosAlumno['nombre_persona'].' '.$datosAlumno['ap_paterno'].' '.$datosAlumno['ap_materno'],'nombre_servicio'=>$datos[$i]['nombre_servicio'],'pu'=>$datos[$i]['precio_unitario'],'tipo'=>($datos[$i]['codigo_servicio'] == 'CM')?'col':'serv','precarga'=>true,'id_precarga'=>$datos[$i]['id_precarga']); */
-                $params = array('id'=>$arrData[$i]['id_servicio'],'id_alumno'=>5,'nombre_completo'=>'Jose santiz','nombre_servicio'=>'Sin nombre','pu'=>'100.5','tipo'=>'col','precarga'=>true,'id_precarga'=>1);
-                $params = json_encode($params);
-                $params64 = base64_encode($params);
-                $arrData[$i]['options'] = '<h3><a href="'.BASE_URL.'/Ingresos/ingresos?d='.$params64.'" class="badge badge-success">Cobrar</a></h3>';
+                $arrData[$i]['options'] = '<h3><a href="#" class="badge badge-success" onclick="fnAgregarServicios('.$arrData[$i]['id_ingreso'].')">Cobrar</a></h3>';
             }
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function getIngreso(int $idIngreso){
+            $arrData = $this->model->selectIngreso($idIngreso);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
