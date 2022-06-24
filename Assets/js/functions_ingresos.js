@@ -1,5 +1,6 @@
 var tableIngresos;
 let arrServicios = [];
+let arrNuevasInscripciones = [];
 let idPersonaSeleccionada;
 let alertSinEdoCta = document.querySelector('#alertSinEdoCta');
 let listServicios = document.querySelector('.listServicios');
@@ -16,6 +17,7 @@ listTipoCobro.disabled = true;
 let tipoCobroSeleccionado;
 let gradoSeleccionado;
 var formGenerarEdoCuenta = document.querySelector("#formGenerarEdoCuenta");
+let time = 0;
 
 document.addEventListener('DOMContentLoaded', function(){
     $('.select2').select2(); //Inicializar Select 2 en el input promociones
@@ -550,8 +552,42 @@ function fnAperturarCaja(idcaja){
 
 //Get notificaciones
 setInterval(async function () {
+    time += 1;
+    let sizeNuevaInscripion = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
     let url = `${base_url}/Ingresos/getNuevasInscripciones`;
     fetch(url).then((res) => res.json()).then(resultado =>{
-        console.log(resultado);
+        resultado.forEach(element => {
+            arrNuevasInscripciones[element.id] = {'folio':element.folio,'visto':false}
+        });
+        let nuevos = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
+        document.querySelector('#numero_notificaciones').textContent = nuevos;
+        document.querySelector('#titulo_notificaciones').textContent = nuevos+" Notificaciones";
+        document.querySelector('#numero_nuevas_inscripciones').textContent = nuevos;
+        console.log(time)
+        if(sizeNuevaInscripion != nuevos && time > 2){
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 7000,
+                iconColor: 'white',
+                background: '#ffc107',
+                timerProgressBar: true,
+                customClass: {
+                    popup: 'colored-toast'
+                },
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })    
+              Toast.fire({
+                icon: 'warning',
+                title: "<h5 style='color:white'>Nueva Inscripcion</h5>",  
+              })
+        }
     }).catch(err =>{throw err});
-},2000)
+    if(time >=50){
+        time = 10;
+    }
+},500)

@@ -206,6 +206,28 @@
             echo json_encode($arrInscripciones,JSON_UNESCAPED_UNICODE);
             die();
         }
+        public function inscripciones()
+        {
+            $data['page_id'] = 10;
+            $data['page_tag'] = "Inscripciones";
+            $data['page_title'] = "Inscripciones";
+            $data['page_content'] = "";
+            $data['page_functions_js'] = "functions_inscripciones_caja.js";
+            $this->views->getView($this,"listainscripciones",$data);
+        }
         
+        public function getEstudiantes(){
+            $arrData = $this->model->selectEstudiantes();
+            for ($i=0; $i<count($arrData); $i++){
+                $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel_fisico'].' ('.$arrData[$i]['municipio'].')';
+
+               
+				
+                $arrData[$i]['options'] = 'null';
+            }
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
     }
 ?>
