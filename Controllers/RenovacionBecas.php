@@ -17,4 +17,28 @@ class RenovacionBecas extends Controllers{
         //$data['page_functions_js'] = 'functions_turnos.js';
         $this->views->getView($this,'asignacion_becas',$data);
     }
+
+    public function buscarAlumnoModal()
+    {
+        $data = $_GET['val'];
+        $arrData = $this->model->selectAlumnoModal($data,$this->idPlantel);
+    }
+    public function buscarPersonaModal(){
+        $data = $_GET['val'];
+        $arrData = $this->model->selectPersonasModal($data,$this->idPlantel);
+        for($i = 0; $i <count($arrData); $i++){
+            if($arrData[$i]['id_inscripcion'] == null){
+                $arrData[$i]['estatus'] = '<span class="badge badge-warning">No inscrito</span>';
+                $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-primary btn-sm" rl="'.$arrData[$i]['nombre'].'" onclick="seleccionarPersona(this)">Seleccionar</button>';
+
+            }else{
+                $arrData[$i]['estatus'] = '<span class="badge badge-success">Inscrito</span>';
+                $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-secondary btn-sm" rl="'.$arrData[$i]['nombre'].'" onclick="seleccionarPersona(this)" disabled>Seleccionar</button>';
+
+            }
+        } 
+        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+        die();
+
+    }
 }
