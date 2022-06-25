@@ -22,7 +22,7 @@
 			$data['categoria'] = $this->model->selectCategoriaServicios();
 			$data['unidad_medida'] = $this->model->selectUnidadMedida();
 			$data['instituciones'] = $this->model->selectInstituciones();
-			$data['planteles'] = $this->model->selectPlanteles();
+			// $data['planteles'] = $this->model->selectPlanteles();
 			$this->views->getView($this,"servicios",$data);
 		}
 
@@ -101,7 +101,7 @@
 				for ($i=0; $i < count($arrData); $i++) {
 					if($arrData[$i]['estatus'] == 1){
 						
-						$htmlOptions .= '<option value="'.$arrData[$i]['id'].'">'.$arrData[$i]['nombre_institucion'].', '.$arrData[$i]['municipio'].', '.$arrData[$i]['estado'].'</option>';
+						$htmlOptions .= '<option value="'.$arrData[$i]['id'].'">'.$arrData[$i]['nombre_institucion'].'</option>';
 					}
 				}
 			}

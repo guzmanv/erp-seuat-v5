@@ -41,7 +41,7 @@
 								</div>
 								<div class="form-group col-md-5">
 								    <label for="listIdUnidades_medida_edit">Unidad de medida</label>
-									<select class="form-control form-control-sm" id="listIdUnidades_medida_edit" name="listIdUnidades_medida_edit" style="width: 100%;" required="" >
+									<select class="form-control form-control-sm" id="listIdUnidades_medida_edit" name="listIdUnidades_medida_edit" limit style="width: 100%;" required="" >
                                     <?php foreach ($data['unidad_medida'] as $key => $unidad) { ?>
                                         <option value="<?php echo $unidad['id'] ?>"><?php echo $unidad['nombre_unidad_medida'] ?></option>
                                     <?php }?>
@@ -65,10 +65,11 @@
 							<label class="border-bottom bg-gray bg-disabled pl-2 border-secondary btn-block rounded-top mt-3"> <strong>Ubicación</strong></label>
 							<div class="form-row">
 								<div class="form-group col-md-12">
-								    <label for="listIdInstitucion_edit">Plantel</label>
+								    <label for="listIdInstitucion_edit">Instituciones</label>
 									<select class="form-control form-control-sm" id="listIdInstitucion_edit" name="listIdInstitucion_edit" style="width: 100%;" required="" >
-                                        <?php foreach ($data['planteles'] as $key => $plantel) { ?>
-                                            <option value="<?php echo $plantel['id'] ?>"><?php echo $plantel['nombre_plantel_fisico'].' / '.$plantel['municipio'] ?></option>
+                                        <?php foreach ($data['instituciones'] as $key => $institucion) { ?>
+                                            <!-- <option value="<?php //echo $plantel['id'] ?>"><?php //echo $plantel['nombre_plantel_fisico'].' / '.$plantel['municipio'] ?></option> -->
+											<option value="<?php echo $institucion['id'] ?>"><?php echo $institucion['nombre_institucion']?></option>
                                         <?php }?>
                                     </select>
 								</div>

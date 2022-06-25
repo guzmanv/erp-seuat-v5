@@ -212,7 +212,7 @@ function fntEditPromocion(element, id) {
 			if (objData.estatus) {
 				document.querySelector('#idPromocion_edit').value = objData.data.id;
 				document.querySelector('#txtNombre_promocion_edit').value = objData.data.nombre_promocion;
-				let ajaxUrl = base_url + '/Promocion/getSelectServiciosEdit/'+objData.data.id_servicio;
+				let ajaxUrl = base_url + '/Promocion/getSelectServiciosEdit/'+objData.data.id_servicios;
 				let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 				request.open("GET", ajaxUrl, true);
 				request.send();
@@ -224,7 +224,7 @@ function fntEditPromocion(element, id) {
 				document.querySelector('#txtDescripcion_edit').value = objData.data.descripcion;
 				document.querySelector('#txtFecha_inicio_edit').value = objData.data.fecha_inicio;
 				document.querySelector('#txtFecha_fin_edit').value = objData.data.fecha_fin;
-				document.querySelector('#listCampania_edit').querySelector('option[value="'+objData.data.id_campania+'"]').selected = true;
+				document.querySelector('#listCampania_edit').querySelector('option[value="'+objData.data.id_campanias+'"]').selected = true;
 				let url_sub = base_url + '/Promocion/getSelectSubcampania/' + objData.data.id_campania;
 				let request_sub = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 				request_sub.open("GET", url_sub, true);
