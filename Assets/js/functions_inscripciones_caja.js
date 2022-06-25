@@ -83,6 +83,16 @@ function fnAgregarServicios(value){
     let idIngreso = value;
     let url = `${base_url}/Ingresos/getIngreso/${idIngreso}`;
     fetch(url).then((res) => res.json()).then(resultado =>{
-        location.href = base_url + "/Ingresos/ingresos?type=obj";
+        if(resultado.length > 0){
+            let strObj = JSON.stringify(resultado);
+            location.href = base_url + "/Ingresos/ingresos?type=obj&d="+convStrToBase64(strObj);
+        }else{
+            Swal.fire('Error!',"Hubo un error",'warning')
+        }
     }).catch(err => {throw err});
+}
+
+//Function para convertir un string  a  Formato Base64
+function convStrToBase64(str){
+    return window.btoa(unescape(encodeURIComponent( str ))); 
 }

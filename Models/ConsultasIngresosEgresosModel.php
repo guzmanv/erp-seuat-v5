@@ -169,7 +169,7 @@
 			return $request;
 		}
 		public function selectDetallePago(int $idPrecarga, int $idPersona){
-            $sql = "SELECT i.id AS id_ingreso, i.folio, i.observaciones,idet.abono,idet.cargo,i.fecha,idet.cantidad,i.tipo_comprobante FROM t_ingresos_detalles AS idet
+            $sql = "SELECT i.id AS id_ingreso, i.folio, i.observaciones,idet.abono,idet.cargo,i.fecha_cobro,idet.cantidad,i.tipo_comprobante FROM t_ingresos_detalles AS idet
             INNER JOIN t_precarga AS p ON idet.id_precarga = p.id 
             LEFT JOIN t_ingresos i ON idet.id_ingresos = i.id 
             WHERE i.id_persona_paga = $idPersona AND p.id = $idPrecarga";

@@ -236,7 +236,7 @@
                     if($value['pagado'] == 1){
                         //Pagado
                         $datosPago = $this->model->selectDetallePago($value['id_precarga'], $idAlumno);
-                        $date = array('id_edo_cta' => $value['id_edo_cta'],'id_precarga'=>$value['id_precarga'],'pagado'=>true,'codigo_servicio'=>$value['codigo_servicio'],'nombre_servicio'=>$value['nombre_servicio'],'precio_unitario'=>$value['precio_unitario'],'fecha_limite_cobro'=>$value['fecha_limite_cobro'],'cargo'=>$datosPago['cargo'],'abono'=>$datosPago['abono'],'cantidad'=>$datosPago['cantidad'],'fecha_pago'=>$datosPago['fecha'],'referencia'=>$datosPago['folio'],'tipo_comprobante'=>$datosPago['tipo_comprobante'],'id_ingreso'=>$datosPago['id_ingreso']);
+                        $date = array('id_edo_cta' => $value['id_edo_cta'],'id_precarga'=>$value['id_precarga'],'pagado'=>true,'codigo_servicio'=>$value['codigo_servicio'],'nombre_servicio'=>$value['nombre_servicio'],'precio_unitario'=>$value['precio_unitario'],'fecha_limite_cobro'=>$value['fecha_limite_cobro'],'cargo'=>$datosPago['cargo'],'abono'=>$datosPago['abono'],'cantidad'=>$datosPago['cantidad'],'fecha_pago'=>$datosPago['fecha_cobro'],'referencia'=>$datosPago['folio'],'tipo_comprobante'=>$datosPago['tipo_comprobante'],'id_ingreso'=>$datosPago['id_ingreso']);
                         array_push($datos,$date);
                     }else{
                         $date = array('id_edo_cta' => $value['id_edo_cta'],'id_precarga'=>$value['id_precarga'],'pagado'=>false,'codigo_servicio'=>$value['codigo_servicio'],'nombre_servicio'=>$value['nombre_servicio'],'precio_unitario'=>$value['precio_unitario'],'fecha_limite_cobro'=>$value['fecha_limite_cobro'],'cargo'=>'','abono'=>'','cantidad'=>'','fecha_pago'=>'','referencia'=>'','tipo_comprobante'=>'','id_ingreso'=>'');
@@ -264,7 +264,7 @@
                 $params = array('id'=>$datos[$i]['id_edo_cta'],'id_alumno'=>$datosAlumno['id'],'nombre_completo'=>$datosAlumno['nombre_persona'].' '.$datosAlumno['ap_paterno'].' '.$datosAlumno['ap_materno'],'nombre_servicio'=>$datos[$i]['nombre_servicio'],'pu'=>$datos[$i]['precio_unitario'],'tipo'=>($datos[$i]['codigo_servicio'] == 'CM')?'col':'serv','precarga'=>true,'id_precarga'=>$datos[$i]['id_precarga']);
                 $params = json_encode($params);
                 $params64 = base64_encode($params);
-                $datos[$i]['options'] = ($datos[$i]['fecha_pago'] == '')?'<div class="text-center"><a type="button" class="btn btn-primary btn-xs" href="'.BASE_URL.'/Ingresos/ingresos?d='.$params64.'">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCobrar&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a></div>':'<div class="text-center">
+                $datos[$i]['options'] = ($datos[$i]['fecha_pago'] == '')?'<div class="text-center"><a type="button" class="btn btn-primary btn-xs" href="'.BASE_URL.'/Ingresos/ingresos?type=single&d='.$params64.'">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCobrar&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a></div>':'<div class="text-center">
 				<div class="btn-group">
                     <button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-layer-group"></i> &nbsp; Acciones

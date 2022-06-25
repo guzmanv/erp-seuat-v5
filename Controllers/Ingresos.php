@@ -88,11 +88,11 @@
             $arrCarrera = $this->model->selectCarreraAlumno($idPersonaSeleccionada);
             $arrGrado = $this->model->selectGradoAlumno($idPersonaSeleccionada);
             $arrPeriodo = $this->model->selectPeriodoAlumno($idPersonaSeleccionada);
-            $idPlantel = $arrPlantel['id'];
+            $idInstitucion = $arrCarrera['id_instituciones'];
             $idCarrera = $arrCarrera['id_plan_estudios'];
             $idGrado = $arrGrado['id'];
             $idPeriodo = $arrPeriodo['id_periodo'];
-            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$idPlantel,$idCarrera,$idGrado,$idPeriodo,$this->idUser);
+            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$idInstitucion,$idCarrera,$idGrado,$idPeriodo,$this->idUser);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -228,6 +228,14 @@
 
         public function getIngreso(int $idIngreso){
             $arrData = $this->model->selectIngreso($idIngreso);
+            for($i = 0; $i<count($arrData); $i++){
+                $arrData[$i]['id'] = null;
+                if($arrData[$i]['colegiatura'] == 1){
+                    $arrData[$i]['tipo'] = "col";
+                }else{
+                    $arrData[$i]['tipo'] = "serv";
+                }
+            }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }

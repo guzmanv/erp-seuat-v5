@@ -26,14 +26,34 @@ document.addEventListener('DOMContentLoaded', function(){
     $('.select2').select2(); //Inicializar Select 2 en el input promociones
     let url = new URLSearchParams(location.search);
     let i= url.get('d');
-    if(i != null){
+    let type = url.get('type');
+    if(type == 'single' && i!=null){
         let b64 = atob(i);
         let datos = JSON.parse(b64);
-        console.log(datos);
-        /* if(datos){
-            console.log(datos.id)
+        if(datos){
            insertDatosAlServ(datos.id,datos.id_alumno,datos.nombre_completo,datos.nombre_servicio,datos.pu,datos.tipo,datos.precarga,datos.id_precarga);
-        } */
+        }
+    }else if(type == "obj" && i!=null){
+        let b64 = atob(i);
+        let datos = JSON.parse(b64);
+        let idPersona = null;
+        datos.forEach(element => {
+            idPersona =  element.id_persona_paga;
+        });
+        idPersonaSeleccionada = idPersona;
+        let url = `${base_url}/Ingresos/getEstatusEstadoCuenta/${idPersona}`;
+        fetch(url).then(res => res.json()).then((resultado) => {
+            if(resultado == true){ //true = tiene estado de cuenta
+                alertSinEdoCta.style.display = "none";
+                btnAgregarServicio.disabled = false;
+                listTipoCobro.disabled = false;
+            }else{
+                btnAgregarServicio.disabled = true;
+                alertSinEdoCta.style.display = "flex";
+                listTipoCobro.disabled = true;
+                fnGenerarEstadoCuentaRedir(datos);
+            }
+        }).catch(err => { throw err });
     }
 });
 //Mostrar lista de servicios dependiendo del tipo de cobro a realizar   
@@ -330,6 +350,43 @@ function fnGenerarEstadoCuenta(){
                             alertSinEdoCta.style.display = "none";
                             listTipoCobro.disabled = false;
                             });
+                        }else{
+                            swal.fire("Estado de cuenta",resultado.msg,"warning");
+                        }
+                    }).catch(err => { throw err });
+                }
+            })  
+        }
+    })
+}
+
+function fnGenerarEstadoCuentaRedir(datos){
+    Swal.fire({
+        title: 'Estado de cuenta',
+        text: "Generar un estado de cuenta para el Alumno?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let url = `${base_url}/Ingresos/generarEdoCuenta/${idPersonaSeleccionada}`;
+            Swal.fire({
+                title:'Generando estado de cuenta',
+                html: "<div class='overlay'><i class='fas fa-3x fa-sync-alt fa-spin'></i><div class='text-bold pt-2'>espere...</div></div>",
+                icon:'question',
+                showConfirmButton:false,
+                didOpen: () =>{
+                    fetch(url).then(res => res.json()).then((resultado) => {
+                        if(resultado.estatus){
+                            console.log(datos);
+                            /*swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
+                            btnAgregarServicio.disabled = false;
+                            alertSinEdoCta.style.display = "none";
+                            listTipoCobro.disabled = false;
+                            });*/
                         }else{
                             swal.fire("Estado de cuenta",resultado.msg,"warning");
                         }

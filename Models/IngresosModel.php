@@ -70,7 +70,9 @@
         }
         //Obtener carrera del Alumno
         public function selectCarreraAlumno(int $idPersonaSeleccionada){
-            $sql = "SELECT id_plan_estudios FROM t_inscripciones WHERE id_personas = $idPersonaSeleccionada LIMIT 1";
+            $sql = "SELECT ti.id_plan_estudios,tpe.id_instituciones FROM t_inscripciones AS ti 
+            INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
+            WHERE ti.id_personas = $idPersonaSeleccionada LIMIT 1";
             $request = $this->select($sql);
             return $request;    
         }
@@ -94,10 +96,10 @@
             return $request; 
         }
         //Obtener datos para generar un estado de cuenta
-        public function generarEdoCuentaAlumno(int $idPersonaSeleccionada,int $idPlantel, int $idCarrera, int $idGrado, int $idPeriodo, int $idUser){
+        public function generarEdoCuentaAlumno(int $idPersonaSeleccionada,int $idInstituciones, int $idCarrera, int $idGrado, int $idPeriodo, int $idUser){
             $sqlServicios = "SELECT p.id AS id_precarga FROM t_precarga AS p
             INNER JOIN t_servicios AS s ON p.id_servicios = s.id
-            WHERE s.aplica_edo_cuenta = 1 AND s.id_planteles = $idPlantel AND s.estatus = 1 AND p.id_plan_estudios = $idCarrera AND p.id_periodos = $idPeriodo AND p.id_grados = $idGrado";
+            WHERE s.aplica_edo_cuenta = 1 AND s.id_instituciones = $idInstituciones AND s.estatus = 1 AND p.id_plan_estudios = $idCarrera AND p.id_periodos = $idPeriodo AND p.id_grados = $idGrado";
             $requestServicios = $this->select_all($sqlServicios);
             if($requestServicios){
                 foreach ($requestServicios as $key => $servicio) {
@@ -314,8 +316,13 @@
 
         public function selectIngreso(int $idIngreso)
         {
-            $sql = "SELECT *FROM t_ingresos_detalles AS tid
+            $sql = "SELECT ts.id AS id_servicio,tcs.colegiatura,ti.id_persona_paga,tp.nombre_persona,
+            tp.ap_paterno,tp.ap_materno,ts.nombre_servicio,ts.precio_unitario,
+            tid.id_precarga FROM t_ingresos_detalles AS tid
             INNER JOIN t_ingresos AS ti ON tid.id_ingresos = ti.id
+            INNER JOIN t_servicios AS ts ON tid.id_servicios = ts.id
+            INNER JOIN t_categoria_servicios AS tcs ON ts.id_categoria_servicios = tcs.id
+            INNER JOIN t_personas AS tp ON ti.id_persona_paga = tp.id
             WHERE ti.id = $idIngreso";
             $request = $this->select_all($sql);
             return $request;
