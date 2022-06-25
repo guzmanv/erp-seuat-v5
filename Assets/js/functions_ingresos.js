@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 alertSinEdoCta.style.display = "none";
                 btnAgregarServicio.disabled = false;
                 listTipoCobro.disabled = false;
+                insertDatosAlServMulti(datos);
             }else{
                 btnAgregarServicio.disabled = true;
                 alertSinEdoCta.style.display = "flex";
@@ -381,12 +382,11 @@ function fnGenerarEstadoCuentaRedir(datos){
                 didOpen: () =>{
                     fetch(url).then(res => res.json()).then((resultado) => {
                         if(resultado.estatus){
-                            console.log(datos);
-                            /*swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
+                            swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
                             btnAgregarServicio.disabled = false;
                             alertSinEdoCta.style.display = "none";
                             listTipoCobro.disabled = false;
-                            });*/
+                            });
                         }else{
                             swal.fire("Estado de cuenta",resultado.msg,"warning");
                         }
@@ -573,6 +573,51 @@ function insertDatosAlServ(id,id_alumno,nombre_completo,nombre_servicio,precio_u
       })
     
 }
+
+function insertDatosAlServMulti(datos){
+    let nombre_completo = null;
+    datos.forEach(element => {
+        nombre_completo = element.nombre_persona + " "+ element.ap_paterno + " " + element.ap_materno;
+    });
+
+    document.querySelector('#txtNombreNuevo').value = nombre_completo;
+    document.querySelector('#listTipoCobro').disabled = false;
+    document.querySelector('#btnAgregarServicio').disabled = false;
+    document.querySelector('#alertAgregarAlumno').style.display = "none";
+    datos.forEach(element1 => {
+        //console.log(element1)
+        let edocta = (element1.aplica_edo_cuenta == 1)?true:false;
+        let cantidad = 1;
+        let subtotal = parseInt(element1.precio_unitario.replace('$',''));
+        let acciones = `<td style='text-align:center'><a class='btn' onclick='fnBorrarServicioTabla(${element1.id_servicio})'><i class='fas fa-trash text-danger'></i></a></td>`;
+        let arrServicio = {id_servicio:element1.id_servicio,nombre_servicio:element1.nombre_servicio,tipo_servicio:element1.tipo,edo_cta:edocta,precarga:element1.id_precarga,cantidad:cantidad,precio_unitario:subtotal,subtotal:subtotal,acciones:acciones,promociones:obtenerPromSeleccionados('listPromociones')};
+        arrServicios.push(arrServicio);
+    });
+    Swal.fire({
+        title: 'Agregar?',
+        text: "Agregar el nuevo servicio",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            document.querySelector("#tableServicios").innerHTML ="";
+            document.querySelector('#listPromociones').innerHTML = "";
+            mostrarServiciosTabla();
+            //fnServicios(gradoSeleccionado,tipoCobroSeleccionado);
+            //document.querySelector('#listPromociones').innerHTML ="<option value=''>Selecciona una promocion</option>";
+            mostrarTotalCuentaServicios();
+            listPromociones.style.display = "none";
+            listServicios.style.display = "none";
+            listTipoCobro.querySelector('option[value=""]').selected = true;
+        }
+      })
+    
+}
+
 function fnAperturarCaja(idcaja){
     Swal.fire({
         title: 'Aperturar?',

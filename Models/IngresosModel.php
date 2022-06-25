@@ -318,7 +318,7 @@
         {
             $sql = "SELECT ts.id AS id_servicio,tcs.colegiatura,ti.id_persona_paga,tp.nombre_persona,
             tp.ap_paterno,tp.ap_materno,ts.nombre_servicio,ts.precio_unitario,
-            tid.id_precarga FROM t_ingresos_detalles AS tid
+            tid.id_precarga,ts.aplica_edo_cuenta FROM t_ingresos_detalles AS tid
             INNER JOIN t_ingresos AS ti ON tid.id_ingresos = ti.id
             INNER JOIN t_servicios AS ts ON tid.id_servicios = ts.id
             INNER JOIN t_categoria_servicios AS tcs ON ts.id_categoria_servicios = tcs.id
