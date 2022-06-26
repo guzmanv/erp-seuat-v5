@@ -58,9 +58,12 @@ function fnMostrarInscripcionesDatatable(datos){
             },
             "columns":[
                 {"data":"numeracion"},
+                {"data":"folio_inscripcion"},
                 {"data":"nombre_persona"},
                 {"data":"ap_paterno"},
                 {"data":"ap_materno"},
+                {"data":"aplica_desc_ins"},
+                {"data":"aplica_desc_coleg"},
                 {"data":"options"}
             ],
             "responsive": true,
@@ -79,8 +82,8 @@ function fnMostrarInscripcionesDatatable(datos){
     $('#tableInscripcionesCaja').DataTable();
 }
 
-function fnAgregarServicios(value){
-    let idIngreso = value;
+/*function fnAgregarServicios(value){
+    let idPersona = value;
     let url = `${base_url}/Ingresos/getIngreso/${idIngreso}`;
     fetch(url).then((res) => res.json()).then(resultado =>{
         if(resultado.length > 0){
@@ -90,6 +93,43 @@ function fnAgregarServicios(value){
             Swal.fire('Error!',"Hubo un error",'warning')
         }
     }).catch(err => {throw err});
+}*/
+
+
+function fnGenerarEstadoCuenta(idPersona){
+    Swal.fire({
+        title: 'Estado de cuenta',
+        text: "Generar un estado de cuenta para el Alumno?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let url = `${base_url}/Ingresos/generarEdoCuenta/${idPersona}`;
+            Swal.fire({
+                title:'Generando estado de cuenta',
+                html: "<div class='overlay'><i class='fas fa-3x fa-sync-alt fa-spin'></i><div class='text-bold pt-2'>espere...</div></div>",
+                icon:'question',
+                showConfirmButton:false,
+                didOpen: () =>{
+                    fetch(url).then(res => res.json()).then((resultado) => {
+                        if(resultado.estatus){
+                            swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
+                            btnAgregarServicio.disabled = false;
+                            alertSinEdoCta.style.display = "none";
+                            listTipoCobro.disabled = false;
+                            });
+                        }else{
+                            swal.fire("Estado de cuenta",resultado.msg,"warning");
+                        }
+                    }).catch(err => { throw err });
+                }
+            })
+        }
+    })
 }
 
 //Function para convertir un string  a  Formato Base64

@@ -28,10 +28,13 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
+                                                <th>Folio</th>
                                                 <th>Nombre</th>
                                                 <th>Apellido paterno</th>
                                                 <th>Apellido materno</th>
-                                                <th>Acciones</th>
+                                                <th>Descuento colegiatura</th>
+                                                <th>Descuento Inscirpcion</th>
+                                                <th width="200px">Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>

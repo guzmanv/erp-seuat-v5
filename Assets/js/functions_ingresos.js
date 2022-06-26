@@ -665,8 +665,9 @@ setInterval(async function () {
     let sizeNuevaInscripion = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
     let url = `${base_url}/Ingresos/getNuevasInscripciones`;
     fetch(url).then((res) => res.json()).then(resultado =>{
+        console.log(resultado)
         resultado.forEach(element => {
-            arrNuevasInscripciones[element.id] = {'folio':element.folio,'visto':false}
+            arrNuevasInscripciones[element.id] = {'folio':element.folio_inscripcion,'visto':false}
         });
         let nuevos = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
         document.querySelector('#numero_notificaciones').textContent = nuevos;

@@ -283,10 +283,16 @@
 
         public function selectNuevasInscripciones()
         {
-            $sql = "SELECT *FROM t_ingresos WHERE folio IS NULL";
+            //$sql = "SELECT *FROM t_ingresos WHERE folio IS NULL";
+            $sql = "SELECT tt.id AS id_tmp,tt.folio_inscripcion,tt.id_persona,tt.id_inscripcion,tt.porcentaje_descuento_coleg,
+            tt.porcentaje_descuento_insc,tt.precio_colegiatura,tt.precio_inscripcion,tt.total_descuento_coleg,
+            tt.total_descuento_insc,tp.id AS id_persona,tp.nombre_persona,tp.ap_paterno,tp.ap_materno FROM t_tmpInscripciones AS tt 
+            INNER JOIN t_personas AS tp ON tt.id_persona = tp.id";
             $request = $this->select_all($sql);
             return $request;
         }
+
+
         //Funcion para consultar lista de Estudiantes
 		public function selectEstudiantes(){
 			/* $sql = "SELECT ins.id,per.id AS id_personas, per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno)AS apellidos,
