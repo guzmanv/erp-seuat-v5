@@ -522,6 +522,14 @@
                             <h6>Ingresos y Egresos</h6>
                         </li>
                         <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Ingresos/inscripciones" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="layers"></i>
+                                <p>
+                                    Inscripciones
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Ingresos" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="dollar-sign"></i>
                                 <p>
