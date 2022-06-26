@@ -160,7 +160,9 @@
 
                 }
             }
-            return $request_inscripcion;
+            $response['inscripcion'] = $request_inscripcion;
+            $response['folio'] = $folioSistema;
+            return $response;
         }
         public function selectPlanteles(){
             $sql = "SELECT *FROM t_planteles WHERE estatus = 1";
@@ -321,7 +323,7 @@
         public function selectPromocionesInscripcion()
         {
             $sql = "SELECT tp.id,ts.nombre_servicio,tcs.nombre_categoria,ts.codigo_servicio,tcs.clave_categoria,tpr.nombre_promocion,
-            tpr.porcentaje_descuento,ts.id AS id_servicio FROM t_precarga AS tp 
+            tpr.porcentaje_descuento,ts.id AS id_servicio,tp.cobro_total FROM t_precarga AS tp 
             LEFT JOIN t_servicios AS ts ON tp.id_servicios = ts.id
             LEFT JOIN t_promociones AS tpr ON tpr.id_servicios = ts.id 
             LEFT JOIN t_categoria_servicios AS tcs ON ts.id_categoria_servicios = tcs.id
@@ -344,7 +346,7 @@
         public function selectPromocionesColegiatura(int $idPlanEstudio)
         {
             $sql = "SELECT tp.id,ts.nombre_servicio,tcs.nombre_categoria,ts.codigo_servicio,tcs.clave_categoria,tpr.nombre_promocion,
-            tpr.porcentaje_descuento,ts.id AS id_servicio FROM t_precarga AS tp 
+            tpr.porcentaje_descuento,ts.id AS id_servicio,tp.cobro_total FROM t_precarga AS tp 
             LEFT JOIN t_servicios AS ts ON tp.id_servicios = ts.id
             LEFT JOIN t_promociones AS tpr ON tpr.id_servicios = ts.id 
             LEFT JOIN t_categoria_servicios AS tcs ON ts.id_categoria_servicios = tcs.id
@@ -374,6 +376,13 @@
             $requestInscirpcion = $this->insert($sqlInscripcion,array(1,200,200,$descuentoDinero,$descuentoPorcentaje,$idServicioIns,$idIngreso,$idPrecargaIns));
             
             return $requestInscirpcion;
+        }
+
+        public function insertTempInscripcion($folioInscripcion,$precioIns,$porcentajeIns,$totalIns,$precioCol,$porcentajeCol,$totalCol,int $idPersona,int $idInscripcion)
+        {
+            $sql = "INSERT INTO t_tmpInscripciones(folio_inscripcion, precio_inscripcion, porcentaje_descuento_insc, total_descuento_insc, precio_colegiatura, porcentaje_descuento_coleg, total_descuento_coleg, id_persona, id_inscripcion) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $request = $this->insert($sql,array($folioInscripcion, $precioIns, $porcentajeIns, $totalIns, $precioCol, $porcentajeCol, $totalCol, $idPersona, $idInscripcion));
+            return $request;
         }
 
     }

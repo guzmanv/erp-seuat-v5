@@ -152,23 +152,34 @@
             if($intIdInscripcionNueva == 0){
                 if($_POST['idSubcampaniaNuevo'] != ''){
                     $idPersona = $data['idPersonaSeleccionada'];
-                    $arrProspecto = $this->model->selectProspecto($idPersona);
+                    //$arrProspecto = $this->model->selectProspecto($idPersona); 
                     //$folioTransferencia = ($arrProspecto['folio_transferencia'] == '')?null:$arrProspecto['folio_transferencia'];
                     //$plantelOrigen = ($arrProspecto['id_plantel_prospectado'] == '')?null:$arrProspecto['id_plantel_prospectado']; 
                     $arrData = $this->model->insertInscripcion($data,$this->idUser, $this->idPlantel,$checkColegiatura,$checkInscripcion);
-                    
                     if($arrData){
-                        $idInscripoion = $arrData;
-                        $estatus = 1;
-                        $total = 200;
+                        $folioInscripcion = $arrData['folio'];
+                        $idInscripcion = $arrData['inscripcion'];
                         $selectcolegiatura = $_POST['select_chck_colegiaturas'];
                         $selectInscripcion = $_POST['select_chck_inscripcion'];
                         $arrColegitura = explode(',',$selectcolegiatura);
                         $arrInscripcion = explode(',',$selectInscripcion);
                         $idPrecargaCol = $arrColegitura[0];
                         $idServicioCol = $arrColegitura[1];
+                        $porcentajeCol = $arrColegitura[2];
+                        $precioCol = $arrColegitura[3];
                         $idPrecargaIns = $arrInscripcion[0];
                         $idServicioIns = $arrInscripcion[1];
+                        $porcentajeIns = $arrInscripcion[2];
+                        $precioIns = $arrInscripcion[3];
+                        $totalCol = $precioCol - ($precioCol*($porcentajeCol/100));
+                        $totalIns = $precioIns - ($precioIns*($porcentajeIns/100));
+                        $arrTmpInscirpcion = $this->model->insertTempInscripcion($folioInscripcion,$precioIns,$porcentajeIns,$totalIns,$precioCol,$porcentajeCol,$totalCol,$idPersona,$idInscripcion);
+                        if($arrTmpInscirpcion){
+                            $arrResponse = array('estatus' => true,'data'=> $idInscripcion, 'msg' => 'Inscripcion realizado correctamente!');
+                        }
+                        /*$idInscripoion = $arrData;
+                        $estatus = 1;
+                        $total = 200;
                         $arrIngreso = $this->model->insertIngresos($estatus,$total,$this->idUser,$this->idPlantel);
                         if($arrIngreso){
                             $idIngreso = $arrIngreso;
@@ -176,13 +187,12 @@
                             $descuentoPorcentaje = 10;
                             $arrIngDetalle = $this->model->insertIngresoDetalle($descuentoDinero,$descuentoPorcentaje,$idIngreso,$idPrecargaCol,$idServicioCol,$idPrecargaIns,$idServicioIns);
                             if($arrIngDetalle){
-                                $arrResponse = array('estatus' => true,'data'=> $arrData, 'msg' => 'Inscripcion realizado correctamente!');
                             }else{
                                 $arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar en ingresos detalles');
                             }
                         }else{
                             $arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar en ingresos');
-                        }
+                        }*/
                     }else{
                         $arrResponse = array('estatus' => false, 'msg' => 'No se pudo realizar la inscripcion');
                     }

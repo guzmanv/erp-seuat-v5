@@ -119,7 +119,6 @@ formInscripcionNueva.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            
             if(objData.estatus){
                 formInscripcionNueva.reset();
                 swal.fire("Inscripcion",objData.msg,"success").then((result) =>{
@@ -136,6 +135,7 @@ formInscripcionNueva.onsubmit = function(e){
                             if(result.isConfirmed){
                                 $('.close').click();
                                 window.open(base_url+'/Inscripcion/imprimir_solicitud_inscripcion/'+objData.data, '_blank');
+                                //window.open(base_url+'/Inscripcion/imprimir_compro/'+objData.data, '_blank');
                           }else{
                             $('.close').click();
                           }
@@ -739,7 +739,7 @@ function fnChckColegiaturas(value){
             fetch(url).then((res) => res.json()).then(resultado =>{
                 if(resultado.length >0){
                     resultado.forEach(element => {
-                        document.querySelector('#div_chck_colegiaturas').innerHTML += "<option value="+element.id+","+element.id_servicio+">"+element.nombre_promocion+" ( "+element.porcentaje_descuento+" )"+"</option>"
+                        document.querySelector('#div_chck_colegiaturas').innerHTML += "<option value="+element.id+","+element.id_servicio+","+element.porcentaje_descuento+","+element.cobro_total+">"+element.nombre_promocion+" ( "+element.porcentaje_descuento+" )"+"</option>"
                     });
                 }else{
     
