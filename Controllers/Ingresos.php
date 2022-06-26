@@ -206,6 +206,8 @@
             echo json_encode($arrInscripciones,JSON_UNESCAPED_UNICODE);
             die();
         }
+
+
         public function inscripciones()
         {
             $data['page_id'] = 10;
@@ -217,10 +219,12 @@
         }
         
         public function getEstudiantes(){
-            $arrData = $this->model->selectEstudiantes();
+            $arrData = $this->model->selectNuevasInscripciones();
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
-                $arrData[$i]['options'] = '<h3><a href="#" class="badge badge-success" onclick="fnAgregarServicios('.$arrData[$i]['id_ingreso'].')">Cobrar</a></h3>';
+                $arrData[$i]['aplica_desc_coleg'] = ($arrData[$i]['porcentaje_descuento_coleg'])?'<span class="badge badge-success">&nbsp&nbspSi&nbsp&nbsp</span>':'<span class="badge badge-danger"> No r</span>'; 
+                $arrData[$i]['aplica_desc_ins'] = ($arrData[$i]['porcentaje_descuento_insc'])?'<span class="badge badge-success">&nbsp&nbspSi&nbsp&nbsp</span>':'<span class="badge badge-danger"> No </span>';
+                $arrData[$i]['options'] = '<button type="button" class="btn btn-primary btn-sm" onclick="fnGenerarEstadoCuenta('.$arrData[$i]['id_persona'].')">Generar estado de cuenta</button>';
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
