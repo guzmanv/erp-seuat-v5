@@ -506,7 +506,7 @@
                             <a href="<?php echo BASE_URL ?>/Becas/becas" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="list"></i>
                                 <p>
-                                    Catálogo de becas
+                                    Tabuladores de becas
                                 </p>
                             </a>
                         </li>
