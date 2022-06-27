@@ -121,7 +121,7 @@ function fnInputBuscarPersona(){
             {"data":"numeracion"},
             {"data":"nombre"},
             {"data":"nombre_carrera"},
-            {"data":"grado"},
+            {"data":"numero_natural"},
             {"data":"nombre_grupo"},
             {"data":"options"}
         ],

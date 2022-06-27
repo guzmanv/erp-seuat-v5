@@ -123,10 +123,10 @@ function fnGenerarEstadoCuenta(idPer,id){
                             swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
                                 location.href= `${base_url}/Ingresos`;
                             });
-                            /* let urlDel = `${base_url}/Ingresos/delTblTempInscripcion/${idTablaTemp}`;
-                            fetch(urlDel).then((res)=>res.json()).then(resultado =>{
-                                console.log(resultado)
-                            }).catch(err =>{throw err}); */
+                            //let urlDel = `${base_url}/Ingresos/delTblTempInscripcion/${idTablaTemp}`;
+                            //fetch(urlDel).then((res)=>res.json()).then(resultado =>{
+                            //    console.log(resultado)
+                            //}).catch(err =>{throw err});
                         }else{
                             swal.fire("Estado de cuenta",resultado.msg,"warning");
                         }

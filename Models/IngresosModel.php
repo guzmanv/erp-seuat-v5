@@ -14,12 +14,13 @@
         //Obtener datos persona
         public function selectPersonasModal($data){
             $sql = "SELECT per.id,CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nombre,
-            ins.id AS id_inscripcion,pln.nombre_carrera,ins.grado,ins.id_salones_compuesto,gr.nombre_grupo FROM t_personas AS per
+            ins.id AS id_inscripcion,pln.nombre_carrera,ins.id_grados,gr.numero_natural, ins.id_salones_compuesto,grup.nombre_grupo FROM t_personas AS per
             LEFT JOIN t_inscripciones AS ins ON ins.id_personas = per.id
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             INNER JOIN t_plan_estudios AS pln ON ins.id_plan_estudios = pln.id
             LEFT JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
-            LEFT JOIN t_grupos AS gr ON sal.id_grados = gr.id
+            LEFT JOIN t_grados AS gr ON ins.id_grados = gr.id
+            LEFT JOIN t_grupos AS grup ON sal.id_grupos = grup.id
             WHERE CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) LIKE '%$data%'";
             $request = $this->select_all($sql);
             return $request;
@@ -79,7 +80,7 @@
         //Obtener grado del Alumno
         public function selectGradoAlumno(int $idPersonaSeleccionada){
             $sql = "SELECT gr.id,gr.numero_natural  FROM t_inscripciones AS ins
-            INNER JOIN t_grados AS gr ON ins.grado = gr.id
+            INNER JOIN t_grados AS gr ON ins.id_grados = gr.id
             WHERE ins.id_personas = $idPersonaSeleccionada LIMIT 1";
             $request = $this->select($sql);
             return $request; 

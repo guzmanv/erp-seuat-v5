@@ -81,7 +81,7 @@
             $idCarrera = $arrCarrera['id_plan_estudios'];
             $idGrado = $arrGrado['id'];
             $idPeriodo = $arrPeriodo['id_periodo'];
-            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$idInstitucion,$idCarrera,$idGrado,$idPeriodo,$this->idUser); 
+            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$idInstitucion,$idCarrera,$idGrado,$idPeriodo,$this->idUser);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
