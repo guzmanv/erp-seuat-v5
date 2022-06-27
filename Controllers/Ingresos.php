@@ -46,18 +46,7 @@
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
 
-        }
-        //Funcion para obtener si una persona tiene estado de cuenta
-        public function getEstatusEstadoCuenta($idPersonaSeleccionada){
-            $arrData = $this->model->selectStatusEstadoCuenta($idPersonaSeleccionada);
-            if(count($arrData) == 0){
-                $arrRequest = false;
-            }else{
-                $arrRequest = true;
-            }
-            echo json_encode($arrRequest,JSON_UNESCAPED_UNICODE);
-            die();
-        }        
+        }       
         // Funcion para obtener Servicios por Tipo de pago
         public function getServicios($valor){
             $valor = explode(',',$valor);
@@ -92,7 +81,7 @@
             $idCarrera = $arrCarrera['id_plan_estudios'];
             $idGrado = $arrGrado['id'];
             $idPeriodo = $arrPeriodo['id_periodo'];
-            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$idInstitucion,$idCarrera,$idGrado,$idPeriodo,$this->idUser);
+            $arrData = $this->model->generarEdoCuentaAlumno($idPersonaSeleccionada,$idInstitucion,$idCarrera,$idGrado,$idPeriodo,$this->idUser); 
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -222,9 +211,13 @@
             $arrData = $this->model->selectNuevasInscripciones();
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
+                $edo_cta = $this->getEstatusEstadoCuentaInscripciones($arrData[$i]['id_persona']);
+                $arrData[$i]['is_edo_cta'] = $edo_cta;
+                $disabledButton = ($edo_cta)?'disabled':'';
+                $arrData[$i]['is_edo_cta'] = ($edo_cta)?'<span class="badge badge-success">&nbsp&nbspSi&nbsp&nbsp</span>':'<span class="badge badge-danger">&nbsp&nbspNo&nbsp&nbsp</span>';
                 $arrData[$i]['aplica_desc_coleg'] = ($arrData[$i]['porcentaje_descuento_coleg'])?'<span class="badge badge-success">&nbsp&nbspSi&nbsp&nbsp</span>':'<span class="badge badge-danger"> No r</span>'; 
                 $arrData[$i]['aplica_desc_ins'] = ($arrData[$i]['porcentaje_descuento_insc'])?'<span class="badge badge-success">&nbsp&nbspSi&nbsp&nbsp</span>':'<span class="badge badge-danger"> No </span>';
-                $arrData[$i]['options'] = '<button type="button" class="btn btn-primary btn-sm" onclick="fnGenerarEstadoCuenta('.$arrData[$i]['id_persona'].')">Generar estado de cuenta</button>';
+                $arrData[$i]['options'] = '<button type="button" class="btn btn-primary btn-sm" onclick="fnGenerarEstadoCuenta('.$arrData[$i]['id_persona'].','.$arrData[$i]['id_tmp'].')" '.$disabledButton.'>Generar estado de cuenta</button>';
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
@@ -242,6 +235,42 @@
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
+        }
+
+        public function delTblTempInscripcion(int $id)
+        {
+            $response = $this->model->deletTempInscripcion($id);
+            if($response){
+                $arrResponse = array('estatus' => true, 'msg' => 'Se ha borrado correctamente');                       
+            }else{
+                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo realizar el procedimiento');                       
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        
+
+        //Funcion para obtener si una persona tiene estado de cuenta
+        public function getEstatusEstadoCuenta($idPersonaSeleccionada){
+            $arrData = $this->model->selectStatusEstadoCuenta($idPersonaSeleccionada);
+            if(count($arrData) == 0){
+                $arrRequest = false;
+            }else{
+                $arrRequest = true;
+            }
+            echo json_encode($arrRequest,JSON_UNESCAPED_UNICODE);
+            die();
+        } 
+
+         //Funcion para obtener si una persona tiene estado de cuenta
+         public function getEstatusEstadoCuentaInscripciones($idPersonaSeleccionada){
+            $arrData = $this->model->selectStatusEstadoCuenta($idPersonaSeleccionada);
+            if(count($arrData) == 0){
+                $arrRequest = false;
+            }else{
+                $arrRequest = true;
+            }
+            return $arrRequest;
         }
     }
 ?>

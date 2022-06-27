@@ -21,7 +21,6 @@ let gradoSeleccionado;
 var formGenerarEdoCuenta = document.querySelector("#formGenerarEdoCuenta");
 let time = 0;
 
-
 document.addEventListener('DOMContentLoaded', function(){
     $('.select2').select2(); //Inicializar Select 2 en el input promociones
     let url = new URLSearchParams(location.search);
@@ -62,7 +61,8 @@ function fnServicios(grado,tipoCobro){
     let url;
     if(isNaN(grado) == false && isNaN(tipoCobro) == false){
         url = `${base_url}/Ingresos/getServicios/${grado}/${tipoCobro}/${idPersonaSeleccionada}`;
-        fetch(url).then(res => res.json()).then((resultado) => {
+        console.log(url)
+        /* fetch(url).then(res => res.json()).then((resultado) => {
             arrServiciosTodos = resultado.data;
             document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";
             if(resultado.tipo == "COL"){
@@ -80,7 +80,7 @@ function fnServicios(grado,tipoCobro){
                     }
                 });
             } 
-        }).catch(err => { throw err });
+        }).catch(err => { throw err }); */
     }
 }
 //Lista de Promociones del Servicio seleccionado
@@ -665,16 +665,15 @@ setInterval(async function () {
     let sizeNuevaInscripion = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
     let url = `${base_url}/Ingresos/getNuevasInscripciones`;
     fetch(url).then((res) => res.json()).then(resultado =>{
-        console.log(resultado)
         resultado.forEach(element => {
-            arrNuevasInscripciones[element.id] = {'folio':element.folio_inscripcion,'visto':false}
+            arrNuevasInscripciones[element.id_tmp] = {'folio':element.folio_inscripcion,'visto':false}
         });
         let nuevos = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
         document.querySelector('#numero_notificaciones').textContent = nuevos;
         document.querySelector('#titulo_notificaciones').textContent = nuevos+" Notificaciones";
         document.querySelector('#numero_nuevas_notificaciones').textContent = nuevos + " Inscripciones";
-        //console.log(time)
         if(sizeNuevaInscripion != nuevos && time > 2){
+            fnMostrarInscripcionesDatatable(resultado);
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',

@@ -43,7 +43,7 @@
                                         <div class="form-group col-12">
                                             <div class="col-md-3 p-0">
                                             <label>Que desea cobrar?</label>
-                                            <select class="form-control" id="listTipoCobro"  name="listTipoCobro" onclick="fnTiposCobro(value)" style="width: 100%;" required >
+                                            <select class="form-control" id="listTipoCobro"  name="listTipoCobro" onchange="fnTiposCobro(value)" style="width: 100%;" required >
                                                 <option value="">Selecciona una</option>
                                                 <option value="1">Colegiaturas mensuales</option>
                                                 <option value="2">Otros servicios</option>
@@ -51,7 +51,7 @@
                                         </div>
                                         <div class="form-group col-md-2 listGrado">
                                             <label>Grado</label>
-                                            <select class="form-control" id="listGrado" onclick="fnChangeGrado(value)" required >
+                                            <select class="form-control" id="listGrado" onchange="fnChangeGrado(value)" required >
                                                 <option value="">Selecciona un grado</option>
                                                 <?php foreach ($data['grados'] as $key => $grado) { ?>
                                                     <option value="<?php echo $grado['id'] ?>"><?php echo $grado['numero_natural']." (".$grado['nombre_grado'].")" ?></option>
@@ -73,7 +73,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group col-md-2" style="display:flex;align-items:end">
-                                            <button type="button" id="btnAgregarServicio" class="btn btn-primary btn-block form-control" onclick="fnBtnAgregarServicioTabla()"><i class="fa fa-plus"></i>Agregar</button>
+                                            <button type="button" id="btnAgregarServicio" class="btn btn-primary btn-block form-control" onchange="fnBtnAgregarServicioTabla()"><i class="fa fa-plus"></i>Agregar</button>
                                         </div>
                                         <div class="form-group col-md-12">
                                             <hr>

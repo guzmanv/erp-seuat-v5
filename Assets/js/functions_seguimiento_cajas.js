@@ -57,18 +57,19 @@ function formatoMoneda(numero){
 
 //Get notificaciones
 setInterval(async function () {
-    time_n += 1;
+    time += 1;
     let sizeNuevaInscripion = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
     let url = `${base_url}/Ingresos/getNuevasInscripciones`;
     fetch(url).then((res) => res.json()).then(resultado =>{
         resultado.forEach(element => {
-            arrNuevasInscripciones[element.id] = {'folio':element.folio,'visto':false}
+            arrNuevasInscripciones[element.id_tmp] = {'folio':element.folio_inscripcion,'visto':false}
         });
         let nuevos = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
         document.querySelector('#numero_notificaciones').textContent = nuevos;
         document.querySelector('#titulo_notificaciones').textContent = nuevos+" Notificaciones";
         document.querySelector('#numero_nuevas_notificaciones').textContent = nuevos + " Inscripciones";
-        if(sizeNuevaInscripion != nuevos && time_n > 2){
+        if(sizeNuevaInscripion != nuevos && time > 2){
+            fnMostrarInscripcionesDatatable(resultado);
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -91,7 +92,7 @@ setInterval(async function () {
               })
         }
     }).catch(err =>{throw err});
-    if(time_n >=50){
-        time_n = 10;
+    if(time >=50){
+        time = 10;
     }
 },500)

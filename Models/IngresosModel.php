@@ -79,7 +79,7 @@
         //Obtener grado del Alumno
         public function selectGradoAlumno(int $idPersonaSeleccionada){
             $sql = "SELECT gr.id,gr.numero_natural  FROM t_inscripciones AS ins
-            INNER JOIN t_grados AS gr ON ins.grado = gr.numero_natural
+            INNER JOIN t_grados AS gr ON ins.grado = gr.id
             WHERE ins.id_personas = $idPersonaSeleccionada LIMIT 1";
             $request = $this->select($sql);
             return $request; 
@@ -331,6 +331,13 @@
             INNER JOIN t_personas AS tp ON ti.id_persona_paga = tp.id
             WHERE ti.id = $idIngreso";
             $request = $this->select_all($sql);
+            return $request;
+        }
+
+        public function deletTempInscripcion(int $id)
+        {
+            $sql = "DELETE FROM t_tmpinscripciones WHERE id = $id";
+            $request = $this->delete($sql);
             return $request;
         }
 	}

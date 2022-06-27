@@ -32,6 +32,7 @@
                                                 <th>Nombre</th>
                                                 <th>Apellido paterno</th>
                                                 <th>Apellido materno</th>
+                                                <th>Estado de cuenta</th>
                                                 <th>Descuento colegiatura</th>
                                                 <th>Descuento Inscirpcion</th>
                                                 <th width="200px">Acciones</th>

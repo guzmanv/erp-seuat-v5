@@ -3,13 +3,14 @@ document.querySelector('#ver_todas_notificaciones').href = `${base_url}/Ingresos
 let arrNuevasInscripciones = [];
 let time = 0;
 fnMostrarInscripcionesDatatable(null);
+
 setInterval(async function () {
     time += 1;
     let sizeNuevaInscripion = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
     let url = `${base_url}/Ingresos/getNuevasInscripciones`;
     fetch(url).then((res) => res.json()).then(resultado =>{
         resultado.forEach(element => {
-            arrNuevasInscripciones[element.id] = {'folio':element.folio,'visto':false}
+            arrNuevasInscripciones[element.id_tmp] = {'folio':element.folio_inscripcion,'visto':false}
         });
         let nuevos = arrNuevasInscripciones.filter(i => Object.keys(i).every(i => i !== null)).length;
         document.querySelector('#numero_notificaciones').textContent = nuevos;
@@ -44,7 +45,6 @@ setInterval(async function () {
     }
 },500)
 
-
 function fnMostrarInscripcionesDatatable(datos){
         tableEstudiantes = $('#tableInscripcionesCaja').dataTable( {
             "aProcessing":true,
@@ -62,6 +62,7 @@ function fnMostrarInscripcionesDatatable(datos){
                 {"data":"nombre_persona"},
                 {"data":"ap_paterno"},
                 {"data":"ap_materno"},
+                {"data":"is_edo_cta"},
                 {"data":"aplica_desc_ins"},
                 {"data":"aplica_desc_coleg"},
                 {"data":"options"}
@@ -96,7 +97,9 @@ function fnMostrarInscripcionesDatatable(datos){
 }*/
 
 
-function fnGenerarEstadoCuenta(idPersona){
+function fnGenerarEstadoCuenta(idPer,id){
+    let idPersona = idPer;
+    let idTablaTemp = id;
     Swal.fire({
         title: 'Estado de cuenta',
         text: "Generar un estado de cuenta para el Alumno?",
@@ -118,10 +121,12 @@ function fnGenerarEstadoCuenta(idPersona){
                     fetch(url).then(res => res.json()).then((resultado) => {
                         if(resultado.estatus){
                             swal.fire("Estado de cuenta","Estado de cuenta generado correctamente!","success").then((result) =>{
-                            btnAgregarServicio.disabled = false;
-                            alertSinEdoCta.style.display = "none";
-                            listTipoCobro.disabled = false;
+                                location.href= `${base_url}/Ingresos`;
                             });
+                            /* let urlDel = `${base_url}/Ingresos/delTblTempInscripcion/${idTablaTemp}`;
+                            fetch(urlDel).then((res)=>res.json()).then(resultado =>{
+                                console.log(resultado)
+                            }).catch(err =>{throw err}); */
                         }else{
                             swal.fire("Estado de cuenta",resultado.msg,"warning");
                         }
@@ -129,7 +134,7 @@ function fnGenerarEstadoCuenta(idPersona){
                 }
             })
         }
-    })
+    }) 
 }
 
 //Function para convertir un string  a  Formato Base64
