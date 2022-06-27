@@ -44,7 +44,7 @@ if(getPagina() == "estudiantes"){
                 {"data":"apellidos"},
                 {"data":"nombre_plantel"},
                 {"data":"nombre_carrera"},
-                {"data":"grado"},
+                {"data":"nombre_grado"},
                 {"data":"nombre_salon"},
                 {"data":"validacion_doctos_status"},
                 {"data":"validacion_datos_personales_status"},

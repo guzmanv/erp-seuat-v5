@@ -8,9 +8,10 @@
 		//Funcion para consultar lista de Estudiantes
 		public function selectEstudiantes(){
 			$sql = "SELECT ins.id,per.id AS id_personas, per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno)AS apellidos,
-            plante.nombre_plantel_fisico,plante.municipio,planest.nombre_carrera,ins.grado,sa.nombre_salon,acp.validacion_doctos,
+            plante.nombre_plantel_fisico,plante.municipio,planest.nombre_carrera,tg.nombre_grado,sa.nombre_salon,acp.validacion_doctos,
             acp.validacion_datos_personales,acp.id_usuario_verificacion_doctos,acp.id_usuario_verificacion_datos_personales 
             FROM t_inscripciones AS ins 
+            INNER JOIN t_grados AS tg ON ins.id_grados = tg.id
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id
@@ -18,7 +19,7 @@
             INNER JOIN t_planteles AS plante ON inst.id_planteles = plante.id
             LEFT JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
             LEFT JOIN t_salones AS sa ON sal.id_salones = sa.id 
-            RIGHT JOIN t_asignacion_categoria_persona AS acp ON acp.id_personas = per.id 
+            RIGHT JOIN t_asignacion_categoria_persona AS acp ON acp.id_personas = per.id
             WHERE his.inscrito = 1 AND acp.estatus = 1 AND acp.id_categoria_persona = 2";
 			$request = $this->select_all($sql);
 			return $request;
