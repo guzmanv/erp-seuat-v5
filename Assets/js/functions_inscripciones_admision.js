@@ -498,7 +498,7 @@ function fnPlantelSeleccionadoDatatable(){
             {"data":"numeracion"},
             {"data":"nombre_carrera"},
             {"data":"nombre_nivel_educativo"},
-            {"data":"grado"},
+            {"data":"id_grados"},
             {"data":"nombre_plan"},
             {"data":"nombre_turno"},
             {"data":"nombre_grupo"},
