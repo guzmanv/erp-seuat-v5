@@ -33,7 +33,7 @@
 								</div>
 								<div class="form-group col-sm-12 col-md-2">
 									<label for="txtPrecio_unitario">Precio </label>
-									<input type="number" id="txtPrecio_unitario" name="txtPrecio_unitario" class="form-control form-control-sm valid validText" placeholder="Precio"  onkeypress="return validarNumeroInput(event)"  required="" >
+									<input type="number" id="txtPrecio_unitario" name="txtPrecio_unitario" max="99999" class="form-control form-control-sm valid validText" placeholder="Precio"  onkeypress="return validarNumeroInput(event)"  required="" >
 								</div>
 							</div>
 
