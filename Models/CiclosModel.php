@@ -22,7 +22,7 @@
         {
             $sql = "SELECT t_ciclos.id AS IdCiclos, t_ciclos.nombre_ciclo AS Nombre, t_ciclos.anio AS Anio, t_ciclos.estatus AS estatus, t_generaciones.nombre_generacion AS Generacion 
                     FROM t_ciclos 
-                    INNER JOIN t_generaciones AS t_generaciones ON t_ciclos.id_generacion = t_generaciones.id 
+                    INNER JOIN t_generaciones AS t_generaciones ON t_ciclos.id_generaciones = t_generaciones.id 
                     WHERE t_ciclos.estatus !=0
                     ";
             $request = $this->select_all($sql);
@@ -58,7 +58,7 @@
             $request = $this->select_all($sql);
 
             if(empty($request)){
-                $query_insert = "INSERT INTO t_ciclos(nombre_ciclo, anio, estatus, fecha_creacion, fecha_actualizacion, id_usuario_creacion, id_usuario_actualizacion, id_generacion) VALUES(?,?,?,?,?,?,?,?)";
+                $query_insert = "INSERT INTO t_ciclos(nombre_ciclo, anio, estatus, fecha_creacion, fecha_actualizacion, id_usuario_creacion, id_usuario_actualizacion, id_generaciones) VALUES(?,?,?,?,?,?,?,?)";
                 $arrData = array($this->strNombre_Ciclo, $this->strAnio, $this->intEstatus, $this->strFecha_Creacion, $this->strFecha_Actualizacion, $this->intId_usuario_creacion, $this->intId_Usuario_Actualizacion, $this->intId_Generacion);
                 $request_insert = $this->insert($query_insert,$arrData);
                 $return = $request_insert;
@@ -84,7 +84,7 @@
 
             if(empty($request))
             {
-                $sql = "UPDATE t_ciclos SET nombre_ciclo = ?, anio = ?, estatus = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ?, id_generacion = ? WHERE id = $this->intIdCiclos ";
+                $sql = "UPDATE t_ciclos SET nombre_ciclo = ?, anio = ?, estatus = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ?, id_generaciones = ? WHERE id = $this->intIdCiclos ";
                 $arrData = array($this->strNombre_Ciclo, $this->strAnio, $this->intEstatus, $this->intId_Usuario_Actualizacion, $this->intId_Generacion);
                 $request = $this->update($sql,$arrData);
             }else{
@@ -97,7 +97,7 @@
         //MODELO PARA ELIMINAR
         public function deleteCiclos(int $idCiclos){
             $this->intIdCiclos = $idCiclos;
-            $sql = "SELECT * FROM t_periodos WHERE id_ciclo = $this->intIdCiclos";
+            $sql = "SELECT * FROM t_periodos WHERE id_ciclos = $this->intIdCiclos";
             $request = $this->select_all($sql);
             if(empty($request))
             {

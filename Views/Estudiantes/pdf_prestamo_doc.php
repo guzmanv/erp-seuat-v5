@@ -9,7 +9,7 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y",
 $nombreCarrera = $data['data'][0]['nombre_carrera'];
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -248,7 +248,7 @@ $nombreCarrera = $data['data'][0]['nombre_carrera'];
             </div>
         </div>
         <div></div>   
-    </div>
+    </div><br><br>
     <div style='text-align:center'>
         <h4>FIRMAS</h4>   
     </div>

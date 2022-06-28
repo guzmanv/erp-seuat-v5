@@ -96,7 +96,7 @@
         //ELIMINAR 
         public function deleteGeneraciones(int $idGeneraciones){
           $this->intIdGeneraciones = $idGeneraciones;
-          $sql = "SELECT * FROM t_ciclos WHERE id_generacion = $this->intIdGeneraciones";
+          $sql = "SELECT * FROM t_ciclos WHERE id_generaciones = $this->intIdGeneraciones";
           $request = $this->select_all($sql);
           if(empty($request))
           {

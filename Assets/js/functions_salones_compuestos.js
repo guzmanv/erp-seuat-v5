@@ -205,12 +205,12 @@ function fntEditSalonesComp(element, id){
             if(objData.estatus){
                 document.querySelector("#idSalonesCompuestosUp").value = objData.data.id;
                 document.querySelector("#txtNombre_SalonCompuestoUp").value = objData.data.nombre_salon_compuesto;
-                document.querySelector("#listIdPeriodosEditar").value = objData.data.id_periodo;
-                document.querySelector("#listIdGradosEditar").value = objData.data.id_grado;
-                document.querySelector("#listIdGruposEditar").value = objData.data.id_grupo;
+                document.querySelector("#listIdPeriodosEditar").value = objData.data.id_periodos;
+                document.querySelector("#listIdGradosEditar").value = objData.data.id_grados;
+                document.querySelector("#listIdGruposEditar").value = objData.data.id_grupos;
                 document.querySelector("#listIdInstitucionesEditar").value = objData.data.id_instituciones;
                 document.querySelector("#listIdTurnosEditar").value = objData.data.id_turnos;
-                document.querySelector("#listIdSalonesEditar").value = objData.data.id_salon;
+                document.querySelector("#listIdSalonesEditar").value = objData.data.id_salones;
                 document.querySelector("#txtId_Usuario_ActualizacionUp").value = 1;
 
                 if(objData.data.estatus == 1)

@@ -262,7 +262,7 @@ function fntEditCiclos(element, id){
                 document.querySelector("#idCiclosUp").value = objData.data.id;
                 document.querySelector("#txtNombre_CicloUp").value = objData.data.nombre_ciclo;
                 document.querySelector("#txtAnioUp").value = objData.data.anio;
-                document.querySelector("#listIdGeneracionesEditar").value = objData.data.id_generacion;
+                document.querySelector("#listIdGeneracionesEditar").value = objData.data.id_generaciones;
                 document.querySelector("#txtId_Usuario_ActualizacionUp").value = 1;
 
                 if(objData.data.estatus == 1)

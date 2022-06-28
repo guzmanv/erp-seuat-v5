@@ -311,7 +311,7 @@ function fntEditPeriodos(element, id){
                 document.querySelector("#txtFecha_inicioUp").value = objData.data.fecha_inicio_periodo;
                 document.querySelector("#txtFecha_finUp").value = objData.data.fecha_fin_periodo;
                 document.querySelector("#listIdOrganizacionesEditar").value = objData.data.id_organizacion_planes;
-                document.querySelector("#listIdCiclosEditar").value = objData.data.id_ciclo;
+                document.querySelector("#listIdCiclosEditar").value = objData.data.id_ciclos;
                 document.querySelector("#txtId_Usuario_ActualizacionUp").value = 1;
 
                 if(objData.data.estatus == 1)

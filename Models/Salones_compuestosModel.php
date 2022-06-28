@@ -26,16 +26,16 @@
         public function selectSalonesCompuest()
         {
             $sql = "SELECT tSCom.id AS IdSalonCom, tSCom.nombre_salon_compuesto AS NomSalCom, tPe.nombre_periodo AS NomPerio, 
-                            tc.anio AS anoCic, tGra.nombre_grado AS NomGrad, t_Gru.nombre_grupo AS NomGrup, ti.nombre_institucion AS nomInst, 
-                            tTur.nombre_turno AS NomTurn, tSal.nombre_salon AS NomSal, tSCom.estatus AS Est
+                    tc.anio AS anoCic, tGra.nombre_grado AS NomGrad, t_Gru.nombre_grupo AS NomGrup, ti.nombre_institucion AS nomInst, 
+                    tTur.nombre_turno AS NomTurn, tSal.nombre_salon AS NomSal, tSCom.estatus AS Est
                     FROM t_salones_compuesto AS tSCom
-                    INNER JOIN t_periodos AS tPe ON tSCom.id_periodo = tPe.id
-                    INNER JOIN t_grados AS tGra ON tSCom.id_grado = tGra.id
-                    INNER JOIN t_grupos AS t_Gru ON tSCom.id_grupo = t_Gru.id
+                    INNER JOIN t_periodos AS tPe ON tSCom.id_periodos = tPe.id
+                    INNER JOIN t_grados AS tGra ON tSCom.id_grados = tGra.id
+                    INNER JOIN t_grupos AS t_Gru ON tSCom.id_grupos = t_Gru.id
                     INNER JOIN t_instituciones AS ti ON tSCom.id_instituciones = ti.id
                     INNER JOIN t_turnos AS tTur ON tSCom.id_turnos = tTur.id
-                    INNER JOIN t_salones AS tSal ON tSCom.id_salon = tSal.id
-                    INNER JOIN t_ciclos AS tc ON tPe.id_ciclo = tc.id
+                    INNER JOIN t_salones AS tSal ON tSCom.id_salones = tSal.id
+                    INNER JOIN t_ciclos AS tc ON tPe.id_ciclos = tc.id
                     WHERE tSCom.estatus !=0
                     ";
             $request = $this->select_all($sql);
@@ -79,7 +79,7 @@
             $request = $this->select_all($sql);
 
             if(empty($request)){
-                $query_insert = "INSERT INTO t_salones_compuesto(nombre_salon_compuesto, fecha_creacion, fecha_actualizacion, id_usuario_creacion, id_usuario_actualizacion, id_periodo, id_grado, id_grupo, id_instituciones, id_turnos, id_salon, estatus) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+                $query_insert = "INSERT INTO t_salones_compuesto(nombre_salon_compuesto, fecha_creacion, fecha_actualizacion, id_usuario_creacion, id_usuario_actualizacion, id_periodos, id_grados, id_grupos, id_instituciones, id_turnos, id_salones, estatus) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
                 $arrData = array($this->strNombre_SalonCompuesto, $this->strFecha_Creacion, $this->strFecha_Actualizacion, $this->intId_usuario_creacion, $this->intId_Usuario_Actualizacion, $this->intId_Periodos, $this->intId_Grados, $this->intId_Grupos, $this->intId_Instituciones, $this->intId_Turnos, $this->intId_Salones, $this->intEstatus);
                 $request_insert = $this->insert($query_insert,$arrData);
                 $return = $request_insert;
@@ -112,7 +112,7 @@
 
             if(empty($request))
             {
-                $sql = "UPDATE t_salones_compuesto SET nombre_salon_compuesto = ?, estatus = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ?, id_periodo = ?, id_grado = ?, id_grupo = ?, id_instituciones = ?, id_turnos = ?, id_salon = ? WHERE id = $this->intIdSalonesCompuestos ";
+                $sql = "UPDATE t_salones_compuesto SET nombre_salon_compuesto = ?, estatus = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ?, id_periodos = ?, id_grados = ?, id_grupos = ?, id_instituciones = ?, id_turnos = ?, id_salones = ? WHERE id = $this->intIdSalonesCompuestos ";
                 $arrData = array($this->strNombre_SalonCompuesto, $this->intEstatus, $this->intId_Usuario_Actualizacion, $this->intId_Periodos, $this->intId_Grados, $this->intId_Grupos, $this->intId_Instituciones, $this->intId_Turnos, $this->intId_Salones);
                 $request = $this->update($sql,$arrData);
             }else{
@@ -125,7 +125,7 @@
         //MODELO PARA ELIMINAR SALONES COMPUESTOS
         public function deleteSalonesCompu(int $IdSalonCom){
             $this->intIdSalonesCompuestos = $IdSalonCom;
-            $sql = "SELECT * FROM t_inscripciones WHERE id_salon_compuesto = $this->intIdSalonesCompuestos";
+            $sql = "SELECT * FROM t_inscripciones WHERE id_salones_compuesto = $this->intIdSalonesCompuestos";
             $request = $this->select_all($sql);
             if(empty($request))
             {
