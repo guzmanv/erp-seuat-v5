@@ -739,7 +739,7 @@ function fnChckColegiaturas(value){
             fetch(url).then((res) => res.json()).then(resultado =>{
                 if(resultado.length >0){
                     resultado.forEach(element => {
-                        document.querySelector('#div_chck_colegiaturas').innerHTML += "<option value="+element.id+","+element.id_servicio+","+element.porcentaje_descuento+","+element.cobro_total+">"+element.nombre_promocion+" ( "+element.porcentaje_descuento+" )"+"</option>"
+                        document.querySelector('#div_chck_colegiaturas').innerHTML += "<option value="+0+","+element.id+","+element.porcentaje_descuento+","+element.precio_unitario+">"+element.nombre_promocion+" ( "+element.porcentaje_descuento+" )"+" / "+element.nombre_plantel_fisico+"("+element.abreviacion_institucion+")"+"</option>"
                     });
                 }else{
     

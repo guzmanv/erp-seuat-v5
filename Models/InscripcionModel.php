@@ -349,12 +349,14 @@
 
         public function selectPromocionesColegiatura(int $idPlanEstudio)
         {
-            $sql = "SELECT tp.id,ts.nombre_servicio,tcs.nombre_categoria,ts.codigo_servicio,tcs.clave_categoria,tpr.nombre_promocion,
-            tpr.porcentaje_descuento,ts.id AS id_servicio,tp.cobro_total FROM t_precarga AS tp 
-            LEFT JOIN t_servicios AS ts ON tp.id_servicios = ts.id
-            LEFT JOIN t_promociones AS tpr ON tpr.id_servicios = ts.id 
-            LEFT JOIN t_categoria_servicios AS tcs ON ts.id_categoria_servicios = tcs.id
-            WHERE ts.codigo_servicio LIKE '%INS%' AND tp.id_plan_estudios = $idPlanEstudio";
+            $sql = "SELECT ts.id ,ts.nombre_servicio,tcs.nombre_categoria,ts.codigo_servicio ,tcs.clave_categoria,
+            tp.nombre_promocion,tp.porcentaje_descuento,tins.abreviacion_institucion,plant.nombre_plantel_fisico,
+            ts.precio_unitario FROM t_promociones AS tp 
+            INNER JOIN t_servicios AS ts ON tp.id_servicios = ts.id
+            INNER JOIN t_categoria_servicios AS tcs ON ts.id_categoria_servicios = tcs.id
+            INNER JOIN t_instituciones  AS tins ON ts.id_instituciones = tins.id
+            INNER JOIN t_planteles AS plant ON tins.id_planteles = plant.id
+            WHERE ts.codigo_servicio LIKE '%INS'";
             $request = $this->select_all($sql);
             return $request;
         }
