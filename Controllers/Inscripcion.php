@@ -65,7 +65,7 @@
                         $arrInscripciones[$i]['nombre_grupo'] = "Sin grupo";
                     }
                     $arrInscripciones[$i]['total'] = '<h5><span class="badge badge-secondary pr-2 pl-2">'.$arrInscripciones[$i]['total'].'</span></h5>';
-                    $arrInscripciones[$i]['options'] = '<button type="button"  id="'.$arrInscripciones[$i]['id'].'" gr="'.$arrInscripciones[$i]['grado'].'" tr="'.$arrInscripciones[$i]['id_turno'].'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalFormListaInscritos" onclick="fnListaInscritos(this)">Ver</button>';    
+                    $arrInscripciones[$i]['options'] = '<button type="button"  id="'.$arrInscripciones[$i]['id'].'" gr="'.$arrInscripciones[$i]['id_grados'].'" tr="'.$arrInscripciones[$i]['id_turno'].'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalFormListaInscritos" onclick="fnListaInscritos(this)">Ver</button>';    
                 }
             }else{
                 $idPlantel = intval($idPlantel);
@@ -76,7 +76,7 @@
                         $arrInscripciones[$i]['nombre_grupo'] = "Sin grupo";
                     }
                     $arrInscripciones[$i]['total'] = '<h5><span class="badge badge-secondary pr-2 pl-2">'.$arrInscripciones[$i]['total'].'</span></h5>';
-                    $arrInscripciones[$i]['options'] = '<button type="button"  id="'.$arrInscripciones[$i]['id'].'" gr="'.$arrInscripciones[$i]['grado'].'" tr="'.$arrInscripciones[$i]['id_turno'].'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalFormListaInscritos" onclick="fnListaInscritos(this)">Ver</button>';    
+                    $arrInscripciones[$i]['options'] = '<button type="button"  id="'.$arrInscripciones[$i]['id'].'" gr="'.$arrInscripciones[$i]['id_grados'].'" tr="'.$arrInscripciones[$i]['id_turno'].'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalFormListaInscritos" onclick="fnListaInscritos(this)">Ver</button>';    
                 }
             }
             echo json_encode($arrInscripciones,JSON_UNESCAPED_UNICODE);
