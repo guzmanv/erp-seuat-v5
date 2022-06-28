@@ -62,40 +62,27 @@ function fnServicios(grado,tipoCobro){
     if(isNaN(grado) == false && isNaN(tipoCobro) == false){
         url = `${base_url}/Ingresos/getServicios/${grado}/${tipoCobro}/${idPersonaSeleccionada}`;
         fetch(url).then(res => res.json()).then((resultado) => {
-            console.log(resultado)
             arrServiciosTodos = resultado.data;
             document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";
             if(resultado.tipo == "COL"){
-                let porcentajeDesCol = '';
-                let totalConDescuentoCol = '';
-                if(resultado.data.porcentaje_descuento_coleg != ''){
-                    porcentajeDesCol = resultado.data.porcentaje_descuento_coleg;
-                }
-                if(resultado.data.total_descuento_coleg != ''){
-                    totalConDescuentoCol = resultado.data.total_descuento_coleg;
-                }
-                if(resultado.data != undefined){
-                    if(resultado.data.length >= 1){
+                if(resultado.data.length == undefined){
+                    let porcentajeDesCol = resultado.data.porcentaje_descuento_coleg;
+                    let totalConDescuentoCol = resultado.data.total_descuento_coleg;
+                    let estatus = (resultado.data.pagado == 1)?'/Pagado':'';
+                    document.querySelector("#listServicios").innerHTML += `<option tp="true" dc='${porcentajeDesCol}' tdc='${totalConDescuentoCol}' pu='${resultado.data.precio_unitario}'  ec='1' es='${estatus}' t='col' value='${resultado.data.id_edo_cta}' idprecarga='${resultado.data.id_precarga}'>${resultado.data.nombre_servicio}${estatus}</option>`;
+                }else{
+                    if(resultado.data.length > 0){
                         resultado.data.forEach(colegiatura => {
                             let estatus = (colegiatura.pagado == 1)?'/Pagado':'';
                             document.querySelector("#listServicios").innerHTML += `<option tp="false" dc='' tdc='' pu='${colegiatura.precio_unitario}' ec='1' es='${estatus}' t='col' value='${colegiatura.id_edo_cta}' idprecarga='${colegiatura.id_precarga}'>${colegiatura.nombre_servicio}${estatus}</option>`;
                             
                         });
-                    }else{
-                        let estatus = (resultado.data.pagado == 1)?'/Pagado':'';
-                        document.querySelector("#listServicios").innerHTML += `<option tp="true" dc='${porcentajeDesCol}' tdc='${totalConDescuentoCol}' pu='${resultado.data.precio_unitario}'  ec='1' es='${estatus}' t='col' value='${resultado.data.id_edo_cta}' idprecarga='${resultado.data.id_precarga}'>${resultado.data.nombre_servicio}${estatus}</option>`;
                     }
                 }
             }else{
-                let porcentajeDesIns = '';
-                let totalConDescuentoIns = '';
-                if(resultado.data.porcentaje_descuento_insc != ''){
-                    porcentajeDesIns = resultado.data.porcentaje_descuento_insc;
-                }
-                if(resultado.data.total_descuento_insc != ''){
-                    totalConDescuentoIns = resultado.data.total_descuento_insc;
-                }
-                if(grado == 1){
+                if(resultado.data.length == undefined){
+                    let porcentajeDesIns = resultado.data.porcentaje_descuento_insc;
+                    let totalConDescuentoIns = resultado.data.total_descuento_insc;
                     document.querySelector("#listServicios").innerHTML += `<option tp="true" dc="${porcentajeDesIns}" tdc="${totalConDescuentoIns}" pu='${resultado.data.precio_unitario}' ec='${resultado.data.aplica_edo_cuenta}' t="serv" value='${resultado.data.id}'>${resultado.data.nombre_servicio}${(resultado.data.aplica_edo_cuenta == 1)?'(----si----)':''}</option>`;
                 }else{
                     resultado.data.forEach(servicio => {
@@ -535,7 +522,8 @@ function btnCobrarCmbio(){
         let observaciones = document.querySelector('#txtObservaciones').value;
         let url = ` ${base_url}/Ingresos/setIngresos?idP=${idPersonaSeleccionada}&tipoP=${metodoPago}&tipoCom=${tipoComprobante}&observacion=${observaciones}&date=${jsonToString(arrServicios)}`
         fetch(url).then(res => res.json()).then((resultado) => {
-            if(resultado.estatus){
+            console.log(resultado)
+            /* if(resultado.estatus){
                 let cambio = intEfectivo-total;
                 swal.fire("Exito",`${resultado.msg}<br>Su cambio es de:<h1><b>${formatoMoneda(cambio.toFixed(2))}</b></h1>`,"success").then((result) =>{
                     if(result.isConfirmed){
@@ -549,7 +537,7 @@ function btnCobrarCmbio(){
             swal.fire("Error",`${resultado.msg}`,"warning").then((result) =>{
                 $('#cerrarModalCobrar').click();
             })
-           }
+           } */
         }).catch(err => { throw err });
     }
 }

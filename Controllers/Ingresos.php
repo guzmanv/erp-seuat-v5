@@ -127,7 +127,7 @@
             }
             $folio = $this->model->selectFolioSig($idAlumno);
             $reqIngreso = $this->model->insertIngresos($folio,$tipoPago,$tipoComprobante,$total,$observaciones,$idAlumno,$this->idPlantel,$this->idUser);
-            if($reqIngreso){
+            /*if($reqIngreso){
                 foreach ($arrayDate as $key => $value) {
                     $idServicio = null;
                     $idPrecarga = null;
@@ -152,8 +152,8 @@
                 }
             }else{
                 $arrResponse = array('estatus' => false, 'msg' => 'No es posible Guardar los Datos');
-            }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            } */
+            echo json_encode($reqIngreso,JSON_UNESCAPED_UNICODE);
             die();
         }
         //Funcion para imprimir comprante de una Venta

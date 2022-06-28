@@ -162,8 +162,8 @@
         
         //Insertar un nuevo Ingreso
         public function insertIngresos(string $folio,int $formaPago, string $tipoComprobante,int $total,string $observaciones,int $idAlumno, int $idPlantel, int $idUSer){
-            $sqlIngresos = "INSERT INTO t_ingresos(fecha,folio,estatus,id_metodos_pago,tipo_comprobante,referencia,total,observaciones,recibo_inscripcion,id_planteles,id_persona_paga,id_usuario_cobro) VALUES(NOW(),?,?,?,?,?,?,?,?,?,?,?)";
-            $requestIngresos = $this->insert($sqlIngresos,array($folio,1,$formaPago,$tipoComprobante,$folio,$total,$observaciones,1,$idPlantel,$idAlumno,$idUSer));
+            $sqlIngresos = "INSERT INTO t_ingresos(fecha_cobro,folio,estatus,id_metodos_pago,tipo_comprobante,referencia,total,observaciones,recibo_inscripcion,fecha_creacion,id_planteles,id_persona_paga,id_usuario_creacion,id_usuario_cobro) VALUES(NOW(),?,?,?,?,?,?,?,?,NOW(),?,?,?,?)";
+            $requestIngresos = $this->insert($sqlIngresos,array($folio,1,$formaPago,$tipoComprobante,$folio,$total,$observaciones,1,$idPlantel,$idAlumno,$idUSer,$idUSer));
             return $requestIngresos;
         }
         //Insertar un nuevo ingreso detalle
