@@ -26,7 +26,7 @@
 								</div>
 								<div class="form-group col-sm-12 col-md-2">
 									<label for="txtPrecio_unitario_edit">Precio </label>
-									<input type="text" id="txtPrecio_unitario_edit" name="txtPrecio_unitario_edit" class="form-control form-control-sm valid validText" placeholder="Precio"  onkeypress="return validarNumeroInput(event)" required="" >
+									<input type="text" id="txtPrecio_unitario_edit" name="txtPrecio_unitario_edit" maxlength="8" class="form-control form-control-sm valid validText" placeholder="Precio"  onkeypress="return validarNumeroInput(event)" required="" >
 								</div>
 							</div>
 							<div class="form-row">
