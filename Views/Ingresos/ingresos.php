@@ -73,7 +73,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group col-md-2" style="display:flex;align-items:end">
-                                            <button type="button" id="btnAgregarServicio" class="btn btn-primary btn-block form-control" onchange="fnBtnAgregarServicioTabla()"><i class="fa fa-plus"></i>Agregar</button>
+                                            <button type="button" id="btnAgregarServicio" class="btn btn-primary btn-block form-control" onclick="fnBtnAgregarServicioTabla()"><i class="fa fa-plus"></i>Agregar</button>
                                         </div>
                                         <div class="form-group col-md-12">
                                             <hr>

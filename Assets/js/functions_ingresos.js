@@ -62,35 +62,50 @@ function fnServicios(grado,tipoCobro){
     if(isNaN(grado) == false && isNaN(tipoCobro) == false){
         url = `${base_url}/Ingresos/getServicios/${grado}/${tipoCobro}/${idPersonaSeleccionada}`;
         fetch(url).then(res => res.json()).then((resultado) => {
+            console.log(resultado)
             arrServiciosTodos = resultado.data;
             document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";
             if(resultado.tipo == "COL"){
-                porcentajeDesCol = '';
-                totalConDescuentoCol = '';
-                if(resultado.porcentaje_descuento_coleg != ''){
-                    porcentajeDesCol = resultado.porcentaje_descuento_coleg;
+                let porcentajeDesCol = '';
+                let totalConDescuentoCol = '';
+                if(resultado.data.porcentaje_descuento_coleg != ''){
+                    porcentajeDesCol = resultado.data.porcentaje_descuento_coleg;
                 }
-                if(resultado.total_descuento_coleg != ''){
-                    totalConDescuentoCol = resultado.total_descuento_coleg;
+                if(resultado.data.total_descuento_coleg != ''){
+                    totalConDescuentoCol = resultado.data.total_descuento_coleg;
                 }
-                if(resultado.data.length >= 1){
-                    resultado.data.forEach(colegiatura => {
-                        let estatus = (colegiatura.pagado == 1)?'/Pagado':'';
-                        document.querySelector("#listServicios").innerHTML += `<option tp="false" pu='${colegiatura.precio_unitario}' ec='1' es='${estatus}' t='col' value='${colegiatura.id_edo_cta}' idprecarga='${colegiatura.id_precarga}'>${colegiatura.nombre_servicio}${estatus}</option>`;
-                        
-                    });
-                }else{
-                    let estatus = (resultado.data.pagado == 1)?'/Pagado':'';
-                    document.querySelector("#listServicios").innerHTML += `<option tp="true" dc='${porcentajeDesCol}' tdc='${totalConDescuentoCol}' pu='${resultado.data.precio_unitario}'  ec='1' es='${estatus}' t='col' value='${resultado.data.id_edo_cta}' idprecarga='${resultado.data.id_precarga}'>${resultado.data.nombre_servicio}${estatus}</option>`;
+                if(resultado.data != undefined){
+                    if(resultado.data.length >= 1){
+                        resultado.data.forEach(colegiatura => {
+                            let estatus = (colegiatura.pagado == 1)?'/Pagado':'';
+                            document.querySelector("#listServicios").innerHTML += `<option tp="false" dc='' tdc='' pu='${colegiatura.precio_unitario}' ec='1' es='${estatus}' t='col' value='${colegiatura.id_edo_cta}' idprecarga='${colegiatura.id_precarga}'>${colegiatura.nombre_servicio}${estatus}</option>`;
+                            
+                        });
+                    }else{
+                        let estatus = (resultado.data.pagado == 1)?'/Pagado':'';
+                        document.querySelector("#listServicios").innerHTML += `<option tp="true" dc='${porcentajeDesCol}' tdc='${totalConDescuentoCol}' pu='${resultado.data.precio_unitario}'  ec='1' es='${estatus}' t='col' value='${resultado.data.id_edo_cta}' idprecarga='${resultado.data.id_precarga}'>${resultado.data.nombre_servicio}${estatus}</option>`;
+                    }
                 }
             }else{
-                resultado.data.forEach(servicio => {
-                    if(servicio.id_edo_cta){
-                        document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='1' t="serv" value='${servicio.id_edo_cta}' idprecarga='${servicio.id_precarga}'>${servicio.nombre_servicio}---Si---</option>`;
-                    }else{
-                        document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='${servicio.aplica_edo_cuenta}' t="serv" value='${servicio.id}'>${servicio.nombre_servicio}${(servicio.aplica_edo_cuenta == 1)?'(----si----)':''}</option>`;
-                    }
-                });
+                let porcentajeDesIns = '';
+                let totalConDescuentoIns = '';
+                if(resultado.data.porcentaje_descuento_insc != ''){
+                    porcentajeDesIns = resultado.data.porcentaje_descuento_insc;
+                }
+                if(resultado.data.total_descuento_insc != ''){
+                    totalConDescuentoIns = resultado.data.total_descuento_insc;
+                }
+                if(grado == 1){
+                    document.querySelector("#listServicios").innerHTML += `<option tp="true" dc="${porcentajeDesIns}" tdc="${totalConDescuentoIns}" pu='${resultado.data.precio_unitario}' ec='${resultado.data.aplica_edo_cuenta}' t="serv" value='${resultado.data.id}'>${resultado.data.nombre_servicio}${(resultado.data.aplica_edo_cuenta == 1)?'(----si----)':''}</option>`;
+                }else{
+                    resultado.data.forEach(servicio => {
+                        if(servicio.id_edo_cta){
+                            document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='1' t="serv" value='${servicio.id_edo_cta}' idprecarga='${servicio.id_precarga}'>${servicio.nombre_servicio}---Si---</option>`;
+                        }else{
+                            document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='${servicio.aplica_edo_cuenta}' t="serv" value='${servicio.id}'>${servicio.nombre_servicio}${(servicio.aplica_edo_cuenta == 1)?'(----si----)':''}</option>`;
+                        }
+                    });
+                }
             }
         }).catch(err => { throw err });
     }
@@ -175,7 +190,6 @@ function seleccionarPersona(answer){
 }
 //Agregar datos del servicio seleccionado en la Tabla
 function fnBtnAgregarServicioTabla(){
-    console.log("Hola")
     let servicio = document.querySelector('#listServicios');
     let cantidad = 1;
     let idServicio = servicio.value;
@@ -185,13 +199,9 @@ function fnBtnAgregarServicioTabla(){
     let tipo = servicio.options[servicio.selectedIndex].getAttribute('t');
     let edocta = servicio.options[servicio.selectedIndex].getAttribute('ec');
     let precarga = servicio.options[servicio.selectedIndex].getAttribute('idprecarga');
-    /*let tp = servicio.options[servicio.selectedIndex].getAttribute('tp');
+    let tp = servicio.options[servicio.selectedIndex].getAttribute('tp');
     let dc = servicio.options[servicio.selectedIndex].getAttribute('dc');
     let tdc = servicio.options[servicio.selectedIndex].getAttribute('tdc');
-    console.log(tp)
-    console.log(dc)
-    console.log(tp)*/
-    
     if(tipo == 'col'){
         if(estatus != '' && idServicio != ''){
             swal.fire("Atención","El servicio seleccionado ya ha sido pagado","warning");
@@ -200,7 +210,9 @@ function fnBtnAgregarServicioTabla(){
     }
     let subtotal = precioUnitarioServicioSel*cantidad;
     let acciones = `<td style='text-align:center'><a class='btn' onclick='fnBorrarServicioTabla(${idServicio})'><i class='fas fa-trash text-danger'></i></a></td>`;
-    let arrServicio = {id_servicio:idServicio,nombre_servicio:nombreServicio,tipo_servicio:tipo,edo_cta:edocta,precarga:precarga,cantidad:cantidad,precio_unitario:precioUnitarioServicioSel,subtotal:subtotal,acciones:acciones,promociones:obtenerPromSeleccionados('listPromociones')};
+    let arrPromociones = obtenerPromSeleccionados('listPromociones');
+    arrPromociones.push({id_promocion:'',descuento:dc,nombre_promocion:''});
+    let arrServicio = {id_servicio:idServicio,nombre_servicio:nombreServicio,tipo_servicio:tipo,edo_cta:edocta,precarga:precarga,cantidad:cantidad,precio_unitario:precioUnitarioServicioSel,subtotal:subtotal,acciones:acciones,promociones:arrPromociones};
     if(idServicio == "" || cantidad == ""){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
@@ -230,10 +242,10 @@ function fnBtnAgregarServicioTabla(){
         }
     });
     
-        /* if(isTipo['is']){
-            swal.fire("Atención",isTipo['msg'],"warning");
-            return false;
-        } */
+        //if(isTipo['is']){
+        //    swal.fire("Atención",isTipo['msg'],"warning");
+        //    return false;
+       // }
     if(isExist){
         swal.fire("Atención","Ya existe el servicio, modifica la cantidad en la tabla","warning").then((result) =>{
             if(result.isConfirmed){

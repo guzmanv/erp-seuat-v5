@@ -346,7 +346,7 @@
         {
             $sql = "SELECT id AS id_temp,folio_inscripcion,precio_inscripcion,porcentaje_descuento_insc,
             total_descuento_insc,precio_colegiatura,porcentaje_descuento_coleg,total_descuento_coleg,
-            id_inscripcion FROM t_tmpinscripciones WHERE id_persona = $idPersona LIMIT 1";
+            id_inscripcion FROM t_tmpInscripciones WHERE id_persona = $idPersona LIMIT 1";
             $request = $this->select($sql);
             return $request;
         }
