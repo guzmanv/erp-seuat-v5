@@ -94,6 +94,11 @@ function fnEditarBeca(idBeca)
 	let slctCarreraEdit = document.querySelector();
 }
 
+
+function fnElegirPlantel()
+
+
+
 function fnElegirInstitucion(idPlantel){
 	let url = `${base_url}/Becas/getInstiticion/${idPlantel}`;
 	fetch(url)
