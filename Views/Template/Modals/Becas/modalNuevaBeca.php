@@ -1,5 +1,5 @@
 <div class="modal fade" id="ModalNuevaBeca" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header headerRegister">
                 <h5 class="modal-title" id="titleModal">Nueva beca</h5>
@@ -15,34 +15,90 @@
                             <div class="row">
                                 <div class="form-group col-md-7">
                                     <label>Nombre de la beca</label>
-                                    <input type="text" id="txtNuevaBeca" name="txtNuevaBeca" class="form-control form-control-sm" placeholder="EJ: Beca Trabajo Social" name="" required="">
+                                    <input type="text" id="txtNuevaBeca" name="txtNuevaBeca" class="form-control form-control" placeholder="EJ: Beca Trabajo Social" name="" required="">
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label>Descuento(%) de la beca</label>
-                                    <input type="text" id="txtPorcentaje" name="txtPorcentaje" class="form-control form-control-sm" placeholder="EJ: 27,30,35..." required="">
+                                    <input type="text" id="txtPorcentaje" name="txtPorcentaje" class="form-control form-control" placeholder="EJ: 27,30,35..." required="">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <div class="form-group">
-                                        <label>Periodo escolar:</label>
-                                        <select class="form-control" name="" id="">
+                                        <label>Plantel:</label>
+                                        <select class="form-control" name="slctPeriodo" id="slctPeriodo">
                                             <option selected>Seleccionar...</option>
-                                            
-                                            <!-- <option value=""></option>
-                                            <option value=""></option>
-                                            <option value=""></option> -->
+                                            <?php
+                                            foreach ($data['planteles'] as $value) {
+                                            ?>
+                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_plantel_fisico'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <div class="form-group">
-                                        <label>Carrera:</label>
-                                        <select class="form-control" name="" id="">
+                                        <label>Institucion:</label>
+                                        <select class="form-control" name="slctInstitucion" id="slctInstitucion" onchange="fnElegirInstitucion(value)">
                                             <option selected>Seleccionar...</option>
-                                            <!-- <option></option>
-                                            <option></option>
-                                            <option></option> -->
+                                            <?php
+                                            foreach ($data['institucion'] as $value) {
+                                            ?>
+                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_institucion'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <div class="form-group">
+                                        <label>Nivel educativo:</label>
+                                        <select class="form-control" name="slctPeriodo" id="slctPeriodo">
+                                            <option selected>Seleccionar...</option>
+                                            <?php
+                                            foreach ($data['nivel_educativo'] as $value) {
+                                            ?>
+                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_nivel_educativo'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="form-group">
+                                        <label>Periodo:</label>
+                                        <select class="form-control" name="slctCarrera" id="slctCarrera">
+                                            <option selected>Seleccionar...</option>
+                                            <?php
+                                            foreach ($data['periodo'] as $value) {
+                                            ?>
+                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_periodo'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <div class="form-group">
+                                        <label>Carrera:</label>
+                                        <select class="form-control" name="slctCarrera" id="slctCarrera">
+                                            <option selected>Seleccionar...</option>
+                                            <?php
+                                            foreach ($data['carreras'] as $value) {
+                                            ?>
+                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_carrera'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>

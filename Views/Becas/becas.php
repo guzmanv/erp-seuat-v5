@@ -1,6 +1,7 @@
 <?php
     headerAdmin($data);
     getModal('Becas/modalNuevaBeca',$data);
+    getModal('Becas/modalEditBeca',$data);
 ?>
 <div class="wrapper">
     <div class="content-wrapper">

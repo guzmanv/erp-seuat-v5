@@ -18,6 +18,9 @@ class Becas extends Controllers{
         $data['page_name'] = "Tabulador de becas";
         $data['periodo'] = $this->model->selectPeriodo();
         $data['carreras'] = $this->model->selectCarrera();
+        $data['institucion'] = $this->model->selectInstituciones();
+        $data['nivel_educativo'] = $this->model->selectNivel();
+        $data['planteles'] = $this->model->selectPlanteles();
         $this->views->getView($this,"becas",$data);
     }
 
@@ -45,6 +48,39 @@ class Becas extends Controllers{
             </div>';
         }
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+    }
+
+    public function setBecas(){
+        $idBecaNuevo = 0;
+        $idBecaEdit = 0;
+        if(isset($_POST['idBecaNueva']))
+        {
+            $idBecaNuevo = intval($_POST['idBecaNueva']);
+        }
+        if(isset($_POST['idBecaEdit']))
+        {
+            $idBecaEdit = intval($_POST['idBecaEdit']);
+        }
+        if($idBecaNuevo == 1)
+        {
+            $nombreBeca = strClean($_POST['txtNuevaBeca']); 
+            $descBeca = intval($_POST['txtPorcentaje']);
+            $periodo = intval($_POST['slctPeriodo']);
+            $carrera = intval($_POST['slctCarrera']);
+
+            $arrData = $this->model->insertBeca($nombreBeca, $descBeca, $periodo, $carrera);
+
+            if($arrData['estatus'] != TRUE)
+            {
+                $arrResponse = array('estatus' => true, 'msg' => '¡Beca agregada correctamente!');
+            }
+            else
+            {
+                $arrResponse = array('estatus' => false, 'msg' => '¡Atención la beca ya existe!');
+            }
+        }
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        die();
     }
 
     /* public function getTurnos()
