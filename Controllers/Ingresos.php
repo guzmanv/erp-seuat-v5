@@ -53,14 +53,35 @@
             $pago = $valor[1];
             $grado = $valor[0];
             $idPersona = $valor[2];
-            if($pago == 1){
+            if($pago == 1){ //Colegiaturas
                 $arrData['tipo'] = "COL";
-                $arrData['data'] = $this->model->selectColegiaturas($idPersona,$grado);
-            }else{
+                if($grado == 1){
+                    $arrDataCol = $this->model->selectColegiaturas($idPersona,$grado);
+                    if(count($arrDataCol) == 1){ //Si arrColegiaturas es solo uno
+                        $arrDataTemp = $this->model->selectColegTemp($idPersona);
+                        $arrNew = array_merge($arrDataCol[0],$arrDataTemp);
+                        $arrData['data'] = $arrNew;
+                    }
+
+                }else{
+                    $arrDataCol = $this->model->selectColegiaturas($idPersona,$grado);
+                    $arrData['data'] = $arrDataCol;
+                }
+            }else{ //Servicios
                 $arrData['tipo'] = "SERV";
                 //$arrData['data'] = $this->model->selectServicios($idPersona,$grado);
-                $datos = $this->model->selectServicios($idPersona,$grado);
-                $arrData['data'] = $datos;
+                if($grado == 1){
+                    $datos = $this->model->selectServicios($idPersona,$grado);
+                    if(count($datos) == 1){
+                        $arrDataTemp = $this->model->selectColegTemp($idPersona);
+                        $arrNew = array_merge($datos[0],$arrDataTemp);
+                        $arrData['data'] = $arrNew;
+                    }
+                    
+                }else{
+                    $datos = $this->model->selectServicios($idPersona,$grado);
+                    $arrData['data'] = $datos;
+                }
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
