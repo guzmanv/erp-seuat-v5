@@ -25,7 +25,7 @@
             $sql = "SELECT t_periodos.id AS IdPeriodos, t_periodos.nombre_periodo AS Nombre, t_periodos.fecha_inicio_periodo AS Fecha_inicio, t_periodos.fecha_fin_periodo AS Fecha_fin, t_periodos.estatus AS estatus, t_organizacion_planes.nombre_plan AS Plan, t_ciclos.nombre_ciclo AS Nombre_ciclo 
                     FROM t_periodos 
                     INNER JOIN t_organizacion_planes AS t_organizacion_planes ON t_periodos.id_organizacion_planes = t_organizacion_planes.id
-                    INNER JOIN t_ciclos AS t_ciclos ON t_periodos.id_ciclo = t_ciclos.id 
+                    INNER JOIN t_ciclos AS t_ciclos ON t_periodos.id_ciclos = t_ciclos.id
                     WHERE t_periodos.estatus !=0
                     /* SELECT * FROM t_ciclos WHERE estatus !=0 */
                     ";
@@ -65,7 +65,7 @@
             $request = $this->select_all($sql);
 
             if(empty($request)){
-                $query_insert = "INSERT INTO t_periodos(nombre_periodo, fecha_inicio_periodo, fecha_fin_periodo, estatus, fecha_creacion, fecha_actualizacion, id_usuario_creacion, id_usuario_actualizacion, id_organizacion_planes, id_ciclo) VALUES(?,?,?,?,?,?,?,?,?,?)";
+                $query_insert = "INSERT INTO t_periodos(nombre_periodo, fecha_inicio_periodo, fecha_fin_periodo, estatus, fecha_creacion, fecha_actualizacion, id_usuario_creacion, id_usuario_actualizacion, id_organizacion_planes, id_ciclos) VALUES(?,?,?,?,?,?,?,?,?,?)";
                 $arrData = array($this->strNombre_Periodo, $this->strFecha_inicio, $this->strFecha_fin, $this->intEstatus, $this->strFecha_Creacion, $this->strFecha_Actualizacion, $this->intId_usuario_creacion, $this->intId_Usuario_Actualizacion, $this->intId_Organizacion_planes, $this->intId_Ciclo);
                 $request_insert = $this->insert($query_insert,$arrData);
                 $return = $request_insert;
@@ -95,7 +95,7 @@
 
             if(empty($request))
             {
-                $sql = "UPDATE t_periodos SET nombre_periodo = ?, fecha_inicio_periodo = ?, fecha_fin_periodo = ?, estatus = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ?, id_organizacion_planes = ?, id_ciclo = ? WHERE id = $this->intIdPeriodos ";
+                $sql = "UPDATE t_periodos SET nombre_periodo = ?, fecha_inicio_periodo = ?, fecha_fin_periodo = ?, estatus = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ?, id_organizacion_planes = ?, id_ciclos = ? WHERE id = $this->intIdPeriodos ";
                 $arrData = array($this->strNombre_Periodo, $this->strFecha_inicio, $this->strFecha_fin, $this->intEstatus, $this->intId_Usuario_Actualizacion, $this->intId_Organizacion_planes, $this->intId_Ciclo);
                 $request = $this->update($sql,$arrData);
             }else{
@@ -108,7 +108,7 @@
         //MODELO PARA ELIMINAR PERIODOS
         public function deletePeriodos(int $idPeriodos){
             $this->intIdPeriodos = $idPeriodos;
-            $sql = "SELECT * FROM t_precarga WHERE id_periodo = $this->intIdPeriodos";
+            $sql = "SELECT * FROM t_precarga WHERE id_periodos = $this->intIdPeriodos";
             $request = $this->select_all($sql);
             if(empty($request))
             {

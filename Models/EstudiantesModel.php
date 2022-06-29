@@ -8,9 +8,10 @@
 		//Funcion para consultar lista de Estudiantes
 		public function selectEstudiantes(){
 			$sql = "SELECT ins.id,per.id AS id_personas, per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno)AS apellidos,
-            plante.nombre_plantel_fisico,plante.municipio,planest.nombre_carrera,ins.grado,sa.nombre_salon,acp.validacion_doctos,
+            plante.nombre_plantel_fisico,plante.municipio,planest.nombre_carrera,tg.nombre_grado,sa.nombre_salon,acp.validacion_doctos,
             acp.validacion_datos_personales,acp.id_usuario_verificacion_doctos,acp.id_usuario_verificacion_datos_personales 
             FROM t_inscripciones AS ins 
+            INNER JOIN t_grados AS tg ON ins.id_grados = tg.id
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id
@@ -18,7 +19,7 @@
             INNER JOIN t_planteles AS plante ON inst.id_planteles = plante.id
             LEFT JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
             LEFT JOIN t_salones AS sa ON sal.id_salones = sa.id 
-            RIGHT JOIN t_asignacion_categoria_persona AS acp ON acp.id_personas = per.id 
+            RIGHT JOIN t_asignacion_categoria_persona AS acp ON acp.id_personas = per.id
             WHERE his.inscrito = 1 AND acp.estatus = 1 AND acp.id_categoria_persona = 2";
 			$request = $this->select_all($sql);
 			return $request;
@@ -396,28 +397,52 @@
         //Obtener datos para la impresion de solicitud de inscripcion
         public function selectDatosImprimirCartaAut(int $idInscripcion){
             $idInscripcion = $idInscripcion;
+            // $sql = "SELECT ins.folio_impreso,plnes.nombre_carrera,plnes.id AS id_plan_estudio,orgpl.nombre_plan,plnes.duracion_carrera,peralum.nombre_persona,
+            //         peralum.ap_paterno,peralum.ap_materno,peralum.direccion,peralum.colonia,peralum.tel_celular AS tel_celular_alumno,
+            //         peralum.tel_fijo AS tel_fijo_alumno,peralum.email AS email_alumno,
+            //         loc.nombre AS localidad,mun.nombre AS municipio,est.nombre AS estado,tut.nombre_tutor,tut.appat_tutor,tut.apmat_tutor,
+            //         tut.tel_celular AS tel_celular_tutor,tut.tel_fijo AS tel_fijo_tutor,tut.email AS email_tutor,sis.nombre_sistema,
+            //         plntel.nombre_plantel_fisico,inst.categoria,inst.cve_centro_trabajo,CONCAT(plntel.domicilio,',',plntel.localidad,',',
+            //         plntel.municipio,',',plntel.estado) AS ubicacion,ins.grado,esc.nombre_escolaridad,tur.hora_entrada,tur.hora_salida,
+            //         peralum.nombre_empresa,inst.nombre_institucion
+            //         FROM t_inscripciones AS ins 
+            //         INNER JOIN t_plan_estudios AS plnes ON ins.id_plan_estudios = plnes.id
+            //         INNER JOIN t_instituciones AS inst ON plnes.id_instituciones = inst.id
+            //         INNER JOIN t_planteles AS plntel ON inst.id_planteles = plntel.id
+            //         INNER JOIN t_sistemas_educativos AS sis ON inst.id_sistemas_educativos = sis.id
+            //         INNER JOIN t_organizacion_planes AS orgpl ON plnes.id_organizacion_planes = orgpl.id
+            //         INNER JOIN t_personas AS peralum ON ins.id_personas = peralum.id
+            //         INNER JOIN t_tutores AS tut ON ins.id_tutores = tut.id
+            //         INNER JOIN t_localidades AS loc ON peralum.id_localidad = loc.id
+            //         INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
+            //         INNER JOIN t_estados AS est ON mun.id_estados = est.id
+            //         INNER JOIN t_escolaridad AS esc ON ins.grado = esc.id
+            //         INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
+            //         WHERE ins.id = $idInscripcion LIMIT 1";
+
             $sql = "SELECT ins.folio_impreso,plnes.nombre_carrera,plnes.id AS id_plan_estudio,orgpl.nombre_plan,plnes.duracion_carrera,peralum.nombre_persona,
             peralum.ap_paterno,peralum.ap_materno,peralum.direccion,peralum.colonia,peralum.tel_celular AS tel_celular_alumno,
             peralum.tel_fijo AS tel_fijo_alumno,peralum.email AS email_alumno,
-                        loc.nombre AS localidad,mun.nombre AS municipio,est.nombre AS estado,tut.nombre_tutor,tut.appat_tutor,tut.apmat_tutor,
-                        tut.tel_celular AS tel_celular_tutor,tut.tel_fijo AS tel_fijo_tutor,tut.email AS email_tutor,sis.nombre_sistema,
-                        plntel.nombre_plantel_fisico,inst.categoria,inst.cve_centro_trabajo,CONCAT(plntel.domicilio,',',plntel.localidad,',',
-                        plntel.municipio,',',plntel.estado) AS ubicacion,ins.grado,esc.nombre_escolaridad,tur.hora_entrada,tur.hora_salida,
-                        peralum.nombre_empresa,inst.nombre_institucion
-                        FROM t_inscripciones AS ins 
-                        INNER JOIN t_plan_estudios AS plnes ON ins.id_plan_estudios = plnes.id
-                        INNER JOIN t_instituciones AS inst ON plnes.id_instituciones = inst.id
-                        INNER JOIN t_planteles AS plntel ON inst.id_planteles = plntel.id
-                        INNER JOIN t_sistemas_educativos AS sis ON inst.id_sistemas_educativos = sis.id
-                        INNER JOIN t_organizacion_planes AS orgpl ON plnes.id_organizacion_planes = orgpl.id
-                        INNER JOIN t_personas AS peralum ON ins.id_personas = peralum.id
-                        INNER JOIN t_tutores AS tut ON ins.id_tutores = tut.id
-                        INNER JOIN t_localidades AS loc ON peralum.id_localidad = loc.id
-                        INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
-                        INNER JOIN t_estados AS est ON mun.id_estados = est.id
-                        INNER JOIN t_escolaridad AS esc ON ins.grado = esc.id
-                        INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
-            WHERE ins.id = $idInscripcion LIMIT 1";
+            loc.nombre AS localidad,mun.nombre AS municipio,est.nombre AS estado,tut.nombre_tutor,tut.appat_tutor,tut.apmat_tutor,
+            tut.tel_celular AS tel_celular_tutor,tut.tel_fijo AS tel_fijo_tutor,tut.email AS email_tutor,sis.nombre_sistema,
+            plntel.nombre_plantel_fisico,inst.categoria,inst.cve_centro_trabajo,CONCAT(plntel.domicilio,',',plntel.localidad,',',
+            plntel.municipio,',',plntel.estado) AS ubicacion,tg.nombre_grado,esc.nombre_escolaridad,tur.hora_entrada,tur.hora_salida,
+            peralum.nombre_empresa,inst.nombre_institucion
+                    FROM t_inscripciones AS ins 
+                    INNER JOIN t_plan_estudios AS plnes ON ins.id_plan_estudios = plnes.id
+                    INNER JOIN t_instituciones AS inst ON plnes.id_instituciones = inst.id
+                    INNER JOIN t_planteles AS plntel ON inst.id_planteles = plntel.id
+                    INNER JOIN t_sistemas_educativos AS sis ON inst.id_sistemas_educativos = sis.id
+                    INNER JOIN t_organizacion_planes AS orgpl ON plnes.id_organizacion_planes = orgpl.id
+                    INNER JOIN t_personas AS peralum ON ins.id_personas = peralum.id
+                    INNER JOIN t_tutores AS tut ON ins.id_tutores = tut.id
+                    INNER JOIN t_localidades AS loc ON peralum.id_localidad = loc.id
+                    INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
+                    INNER JOIN t_estados AS est ON mun.id_estados = est.id
+                    INNER JOIN t_grados AS tg ON ins.id_grados = tg.id
+                    INNER JOIN t_escolaridad AS esc ON ins.id_grados = esc.id
+                    INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
+                    WHERE ins.id = $idInscripcion LIMIT 1";
             $request = $this->select($sql);
             return $request;
         }
