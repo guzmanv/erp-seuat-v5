@@ -40,6 +40,8 @@ if(getPagina() == "estudiantes"){
             },
             "columns":[
                 {"data":"numeracion"},
+                {"data":"matricula_interna"},
+                {"data":"matricula_externa"},
                 {"data":"nombre_persona"},
                 {"data":"apellidos"},
                 {"data":"nombre_plantel"},
@@ -63,6 +65,52 @@ if(getPagina() == "estudiantes"){
             "order": [[ 0, "asc" ]],
             "iDisplayLength": 25
         });
+
+        //AGREGAR MATRICULA
+        if(document.querySelector('#formAlumnosUp')){
+            let formAlumnosUp = document.querySelector('#formAlumnosUp');
+            formAlumnosUp.onsubmit = function(e){
+                e.preventDefault();
+
+                let intIdEstudiantes = document.querySelector('#idAlumnosUp').value;
+                // let strNombreEst = document.querySelector('#txtNombreEstUp').value;
+                // let strMatriculaInterna = document.querySelector('#txtMatriculaIntAlumnoUp').value;
+                let strMatriculaExterna = document.querySelector('#txtMatriculaExtAlumnoUp').value;
+                // let intEstatus = document.querySelector('#listEstatusUp').value;
+                
+                if(strMatriculaExterna == '')
+                {
+                    swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
+                    return false;
+                }
+
+                divLoading.style.display = "flex";
+                let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                let ajaxUrl = base_url+'/Estudiantes/setMatrEstudian_up';
+                let formData = new FormData(formAlumnosUp);
+                request.open("POST",ajaxUrl, true);
+                request.send(formData);
+
+                request.onreadystatechange = function(){
+                    if(request.readyState == 4 && request.status == 200){
+
+                        let objData = JSON.parse(request.responseText);
+                        if(objData.estatus)
+                        {
+                            tableEstudiantes.api().ajax.reload();
+                            $('#ModalFormAlumnoMatricular').modal('hide');
+                            formAlumnosUp.reset();
+                            swal.fire("Matriculación alumnos ", objData.msg, "success");
+                        }else{
+                            swal.fire("Error", objData.msg , "error");
+                        }
+                    }
+                    divLoading.style.display = "none";
+                    return false;
+                }
+            }
+        }
+
     });
     $('#tableEstudiantes').DataTable();
 }else if(getPagina() == "verificados"){
@@ -1032,6 +1080,36 @@ formDatosFiscales.onsubmit = function(e){
         return false;
     }
 }
+
+//MATRICULAR ALUMNO
+function fntMatriEstudiante(element, id){
+    rowTable = element.parentNode.parentNode.parentNode.parentNode.parentNode;
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Estudiantes/getEstudianteMat/'+id;
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+
+            let objData = JSON.parse(request.responseText);
+            if(objData.estatus){
+                document.querySelector("#idAlumnosUp").value = objData.data.id;
+                document.querySelector("#txtNombreEstUp").value = objData.data.nombre_persona;
+                // document.querySelector('#Pdf').src = `${base_url}/Assets/pdf/${objData.data.Archivo_pdf}`
+                // document.querySelector("#txtMatriculaIntAlumnoUp").value = objData.data.matricula_interna;
+                document.querySelector("#txtMatriculaExtAlumnoUp").value = objData.data.matricula_externa;
+                $('#ModalFormAlumnoMatricular').modal('show');
+            }else{
+                swal.fire("Error", objData.msg , "error");
+            }
+        }
+    }
+}
+
+//CERRAR MODAL DE BOTON MATRICULAR ALUMNOS
+$('.cerrarModal').click(function(){
+    $('#ModalFormAlumnoMatricular').modal('hide');
+})
 
 function convToBase64(string){
     let value = window.btoa(unescape(encodeURIComponent(string)));

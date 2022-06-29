@@ -7,7 +7,7 @@
 		}
 		//Funcion para consultar lista de Estudiantes
 		public function selectEstudiantes(){
-			$sql = "SELECT ins.id,per.id AS id_personas, per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno)AS apellidos,
+			$sql = "SELECT ins.id,per.id AS id_personas,his.matricula_interna,his.matricula_externa,per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno)AS apellidos,
             plante.nombre_plantel_fisico,plante.municipio,planest.nombre_carrera,tg.nombre_grado,sa.nombre_salon,acp.validacion_doctos,
             acp.validacion_datos_personales,acp.id_usuario_verificacion_doctos,acp.id_usuario_verificacion_datos_personales 
             FROM t_inscripciones AS ins 
@@ -41,6 +41,36 @@
 			$request = $this->select_all($sql);
 			return $request;
         }
+
+        //Matricular estudiantes
+        public function selectEstudianteMat(int $intIdEstudiantes)
+        {
+            //BUSCAR
+            $this->intIdEstudiantes = $intIdEstudiantes;
+            $sql = "SELECT tp.id,th.matricula_interna,th.matricula_externa, tp.nombre_persona  FROM t_personas AS tp 
+                    LEFT JOIN t_inscripciones AS ti ON ti.id_personas = tp.id 
+                    LEFT JOIN t_historiales AS th  ON ti.id_historial = th.id 
+                    WHERE ti.id = $this->intIdEstudiantes AND th.id";
+                    $request = $this->select($sql);
+                    return $request;
+        }
+
+        //MATRICULAR ALUMNO
+        public function updateMatEstudiante(int $idEstudiante, string $matricula_externa, int $idUser){
+            $sqlHistorial  = "SELECT id_historial FROM t_inscripciones WHERE id_personas = $idEstudiante LIMIT 1";
+            $requestHistorial = $this->select($sqlHistorial);
+            if(!empty($requestHistorial))
+            {
+                $idHistorial = $requestHistorial['id_historial'];
+                $sql = "UPDATE t_historiales SET matricula_externa = ? WHERE id = $idHistorial";
+                $arrData = array($matricula_externa);
+                $request = $this->update($sql,$arrData);
+            }else{
+                $request = "exist";
+            }
+            return $request;
+        }
+
         /* public function selectEstudiantesVerificados(){
 			$sql = "SELECT ins.id,per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno) AS apellidos,
             plante.nombre_plantel,plante.municipio,planest.nombre_carrera,ins.grado,sal.nombre_salon,per.validacion_doctos FROM t_inscripciones AS ins

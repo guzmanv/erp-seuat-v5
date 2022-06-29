@@ -27,6 +27,60 @@
 			$this->views->getView($this,"estudiantes",$data);
 		}
 
+        //MATRICULAR ALUMNO
+        public function getEstudianteMat($id){
+            $intIdEstudiantes = intval(strClean($id));
+            if($intIdEstudiantes > 0)
+            {
+                $arrData = $this->model->selectEstudianteMat($intIdEstudiantes);
+                if(empty($arrData))
+                {
+                    $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
+                }else{
+                    $arrResponse = array('estatus' => true, 'data' => $arrData);
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+
+        //ACTUALIZAR MATRICULA ALUMNO
+        public function setMatrEstudian_up()
+        {
+            if($_POST)
+            {
+                if(empty($_POST['idAlumnosUp']) || empty($_POST['txtMatriculaExtAlumnoUp']))
+                {
+                    $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
+                }else{
+                    $intIdEstudiantes = intval($_POST['idAlumnosUp']);
+                    //$strMatriculaInterna = strClean($_POST['txtMatriculaIntAlumnoUp']);
+                    $strMatriculaExterna = strClean($_POST['txtMatriculaExtAlumnoUp']);
+                    //$strNombreEst = strClean($_POST['txtNombreEstUp']);
+                    //$strFecha_Actualizacion = strClean($_POST['txtFecha_ActualizacionUp']);
+                    //$intId_Usuario_Actualizacion = intval($_POST['txtId_Usuario_ActualizacionUp']);
+                    $request_EstudiantesMat = "";
+
+                    if($intIdEstudiantes <> 0)
+                    {
+                        $request_EstudiantesMat = $this->model->updateMatEstudiante($intIdEstudiantes, $strMatriculaExterna,$_SESSION['idUser']);
+                        $option = 1;
+                    }
+
+                    if($request_EstudiantesMat > 0)
+                    {
+                        if($option == 1)
+                        {
+                            $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
+                        }
+                    }else{
+                        $arrResponse = array("estatus" => false, "msg" => 'No es posible actualizar los datos, probablemente existe un registro con el mismo nombre o presenta algún problema con la red.');
+                    }
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
 
         
 		/* public function verificados(){
@@ -107,6 +161,9 @@
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal '.$valorDoctos['class'].'" onclick="'.$valorDoctos['onclick'].'(this)" idins = '.$arrData[$i]['id'].' valdo = '.$arrData[$i]['validacion_doctos'].' n = "'.$valorDoctos['nombre'].'" usv = "'.$arrData[$i]['id_usuario_verificacion_doctos'].'" data-toggle="modal" data-target="'.$valorDoctos['modal'].'" title="Documentacion"> &nbsp;&nbsp; <i class="far fa-file-word"></i> &nbsp;'.$valorDoctos['value'].'</button>
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal editDatosFiscales" onclick="fnDatosFiscales(this)" idPer = '.$arrData[$i]['id_personas'].' data-toggle="modal" data-target="#ModalFormDatosFiscales" title="Datos fiscales"> &nbsp;&nbsp; <i class="fas fa-file-invoice-dollar"></i> &nbsp;Datos fiscales</button>
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal editTutor" onclick="fnEditTutor(this)" idPer = '.$arrData[$i]['id_personas'].' data-toggle="modal" data-target="#ModalFormEditTutor" title="Tutor"> &nbsp;&nbsp; <i class="fas fa-user-friends"></i> &nbsp;Datos tutor</button>
+                        <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnMatriEstudiante" onClick="fntMatriEstudiante(this,'.$arrData[$i]['id'].')" title="Matricular"> &nbsp;&nbsp;
+                            <i class="fas fa-pencil-alt"></i> &nbsp; Matricular
+                        </button>
 						<div class="dropdown-divider"></div>
 					</div>
 				</div>
