@@ -329,7 +329,7 @@
             $sql = "SELECT tp.id,ts.nombre_servicio,tcs.nombre_categoria,ts.codigo_servicio,tcs.clave_categoria,tpr.nombre_promocion,
             tpr.porcentaje_descuento,ts.id AS id_servicio,tp.cobro_total FROM t_precarga AS tp 
             LEFT JOIN t_servicios AS ts ON tp.id_servicios = ts.id
-            LEFT JOIN t_promociones AS tpr ON tpr.id_servicios = ts.id 
+            RIGHT JOIN t_promociones AS tpr ON tpr.id_servicios = ts.id 
             LEFT JOIN t_categoria_servicios AS tcs ON ts.id_categoria_servicios = tcs.id
             WHERE ts.codigo_servicio LIKE '%COL%'";
 

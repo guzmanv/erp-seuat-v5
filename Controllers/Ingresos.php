@@ -83,7 +83,7 @@
                     $arrData['data'] = $datos;
                 }
             }
-            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrDataCol,JSON_UNESCAPED_UNICODE);
             die();
         }
         //Funcion para obtener promociones por Id del Servicio

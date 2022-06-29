@@ -62,6 +62,7 @@ function fnServicios(grado,tipoCobro){
     if(isNaN(grado) == false && isNaN(tipoCobro) == false){
         url = `${base_url}/Ingresos/getServicios/${grado}/${tipoCobro}/${idPersonaSeleccionada}`;
         fetch(url).then(res => res.json()).then((resultado) => {
+            console.log(resultado)
             arrServiciosTodos = resultado.data;
             document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";
             if(resultado.tipo == "COL"){
