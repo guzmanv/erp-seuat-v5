@@ -1,5 +1,7 @@
 <?php
     headerAdmin($data);
+    getModal('Becas/modalNuevaBeca',$data);
+    getModal('Becas/modalEditBeca',$data);
 ?>
 <div class="wrapper">
     <div class="content-wrapper">
@@ -11,7 +13,7 @@
                     </div>
                     <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
-                            <button type="button" id="btnNuevoTurno" class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalNuevoTurno"><i class="fa fa-plus-circle fa-md"></i> Nuevo</button>
+                            <button type="button" id="btnNuevoTurno" class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalNuevaBeca"><i class="fa fa-plus-circle fa-md"></i> Nueva beca</button>
                         </ol>
                     </div>
                 </div>
@@ -33,6 +35,7 @@
                                                 <th>Fecha</th>
                                                 <th>Grado</th>
                                                 <th>Periodo</th>
+                                                <th>Carrera</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
