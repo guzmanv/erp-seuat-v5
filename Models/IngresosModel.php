@@ -46,7 +46,8 @@
                 }
             }
             //$sql = "SELECT *FROM t_servicios WHERE codigo_servicio NOT LIKE '%COL%'";
-            $sqlOtrosServ = "SELECT *FROM t_servicios AS s WHERE s.aplica_edo_cuenta != 1";
+            $sqlOtrosServ = "SELECT s.id AS id_servicio,s.codigo_servicio,s.subcodigo_servicio,s.nombre_servicio,s.precio_unitario,s.aplica_edo_cuenta,s.anio_fiscal,
+            s.estatus,s.id_categoria_servicios,s.id_unidades_medida,s.id_instituciones FROM t_servicios AS s WHERE s.aplica_edo_cuenta != 1";
             $requestOtrosServ = $this->select_all($sqlOtrosServ);
             foreach ($requestOtrosServ as $key => $value) {
                 array_push($arrayServ,$value);
@@ -55,7 +56,7 @@
         }
         //Obtener lista de Colegiaturas
         public function selectColegiaturas(int $idPersona, int $idGrado){
-            $sql = "SELECT ec.id AS id_edo_cta,p.id AS id_precarga,s.nombre_servicio,s.precio_unitario,ec.pagado FROM t_estado_cuenta AS ec
+            $sql = "SELECT ec.id AS id_edo_cta,p.id AS id_precarga,s.nombre_servicio,s.precio_unitario,ec.pagado,s.id AS id_servicio FROM t_estado_cuenta AS ec
             INNER JOIN t_precarga AS p ON ec.id_precarga = p.id
             INNER JOIN t_servicios AS s ON p.id_servicios = s.id
             INNER JOIN t_categoria_servicios AS cs ON s.id_categoria_servicios = cs.id
@@ -175,7 +176,7 @@
                 $sqlIngDetalle = "INSERT INTO t_ingresos_detalles(cantidad,cargo,abono,saldo,precio_subtotal,descuento_dinero,descuento_porcentaje,promociones_aplicadas,id_servicios,id_ingresos,id_precarga) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
                 $requestIngDetalle = $this->insert($sqlIngDetalle,array($cantidad,$cargo,$abono,$saldo,$precioSubtotal,$descuentoDinero,$descuentoPorcentaje,$promocionesAplicadas,$idServicio,$idIngreso,NULL));
             }
-            return $requestIngDetalle;
+            return $idServicio;
         }
         //Consultar datos del Plantel para Los recibos
         public function selectDatosInstitucion(int $idIngreso){
@@ -194,7 +195,7 @@
         }
         //Consultar datos de la Venta/Ingreso
         public function selectDatosVenta(int $idIngreso){
-            $sql = "SELECT i.id AS id_ingreso,i.folio,i.fecha AS fecha_ingreso,id.cantidad,id.id AS id_ingreso_detalle,i.total,s.nombre_servicio,s.precio_unitario,s.codigo_servicio,
+            $sql = "SELECT i.id AS id_ingreso,i.folio,i.fecha_cobro AS fecha_ingreso,id.cantidad,id.id AS id_ingreso_detalle,i.total,s.nombre_servicio,s.precio_unitario,s.codigo_servicio,
             id.id_precarga,sp.nombre_servicio AS nombre_servicio_precarga,sp.precio_unitario AS precio_unitario_precarga,sp.codigo_servicio AS codigo_servicio_precarga FROM t_ingresos AS i       
             RIGHT JOIN t_ingresos_detalles AS id ON id.id_ingresos = i.id
             LEFT JOIN t_servicios AS s ON id.id_servicios = s.id
@@ -335,12 +336,12 @@
             return $request;
         }
 
-        public function deletTempInscripcion(int $id)
+        /*public function deletTempInscripcion(int $id)
         {
             $sql = "DELETE FROM t_tmpinscripciones WHERE id = $id";
             $request = $this->delete($sql);
             return $request;
-        }
+        }*/
 
         public function selectColegTemp(int $idPersona)
         {
@@ -348,6 +349,13 @@
             total_descuento_insc,precio_colegiatura,porcentaje_descuento_coleg,total_descuento_coleg,
             id_inscripcion FROM t_tmpInscripciones WHERE id_persona = $idPersona LIMIT 1";
             $request = $this->select($sql);
+            return $request;
+        }
+
+        public function deletTempTable(int $idAlumno)
+        {
+            $sql = "DELETE FROM t_tmpinscripciones WHERE id_persona = $idAlumno";
+            $request = $this->delete($sql);
             return $request;
         }
 	}

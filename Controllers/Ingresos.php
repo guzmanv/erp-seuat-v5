@@ -127,7 +127,7 @@
             }
             $folio = $this->model->selectFolioSig($idAlumno);
             $reqIngreso = $this->model->insertIngresos($folio,$tipoPago,$tipoComprobante,$total,$observaciones,$idAlumno,$this->idPlantel,$this->idUser);
-            /*if($reqIngreso){
+            if($reqIngreso){
                 foreach ($arrayDate as $key => $value) {
                     $idServicio = null;
                     $idPrecarga = null;
@@ -135,7 +135,7 @@
                         $idPrecarga = $value->precarga;
                         $idServicio = $value->id_servicio;
                         $reqIngDetalles = $this->model->insertIngresosDetalle($value->cantidad,$value->precio_unitario,$value->precio_unitario,$total,$value->subtotal,0,0,json_encode($value->promociones),$idServicio,$idPrecarga,$reqIngreso);
-                        $idEstadoCta = $value->id_servicio;  //ID edo cta a actualizar como pagado
+                        $idEstadoCta = $value->id_edo_cta;  //ID  edo cta a actualizar como pagado
                         if($reqIngDetalles){
                             $reqEdoCtaUpdate = $this->model->updateEdoCta($idEstadoCta,$this->idUser);
                             //$arrResponse = $reqEdoCtaUpdate; Se se guardo correcxtamnete a Pagado
@@ -145,6 +145,9 @@
                         $reqIngDetalles = $this->model->insertIngresosDetalle($value->cantidad,$value->precio_unitario,$value->precio_unitario,$total,$value->subtotal,0,0,json_encode($value->promociones),$idServicio,$idPrecarga,$reqIngreso);
                     }
                     if($reqIngDetalles){
+                        if($value->temp){
+                            $this->model->deletTempTable($idAlumno);
+                        }
                         $arrResponse = array('estatus' => true, 'id'=>$reqIngreso,'msg' => 'Datos guardados correctamente!');                       
                     }else{
                         $arrResponse = array('estatus' => false, 'msg' => 'No es posible Guardar los Datos');
@@ -152,8 +155,8 @@
                 }
             }else{
                 $arrResponse = array('estatus' => false, 'msg' => 'No es posible Guardar los Datos');
-            } */
-            echo json_encode($reqIngreso,JSON_UNESCAPED_UNICODE);
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         //Funcion para imprimir comprante de una Venta
