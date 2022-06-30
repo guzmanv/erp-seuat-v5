@@ -27,9 +27,11 @@
 
         public function selectEstudianteInsc(int $idInscripcion){
             $sql = "SELECT ins.id,per.id AS id_persona,per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno) AS apellidos,
-            plante.nombre_plantel_fisico,plante.municipio,planest.nombre_carrera,ins.grado,sal.nombre_salon_compuesto,
+            plante.nombre_plantel_fisico,plante.municipio,planest.nombre_carrera,tg.nombre_grado,sal.nombre_salon_compuesto,
             ascp.validacion_doctos,ascp.validacion_datos_personales,ascp.id_usuario_verificacion_doctos,
-            ascp.id_usuario_verificacion_datos_personales FROM t_inscripciones AS ins
+            ascp.id_usuario_verificacion_datos_personales 
+            FROM t_inscripciones AS ins
+            INNER JOIN t_grados AS tg ON ins.id_grados = tg.id
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_plan_estudios AS planest ON ins.id_plan_estudios = planest.id

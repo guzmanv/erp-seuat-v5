@@ -29,7 +29,7 @@
                       <input type="text" id="txtMatriculaIntAlumnoUp" name="txtMatriculaIntAlumnoUp" class="form-control" placeholder="&#xf007 Número matricula"  name="Ingresa la matricula" disabled>
                     </div> -->
                     <div class="form-group">
-                      <label for="txtNombreEstUp">Estas editando a:</label>
+                      <label for="txtNombreEstUp">Estas matriculando a:</label>
                       <input type="text" id="txtNombreEstUp" name="txtNombreEstUp" class="form-control" placeholder="&#xf007 Nombre del estudiante"  name="Ingresa el nombre" disabled>
                     </div>
                     <div class="form-group">

@@ -4,8 +4,10 @@ date_default_timezone_set('UTC');
 $userAtencion = $data['data'][0]['nombre_usuario'];
 $userAlumno = $data['data'][0]['nombre_alumno'];
 $fechaEntrega = $data['data'][0]['fecha_estimada_devolucion'];
-$formatFechaEntrega = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime($fechaEntrega)));
-$formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime(date('Y-m-d'))));
+// $formatFechaEntrega = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime($fechaEntrega)));
+$formatFechaEntrega = iconv('', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime($fechaEntrega)));
+// $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime(date('Y-m-d'))));
+$formatFechaActual = iconv('', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime(date('Y-m-d'))));
 $nombreCarrera = $data['data'][0]['nombre_carrera'];
 ?>
 <!DOCTYPE html>
@@ -162,9 +164,9 @@ $nombreCarrera = $data['data'][0]['nombre_carrera'];
                 <div class="col-8" style="text-align:center">
                     <p><b>SISTEMA EDUCATIVO UNIVERSITARIO AZTECA</b><br>
                         <small style="font-size: 13px"><b>INSTITUTO DE ESTUDIOS SUPERIORES "SOR JUANA INES DE LA CRUZ"</b></small><br>
-                        <small>Incorporado a la Secretaria de Educacion Publica</small><br>
+                        <small>Incorporado a la Secretaría de Educación Pública</small><br>
                         <small>CLAVE: 07PSU0018E</small><br>
-                        <small>2a Norte Oriente N° 741, Tuxtla Gutierrez Chiapas</small>
+                        <small>2a Norte Oriente N° 741, Tuxtla Gutiérrez Chiapas</small>
                     </p>
                 </div>
                 <div class="col-2" style="text-align:right">
@@ -182,7 +184,7 @@ $nombreCarrera = $data['data'][0]['nombre_carrera'];
         <div>
             <div class="row">
                 <div class="col-12" style="text-align:right">
-                    <p>Tuxtal Gutierrez <?php echo $formatFechaActual ?></b>
+                    <p>Tuxtla Gutiérrez Chiapas <?php echo $formatFechaActual ?></b>
                     </p>
                     <p>Folio de préstamo: <b><?php echo $data['folio']?></b>
                     </p>
@@ -191,7 +193,7 @@ $nombreCarrera = $data['data'][0]['nombre_carrera'];
                     <p>El (la) suscrito(a) <b><?php echo $userAlumno?></b>, alumno(a) de la
                     <b><?php echo $nombreCarrera ?></b>.
                     Me doy por enterado que a más tardar el día<b>*</b>  <?php echo $formatFechaEntrega ?>, debo
-                    hacer la devolución de los documentos documentos: 
+                    hacer la devolución de los documentos: 
                     </p>
                 </div>
             </div>
@@ -248,7 +250,7 @@ $nombreCarrera = $data['data'][0]['nombre_carrera'];
             </div>
         </div>
         <div></div>   
-    </div><br><br>
+    </div><br>
     <div style='text-align:center'>
         <h4>FIRMAS</h4>   
     </div>
