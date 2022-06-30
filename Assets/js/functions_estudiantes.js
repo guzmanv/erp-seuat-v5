@@ -1023,13 +1023,13 @@ function fnDatosFiscales(value){
         document.querySelector('#idPersonaDatosFis').value = idPer;
         document.querySelector('#txtNombreAlumno').value= `${resDatos.nombre_persona} ${resDatos.ap_paterno} ${resDatos.ap_materno}`;
         document.querySelector('#txtRFC').value = resDatos.rfc;
-        document.querySelector('#txtNombreSocial').value = resDatos.nombre_social;
+        document.querySelector('#txtNombreSocial').value = resDatos.razon_social;
         document.querySelector('#txtCP').value = resDatos.cp;
         document.querySelector('#txtTelefono').value = resDatos.telefono;
         document.querySelector('#txtEmail').value = resDatos.email;
         document.querySelector('#txtTelefono').value = resDatos.telefono;
-        document.querySelector('#txtDireccion').value = resDatos.direccion;
-        document.querySelector('#txtLugar').value = resDatos.lugar;
+        document.querySelector('#txtCalle').value = resDatos.calle;
+        // document.querySelector('#txtLugar').value = resDatos.lugar;
     })
 }
 function fnDateDatePicker(){
@@ -1052,9 +1052,9 @@ formDatosFiscales.onsubmit = function(e){
         let intCP = document.querySelector('#txtCP').value;
         let intTelefono = document.querySelector('#txtTelefono').value;
         let strEmail = document.querySelector('#txtEmail').value;
-        let strDireccion = document.querySelector('#txtDireccion').value;
-        let strLugar = document.querySelector('#txtLugar').value;
-        if(intIdPersona == '' || strRFC == '' || strRazonSocial == '' || intCP == '' || intTelefono == '' || strEmail == '' || strDireccion == '' || strLugar == ''){
+        let strDireccion = document.querySelector('#txtCalle').value;
+        // let strLugar = document.querySelector('#txtLugar').value;
+        if(intIdPersona == '' || strRFC == '' || strRazonSocial == '' || intCP == '' || intTelefono == '' || strEmail == '' || strDireccion == ''){
             swal.fire("Atención", "Algunos campos son obligatorios", "warning");
             return false;
         }

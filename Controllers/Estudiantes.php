@@ -414,15 +414,15 @@
             $datos = $_POST;
             $idAlumno = $datos['idPersonaDatosFis'];
             $CP = $datos['txtCP'];
-            $direccion = $datos['txtDireccion'];
+            $calle = $datos['txtCalle'];
             $email = $datos['txtEmail'];
-            $lugar = $datos['txtLugar'];
+            // $lugar = $datos['txtLugar'];
             $razonSocial = $datos['txtNombreSocial'];
             $RFC = $datos['txtRFC'];
             $telefono = $datos['txtTelefono'];
             $respondeStatusDatFiscales = $this->model->selectStatusDatosFiscales($idAlumno);
             if($respondeStatusDatFiscales['id_datos_fiscales'] == null){
-                $responseDaosFiscales = $this->model->insertDatosFiscales($idAlumno,$CP,$direccion,$email,$lugar,$razonSocial,$RFC,$telefono);
+                $responseDaosFiscales = $this->model->insertDatosFiscales($idAlumno,$CP,$calle,$email,$razonSocial,$RFC,$telefono);
                 if($responseDaosFiscales){
                     $responseEstatusDatFisPersona = $this->model->updateDatFiscPersona($idAlumno,$responseDaosFiscales);
                     if($responseEstatusDatFisPersona){
@@ -432,7 +432,7 @@
                     }
                 }
             }else{
-                $response = $this->model->updateDatosFiscales($respondeStatusDatFiscales['id_datos_fiscales'],$CP,$direccion,$email,$lugar,$razonSocial,$RFC,$telefono);
+                $response = $this->model->updateDatosFiscales($respondeStatusDatFiscales['id_datos_fiscales'],$CP,$calle,$email,$razonSocial,$RFC,$telefono);
                 if($response){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos fiscales actualizados correctamente');
                 }else{

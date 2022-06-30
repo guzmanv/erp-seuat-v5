@@ -411,14 +411,14 @@
             $requestDatosFiscales = $this->select($sqlDatosFiscales);
             return $requestDatosFiscales;
         }
-        public function insertDatosFiscales(int $idAlumno,int $CP,string $direccion,string $email,string $lugar,string $razonSocial,string $RFC,int $telefono){
-            $sql = "INSERT INTO t_datos_fiscales(rfc,razon_social,direccion,lugar,cp,telefono,email) VALUES(?,?,?,?,?,?,?)";
-            $request = $this->insert($sql,array($RFC,$razonSocial,$direccion,$lugar,$CP,$telefono,$email));
+        public function insertDatosFiscales(int $idAlumno,int $CP,string $calle,string $email,string $razonSocial,string $RFC,int $telefono){
+            $sql = "INSERT INTO t_datos_fiscales(rfc,razon_social,calle,cp,telefono,email) VALUES(?,?,?,?,?,?,?)";
+            $request = $this->insert($sql,array($RFC,$razonSocial,$calle,$CP,$telefono,$email));
             return $request;
         }
-        public function updateDatosFiscales(int $idDatosFiscales,int $CP,string $direccion,string $email,string $lugar,string $razonSocial,string $RFC,int $telefono){
-            $sql = "UPDATE t_datos_fiscales SET rfc = ?,razon_social = ?,direccion = ?,lugar = ?,cp = ?,telefono = ?,email = ? WHERE id=$idDatosFiscales";
-            $request = $this->update($sql,array($RFC,$razonSocial,$direccion,$lugar,$CP,$telefono,$email));
+        public function updateDatosFiscales(int $idDatosFiscales,int $CP,string $calle,string $email,string $razonSocial,string $RFC,int $telefono){
+            $sql = "UPDATE t_datos_fiscales SET rfc = ?,razon_social = ?,calle = ?,cp = ?,telefono = ?,email = ? WHERE id=$idDatosFiscales";
+            $request = $this->update($sql,array($RFC,$razonSocial,$calle,$CP,$telefono,$email));
             return $request;
         }
         public function updateDatFiscPersona(int $idAlumno, int $idDatosFiscales){
