@@ -96,7 +96,7 @@
                                                                 <select class="form-control form-control-sm" id="div_chck_inscripcion" name="select_chck_inscripcion">
                                                                     <option value="">Seleccionar ...</option>
                                                                     <?php foreach ($data['promocion_inscripcion'] as $key => $inscripcion) { ?>
-                                                                        <option value="<?php echo $inscripcion['id'].','.$inscripcion['id_servicio'].','.$inscripcion['porcentaje_descuento'].','.$inscripcion['cobro_total'] ?>"><?php echo($inscripcion['nombre_promocion'].' (' . $inscripcion['porcentaje_descuento']. ' %)') ?></option>
+                                                                        <option value="<?php echo '0,'.$inscripcion['id'].','.$inscripcion['porcentaje_descuento'].','.$inscripcion['precio_unitario'] ?>"><?php echo($inscripcion['nombre_promocion'].' (' . $inscripcion['porcentaje_descuento']. ' %)') ?></option>
                                                                     <?php } ?>
                                                                 </select>
                                                             </div>
