@@ -19,14 +19,29 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label>Descuento(%) de la beca</label>
-                                    <input type="text" id="txtPorcentaje" name="txtPorcentaje" class="form-control form-control" placeholder="EJ: 27,30,35..." required="">
+                                    <input type="text" id="txtPorcentaje" name="txtPorcentaje" class="form-control form-control" placeholder="EJ: Número en decimal 0.48, 0.40, etc..." required="">
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
+                                    <div class="form-group">
+                                        <label>Periodo:</label>
+                                        <select class="form-control" name="slctPeriodo" id="slctPeriodo">
+                                            <option selected>Seleccionar...</option>
+                                            <?php
+                                            foreach ($data['periodo'] as $value) {
+                                            ?>
+                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_periodo'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
                                     <div class="form-group">
                                         <label>Plantel:</label>
-                                        <select class="form-control" name="slctPeriodo" id="slctPeriodo">
+                                        <select class="form-control" name="slctPlantel" id="slctPlantel" onchange="fnElegirInstitucion(value)">
                                             <option selected>Seleccionar...</option>
                                             <?php
                                             foreach ($data['planteles'] as $value) {
@@ -38,18 +53,11 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <div class="form-group">
                                         <label>Institucion:</label>
-                                        <select class="form-control" name="slctInstitucion" id="slctInstitucion" onchange="fnElegirInstitucion(value)">
+                                        <select class="form-control" name="slctInstitucion" id="slctInstitucion">
                                             <option selected>Seleccionar...</option>
-                                            <?php
-                                            foreach ($data['institucion'] as $value) {
-                                            ?>
-                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_institucion'] ?></option>
-                                            <?php
-                                            }
-                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -58,7 +66,7 @@
                                 <div class="form-group col-md-6">
                                     <div class="form-group">
                                         <label>Nivel educativo:</label>
-                                        <select class="form-control" name="slctPeriodo" id="slctPeriodo">
+                                        <select class="form-control" name="slctNivel" id="slctNivel">
                                             <option selected>Seleccionar...</option>
                                             <?php
                                             foreach ($data['nivel_educativo'] as $value) {
@@ -72,33 +80,9 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <div class="form-group">
-                                        <label>Periodo:</label>
-                                        <select class="form-control" name="slctCarrera" id="slctCarrera">
-                                            <option selected>Seleccionar...</option>
-                                            <?php
-                                            foreach ($data['periodo'] as $value) {
-                                            ?>
-                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_periodo'] ?></option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <div class="form-group">
                                         <label>Carrera:</label>
                                         <select class="form-control" name="slctCarrera" id="slctCarrera">
                                             <option selected>Seleccionar...</option>
-                                            <?php
-                                            foreach ($data['carreras'] as $value) {
-                                            ?>
-                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_carrera'] ?></option>
-                                            <?php
-                                            }
-                                            ?>
                                         </select>
                                     </div>
                                 </div>

@@ -1,10 +1,10 @@
 let tableBecas = document.querySelector('#tableBecas');
 const frmNuevaBeca = document.querySelector('#formNuevaBeca');
 let slctInst = document.querySelector('#slctInstitucion');
-
+let slctCrr = document.querySelector('#slctCarrera')
 
 document.addEventListener('DOMContentLoaded', function(){
-    tableBecas = $('#tableBecas').dataTable( {
+    tableBecas = $('#tableBecas').dataTable({
 		"aProcessing":true,
 		"aServerSide":true,
         "language": {
@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function(){
 			{"data": "nombre_beca"},
             {"data": "porcentaje_descuento"},
 			{"data": "estatus"},
-			{"data": "id_periodos"},
-            {"data": "id_plan_estudios"},
+			{"data": "nombre_periodo"},
+            {"data": "nombre_carrera"},
 			{"data": "options"}
         ],
         "responsive": true,
@@ -47,11 +47,11 @@ function fnNuevaBeca(){
 //Nueva Beca
 frmNuevaBeca.addEventListener('submit', (e) =>{
 	e.preventDefault();
-	let idNuevaBeca = document.querySelector('');
-	let nombreBeca = document.querySelector('');
-	let descBeca = document.querySelector('');
-	let periodo = document.querySelector('');
-	let carrera = document.querySelector('');
+	let idNuevaBeca = document.querySelector('idBecaNueva');
+	let nombreBeca = document.querySelector('txtNuevaBeca');
+	let descBeca = document.querySelector('txtPorcentaje');
+	let periodo = document.querySelector('slctPeriodo');
+	let carrera = document.querySelector('slctInstitucion');
 	if(nombreBeca == "" || descBeca == "" | periodo == "" | carrera == "")
 	{
 		swal.fire("Atención","Atención, todos los campos son obligatorios","warning");
@@ -78,46 +78,52 @@ frmNuevaBeca.addEventListener('submit', (e) =>{
 				swal.fire('Error',data.msg,'error');
 			}
 		})
-
-		.catch(function(err){
-			console.log('Error', err);
-		})
 })
 
-function fnEditarBeca(idBeca)
-{
-	let idBecaEdit = idBeca;
-	let url = `${base_url}/Becas/getBeca/${idBecaEdit}`;
-	let txtNomBecaEdit = document.querySelector();
-	let txtPctBecaEdit = document.querySelector();
-	let slctPeriodoEdit = document.querySelector();
-	let slctCarreraEdit = document.querySelector();
+function fnElegirInstitucion(idPlt){
+	let url = `${base_url}/Becas/getInstitucion?idIns=${idPlt}`;
+	//console.log(url);
+	fetch(url)
+	.then(response => response.json())
+	.then(data => {
+		slctInst.innerHTML="";
+		for(let i = 0; i < data.length; i++){
+			if(data[i]['id'] == "" && data[i]['nombre_institucion'] == "")
+			{
+				slctInst.text = "Seleccione...";
+				slctInst.value = "";
+			}
+			else
+			{
+				let opc = document.createElement('option');
+				opc.text = data[i]['nombre_institucion'];
+				opc.value = data[i]['id'];
+				slctInst.appendChild(opc);
+			}
+		}
+	})
+	.catch(err => {throw err})
 }
 
-
-function fnElegirPlantel()
-
-
-
-function fnElegirInstitucion(idPlantel){
-	let url = `${base_url}/Becas/getInstiticion/${idPlantel}`;
+function fnElegirCarrera(idNvl)
+{
+	let url = `${base_url}/Becas/getCarrera?idNivel=${idNvl}`;
 	fetch(url)
 		.then(response => response.json())
-		.then(data =>{
+		.then(data => {
+			console.log(data)
+			slctCrr.innerHTML = "";
 			for (let i = 0; i < data.length; i++) {
-				if(data[i]['id'] == "" & data[i]['nombre_institucion'] == "")
-				{
-					slctInst.text="Seleccione...";
-					slctInst.value="";
-				}
-				else
-				{
-					opc = document.createElement('option');
-					opc.text = data[i]['nombre_institucion'];
-					opc.value = data[i]['id'];
-					slctInst.appendChild(opc);
+				console.log(data)
+				if (data[i]['id'] == "" && data[i]['nombre_carrera'] == "") {
+					slctCrr.text = "Seleccione..."
+					slctCrr.value= ""
+				} else {
+					let opc = document.querySelector('option');
+					opc.text = data[i]['nombre_carrera'];
+					opc.text = data[i]['id'];
+					slctCrr.appendChild(opc)
 				}
 			}
 		})
-	.catch(err => {throw err})
 }
