@@ -3,9 +3,11 @@ setlocale(LC_ALL,"es_ES");
 date_default_timezone_set('UTC');
 $userAtencion = 'Jose Santiz Ruiz';
 $userAlumno = $data['data'][0]['nombre_persona'].' '.$data['data'][0]['apellidos'];
-$formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime(date('Y-m-d'))));
+// $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime(date('Y-m-d'))));
+$formatFechaActual = iconv('', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime(date('Y-m-d'))));
 $nombreCarrera = $data['data'][0]['nombre_carrera'];
-$fechaComEntrega = iconv("UTF-8", "ISO-8859-1", strftime("%A, %d de %B de %Y", strtotime($data['fechaComEntrega'])));
+// $fechaComEntrega = iconv('ISO-8859-2', 'UTF-8',  strftime("%A, %d de %B de %Y", strtotime($data['fechaComEntrega'])));
+$fechaComEntrega = iconv('', 'UTF-8',  strftime("%A, %d de %B de %Y", strtotime($data['fechaComEntrega'])));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -160,9 +162,9 @@ $fechaComEntrega = iconv("UTF-8", "ISO-8859-1", strftime("%A, %d de %B de %Y", s
                 <div class="col-8" style="text-align:center">
                     <p><b>SISTEMA EDUCATIVO UNIVERSITARIO AZTECA</b><br>
                         <small style="font-size: 13px"><b>INSTITUTO DE ESTUDIOS SUPERIORES "SOR JUANA INES DE LA CRUZ"</b></small><br>
-                        <small>Incorporado a la Secretaria de Educacion Publica</small><br>
+                        <small>Incorporado a la Secretaría de Educación Pública</small><br>
                         <small>CLAVE: 07PSU0018E</small><br>
-                        <small>2a Norte Oriente N° 741, Tuxtla Gutierrez Chiapas</small>
+                        <small>2a Norte Oriente N° 741, Tuxtla Gutiérrez Chiapas</small>
                     </p>
                 </div>
                 <div class="col-2" style="text-align:right">
@@ -180,7 +182,7 @@ $fechaComEntrega = iconv("UTF-8", "ISO-8859-1", strftime("%A, %d de %B de %Y", s
         <div>
             <div class="row">
                 <div class="col-12" style="text-align:right">
-                    <p>Tuxtal Gutierrez <?php echo $formatFechaActual ?></b>
+                    <p>Tuxtla Gutiérrez Chiapas <?php echo $formatFechaActual ?></b>
                     </p>
                 </div>
                 <div class="col-12" style="text-align:justify;text-justify:inter-word;line-height=150%">
