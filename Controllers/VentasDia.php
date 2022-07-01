@@ -31,7 +31,7 @@
             $arrData = $this->model->selectVentasDia($fechaActual,$this->idUser);
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
-                $array = $this->getDatosAlumno($arrData[$i]['id_persona']);
+                $array = $this->getDatosAlumno($arrData[$i]['id_persona_paga']);
                 $arrData[$i]['nombre_completo'] = $array['nombre_completo'];
                 $arrData[$i]['plantel'] = $array['plantel'];
                 $arrData[$i]['carrera'] = $array['nombre_carrera'];

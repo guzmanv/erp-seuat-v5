@@ -12,14 +12,15 @@
 			return $request;
 		}
         public function selectDatosAlumno(int $idAlumno){
-            $sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,pe.nombre_carrera,i.grado,
+            $sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,pe.nombre_carrera,tg.numero_natural AS grado,
             inst.abreviacion_institucion,sis.abreviacion_sistema,pl.municipio FROM t_personas AS p
             INNER JOIN t_inscripciones AS i ON i.id_personas = p.id
             INNER JOIN t_plan_estudios AS pe ON i.id_plan_estudios = pe.id
             INNER JOIN t_instituciones AS inst ON pe.id_instituciones = inst.id
             INNER JOIN t_planteles AS pl ON inst.id_planteles = pl.id
+            INNER JOIN t_grados AS tg ON i.id_grados = tg.id
             LEFT JOIN t_sistemas_educativos AS sis ON inst.id_sistemas_educativos = sis.id
-            WHERE p.id = $idAlumno AND i.tipo_ingreso = 'Inscripcion' LIMIT 1";
+            WHERE p.id = 30 AND i.tipo_ingreso = 'Inscripcion' LIMIT 1";
             $request = $this->select($sql);
             return $request;
         }
@@ -40,8 +41,8 @@
             return $request;
         }
         public function selectAllVentasDia(int $idUsuario, $fecha){
-            $sql = "SELECT i.id, i.folio,i.fecha,i.total,i.id_persona_paga FROM t_ingresos AS i
-            WHERE i.fecha != '' AND i.fecha LIKE '$fecha%'  AND i.id_usuario_cobro  = $idUsuario ORDER BY i.fecha DESC";
+            $sql = "SELECT i.id, i.folio,i.fecha_cobro,i.total,i.id_persona_paga FROM t_ingresos AS i
+            WHERE i.fecha_cobro != '' AND i.fecha_cobro LIKE '$fecha%'  AND i.id_usuario_cobro  = $idUsuario ORDER BY i.fecha_cobro DESC";
 			$request = $this->select_all($sql);
 			return $request;
         }

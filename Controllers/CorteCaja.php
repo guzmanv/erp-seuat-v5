@@ -46,7 +46,7 @@
 			$arrData = $this->model->selectTotalesMetodosPago($id_usuario['id_usuario_atiende'],$fecha_apertura);
 			$array = [];
 			for($i = 0; $i<count($arrData); $i++){
-				$id_metodo_pago = $arrData[$i]['id_metodo_pago'];
+				$id_metodo_pago = $arrData[$i]['id_metodos_pago'];
 				$total = $arrData[$i]['total'];
 				if(!isset($array[$id_metodo_pago])){
 					$array[$id_metodo_pago] = 0;

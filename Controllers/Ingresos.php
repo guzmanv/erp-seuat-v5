@@ -60,39 +60,41 @@
                     for ($i = 0; $i<count($arrDataCol); $i++) {
                         $idServicio = $arrDataCol[$i]['id_servicio'];
                         $arrDataTemp = $this->model->selectColegTemp($idPersona,$idServicio);
-                        $idServicioColegiatura = $arrDataTemp['id_servicio_colegiatura'];
-                        $idServicioInscripcion = $arrDataTemp['id_servicio_inscripcion'];
-                        if($idServicio == $idServicioColegiatura){
-                            $arrDataCol[$i] = $arrDataTemp;
+                        if($arrDataTemp){
+                            $idServicioColegiatura = $arrDataTemp['id_servicio_colegiatura'];
+                            if($idServicio == $idServicioColegiatura){
+                                $arrDataCol[$i] = array_merge($arrDataCol[$i],$arrDataTemp);
+                            }
                         }
                     }
-                    /* if(count($arrDataCol) == 1){ //Si arrColegiaturas es solo uno
-                        $arrDataTemp = $this->model->selectColegTemp($idPersona);
-                        $arrNew = array_merge($arrDataCol[0],$arrDataTemp);
-                        $arrData['data'] = $arrNew;
-                    } */
-
+                    $arrData['data'] = $arrDataCol;
                 }else{
-                    /* $arrDataCol = $this->model->selectColegiaturas($idPersona,$grado);
-                    $arrData['data'] = $arrDataCol; */
+                    $arrDataCol = $this->model->selectColegiaturas($idPersona,$grado);
+                    $arrData['data'] = $arrDataCol;
                 }
             }else{ //Servicios
                 $arrData['tipo'] = "SERV";
                 //$arrData['data'] = $this->model->selectServicios($idPersona,$grado);
                 if($grado == 1){
-                    $datos = $this->model->selectServicios($idPersona,$grado);
-                    if(count($datos) == 1){
-                        $arrDataTemp = $this->model->selectColegTemp($idPersona);
-                        $arrNew = array_merge($datos[0],$arrDataTemp);
-                        $arrData['data'] = $arrNew;
+                    $arrDataServ = $this->model->selectServicios($idPersona,$grado);
+                    for($i = 0; $i<count($arrDataServ);$i++){
+                        $idServicio = $arrDataServ[$i]['id_servicio'];
+                        $arrDataTemp = $this->model->selectColegTemp($idPersona,$idServicio);
+                        if($arrDataTemp){
+                            $idServicioInscripcion = $arrDataTemp['id_servicio_inscripcion'];
+                            if($idServicio == $idServicioInscripcion){
+                                $arrDataServ[$i] = array_merge($arrDataServ[$i],$arrDataTemp);
+                            }
+                        }
                     }
+                    $arrData['data'] = $arrDataServ;
                     
                 }else{
-                    $datos = $this->model->selectServicios($idPersona,$grado);
-                    $arrData['data'] = $datos;
+                    $arrDataServ = $this->model->selectServicios($idPersona,$grado);
+                    $arrData['data'] = $arrDataServ;
                 }
             }
-            echo json_encode($arrDataCol,JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
         //Funcion para obtener promociones por Id del Servicio

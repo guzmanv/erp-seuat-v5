@@ -98,7 +98,7 @@ function fnMostrarTodosMovimientos(id){
                 contador += 1;
                 let nombreServicio = (element.nombre_servicio == null)?element.nombre_servicio_precarga:element.nombre_servicio;
                 let nombrePersona = `${element.nombre_persona} ${element.ap_paterno} ${element.ap_materno}`;
-                document.querySelector('#valoresMovientosAlumnoDet').innerHTML += `<tr><td>${contador}</td><td>${element.folio}</td><td>${element.fecha}</td><td>${nombreServicio}</td><td>${formatoMoneda(element.cargo)}</td><td>${nombrePersona}</td></tr>`
+                document.querySelector('#valoresMovientosAlumnoDet').innerHTML += `<tr><td>${contador}</td><td>${element.folio}</td><td>${element.fecha_cobro}</td><td>${nombreServicio}</td><td>${formatoMoneda(element.cargo)}</td><td>${nombrePersona}</td></tr>`
             });
         }
     }).catch(err => {throw err}); 

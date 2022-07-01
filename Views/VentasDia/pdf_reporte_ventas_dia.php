@@ -164,7 +164,7 @@ $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%d/%m/%Y", strtotime
                 </tr>
                 <?php foreach ($data['ventas'] as $key => $value){ ?>
                     <tr class="item">
-                        <td colspan="2"><p style="font-size:10px"><?php echo $value['fecha'] ?></p></td>
+                        <td colspan="2"><p style="font-size:10px"><?php echo $value['fecha_cobro'] ?></p></td>
                         <td colspan="2"><p style="font-size:10px"><?php echo $value['folio'] ?></p></td>
                         <td colspan="4" class="text-align-right"><p style="font-size:10px"><?php echo '$ '.formatoMoneda($value['total']) ?></p></td>    
                     </tr>
