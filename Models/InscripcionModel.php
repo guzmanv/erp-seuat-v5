@@ -390,7 +390,7 @@
         $idServCol,$idServIns)
         {
             $sql = "INSERT INTO t_tmpInscripciones(folio_inscripcion, precio_inscripcion, porcentaje_descuento_insc, total_descuento_insc, precio_colegiatura, porcentaje_descuento_coleg, total_descuento_coleg, id_persona, id_inscripcion, id_servicio_inscripcion,id_servicio_colegiatura) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
-            $request = $this->insert($sql,array($folioInscripcion, $precioIns, $porcentajeIns, $totalIns, $precioCol, $porcentajeCol, $totalCol, $idPersona, $idInscripcion,$idServCol,$idServIns));
+            $request = $this->insert($sql,array($folioInscripcion, $precioIns, $porcentajeIns, $totalIns, $precioCol, $porcentajeCol, $totalCol, $idPersona, $idInscripcion,$idServIns,$idServCol));
             return $request;
         }
 
