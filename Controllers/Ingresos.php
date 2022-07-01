@@ -57,15 +57,24 @@
                 $arrData['tipo'] = "COL";
                 if($grado == 1){
                     $arrDataCol = $this->model->selectColegiaturas($idPersona,$grado);
-                    if(count($arrDataCol) == 1){ //Si arrColegiaturas es solo uno
+                    for ($i = 0; $i<count($arrDataCol); $i++) {
+                        $idServicio = $arrDataCol[$i]['id_servicio'];
+                        $arrDataTemp = $this->model->selectColegTemp($idPersona,$idServicio);
+                        $idServicioColegiatura = $arrDataTemp['id_servicio_colegiatura'];
+                        $idServicioInscripcion = $arrDataTemp['id_servicio_inscripcion'];
+                        if($idServicio == $idServicioColegiatura){
+                            $arrDataCol[$i] = $arrDataTemp;
+                        }
+                    }
+                    /* if(count($arrDataCol) == 1){ //Si arrColegiaturas es solo uno
                         $arrDataTemp = $this->model->selectColegTemp($idPersona);
                         $arrNew = array_merge($arrDataCol[0],$arrDataTemp);
                         $arrData['data'] = $arrNew;
-                    }
+                    } */
 
                 }else{
-                    $arrDataCol = $this->model->selectColegiaturas($idPersona,$grado);
-                    $arrData['data'] = $arrDataCol;
+                    /* $arrDataCol = $this->model->selectColegiaturas($idPersona,$grado);
+                    $arrData['data'] = $arrDataCol; */
                 }
             }else{ //Servicios
                 $arrData['tipo'] = "SERV";
