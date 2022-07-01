@@ -198,7 +198,7 @@
         public function selectSubcampanias(){
             $sql = "SELECT c.id AS id_campania,c.nombre_campania,c.fecha_fin AS fecha_fin_campania,s.id AS id_subcampania,s.nombre_sub_campania,s.fecha_fin AS fecha_fin_subcampania FROM t_campanias AS c
             RIGHT JOIN t_subcampania AS s ON s.id_campanias = c.id
-            WHERE c.fecha_fin >= NOW()
+            WHERE c.fecha_fin >= NOW() AND c.estatus = 1 AND s.estatus = 1
             ORDER BY c.fecha_fin DESC";
             $request = $this->select_all($sql);
             return $request;
