@@ -343,11 +343,11 @@
             return $request;
         }*/
 
-        public function selectColegTemp(int $idPersona)
+        public function selectColegTemp(int $idPersona, int $idServicio)
         {
             $sql = "SELECT id AS id_temp,folio_inscripcion,precio_inscripcion,porcentaje_descuento_insc,
             total_descuento_insc,precio_colegiatura,porcentaje_descuento_coleg,total_descuento_coleg,
-            id_inscripcion FROM t_tmpInscripciones WHERE id_persona = $idPersona LIMIT 1";
+            id_inscripcion,id_servicio_colegiatura,id_servicio_inscripcion FROM t_tmpInscripciones WHERE id_persona = $idPersona LIMIT 1";
             $request = $this->select($sql);
             return $request;
         }
