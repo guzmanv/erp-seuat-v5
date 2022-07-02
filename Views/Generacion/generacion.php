@@ -43,7 +43,7 @@
                 <table id="tableGeneraciones" class="table table-bordered table-striped table-hover table-sm">
                   <thead>
                   <tr>
-                    <th width="7%">ID</th>
+                    <th width="7%">#</th>
                     <th>Nombre</th>
                     <th width="17%">fecha_inicio</th>
                     <th width="17%">Fecha_fin</th>

@@ -29,7 +29,7 @@
                         <option value="1">Cancelar</option>                            
                         <option value="2">Posponer a una nuevo ciclo</option>                            
                     </select>
-                    <select class="form-control form-control-sm col-md-4 listCampSubPos" onclick="campSubPosSeleccionada(value)">
+                    <select class="form-control form-control-sm col-md-4 listCampSubPos" onchange="campSubPosSeleccionada(value)">
                         <option value="">Elegir...</option>     
                         <?php foreach ($data['subcampanias'] as $key => $value) { ?>
                             <option value="<?php echo($value['id_subcampania']) ?>"><?php echo($value['nombre_campania'].'/'.$value['nombre_sub_campania'].'  ('.$value['fecha_fin_subcampania'].')') ?></option>

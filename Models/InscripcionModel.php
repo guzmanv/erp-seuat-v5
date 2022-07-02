@@ -53,11 +53,12 @@
             $idPlantel = $idplantel;
             if($idPlantel == "Todos"){
                 $sql = "SELECT plant.id AS id_plantel,plant.nombre_plantel_fisico,plan.id,plan.nombre_carrera,niv.nombre_nivel_educativo,
-                ins.grado,grup.nombre_grupo,orgp.nombre_plan,tur.id AS id_turno,tur.nombre_turno,plant.municipio,COUNT(*) AS total FROM t_inscripciones AS ins
+                tg.numero_natural AS grado,grup.nombre_grupo,orgp.nombre_plan,tur.id AS id_turno,tur.nombre_turno,plant.municipio,COUNT(*) AS total FROM t_inscripciones AS ins
                             INNER JOIN t_personas AS per ON ins.id_personas = per.id
                             INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
                             INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativos = niv.id
                             INNER JOIN t_organizacion_planes AS orgp ON plan.id_organizacion_planes = orgp.id
+                            INNER JOIN t_grados AS tg ON ins.id_grados = tg.id
                             LEFT JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
                             LEFT JOIN t_grados AS gra ON sal.id_grados = gra.id
                             LEFT JOIN t_grupos AS grup ON sal.id_grupos = grup.id
@@ -67,15 +68,16 @@
                             INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
                             INNER JOIN t_historiales AS his ON ins.id_historial = his.id
                             WHERE his.inscrito = 1
-                            GROUP BY plan.nombre_carrera,ins.grado,tur.nombre_turno HAVING COUNT(*)>=1";
+                            GROUP BY plan.nombre_carrera,tg.numero_natural,tur.nombre_turno HAVING COUNT(*)>=1";
                 $request = $this->select_all($sql);
             }else{
                 $sql = "SELECT plant.id AS id_plantel,plant.nombre_plantel_fisico,plan.id,plan.nombre_carrera,niv.nombre_nivel_educativo,
-                ins.grado,grup.nombre_grupo,orgp.nombre_plan,tur.id AS id_turno,tur.nombre_turno,plant.municipio,COUNT(*) AS total FROM t_inscripciones AS ins
+                tg.numero_natural AS grado,grup.nombre_grupo,orgp.nombre_plan,tur.id AS id_turno,tur.nombre_turno,plant.municipio,COUNT(*) AS total FROM t_inscripciones AS ins
                             INNER JOIN t_personas AS per ON ins.id_personas = per.id
                             INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
                             INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativos = niv.id
                             INNER JOIN t_organizacion_planes AS orgp ON plan.id_organizacion_planes = orgp.id
+                            INNER JOIN t_grados AS tg ON ins.id_grados = tg.id
                             LEFT JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
                             LEFT JOIN t_grados AS gra ON sal.id_grados = gra.id
                             LEFT JOIN t_grupos AS grup ON sal.id_grupos = grup.id
@@ -85,7 +87,7 @@
                             INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
                             INNER JOIN t_historiales AS his ON ins.id_historial = his.id
                             WHERE his.inscrito = 1 AND plant.id = $idPlantel
-                            GROUP BY plan.nombre_carrera,ins.grado,tur.nombre_turno HAVING COUNT(*)>=1";
+                            GROUP BY plan.nombre_carrera,tg.numero_natural,tur.nombre_turno HAVING COUNT(*)>=1";
                 $request = $this->select_all($sql);
             }
             return $request;

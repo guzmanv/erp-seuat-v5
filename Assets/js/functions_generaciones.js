@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	    "scrollY": '44vh',
 	    "scrollCollapse": true,
 	    "bDestroy": true,
-	    "order": [[ 0, "desc" ]],
+	    "order": [[ 0, "asc" ]],
 	    "iDisplayLength": 25
     });
 
