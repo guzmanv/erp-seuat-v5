@@ -2,10 +2,19 @@ var span = function (data) {
     frase=data['parse']['text']['*'];
     var html = $(frase);
     var tabla_ = html[0].getElementsByTagName("td");
-    let nombre_autor = tabla_[4].getElementsByTagName("a")[0].innerHTML;
-    let frase_ = tabla_[2].innerHTML.replace(/<[^>]*>?/g, '');
+    let nombre_autor = "";
+    let frase_ = "";
+    let origen = "";
+    if(tabla_.length == 5){
+        nombre_autor = tabla_[4].getElementsByTagName("a")[0].innerHTML;
+        frase_ = tabla_[2].innerHTML.replace(/<[^>]*>?/g, '');
+        origen = tabla_[4].getElementsByTagName("small")[0].innerHTML.replace(/<[^>]*>?/g, '');
+    }else if(tabla_.length == 4){
+        nombre_autor = tabla_[3].getElementsByTagName("a")[0].innerHTML;
+        frase_ = tabla_[1].innerHTML.replace(/<[^>]*>?/g, '');
+        origen = tabla_[3].getElementsByTagName("small")[0].innerHTML.replace(/<[^>]*>?/g, '');
+    }
     let imagen_url = tabla_[0].getElementsByTagName("img")[0].getAttribute("src");
-    let origen = tabla_[4].getElementsByTagName("small")[0].innerHTML.replace(/<[^>]*>?/g, '');
     let htmlFrase = "<p><b>"+"\"</b>"+frase_+"<b>\"</b></p><div style='text-align:right'><i style='font-size:12'><span>"+origen+"</span></i></div>";
     let url = `${base_url}/Dashboard/obtenerFrase`;
     fetch(url).then((res) => res.json()).then(resultado =>{
