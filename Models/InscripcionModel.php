@@ -236,7 +236,7 @@
 
         //Lista de Inscritos en una Carrera
         public function selectInscritos(int $idCarrera, int $grado, int $turno){
-            $sql = "SELECT ins.id,per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno) AS apellidos FROM t_inscripciones AS ins
+            $sql = "SELECT ins.id AS id_inscripcion,per.id AS id_persona,per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno) AS apellidos FROM t_inscripciones AS ins
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_historiales AS h ON ins.id_historial = h.id
             WHERE ins.id_plan_estudios = $idCarrera AND ins.id_grados = $grado AND ins.id_turnos = $turno AND h.inscrito = 1";
@@ -283,29 +283,35 @@
             $request = $this->select_all($sql);
             return $request;
         }
-        public function updateEstatusInscripcion(int $idInscripcion){
+        public function updateEstatusHistorial(int $idInscripcion,int $idUser){
             $sqlHistorial = "SELECT id_historial FROM t_inscripciones AS i
             INNER JOIN t_historiales AS h ON i.id_historial = h.id
-            WHERE i.id = $idInscripcion LIMIT 1";
+            WHERE i.id = $idInscripcion AND i.estatus = 1 LIMIT 1";
             $requestHistorial = $this->select($sqlHistorial);
             if($requestHistorial){
                 $idHistorial = $requestHistorial['id_historial'];
-                $sql = "UPDATE t_historiales SET inscrito = ?,cancelado = ?,fecha_cancelado = NOW() WHERE id= $idHistorial";
-                $request = $this->update($sql,array(0,1));
-            } 
-            return $request;
-        }
-        public function updatePosponerInscripcion(int $idInscripcion, int $idSubcampania){
-            $sqlHistorial = "SELECT id_historial FROM t_inscripciones AS i
-            INNER JOIN t_historiales AS h ON i.id_historial = h.id
-            WHERE i.id = $idInscripcion LIMIT 1";
-            $requestHistorial = $this->select($sqlHistorial);
-            if($requestHistorial){
-                $idHistorial = $requestHistorial['id_historial'];
-                $sql = "UPDATE t_historiales SET inscrito = ?,pospuesto = ?,fecha_pospuesto = NOW() WHERE id= $idHistorial";
-                $request = $this->update($sql,array(0,1));
+                $sql = "UPDATE t_historiales SET inscrito = ?,cancelado = ?,fecha_cancelado = NOW(),id_usuario_actualizacion = ?,fecha_actualizacion = NOW() WHERE id= $idHistorial";
+                $request = $this->update($sql,array(0,1,$idUser));
             }
             return $request;
+        }
+        public function updatePosponerInscripcion(int $idInscripcion,int $idUser){
+            $sqlHistorial = "SELECT id_historial FROM t_inscripciones AS i
+            INNER JOIN t_historiales AS h ON i.id_historial = h.id
+            WHERE i.id = $idInscripcion LIMIT 1";
+            $requestHistorial = $this->select($sqlHistorial);
+            if($requestHistorial){
+                $idHistorial = $requestHistorial['id_historial'];
+                $sql = "UPDATE t_historiales SET inscrito = ?,pospuesto = ?,fecha_pospuesto = NOW(),id_usuario_actualizacion = ?,fecha_actualizacion = NOW() WHERE id= $idHistorial";
+                $request = $this->update($sql,array(0,1,$idUser));
+            }
+            return $request;
+        }
+        public function updateSubcampaniaInscripcion($idInscripcion,$idSubcampania,$idUser)
+        {
+            $sqlUpInscripcion = "UPDATE t_inscripciones SET id_subcampanias = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id = $idInscripcion";
+            $requestUpInscripcion = $this->update($sqlUpInscripcion,array($idSubcampania,$idUser));
+            return $requestUpInscripcion;
         }
 
         public function selectProspecto(int $idPersona){
@@ -394,6 +400,23 @@
             $sql = "INSERT INTO t_tmpInscripciones(folio_inscripcion, precio_inscripcion, porcentaje_descuento_insc, total_descuento_insc, precio_colegiatura, porcentaje_descuento_coleg, total_descuento_coleg, id_persona, id_inscripcion, id_servicio_inscripcion,id_servicio_colegiatura) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
             $request = $this->insert($sql,array($folioInscripcion, $precioIns, $porcentajeIns, $totalIns, $precioCol, $porcentajeCol, $totalCol, $idPersona, $idInscripcion,$idServIns,$idServCol));
             return $request;
+        }
+
+        public function updateEstatusInscripcion(int $idInscripcion, int $idUser)
+        {
+            $sqlUpdateInscripcion = "UPDATE t_inscripciones SET estatus = ?,fecha_actualizacion = NOW(), id_usuario_actualizacion = ? WHERE id = ?";
+            $requestUpdateInscripcion = $this->update($sqlUpdateInscripcion,array(2,$idUser,$idInscripcion));
+            return $requestUpdateInscripcion;
+        }
+        public function updateAsignacionCategoriaPersona(int $idPersona,int $idUser)
+        {
+            $sqlUpCatEstudiante = "UPDATE t_asignacion_categoria_persona  SET estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE
+            id_personas = ? AND id_categoria_persona = 2";
+            $requestCatEstudiante = $this->update($sqlUpCatEstudiante,array(2,$idPersona,$idUser));
+            $sqlUpCatProspecto = "UPDATE t_asignacion_categoria_persona SET estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE
+            id_personas = ? AND id_categoria_persona = 1";
+            $requestCatProspecto = $this->update($sqlUpCatProspecto,array(1,$idPersona,$idUser));
+            return $requestCatProspecto;
         }
 
     }

@@ -295,10 +295,20 @@
             
         }
 
-        public function des_inscribir(int $idInscripcion){
-            $request = $this->model->updateEstatusInscripcion($idInscripcion);
-            if($request){
-                $arrResponse = array('estatus' => true, 'msg' => 'Inscripcion cancelada');
+        public function des_inscribir($params){
+            $idInscripcion = explode(",",$params)[0];
+            $idPersona = explode(",",$params)[1];
+            $reqUpdateHistorial = $this->model->updateEstatusHistorial($idInscripcion,$this->idUser); //Actualizacion historial
+            if($reqUpdateHistorial){
+                $reqUpdateInscripcion = $this->model->updateEstatusInscripcion($idInscripcion,$this->idUser); //Actualizacion inscripcion
+                if($reqUpdateInscripcion){
+                    $reqUpAsignacionCategoria = $this->model->updateAsignacionCategoriaPersona($idPersona,$this->idUser);
+                    if($reqUpAsignacionCategoria){
+                        $arrResponse = array('estatus' => true, 'msg' => 'Inscripcion cancelada');
+                    }else{
+                        $arrResponse = array('estatus' => true, 'msg' => 'No es posible la cancelación');
+                    }
+                }
             }else{
                 $arrResponse = array('estatus' => false, 'msg' => 'No es posible la cancelación');
             }
@@ -311,13 +321,22 @@
             $arr = json_decode($arr);
             foreach ($arr as $key => $value) {
                 if($value->estatus_check){
-                    $request = $this->model->updateEstatusInscripcion($value->id_inscripcion);
-                    if($request){
-                        $arrResponse = array('estatus' => true, 'msg' => 'Inscripciones canceladas');
+                    $idInscripcion = $value->id_inscripcion;
+                    $idPersona = $value->id_persona;
+                    $reqUpdateHistorial = $this->model->updateEstatusHistorial($idInscripcion,$this->idUser); //Actualizacion historial
+                    if($reqUpdateHistorial){
+                        $reqUpdateInscripcion = $this->model->updateEstatusInscripcion($idInscripcion,$this->idUser); //Actualizacion inscripcion
+                        if($reqUpdateInscripcion){
+                            $reqUpAsignacionCategoria = $this->model->updateAsignacionCategoriaPersona($idPersona,$this->idUser);
+                            if($reqUpAsignacionCategoria){
+                                $arrResponse = array('estatus' => true, 'msg' => 'Inscripciones canceladas');
+                            }else{
+                                $arrResponse = array('estatus' => true, 'msg' => 'No es posible la cancelación');
+                            }
+                        }
                     }else{
                         $arrResponse = array('estatus' => false, 'msg' => 'No es posible la cancelación');
-                        break;
-                    }
+                    } 
                 }
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -328,9 +347,12 @@
             $arrDatos = $arr->datos;
             $idSubcampania = $arr->idSubcampania;
             foreach ($arrDatos as $key => $value) {
-                $request = $this->model->updatePosponerInscripcion($value->id_inscripcion,$idSubcampania, $this->nomConexion);
+                $request = $this->model->updatePosponerInscripcion($value->id_inscripcion,$this->idUser);
                 if($request){
-                    $arrResponse = array('estatus' => true, 'msg' => 'Inscripciones pospuestos');
+                    $reqUpPosponerInscripcion = $this->model->updateSubcampaniaInscripcion($value->id_inscripcion,$idSubcampania,$this->idUser);
+                    if($reqUpPosponerInscripcion){
+                        $arrResponse = array('estatus' => true, 'msg' => 'Inscripciones pospuestos');
+                    }
                 }else{
                     $arrResponse = array('estatus' => false, 'msg' => 'No es posible posponer');
                     break;

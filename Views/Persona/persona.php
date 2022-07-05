@@ -46,6 +46,7 @@
                                                 <th>Telefono</th>
                                                 <th>Direccion</th>
                                                 <th>Perfil</th>
+                                                <th>Estatus</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>

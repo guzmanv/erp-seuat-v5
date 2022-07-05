@@ -9,7 +9,7 @@
             LEFT JOIN t_asignacion_categoria_persona AS ac ON ac.id_personas = p.id
             INNER JOIN t_categoria_personas AS c ON ac.id_categoria_persona = c.id
             INNER JOIN t_prospectos AS pros ON pros.id_personas = p.id
-            WHERE p.estatus = 1  AND ac.id_categoria_persona = 1 AND pros.id_plantel_prospectado = $idPlantel ORDER BY p.id DESC";
+            WHERE p.estatus = 1  AND ac.id_categoria_persona = 1 AND ac.estatus = 1 AND pros.id_plantel_prospectado = $idPlantel ORDER BY p.id DESC";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -194,6 +194,15 @@
                 }
             }
             return $requestProspecto;
+        }
+
+        public function selectCanceladoInscripcion($idPersona)
+        {
+           $sqlCancelado = "SELECT *FROM t_historiales AS th 
+           LEFT JOIN t_inscripciones AS ti ON ti.id_historial = th.id
+           WHERE ti.id_personas = $idPersona AND th.cancelado = 1";
+           $requestCancelado = $this->select($sqlCancelado);
+           return $requestCancelado;
         }
     }
 ?>

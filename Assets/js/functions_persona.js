@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"tel_celular"},
             {"data":"direccion"},
             {"data":"nombre_categoria"},
+            {"data":"cancelado"},
             {"data":"options"}
         ],
         "responsive": true,

@@ -51,6 +51,8 @@
             $arrData = $this->model->selectPersonas($this->idPlantel);
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['is_cancelado'] = ($this->model->selectCanceladoInscripcion($arrData[$i]['id']) == false)?false:true;
+                $arrData[$i]['cancelado'] = ($this->model->selectCanceladoInscripcion($arrData[$i]['id']) == false)?'':'<span class="badge badge-warning">Cancelado</span>';
                 $arrData[$i]['apellidos'] = $arrData[$i]['ap_paterno'].' '.$arrData[$i]['ap_materno'];
                 $arrData[$i]['options'] = '<div class="text-center">
 				<div class="btn-group">
