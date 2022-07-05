@@ -62,7 +62,8 @@ function fnListaInscritos(answer){
     var idCarrera = answer.id;
     var grado = answer.getAttribute('gr');
     var turno = answer.getAttribute('tr');
-    //console.log(answer);
+    document.querySelector("#checkAllInscritos").checked = false;
+    document.getElementById("listAccionesUsSel").disabled = true;
     var url= base_url+"/Inscripcion/getInscritos?idCarrera="+idCarrera+"&grado="+grado+"&turno="+turno;
     fetch(url)
         .then(res => res.json())
@@ -71,7 +72,7 @@ function fnListaInscritos(answer){
             var contador = 0;
 			resultado.forEach(element => {
                 contador += 1;
-                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td class="text-center"><input type="checkbox" onclick="fnCheckInputAlumno()" aria-label="check" id="'+element.id+'"></td><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td><td><button type="button" class="btn btn-outline-secondary btn-secondary btn-sm" onclick=fnBtnDesInscribir('+element.id+')>Cancelar</button></td><td><button type="button" class="btn btn-outline-secondary btn-primary btn-sm icono-color-principal btn-inline" style="display: inline;" onclick="fnImprimirSolInscripcion('+element.id+')"><i class="fas fa-print icono-azul"></i></i><span> Imprimir</span></button></td></tr>'
+                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td class="text-center"><input type="checkbox" onclick="fnCheckInputAlumno()" aria-label="check" id="'+element.id_inscripcion+','+element.id_persona+'"></td><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td><td><button type="button" class="btn btn-outline-secondary btn-secondary btn-sm" onclick=fnBtnDesInscribir('+element.id_inscripcion+','+element.id_persona+')>Cancelar</button></td><td><button type="button" class="btn btn-outline-secondary btn-primary btn-sm icono-color-principal btn-inline" style="display: inline;" onclick="fnImprimirSolInscripcion('+element.id_inscripcion+')"><i class="fas fa-print icono-azul"></i></i><span> Imprimir</span></button></td></tr>'
             });
         })
         .catch(err => { throw err });
@@ -532,7 +533,7 @@ function fnBtnDesInscribir(value){
 function accionesUsuariosSeleccionados(value){
     if(value != ''){
         //Desinscribir usuarios seleccionados
-        if(value == 0){
+        if(value == 1){
             if(sizeCheckInput() > 0){
                 Swal.fire({
                     title: 'Des-inscribir',
@@ -561,7 +562,7 @@ function accionesUsuariosSeleccionados(value){
                 })
             }
             document.querySelector('.listCampSubPos').style.display = "none";
-        }else if(value == 1){
+        }else if(value == 2){
             document.querySelector('.listCampSubPos').style.display = "inline";
         }
     }
@@ -602,8 +603,9 @@ function arrCkeckedInputTrue(){
     let arrInput = check.getElementsByTagName("input");
     let arrCheck = [];
     arrInput.forEach(element => {
-        if(parseInt(element.id) && element.checked == true){
-            let arr = {'id_inscripcion':parseInt(element.id),'estatus_check':element.checked}
+        let arrValue = element.id.split(",");
+        if(parseInt(arrValue[0])  && element.checked == true){
+            let arr = {'id_inscripcion':parseInt(arrValue[0]),'id_persona':parseInt(arrValue[1]),'estatus_check':element.checked}
             arrCheck.push(arr);
         }
     });

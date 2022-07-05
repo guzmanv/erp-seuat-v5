@@ -73,6 +73,7 @@ function fnListaInscritos(answer){
     var grado = answer.getAttribute('gr');
     var turno = answer.getAttribute('tr');
     document.querySelector("#checkAllInscritos").checked = false;
+    document.getElementById("listAccionesUsSel").disabled = true;
     var url= base_url+"/Inscripcion/getInscritos?idCarrera="+idCarrera+"&grado="+grado+"&turno="+turno;
     fetch(url)
         .then(res => res.json())
