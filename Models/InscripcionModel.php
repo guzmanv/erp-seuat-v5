@@ -412,10 +412,10 @@
         {
             $sqlUpCatEstudiante = "UPDATE t_asignacion_categoria_persona  SET estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE
             id_personas = ? AND id_categoria_persona = 2";
-            $requestCatEstudiante = $this->update($sqlUpCatEstudiante,array(2,$idPersona,$idUser));
+            $requestCatEstudiante = $this->update($sqlUpCatEstudiante,array(2,$idUser,$idPersona));
             $sqlUpCatProspecto = "UPDATE t_asignacion_categoria_persona SET estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE
             id_personas = ? AND id_categoria_persona = 1";
-            $requestCatProspecto = $this->update($sqlUpCatProspecto,array(1,$idPersona,$idUser));
+            $requestCatProspecto = $this->update($sqlUpCatProspecto,array(1,$idUser,$idPersona));
             return $requestCatProspecto;
         }
 
