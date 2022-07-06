@@ -1,5 +1,5 @@
 <?php
-    class InscripcionModel extends Mysql{
+    class PreinscripcionModel extends Mysql{
         public function __construct(){
             parent::__construct();
         }

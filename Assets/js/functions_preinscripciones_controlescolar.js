@@ -32,7 +32,7 @@ function buscarPersona(){
             "url": " "+base_url+"/Assets/plugins/Spanish.json"
         },
         "ajax":{
-            "url": " "+base_url+"/Inscripcion/buscarPersonaModal?val="+textoBusqueda,
+            "url": " "+base_url+"/Preinscripcion/buscarPersonaModal?val="+textoBusqueda,
             "dataSrc":""
         },
         "columns":[
@@ -64,7 +64,7 @@ function fnListaInscritos(answer){
     var turno = answer.getAttribute('tr');
     document.querySelector("#checkAllInscritos").checked = false;
     document.getElementById("listAccionesUsSel").disabled = true;
-    var url= base_url+"/Inscripcion/getInscritos?idCarrera="+idCarrera+"&grado="+grado+"&turno="+turno;
+    var url= base_url+"/Preinscripcion/getInscritos?idCarrera="+idCarrera+"&grado="+grado+"&turno="+turno;
     fetch(url)
         .then(res => res.json())
         .then((resultado) => {
@@ -104,7 +104,7 @@ formInscripcionNueva.onsubmit = function(e){
         return false;
     }
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    var ajaxUrl = base_url+'/Inscripcion/setInscripcion';
+    var ajaxUrl = base_url+'/Preinscripcion/setInscripcion';
     var formData = new FormData(formInscripcionNueva);
     request.open("POST",ajaxUrl,true);
     request.send(formData);
@@ -128,7 +128,7 @@ formInscripcionNueva.onsubmit = function(e){
                       }).then((result) => {
                             if(result.isConfirmed){
                                 $('.close').click();
-                                window.open(base_url+'/Inscripcion/imprimir_solicitud_inscripcion/'+objData.data, '_blank');
+                                window.open(base_url+'/Preinscripcion/imprimir_solicitud_inscripcion/'+objData.data, '_blank');
                           }else{
                             $('.close').click();
                           }
@@ -166,7 +166,7 @@ function fnPlantelSeleccionado(idPlantel){
 
 function fnPlantelSeleccionadoEdit(answer){
     const selCarreras = document.querySelector('#listCarreraEdit');
-    let url = base_url+"/Inscripcion/getCarreras?iplantel="+answer;
+    let url = base_url+"/Preinscripcion/getCarreras?iplantel="+answer;
     fetch(url)
         .then(res => res.json())
         .then((resultado) => {
@@ -184,7 +184,7 @@ function fnPlantelSeleccionadoEdit(answer){
 function fnNivelSeleccionado(nivel){
     if(nivel != ''){
         let listCarreras = document.querySelector('#listCarreraNuevo');
-        let url = `${base_url}/Inscripcion/getCarreras?nivel=${nivel}&idplantel=${idPlantelSeleccionado}`;
+        let url = `${base_url}/Preinscripcion/getCarreras?nivel=${nivel}&idplantel=${idPlantelSeleccionado}`;
         fetch(url).then((res) => res.json()).then(resultado =>{
             if(resultado.length > 0){
                 resultado.forEach(carrera => {
@@ -342,7 +342,7 @@ function pasarTab(n) {
         return false;
     }
     if(document.querySelector('#chk-alumno-tutor').checked == true){
-        let url = base_url+"/Inscripcion/getPersona?id="+idPersonaSeleccionada;
+        let url = base_url+"/Preinscripcion/getPersona?id="+idPersonaSeleccionada;
         fetch(url)
             .then(res => res.json())
             .then((resultado) => {
@@ -361,7 +361,7 @@ function pasarTab(n) {
  }
 
  function fntDocumentacionInscripcion(id){
-    let url = base_url+"/Inscripcion/getDocumentos?id_alumno="+id;
+    let url = base_url+"/Preinscripcion/getDocumentos?id_alumno="+id;
     fetch(url)
         .then(res => res.json())
         .then((resultado) => {
@@ -391,7 +391,7 @@ function pasarTab(n) {
  function fntEditInscripcion(idInscripcion){
     var idInscripcion = idInscripcion;
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    var ajaxUrl  = base_url+'/Inscripcion/getInscripcion/'+idInscripcion;
+    var ajaxUrl  = base_url+'/Preinscripcion/getInscripcion/'+idInscripcion;
     request.open("GET",ajaxUrl ,true);
 	request.send();
     request.onreadystatechange = function(){
@@ -423,7 +423,7 @@ function fnPlantelSeleccionadoDatatable(value){
         	"url": " "+base_url+"/Assets/plugins/Spanish.json"
         },
         "ajax":{
-            "url": " "+base_url+"/Inscripcion/getInscripcionesControlEscolar?idplantel="+idPlantel,
+            "url": " "+base_url+"/Preinscripcion/getInscripcionesControlEscolar?idplantel="+idPlantel,
             "dataSrc":""
         },
         "columns":[
@@ -456,7 +456,7 @@ function fnPlantelSeleccionadoDatatable(value){
 //Imprimir solicitud inscripcion en la lista Inscritos 
 function fnImprimirSolInscripcion(value){
     var idInscripcion = value;
-    window.open(base_url+'/Inscripcion/imprimir_solicitud_inscripcion/'+idInscripcion, '_blank');
+    window.open(base_url+'/Preinscripcion/imprimir_solicitud_inscripcion/'+idInscripcion, '_blank');
 }
 
 function fnCambiarCamSubcampania(){
@@ -512,7 +512,7 @@ function fnBtnDesInscribir(value){
         cancelButtonText: 'No'
     }).then((result) => {
         if (result.isConfirmed) {
-            let url = `${base_url}/Inscripcion/des_inscribir/${value}`;
+            let url = `${base_url}/Preinscripcion/des_inscribir/${value}`;
             fetch(url)
             .then(res => res.json())
             .then((resultado) => {
@@ -546,7 +546,7 @@ function accionesUsuariosSeleccionados(value){
                     cancelButtonText: 'No'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        let url = `${base_url}/Inscripcion/des_inscribir_usuarios/${jsonToString(arrCkeckedInputTrue())}`;
+                        let url = `${base_url}/Preinscripcion/des_inscribir_usuarios/${jsonToString(arrCkeckedInputTrue())}`;
                         fetch(url)
                         .then(res => res.json())
                         .then((resultado) => {
@@ -569,7 +569,7 @@ function accionesUsuariosSeleccionados(value){
 }
 function campSubPosSeleccionada(value){
     let arrData = {'datos':arrCkeckedInputTrue(),'idSubcampania':value};
-    let url = `${base_url}/Inscripcion/posponer_usuarios/${jsonToString(arrData)}`;
+    let url = `${base_url}/Preinscripcion/posponer_usuarios/${jsonToString(arrData)}`;
     if(value != ''){
         Swal.fire({
             title: 'Posponer',

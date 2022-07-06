@@ -1,9 +1,9 @@
 <?php
     headerAdmin($data);
-    getModal("Inscripcion/modalNuevaInscripcion",$data);
-    getModal("Inscripcion/modalDocumentacion",$data);
-    getModal("Inscripcion/modalEditInscripcion",$data);
-    getModal("Inscripcion/modalListaInscritos",$data);
+    getModal("Preinscripcion/modalNuevaInscripcion",$data);
+    getModal("Preinscripcion/modalDocumentacion",$data);
+    getModal("Preinscripcion/modalEditInscripcion",$data);
+    getModal("Preinscripcion/modalListaInscritos",$data);
 ;
 ?>
 <div id="contentAjax"></div>

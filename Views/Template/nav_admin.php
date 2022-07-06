@@ -296,10 +296,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo BASE_URL ?>/Inscripcion/admision" class="nav-link">
+                            <a href="<?php echo BASE_URL ?>/Preinscripcion/admision" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="layers"></i>
                                 <p>
-                                    Inscripcion
+                                    Preinscripcion
                                 </p>
                             </a>
                         </li>
@@ -369,10 +369,10 @@
                             <h6>Control Escolar</h6>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo BASE_URL ?>/Inscripcion/controlescolar" class="nav-link">
+                            <a href="<?php echo BASE_URL ?>/Preinscripcion/controlescolar" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="layers"></i>
                                 <p>
-                                    Inscripcion
+                                    Preinscripcion
                                 </p>
                             </a>
                         </li>

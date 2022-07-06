@@ -1,6 +1,6 @@
 
 <?php
-    class Inscripcion extends Controllers{
+    class Preinscripcion extends Controllers{
         private $idUser;
 		private $rol;
         private $idPlantel;
@@ -30,10 +30,10 @@
             $data['turnos'] = $this->model->selectturnos();
             $data['niveles_educativos'] = $this->model->selectNivelesEducativos();
             $data['promocion_inscripcion'] = $this->model->selectPromocionesInscripcion();
-            $data['page_functions_js'] = "functions_inscripciones_admision.js";
+            $data['page_functions_js'] = "functions_preinscripciones_admision.js";
             $data['rol'] = $this->rol;
             $data['idPlantel'] = $this->idPlantel;
-            $this->views->getView($this,"inscripcion",$data);
+            $this->views->getView($this,"preinscripcion",$data);
         }
         //Funcion para mostrar Vista(ControlEscolar)
         public function controlescolar(){
@@ -50,8 +50,8 @@
             $data['idPlantel'] = $this->idPlantel;
             $data['promocion_inscripcion'] = $this->model->selectPromocionesInscripcion();
             //$data['promocion_colegiatura'] = $this->model->selectPromocionesColegiatura(null);
-            $data['page_functions_js'] = "functions_inscripciones_controlescolar.js";
-            $this->views->getView($this,"inscripcion",$data);
+            $data['page_functions_js'] = "functions_preinscripciones_controlescolar.js";
+            $this->views->getView($this,"preinscripcion",$data);
             
         }
         //Obtener Lista de Inscripciones(Admision)
