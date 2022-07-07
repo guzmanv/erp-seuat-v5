@@ -13,7 +13,7 @@
                     </div>
                     <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
-                            <button type="button"  class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal"  onclick="btnNuevoGrupoCompuesto()" data-target="#modal_form_nueva"><i class="fa fa-plus-circle fa-md"></i> Nuevo</button>
+                            <button type="button"  class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal"  onclick="btnNuevoGrupoCompuesto()" data-target="#modal_form_nueva_inscripcion"><i class="fa fa-plus-circle fa-md"></i> Nuevo</button>
                         </ol>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                         <div class="card">
                             <div class="card-body">
                                <p class="card-text">
-                                    <table id="tableInscripciones" class="table table-bordered table-striped table-hover table-sm">
+                                    <table id="table_preeinscritos" width="100%" class="col-12 table table-bordered table-striped table-hover table-sm">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
