@@ -26,5 +26,12 @@
             $this->views->getView($this,"inscripcion",$data);
             
         }
+
+        public function getGruposCompuestos()
+        {
+            $arrData = $this->model->selectGruposCompuestos();
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
     }
 ?>
