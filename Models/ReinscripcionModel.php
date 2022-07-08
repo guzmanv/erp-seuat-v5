@@ -22,18 +22,18 @@
         }
 
         public function selectDatosAlumno(int $idAlumno){
-            $sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,p.id_categoria_persona,cp.nombre_categoria,
-            i.id AS id_inscripcion,i.id_plan_estudios,pe.nombre_carrera,pe.id_plantel,pln.nombre_plantel,i.grado,i.id_salon_compuesto,
-            sc.nombre_salon,sc.id_periodo,per.nombre_periodo,per.id_ciclo,c.nombre_ciclo,c.id_generacion,g.nombre_generacion,p.estatus FROM t_personas AS p
-            INNER JOIN t_categoria_personas AS cp ON p.id_categoria_persona = cp.id
+            $sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,
+            i.id AS id_inscripcion,i.id_plan_estudios,pe.nombre_carrera,pe.id_instituciones,ti.id_planteles,pln.nombre_plantel_fisico,i.id_grados,i.id_salones_compuesto,
+            sc.id_salones,sc.id_periodos,per.nombre_periodo,per.id_ciclos,c.nombre_ciclo,c.id_generaciones,g.nombre_generacion,p.estatus FROM t_personas AS p
             INNER JOIN t_inscripciones AS i ON i.id_personas = p.id
             INNER JOIN t_plan_estudios AS pe ON i.id_plan_estudios = pe.id
-            INNER JOIN t_planteles AS pln ON pe.id_plantel = pln.id
-            INNER JOIN t_salones_compuesto AS sc ON i.id_salon_compuesto = sc.id
-            INNER JOIN t_periodos AS per ON sc.id_periodo = per.id
-            INNER JOIN t_ciclos AS c ON per.id_ciclo = c.id
-            INNER JOIN t_generaciones AS g ON c.id_generacion = g.id
-            WHERE p.id = $idAlumno";
+            INNER JOIN t_instituciones AS ti ON pe.id_instituciones = ti.id
+            INNER JOIN t_planteles AS pln ON ti.id_planteles = pln.id
+            INNER JOIN t_salones_compuesto AS sc ON i.id_salones_compuesto = sc.id
+            INNER JOIN t_periodos AS per ON sc.id_periodos = per.id
+            INNER JOIN t_ciclos AS c ON per.id_ciclos = c.id
+            INNER JOIN t_generaciones AS g ON c.id_generaciones = g.id
+            WHERE p.id =$idAlumno";
             $request = $this->select($sql);
             return $request;
         }

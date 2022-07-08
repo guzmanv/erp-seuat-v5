@@ -1,5 +1,7 @@
 let btnReinscribir = document.querySelector("#btn_reinscribir");
+let txtNombreAlumno = document.querySelector("#nombreAlumno");
 btnReinscribir.disabled = true;
+txtNombreAlumno.disabled = true;
 //TABS
 var tabActual = 0;
 mostrarTab(tabActual);
@@ -65,7 +67,6 @@ function seleccionarPersona(value){
     .then((resultado) =>{
         document.querySelector('#divDatosAlumno').style.display = "block";
         document.querySelector('#divDatosReinscripcion').style.display = "block";
-
         document.querySelector('#nombrePersona').textContent = `${resultado.nombre_persona} ${resultado.ap_paterno} ${resultado.ap_materno}`;
         document.querySelector('#categoriaPersona').textContent = `${resultado.nombre_categoria}`;
         document.querySelector('#nombrePlantel').textContent = `${resultado.nombre_plantel}`;
@@ -78,7 +79,7 @@ function seleccionarPersona(value){
 
         document.querySelector('#txtNombrePlantel').value = `${resultado.nombre_plantel}`;
         document.querySelector('#txtNombreCarrera').value = `${resultado.nombre_carrera}`;
-        document.querySelector('#txtNombreGeneracion').value = resultado.nombre_generacion;
+        document.querySelector('#txtNombreGeneracion').value = resultado.nombre_generacion; 
     }).catch(err => {throw err});
     if(nombre != ""){
         document.querySelector('#alertBuscar').style.display = "none";

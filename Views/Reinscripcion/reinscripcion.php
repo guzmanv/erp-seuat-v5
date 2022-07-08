@@ -65,8 +65,8 @@
                                                                     <img src="https://coderthemes.com/hyper_2/saas/assets/images/users/avatar-1.jpg" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
                                                                     <h4 class="mb-0 mt-2" id="nombrePersona"></h4>
                                                                     <p class="text-muted font-14" id="categoriaPersona"></p>
-                                                                    <button type="button" class="btn btn-primary mb-2">Historial Academico</button>
-                                                                    <button type="button" class="btn btn-secondary mb-2">Enviar mensaje</button>
+                                                                    <button type="button" class="btn btn-primary mb-2" disabled>Historial Academico</button>
+                                                                    <button type="button" class="btn btn-secondary mb-2" disabled>Enviar mensaje</button>
                                                                     <div class="text-start mt-3">
                                                                         <p class="text-muted mb-2 font-13"><strong>Plantel :</strong> <span class="ms-2" id="nombrePlantel"></span></p>
                                                                         <p class="text-muted mb-2 font-13"><strong>Carrera :</strong><span class="ms-2" id="nombreCarrera"></span></p>
