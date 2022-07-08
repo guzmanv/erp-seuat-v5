@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function(){
             {"data":"plantel"},
             {"data":"carrera"},
             {"data":"grado"},
-            {"data":"fecha"},
+            {"data":"fecha_cobro"},
             {"data":"factura"},
             {"data":"total_formato"},
 			{"data":"acciones"}

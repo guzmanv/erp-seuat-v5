@@ -1,6 +1,7 @@
 <?php
 date_default_timezone_set('America/Mexico_City');
-$formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime(date('Y-m-d'))));
+// $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime(date('Y-m-d'))));
+$formatFechaActual = iconv('', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime(date('Y-m-d'))));
 $userAlumno = $data['datos']['nombre_persona'].' '.$data['datos']['ap_paterno'].' '.$data['datos']['ap_materno'];
 $userAtencion = 'Jose Santiz Ruiz';
 ?>
@@ -131,7 +132,7 @@ background-position: bottom left;
         <div>
             <div class="row">
                 <div class="col-12" style="text-align:right">
-                    <p>Tuxtal Gutierrez , <?php echo $formatFechaActual ?></b>
+                    <p>Tuxtla Gutiérrez Chiapas, <?php echo $formatFechaActual ?></b>
                     </p>
                 </div>
             </div>

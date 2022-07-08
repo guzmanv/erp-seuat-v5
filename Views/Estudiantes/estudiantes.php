@@ -5,6 +5,7 @@
     getModal("Alumnos/modalDocumentacionVerificado",$data);
     getModal("Alumnos/modalEditTutor",$data);
     getModal("Alumnos/modalDatosFiscales",$data);
+    getModal("Alumnos/modalMatriAlumno",$data);
 ?>
 <div id="contentAjax"></div>
 <div class="wrapper">
@@ -36,6 +37,8 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
+                                                <th>Matricula int.</th>
+                                                <th>Matricula ext.</th>
                                                 <th>Nombre</th>
                                                 <th>Apellidos</th>
                                                 <th>Plantel</th>

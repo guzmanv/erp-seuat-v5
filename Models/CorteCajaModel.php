@@ -35,17 +35,17 @@
 
         public function selectTotalesMetodosPago(int $id_usuario,$fecha_apertura){
             $sql = "SELECT i.id AS id_ingreso,i.id_usuario_cobro,i.id_metodos_pago,i.total,mp.descripcion,
-            i.fecha,i.folio,CONCAT(p.nombre_persona,' ',p.ap_paterno,' ',p.ap_materno)AS nombre_persona FROM t_ingresos AS i
+            i.fecha_cobro,i.folio,CONCAT(p.nombre_persona,' ',p.ap_paterno,' ',p.ap_materno)AS nombre_persona FROM t_ingresos AS i
             INNER JOIN t_metodos_pago AS mp ON i.id_metodos_pago = mp.id
             INNER JOIN t_personas AS p ON i.id_persona_paga = p.id
-            WHERE i.id_usuario_cobro  = $id_usuario AND i.fecha >= '$fecha_apertura'";
+            WHERE i.id_usuario_cobro  = $id_usuario AND i.fecha_cobro >= '$fecha_apertura'";
             $request = $this->select_all($sql);
             return $request;
         }
 
         public function selectDetalleIngreso(int $idIngreso){
             $sql = "SELECT s.codigo_servicio AS codigo_servicio,sp.codigo_servicio AS codigo_servicio_precarga,s.nombre_servicio,sp.nombre_servicio AS nombre_servicio_precarga,
-            idet.abono,i.folio,i.fecha,CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nombre_usuario  FROM t_ingresos_detalles AS idet 
+            idet.abono,i.folio,i.fecha_cobro,CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nombre_usuario  FROM t_ingresos_detalles AS idet 
             LEFT JOIN t_servicios AS s ON idet.id_servicios = s.id
             LEFT JOIN t_precarga AS p ON idet.id_precarga = p.id
             LEFT JOIN t_servicios AS sp ON p.id_servicios = sp.id

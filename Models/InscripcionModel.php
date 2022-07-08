@@ -198,7 +198,7 @@
         public function selectSubcampanias(){
             $sql = "SELECT c.id AS id_campania,c.nombre_campania,c.fecha_fin AS fecha_fin_campania,s.id AS id_subcampania,s.nombre_sub_campania,s.fecha_fin AS fecha_fin_subcampania FROM t_campanias AS c
             RIGHT JOIN t_subcampania AS s ON s.id_campanias = c.id
-            WHERE c.fecha_fin >= NOW()
+            WHERE c.fecha_fin >= NOW() AND c.estatus = 1 AND s.estatus = 1
             ORDER BY c.fecha_fin DESC";
             $request = $this->select_all($sql);
             return $request;
@@ -323,15 +323,16 @@
             $request = $this->select($sql);
             return $request;
         }
-
-        public function selectPromocionesInscripcion()
+        public function selectPromocionesColegiatura(int $idPlanEstudio)
         {
             $sql = "SELECT tp.id,ts.nombre_servicio,tcs.nombre_categoria,ts.codigo_servicio,tcs.clave_categoria,tpr.nombre_promocion,
-            tpr.porcentaje_descuento,ts.id AS id_servicio,tp.cobro_total FROM t_precarga AS tp 
-            LEFT JOIN t_servicios AS ts ON tp.id_servicios = ts.id
-            LEFT JOIN t_promociones AS tpr ON tpr.id_servicios = ts.id 
-            LEFT JOIN t_categoria_servicios AS tcs ON ts.id_categoria_servicios = tcs.id
-            WHERE ts.codigo_servicio LIKE '%COL%'";
+            tpr.porcentaje_descuento,ts.id AS id_servicio,tp.cobro_total,tins.abreviacion_institucion,plant.nombre_plantel_fisico FROM t_precarga AS tp 
+            INNER JOIN t_servicios AS ts ON tp.id_servicios = ts.id
+            INNER JOIN t_promociones AS tpr ON tpr.id_servicios = ts.id 
+            INNER JOIN t_categoria_servicios AS tcs ON ts.id_categoria_servicios = tcs.id
+            INNER JOIN t_instituciones  AS tins ON ts.id_instituciones = tins.id
+            INNER JOIN t_planteles AS plant ON tins.id_planteles = plant.id
+            WHERE ts.codigo_servicio LIKE '%COL%' AND tp.id_plan_estudios = $idPlanEstudio";
 
             /* $sql = "SELECT tp.id,tp.nombre_promocion,tp.porcentaje_descuento,ts.precio_unitario FROM t_promociones AS tp
             INNER JOIN t_servicios AS ts ON tp.id_servicios = ts.id 
@@ -347,7 +348,8 @@
             return $request; 
         }
 
-        public function selectPromocionesColegiatura(int $idPlanEstudio)
+
+        public function selectPromocionesInscripcion()
         {
             $sql = "SELECT ts.id ,ts.nombre_servicio,tcs.nombre_categoria,ts.codigo_servicio ,tcs.clave_categoria,
             tp.nombre_promocion,tp.porcentaje_descuento,tins.abreviacion_institucion,plant.nombre_plantel_fisico,
@@ -384,10 +386,11 @@
             return $requestInscirpcion;
         }
 
-        public function insertTempInscripcion($folioInscripcion,$precioIns,$porcentajeIns,$totalIns,$precioCol,$porcentajeCol,$totalCol,int $idPersona,int $idInscripcion)
+        public function insertTempInscripcion($folioInscripcion,$precioIns,$porcentajeIns,$totalIns,$precioCol,$porcentajeCol,$totalCol,int $idPersona,int $idInscripcion,
+        $idServCol,$idServIns)
         {
-            $sql = "INSERT INTO t_tmpInscripciones(folio_inscripcion, precio_inscripcion, porcentaje_descuento_insc, total_descuento_insc, precio_colegiatura, porcentaje_descuento_coleg, total_descuento_coleg, id_persona, id_inscripcion) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $request = $this->insert($sql,array($folioInscripcion, $precioIns, $porcentajeIns, $totalIns, $precioCol, $porcentajeCol, $totalCol, $idPersona, $idInscripcion));
+            $sql = "INSERT INTO t_tmpInscripciones(folio_inscripcion, precio_inscripcion, porcentaje_descuento_insc, total_descuento_insc, precio_colegiatura, porcentaje_descuento_coleg, total_descuento_coleg, id_persona, id_inscripcion, id_servicio_inscripcion,id_servicio_colegiatura) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+            $request = $this->insert($sql,array($folioInscripcion, $precioIns, $porcentajeIns, $totalIns, $precioCol, $porcentajeCol, $totalCol, $idPersona, $idInscripcion,$idServIns,$idServCol));
             return $request;
         }
 

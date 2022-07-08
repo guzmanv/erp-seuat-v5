@@ -39,13 +39,13 @@
                                         <input type="text" id="txtEmail" name="txtEmail" class="form-control form-control-sm" placeholder="Email"  maxlength="100" required>
                                     </div>
                                     <div class="form-group col-md-12">
-                                        <label>Dirección</label>
-                                        <textarea id="txtDireccion" name="txtDireccion" class="form-control form-control-sm" placeholder="Dirección" rows='2' maxlength="200" required></textarea>
+                                        <label>calle</label>
+                                        <textarea id="txtCalle" name="txtCalle" class="form-control form-control-sm" placeholder="Dirección" rows='2' maxlength="200" required></textarea>
                                     </div>
-                                    <div class="form-group col-md-12">
+                                    <!-- <div class="form-group col-md-12">
                                         <label>Lugar</label>
                                         <textarea id="txtLugar" name="txtLugar" class="form-control form-control-sm" placeholder="Lugar" rows='1' maxlength="100" required></textarea>
-                                    </div>
+                                    </div> -->
                             </div>
                         </div>
                     </div>

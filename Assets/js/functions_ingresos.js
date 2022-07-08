@@ -65,35 +65,38 @@ function fnServicios(grado,tipoCobro){
             arrServiciosTodos = resultado.data;
             document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";
             if(resultado.tipo == "COL"){
-                if(resultado.data.length == undefined){
-                    let porcentajeDesCol = resultado.data.porcentaje_descuento_coleg;
-                    let totalConDescuentoCol = resultado.data.total_descuento_coleg;
-                    let estatus = (resultado.data.pagado == 1)?'/Pagado':'';
-                    document.querySelector("#listServicios").innerHTML += `<option tp="true" dc='${porcentajeDesCol}' tdc='${totalConDescuentoCol}' pu='${resultado.data.precio_unitario}'  ec='1' es='${estatus}' t='col' edo_cta='${resultado.data.id_edo_cta}'  value='${resultado.data.id_servicio}' idprecarga='${resultado.data.id_precarga}'>${resultado.data.nombre_servicio}${estatus}</option>`;
-                }else{
-                    if(resultado.data.length > 0){
-                        resultado.data.forEach(colegiatura => {
+                if(resultado.data.length > 0){
+                    resultado.data.forEach(colegiatura => {
+                        let idTemp = colegiatura.id_temp;
+                        if(idTemp != undefined){
+                            let porcentajeDesCol = colegiatura.porcentaje_descuento_coleg;
+                            let totalConDescuentoCol = colegiatura.total_descuento_coleg;
                             let estatus = (colegiatura.pagado == 1)?'/Pagado':'';
-                            document.querySelector("#listServicios").innerHTML += `<option tp="false" dc='' tdc='' pu='${colegiatura.precio_unitario}' ec='1' es='${estatus}' t='col' edo_cta='${resultado.data.id_edo_cta}' value='${colegiatura.id_servicio}' idprecarga='${colegiatura.id_precarga}'>${colegiatura.nombre_servicio}${estatus}</option>`;
-                            
-                        });
-                    }
-                }
-            }else{
-                if(resultado.data.length == undefined){
-                    let porcentajeDesIns = resultado.data.porcentaje_descuento_insc;
-                    let totalConDescuentoIns = resultado.data.total_descuento_insc;
-                    document.querySelector("#listServicios").innerHTML += `<option tp="true" dc="${porcentajeDesIns}" tdc="${totalConDescuentoIns}" pu='${resultado.data.precio_unitario}' ec='${resultado.data.aplica_edo_cuenta}' t="serv"  edo_cta='${resultado.data.id_edo_cta}' value='${resultado.data.id_servicio}'>${resultado.data.nombre_servicio}${(resultado.data.aplica_edo_cuenta == 1)?'(----si----)':''}</option>`;
-                }else{
-                    resultado.data.forEach(servicio => {
-                        if(servicio.id_edo_cta){
-                            document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='1' t="serv" edo_cta='${resultado.id_edo_cta}'  value='${servicio.id_servicio}' idprecarga='${servicio.id_precarga}'>${servicio.nombre_servicio}---Si---</option>`;
+                            document.querySelector("#listServicios").innerHTML += `<option tp="true" dc='${porcentajeDesCol}' tdc='${totalConDescuentoCol}' pu='${colegiatura.precio_unitario}'  ec='1' es='${estatus}' t='col' edo_cta='${colegiatura.id_edo_cta}'  value='${colegiatura.id_servicio}' idprecarga='${colegiatura.id_precarga}'>${colegiatura.nombre_servicio}${estatus}</option>`;
                         }else{
-                            document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='${servicio.aplica_edo_cuenta}' t="serv" edo_cta='${resultado.data.id_edo_cta}' value='${servicio.id_servicio}'>${servicio.nombre_servicio}${(servicio.aplica_edo_cuenta == 1)?'(----si----)':''}</option>`;
+                            let estatus = (colegiatura.pagado == 1)?'/Pagado':'';
+                            document.querySelector("#listServicios").innerHTML += `<option tp="false" dc='' tdc='' pu='${colegiatura.precio_unitario}' ec='1' es='${estatus}' t='col' edo_cta='${colegiatura.id_edo_cta}' value='${colegiatura.id_servicio}' idprecarga='${colegiatura.id_precarga}'>${colegiatura.nombre_servicio}${estatus}</option>`;
                         }
                     });
                 }
-            }
+            }else{
+                if(resultado.data.length > 0){
+                    resultado.data.forEach(servicio => {
+                        let idTemp = servicio.id_temp;
+                        if(idTemp != undefined){
+                            let porcentajeDesIns = servicio.porcentaje_descuento_insc;
+                            let totalConDescuentoIns = servicio.total_descuento_insc;
+                            document.querySelector("#listServicios").innerHTML += `<option tp="true" dc="${porcentajeDesIns}" tdc="${totalConDescuentoIns}" pu='${servicio.precio_unitario}' ec='${servicio.aplica_edo_cuenta}' t="serv"  edo_cta='${servicio.id_edo_cta}' value='${servicio.id_servicio}'>${servicio.nombre_servicio}${(servicio.aplica_edo_cuenta == 1)?'(----si----)':''}</option>`;
+                        }else{
+                            if(servicio.id_edo_cta){
+                                document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='1' t="serv" edo_cta='${servicio.id_edo_cta}'  value='${servicio.id_servicio}' idprecarga='${servicio.id_precarga}'>${servicio.nombre_servicio}---Si---</option>`;
+                            }else{
+                                document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='${servicio.aplica_edo_cuenta}' t="serv" edo_cta='${servicio.id_edo_cta}' value='${servicio.id_servicio}'>${servicio.nombre_servicio}${(servicio.aplica_edo_cuenta == 1)?'(----si----)':''}</option>`;
+                            }
+                        }
+                    });
+                }
+            } 
         }).catch(err => { throw err });
     }
 }
@@ -287,7 +290,7 @@ function mostrarServiciosTabla(){
         totalServicios += 1;
         let descuentoPorc = 0;
         servicio.promociones.forEach(promocion => {
-            if(promocion.descuento == null){
+            if(promocion.descuento == null || promocion.descuento == ''){
                 descuentoPorc += 0;
             }else{
                 let descuento = parseFloat(promocion.descuento);
@@ -310,16 +313,15 @@ function mostrarTotalCuentaServicios(){
     arrServicios.forEach(servicio => {
         let subtotal = parseFloat(servicio.subtotal);
         servicio.promociones.forEach(promocion => {
-            if(promocion.descuento != null){
+            if(promocion.descuento == null || promocion.descuento == ''){
+                descuentoPorc += 0;
+            }else{
                 let descuento = parseFloat(promocion.descuento);
                 descuentoPorc += descuento;
-            }else{
-                descuentoPorc += 0;
             }
         });
         total += subtotal;
     });
-
     totalDesc = total - (total * (descuentoPorc/100));
     document.querySelector('#txtSubtotal').innerHTML = `${formatoMoneda(total)}`;
     document.querySelector('#txtDescuento').innerHTML = `${descuentoPorc}%`;
@@ -424,11 +426,11 @@ function fnButtonCobrar(){
     arrServicios.forEach(servicio => {
         let subtotal = parseFloat(servicio.subtotal);
         servicio.promociones.forEach(promocion => {
-            if(promocion.descuento != null){
+            if(promocion.descuento == null || promocion.descuento == ''){
+                descuentoPorc += 0;
+            }else{
                 let descuento = parseFloat(promocion.descuento);
                 descuentoPorc += descuento;
-            }else{
-                descuentoPorc += 0;
             }
         });
         total += subtotal;
@@ -499,11 +501,11 @@ function btnCobrarCmbio(){
     arrServicios.forEach(servicio => {
         let subtotal = parseFloat(servicio.subtotal);
         servicio.promociones.forEach(promocion => {
-            if(promocion.descuento != null){
-                let descuento = parseFloat(promocion.descuento);
-                descuentoPorc += descuento;
-            }else{
+            if(promocion.descuento == null || promocion.descuento == ''){
                 descuentoPorc += 0;
+            }else{
+                let descuento = parseFloat(promocion.descuento);
+                descuentoPorc += descuento; 
             }
         });
         total += subtotal;
