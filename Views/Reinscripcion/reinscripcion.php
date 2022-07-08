@@ -122,7 +122,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 text-center">
-                                                        <button type="sumbit" class="btn btn-primary col-md-6" onclick="fnReinscribir()">Reinscribir</button>
+                                                        <button type="button"id="btn_reinscribir" class="btn btn-primary col-md-6" onclick="fnReinscribir()">Reinscribir</button>
                                                     </div>
                                                 </div>
                                             </form>

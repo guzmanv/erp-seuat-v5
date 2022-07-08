@@ -1,3 +1,5 @@
+let btnReinscribir = document.querySelector("#btn_reinscribir");
+btnReinscribir.disabled = true;
 //TABS
 var tabActual = 0;
 mostrarTab(tabActual);
