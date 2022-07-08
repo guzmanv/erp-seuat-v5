@@ -112,5 +112,17 @@
                 return "";
             }
         }
+        public function getPlanEstudios($args)
+        {
+            $arrArgs = explode(",",$args);
+            $idPlantel = $arrArgs[0];
+            $idInstitucion = $arrArgs[1];
+            $idNivelEducativo = $arrArgs[2];
+            if($idPlantel != 'null' || $idInstitucion != ''|| $idNivelEducativo != ''){
+                $arrPlanEstudios = $this->model->selectPlanEstudios($idPlantel,$idInstitucion,$idNivelEducativo);
+            }
+            echo json_encode($arrPlanEstudios,JSON_UNESCAPED_UNICODE);
+            die();
+        }
     }
 ?>
