@@ -54,6 +54,7 @@
                                                         <th>Nombre</th>
                                                         <th>Apellido paterno</th>
                                                         <th>Apellido materno</th>
+                                                        <th>Observaciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="table_preeinscripcion">

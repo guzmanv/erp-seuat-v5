@@ -31,7 +31,8 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Plantel</th>
-                                                <th>Institucion</th>
+                                                <th>Institución</th>
+                                                <th>Plan de estudio</th>
                                                 <th>Grado</th>
                                                 <th>Grupo</th>
                                                 <th>Alumnos</th>

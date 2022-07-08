@@ -34,6 +34,7 @@
             $arrData = $this->model->selectInscripciones();
             for($i = 0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['total_alumnos'] = '<h5><span class="badge badge-warning pr-2 pl-2">'.$arrData[$i]['total'].' alumnos</span></h5>';
                 $arrData[$i]['options'] = '<div class="text-center">
 				<div class="btn-group">
 					<button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -68,6 +69,10 @@
             }
             for($i = 0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
+                $idPersona = $arrData[$i]['id_personas'];
+                $resEstatusCta = $this->selectEstatusEdoCta($idPersona);
+                $arrData[$i]['observacion'] = $resEstatusCta;
+                $arrData[$i]['estatus'] = ($resEstatusCta == '')?true:false;
                 $arrData[$i]['options'] = "";
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
@@ -95,6 +100,17 @@
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
+        }
+
+        public function selectEstatusEdoCta(int $idPersona)
+        {
+            $arrData = $this->model->selectEstatusEdoCta($idPersona);
+            $totalEdoCta = count($arrData);
+            if($totalEdoCta == 0){
+                return "<a class='badge badge-danger'>Deuda en caja</a>";
+            }else{
+                return "";
+            }
         }
     }
 ?>

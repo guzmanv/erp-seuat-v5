@@ -22,9 +22,10 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"numeracion"},
             {"data":"nombre_plantel_fisico"},
 			{"data":"nombre_institucion"},
+			{"data":"nombre_carrera"},
             {"data":"numero_natural"},
             {"data":"nombre_grupo"},
-            {"data":"total"},
+            {"data":"total_alumnos"},
 			{"data":"options"}
         ],
         "responsive": true,
@@ -95,9 +96,10 @@ function fnPreenscritos(plantel,institucion,nivel_educativo)
         if(response.length > 0){
             let numeracion = 0;
             response.forEach(element => {
+                let isDisabledCheck = (element.estatus)?'':'disabled';
                 numeracion += 1;
                 let options = "";
-                rows += "<tr><td class='text-center'><input type='checkbox' id='"+element.id_personas+"'></td><td>"+numeracion+"</td><td>"+element.nombre_plantel_fisico+"</td><td>"+element.nombre_persona+"</td><td>"+element.ap_paterno+"</td></tr>";
+                rows += "<tr><td class='text-center'><input type='checkbox' id='"+element.id_personas+"' "+isDisabledCheck+"></td><td>"+numeracion+"</td><td>"+element.nombre_plantel_fisico+"</td><td>"+element.nombre_persona+"</td><td>"+element.ap_paterno+"</td><td>"+element.observacion+"</td></tr>";
             });
             tableReinscripcion.innerHTML = rows;
         }else{

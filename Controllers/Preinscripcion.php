@@ -20,8 +20,8 @@
         //Funcion para mostrar Vista(Admision)
         public function admision(){
             $data['page_id'] = 10;
-            $data['page_tag'] = "Inscripcion";
-            $data['page_title'] = "Inscripciones";
+            $data['page_tag'] = "Preinscripcion";
+            $data['page_title'] = "Preinscripciones";
             $data['page_content'] = "";
             $data['planteles'] = $this->model->selectPlanteles();
             $data['sistemas_educativos'] = $this->model->selectSistemasEducativos();
@@ -38,8 +38,8 @@
         //Funcion para mostrar Vista(ControlEscolar)
         public function controlescolar(){
             $data['page_id'] = 10;
-            $data['page_tag'] = "Inscripcion";
-            $data['page_title'] = "Inscripciones";
+            $data['page_tag'] = "Preinscripcion";
+            $data['page_title'] = "Preinscripciones";
             $data['page_content'] = "";
             $data['planteles'] = $this->model->selectPlanteles();
             $data['grados'] = $this->model->selectGrados();
