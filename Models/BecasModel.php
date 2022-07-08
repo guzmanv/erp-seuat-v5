@@ -28,12 +28,6 @@ class BecasModel extends Mysql{
         return $request;
     }
 
-    public function selectInstituciones(){
-        $sql = "SELECT * FROM t_instituciones";
-        $request = $this->select_all($sql);
-        return $request;
-    }
-
     public function selectNivel(){
         $sql = "SELECT * FROM t_nivel_educativos";
         $request = $this->select_all($sql);
@@ -55,15 +49,15 @@ class BecasModel extends Mysql{
     public function selectInstitucion(int $idPlantel)
     {
         $idPlt = $idPlantel;
-        $sql = "SELECT * FROM t_instituciones WHERE id_planteles = $idPlt";
-        $request = $this->select($sql);
+        $sql = "SELECT id,nombre_institucion,id_planteles FROM t_instituciones WHERE id_planteles = $idPlt";
+        $request = $this->select_all($sql);
         return $request;
     }
 
     public function selectCarrera(int $idNivel){
         $idNvl = $idNivel;
-        $sql = "SELECT * FROM t_plan_estudios WHERE id_nivel_educativos = $idNvl";
-        $request = $this->select($sql);
+        $sql = "SELECT id, nombre_carrera, id_nivel_educativos FROM t_plan_estudios WHERE id_nivel_educativos = $idNvl";
+        $request = $this->select_all($sql);
         return $request;
     }
 

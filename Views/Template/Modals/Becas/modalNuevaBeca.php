@@ -66,7 +66,7 @@
                                 <div class="form-group col-md-6">
                                     <div class="form-group">
                                         <label>Nivel educativo:</label>
-                                        <select class="form-control" name="slctNivel" id="slctNivel">
+                                        <select class="form-control" name="slctNivel" id="slctNivel" onchange="fnElegirCarrera(value)">
                                             <option selected>Seleccionar...</option>
                                             <?php
                                             foreach ($data['nivel_educativo'] as $value) {
@@ -81,7 +81,7 @@
                                 <div class="form-group col-md-6">
                                     <div class="form-group">
                                         <label>Carrera:</label>
-                                        <select class="form-control" name="slctCarrera" id="slctCarrera">
+                                        <select class="form-control" name="slctCarr" id="slctCarr">
                                             <option selected>Seleccionar...</option>
                                         </select>
                                     </div>
