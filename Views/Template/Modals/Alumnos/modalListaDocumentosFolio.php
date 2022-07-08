@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="ModalListaDocFolio" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="titleModal">Lista de documentos</h5>
@@ -21,6 +21,10 @@
                                             <th scope="col">#</th>
                                             <th scope="col">Folio</th>
                                             <th scope="col">Nombre del documento</th>
+                                            <th scope="col">Fecha préstamo</th>
+                                            <th scope="col">Fecha devolución</th>
+                                            <th scope="col">Nombre de usuario</th>
+                                            <!-- <th scope="col">Comentario</th> -->
                                         </tr>
                                     </thead>
                                     <tbody id="tbVerHistorialDocumentacion">

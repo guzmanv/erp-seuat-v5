@@ -872,24 +872,32 @@ function gnGetHistorialPrestamoDocumentos(idInscripcion){
     })
     .catch(err => {throw err});
 }
-//Lista de documentos por Folio
+//Lista de documentos por Folio O VER DOCUMENTOS PRESTADOS
 function fnListadocumentosFolio(value){
     var folio = value.getAttribute('f');
     let urlListaDocFolio = base_url+"/Estudiantes/getListaDocumentosFolio?idFolio="+folio;
-    swal.fire("Atención", "En desarrollo", "warning");
-    return false;
-    /* fetch(urlListaDocFolio)
+    // swal.fire("Atención", "En desarrollo", "warning");
+    // return false;
+    fetch(urlListaDocFolio)
     .then(res => res.json())
     .then((resDocFolio) =>{
         var numeracion = 0;
         document.querySelector('#tbVerHistorialDocumentacion').innerHTML = "";
         resDocFolio.forEach(element => {
             numeracion += 1;
-            document.querySelector('#tbVerHistorialDocumentacion').innerHTML += "<tr><th scope='row'>"+numeracion+"</th><td>"+element.folio+"</td><td>"+element.tipo_documento+"</td></tr>";
+            document.querySelector('#tbVerHistorialDocumentacion').innerHTML += "<tr><th scope='row'>"+numeracion+"</th><td>"+element.folio+"</td><td>"+element.tipo_documento+"</td><td>"+element.fecha_prestamo+"</td><td>"+element.fecha_estimada_devolucion+"</td><td>"+element.nombre_usuario+"</td></tr>";
         });
     })
-    .catch(err => {throw err}); */
+    .catch(err => {throw err});
 }
+
+// function fnListadocumentosFolio(value){
+//     let folio = value.getAttribute('f');
+//     // let urlListaDocFolio = base_url+"/Estudiantes/getListaDocumentosFolio?idFolio="+folio;
+//     // swal.fire("Atención", "En desarrollo", "warning");
+//     // return false;
+//     document.querySelector('#txtFolio_ver').value = folio;
+// }
 
 //click en check devolucion documentos
 function fnCheckDevolucionDoc(value){

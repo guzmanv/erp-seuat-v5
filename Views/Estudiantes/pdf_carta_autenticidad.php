@@ -1,4 +1,6 @@
 <?php
+setlocale(LC_ALL,"es_ES.UTF-8");
+setlocale(LC_TIME,'spanish');
 date_default_timezone_set('America/Mexico_City');
 // $formatFechaActual = iconv('ISO-8859-2', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime(date('Y-m-d'))));
 $formatFechaActual = iconv('', 'UTF-8', strftime("%A, %d de %B de %Y", strtotime(date('Y-m-d'))));
