@@ -44,6 +44,14 @@
             die();
         }
 
+        //VER DOCUMENTOS PRESTADOS POR FOLIO
+        public function getListaDocumentosFolio(){
+            $folio = $_GET['idFolio'];
+            $arrHistorialDocumentFolio = $this->model->selectListaDocumentosFolio($folio);
+            echo json_encode($arrHistorialDocumentFolio,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
         //ACTUALIZAR MATRICULA ALUMNO
         public function setMatrEstudian_up()
         {

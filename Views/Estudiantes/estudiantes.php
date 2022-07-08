@@ -6,6 +6,7 @@
     getModal("Alumnos/modalEditTutor",$data);
     getModal("Alumnos/modalDatosFiscales",$data);
     getModal("Alumnos/modalMatriAlumno",$data);
+    getModal("Alumnos/modalListaDocumentosFolio",$data);
 ?>
 <div id="contentAjax"></div>
 <div class="wrapper">
