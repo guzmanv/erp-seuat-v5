@@ -8,7 +8,7 @@
         public function selectInscripciones()
         {
             $sql = "SELECT tp.id AS id_plantel,tp.nombre_plantel_fisico,tin.id AS id_institucion,tin.nombre_institucion,
-            tg.id AS id_grado,tg.numero_natural,tgr.id AS id_grupo,tgr.nombre_grupo,COUNT(*) AS total FROM t_inscripciones AS ti
+            tg.id AS id_grado,tg.numero_natural,tgr.id AS id_grupo,tgr.nombre_grupo,tpe.nombre_carrera, COUNT(*) AS total FROM t_inscripciones AS ti
             INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
             INNER JOIN t_instituciones AS tin ON tpe.id_instituciones = tin.id
             INNER JOIN t_planteles AS tp ON tin.id_planteles = tp.id
@@ -16,7 +16,7 @@
             INNER JOIN t_grados AS tg ON tsc.id_grados = tg.id
             INNER JOIN t_grupos AS tgr ON tsc.id_grupos = tgr.id
             WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1
-            GROUP BY tp.id,tin.id,tg.id,tgr.id HAVING COUNT(*)>=1";
+            GROUP BY tp.id,tin.id,tg.id,tgr.id,tpe.id HAVING COUNT(*)>=1";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -102,6 +102,24 @@
         {
             $sql = "UPDATE t_inscripciones SET id_salones_compuesto = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id_personas = $idPersona";
             $request = $this->update($sql,array($idSalonCompuesto,$idUser));
+            return $request;
+        }
+
+        public function selectEstatusEdoCta(int $idPersona)
+        {
+            $sql = "SELECT *FROM t_estado_cuenta AS tec 
+            WHERE tec.id_personas = $idPersona";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function selectPlanEstudios(int $idPlantel,int $idInstitucion,int $idNivelEducativo)
+        {
+            $sql = "SELECT tpe.id,tpe.nombre_carrera FROM t_plan_estudios AS tpe 
+            INNER JOIN t_instituciones AS ti ON tpe.id_instituciones = ti.id
+            INNER JOIN t_planteles AS tp ON ti.id_planteles = tp.id
+            INNER JOIN t_nivel_educativos AS tne ON tpe.id_nivel_educativos = tne.id
+            WHERE tp.id = $idPlantel AND ti.id = $idInstitucion AND tne.id = $idNivelEducativo AND tpe.estatus = 1";
+            $request = $this->select_all($sql);
             return $request;
         }
 	}

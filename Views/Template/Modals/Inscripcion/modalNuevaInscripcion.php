@@ -13,7 +13,7 @@
                     <form id="form_nueva_inscripcion" name="form_nueva_inscripcion" class="needs-validation">
                         <div class="card-body">
                             <div class="row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label>Plantel</label>
                                     <select class="form-control form-control-sm" id="list_plantel"
                                         name="list_plantel" onchange="fnSelectPlantel(value)">
@@ -23,14 +23,14 @@
                                         <?php }?>                                  
                                     </select>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label>Institución</label>
                                     <select class="form-control form-control-sm" id="list_institucion"
                                         name="list_institucion" onchange="fnSelectInstitucion(value)">
                                         <option value="">Seleccionar...</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label>Nivel educativo</label>
                                     <select class="form-control form-control-sm" id="list_nivel_educativo"
                                         name="list_nivel_educativo" onchange="fnSelectNivelEducativo(value)">
@@ -38,6 +38,13 @@
                                         <?php foreach ($data['niveles_educativos'] as $key => $nivel) { ?>
                                             <option value="<?php echo($nivel['id']) ?>"><?php echo($nivel['nombre_nivel_educativo']) ?></option>
                                         <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Plan de estudios</label>
+                                    <select class="form-control form-control-sm" id="list_planes_estudios"
+                                        name="list_planes_estudios" onchange="fnSelectPlanEstudio(value)">
+                                        <option value="">Seleccionar...</option>
                                     </select>
                                 </div>
                                 <div class="card col-12">
@@ -54,6 +61,7 @@
                                                         <th>Nombre</th>
                                                         <th>Apellido paterno</th>
                                                         <th>Apellido materno</th>
+                                                        <th>Observaciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="table_preeinscripcion">

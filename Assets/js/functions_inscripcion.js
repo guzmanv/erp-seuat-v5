@@ -1,11 +1,13 @@
 let selectPlanteles = document.querySelector("#list_plantel");
 let selectInstituciones = document.querySelector("#list_institucion");
 let selectNievelesEducativos = document.querySelector("#list_nivel_educativo");
+let selectPlanEstudios = document.querySelector("#list_planes_estudios");
 let tableReinscripcion = document.querySelector("#table_preeinscripcion");
 let formNuevaInscripcion = document.querySelector("#form_nueva_inscripcion");
 let idPlantelSeleccionado = null;
 let idInstitucionSeleccionado = null;
 let idNivelSeleccionado = null;
+let idPlanEstudios = null;
 
 document.addEventListener('DOMContentLoaded', function(){
 	tableInscripciones = $('#table_inscripciones').dataTable( {
@@ -22,9 +24,10 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"numeracion"},
             {"data":"nombre_plantel_fisico"},
 			{"data":"nombre_institucion"},
+			{"data":"nombre_carrera"},
             {"data":"numero_natural"},
             {"data":"nombre_grupo"},
-            {"data":"total"},
+            {"data":"total_alumnos"},
 			{"data":"options"}
         ],
         "responsive": true,
@@ -62,7 +65,7 @@ function fnSelectPlantel(id)
                 selectInstituciones.innerHTML = "<option value=''>Seleccionar...</option>";
             }
         }).catch(err =>{throw err});
-        fnPreenscritos(idPlantelSeleccionado,idInstitucionSeleccionado,idNivelSeleccionado);
+        fnPreenscritos(idPlantelSeleccionado,idInstitucionSeleccionado,idNivelSeleccionado,idPlanEstudios);
     }else{
         idPlantelSeleccionado = null;
         selectInstituciones.innerHTML = "<option value=''>Seleccionar...</option>";
@@ -73,7 +76,7 @@ function fnSelectInstitucion(id)
 {
     if(id != ''){
         idInstitucionSeleccionado = id;
-        fnPreenscritos(idPlantelSeleccionado,idInstitucionSeleccionado,idNivelSeleccionado);
+        fnPreenscritos(idPlantelSeleccionado,idInstitucionSeleccionado,idNivelSeleccionado,idPlanEstudios);
     }else{
         idInstitucionSeleccionado = null;
     }
@@ -82,22 +85,39 @@ function fnSelectNivelEducativo(id)
 {
     if(id != ''){
         idNivelSeleccionado = id;
-        fnPreenscritos(idPlantelSeleccionado,idInstitucionSeleccionado,idNivelSeleccionado);
+        fnPreenscritos(idPlantelSeleccionado,idInstitucionSeleccionado,idNivelSeleccionado,idPlanEstudios);
+        if(idPlantelSeleccionado != null && idInstitucionSeleccionado != null && idNivelSeleccionado != null){
+            let url = `${base_url}/Inscripcion/getPlanEstudios/${idPlantelSeleccionado}/${idInstitucionSeleccionado}/${idNivelSeleccionado}`;
+            fetch(url).then((res) => res.json()).then(response =>{
+                let options = "";
+                if(response.length > 0){
+                    response.forEach(planestudio => {
+                        options += '<option value="'+planestudio.id+'">'+planestudio.nombre_carrera+'</option>';
+                    });
+                    selectPlanEstudios .innerHTML += options;
+                }
+            }).catch(err =>{throw err});
+        }else{
+            console.log("falta completar campos");
+        }
+        
     }else{
         idNivelSeleccionado = null;
     }
 }
-function fnPreenscritos(plantel,institucion,nivel_educativo)
+function fnPreenscritos(plantel,institucion,nivel_educativo,plan_estudios)
 {
+    console.log(plan_estudios)
     let url = `${base_url}/Inscripcion/getPreinscritos/${plantel}/${institucion}/${nivel_educativo}`; 
     fetch(url).then((res)=> res.json()).then(response =>{
         let rows = "";
         if(response.length > 0){
             let numeracion = 0;
             response.forEach(element => {
+                let isDisabledCheck = (element.estatus)?'':'disabled';
                 numeracion += 1;
                 let options = "";
-                rows += "<tr><td class='text-center'><input type='checkbox' id='"+element.id_personas+"'></td><td>"+numeracion+"</td><td>"+element.nombre_plantel_fisico+"</td><td>"+element.nombre_persona+"</td><td>"+element.ap_paterno+"</td></tr>";
+                rows += "<tr><td class='text-center'><input type='checkbox' id='"+element.id_personas+"' "+isDisabledCheck+"></td><td>"+numeracion+"</td><td>"+element.nombre_plantel_fisico+"</td><td>"+element.nombre_persona+"</td><td>"+element.ap_paterno+"</td><td>"+element.observacion+"</td></tr>";
             });
             tableReinscripcion.innerHTML = rows;
         }else{
