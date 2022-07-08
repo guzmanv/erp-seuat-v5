@@ -94,7 +94,9 @@ function fnSelectNivelEducativo(id)
                     response.forEach(planestudio => {
                         options += '<option value="'+planestudio.id+'">'+planestudio.nombre_carrera+'</option>';
                     });
-                    selectPlanEstudios .innerHTML += options;
+                    selectPlanEstudios.innerHTML += options;
+                }else{
+                    selectPlanEstudios.innerHTML = "<option value=''>Seleccionar...</option>";
                 }
             }).catch(err =>{throw err});
         }else{
@@ -105,10 +107,19 @@ function fnSelectNivelEducativo(id)
         idNivelSeleccionado = null;
     }
 }
+function fnSelectPlanEstudio(id)
+{
+    if(id != ''){
+        idPlanEstudios = id;
+        fnPreenscritos(idPlantelSeleccionado,idInstitucionSeleccionado,idNivelSeleccionado,idPlanEstudios)
+    }else{
+        idPlanEstudios = null;
+        fnPreenscritos(idPlantelSeleccionado,idInstitucionSeleccionado,idNivelSeleccionado,idPlanEstudios)
+    }
+}
 function fnPreenscritos(plantel,institucion,nivel_educativo,plan_estudios)
 {
-    console.log(plan_estudios)
-    let url = `${base_url}/Inscripcion/getPreinscritos/${plantel}/${institucion}/${nivel_educativo}`; 
+    let url = `${base_url}/Inscripcion/getPreinscritos/${plantel}/${institucion}/${nivel_educativo}/${plan_estudios}`; 
     fetch(url).then((res)=> res.json()).then(response =>{
         let rows = "";
         if(response.length > 0){
@@ -196,7 +207,7 @@ function fnVerListaInscritos()
 }
 function btnNuevaInscripcion()
 {
-    fnPreenscritos(null,null,null);
+    fnPreenscritos(null,null,null,null);
     formNuevaInscripcion.reset();
 }
 function convStrToBase64(str){

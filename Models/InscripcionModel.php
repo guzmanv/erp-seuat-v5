@@ -42,9 +42,9 @@
             return $request;
         }
 
-        public function selectPreinscritos($idPlantel,$idInstitucion,$idNivelEducativo)
+        public function selectPreinscritos($idPlantel,$idInstitucion,$idNivelEducativo,$idPlanEstudios)
         {
-            if($idPlantel == null && $idInstitucion == null && $idNivelEducativo == null){
+            if($idPlantel == null && $idInstitucion == null && $idNivelEducativo == null && $idPlanEstudios == null){
                 $sql = "SELECT tp.id AS id_plantel,tp.nombre_plantel_fisico,tin.id AS id_institucion,tin.nombre_institucion,tne.id AS 
                 id_nivel_educativo,tper.nombre_persona,tper.ap_paterno ,tper.ap_materno,ti.id_personas FROM t_inscripciones AS ti
                 INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
@@ -53,7 +53,7 @@
                 INNER JOIN t_planteles AS tp ON tin.id_planteles = tp.id
                 INNER JOIN t_personas AS tper ON ti.id_personas = tper.id 
                 WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1 AND ti.id_salones_compuesto IS NULL";
-            }else if($idPlantel != null && $idInstitucion == null && $idNivelEducativo == null){
+            }else if($idPlantel != null && $idInstitucion == null && $idNivelEducativo == null && $idPlanEstudios == null){
                 $sql = "SELECT tp.id AS id_plantel,tp.nombre_plantel_fisico,tin.id AS id_institucion,tin.nombre_institucion,tne.id AS 
                 id_nivel_educativo,tper.nombre_persona,tper.ap_paterno ,tper.ap_materno,ti.id_personas FROM t_inscripciones AS ti
                 INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
@@ -62,7 +62,7 @@
                 INNER JOIN t_planteles AS tp ON tin.id_planteles = tp.id
                 INNER JOIN t_personas AS tper ON ti.id_personas = tper.id 
                 WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1 AND ti.id_salones_compuesto IS NULL AND tp.id = $idPlantel";
-            }else if($idPlantel != null && $idInstitucion != null && $idNivelEducativo == null){
+            }else if($idPlantel != null && $idInstitucion != null && $idNivelEducativo == null && $idPlanEstudios == null){
                 $sql = "SELECT tp.id AS id_plantel,tp.nombre_plantel_fisico,tin.id AS id_institucion,tin.nombre_institucion,tne.id AS 
                 id_nivel_educativo,tper.nombre_persona,tper.ap_paterno ,tper.ap_materno,ti.id_personas FROM t_inscripciones AS ti
                 INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
@@ -71,7 +71,7 @@
                 INNER JOIN t_planteles AS tp ON tin.id_planteles = tp.id
                 INNER JOIN t_personas AS tper ON ti.id_personas = tper.id 
                 WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1 AND ti.id_salones_compuesto IS NULL AND tp.id = $idPlantel AND tin.id = $idInstitucion";
-            }else if($idPlantel != null && $idInstitucion != null && $idNivelEducativo != null){
+            }else if($idPlantel != null && $idInstitucion != null && $idNivelEducativo != null && $idPlanEstudios == null){
                 $sql = "SELECT tp.id AS id_plantel,tp.nombre_plantel_fisico,tin.id AS id_institucion,tin.nombre_institucion,tne.id AS 
                 id_nivel_educativo,tper.nombre_persona,tper.ap_paterno ,tper.ap_materno,ti.id_personas FROM t_inscripciones AS ti
                 INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
@@ -80,6 +80,15 @@
                 INNER JOIN t_planteles AS tp ON tin.id_planteles = tp.id
                 INNER JOIN t_personas AS tper ON ti.id_personas = tper.id 
                 WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1 AND ti.id_salones_compuesto IS NULL AND tp.id = $idPlantel AND tin.id = $idInstitucion AND tne.id = $idNivelEducativo";
+            }else if($idPlantel != null && $idInstitucion != null && $idNivelEducativo != null && $idPlanEstudios != null){
+                $sql = "SELECT tp.id AS id_plantel,tp.nombre_plantel_fisico,tin.id AS id_institucion,tin.nombre_institucion,tne.id AS 
+                id_nivel_educativo,tper.nombre_persona,tper.ap_paterno ,tper.ap_materno,ti.id_personas FROM t_inscripciones AS ti
+                INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
+                INNER JOIN t_nivel_educativos AS tne ON tpe.id_nivel_educativos = tne.id
+                INNER JOIN t_instituciones AS tin ON tpe.id_instituciones = tin.id
+                INNER JOIN t_planteles AS tp ON tin.id_planteles = tp.id
+                INNER JOIN t_personas AS tper ON ti.id_personas = tper.id 
+                WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1 AND ti.id_salones_compuesto IS NULL AND tp.id = $idPlantel AND tin.id = $idInstitucion AND tne.id = $idNivelEducativo AND tpe.id = $idPlanEstudios";
             }
             $request = $this->select_all($sql);
             return $request;
@@ -108,7 +117,7 @@
         public function selectEstatusEdoCta(int $idPersona)
         {
             $sql = "SELECT *FROM t_estado_cuenta AS tec 
-            WHERE tec.id_personas = $idPersona";
+            WHERE tec.id_personas = $idPersona AND tec.pagado = 1";
             $request = $this->select_all($sql);
             return $request;
         }
