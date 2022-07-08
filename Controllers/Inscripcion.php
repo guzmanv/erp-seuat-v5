@@ -58,14 +58,17 @@
             $idPlantel = $arrArgs[0];
             $idInstitucion = $arrArgs[1];
             $idNivelEducativo = $arrArgs[2];
-            if($idPlantel == 'null' && $idInstitucion == 'null' && $idNivelEducativo == 'null'){
-                $arrData = $this->model->selectPreinscritos(null,null,null);
-            }else if($idPlantel != 'null' && $idInstitucion == 'null' && $idNivelEducativo == 'null'){
-                $arrData = $this->model->selectPreinscritos($idPlantel,null,null); 
-            }else if($idPlantel != 'null' && $idInstitucion != 'null' && $idNivelEducativo == 'null'){
-                $arrData = $this->model->selectPreinscritos($idPlantel,$idInstitucion,null);
-            }else if($idPlantel != 'null' && $idInstitucion != 'null' && $idNivelEducativo != 'null'){
-                $arrData = $this->model->selectPreinscritos($idPlantel,$idInstitucion,$idNivelEducativo);
+            $idPlanEstudios = $arrArgs[3];
+            if($idPlantel == 'null' && $idInstitucion == 'null' && $idNivelEducativo == 'null' && $idPlanEstudios == 'null'){
+                $arrData = $this->model->selectPreinscritos(null,null,null,null);
+            }else if($idPlantel != 'null' && $idInstitucion == 'null' && $idNivelEducativo == 'null' && $idPlanEstudios == 'null'){
+                $arrData = $this->model->selectPreinscritos($idPlantel,null,null,null); 
+            }else if($idPlantel != 'null' && $idInstitucion != 'null' && $idNivelEducativo == 'null' && $idPlanEstudios == 'null'){
+                $arrData = $this->model->selectPreinscritos($idPlantel,$idInstitucion,null,null);
+            }else if($idPlantel != 'null' && $idInstitucion != 'null' && $idNivelEducativo != 'null' && $idPlanEstudios == 'null'){
+                $arrData = $this->model->selectPreinscritos($idPlantel,$idInstitucion,$idNivelEducativo,null);
+            }else if($idPlantel != 'null' && $idInstitucion != 'null' && $idNivelEducativo != 'null' && $idPlanEstudios != 'null'){
+                $arrData = $this->model->selectPreinscritos($idPlantel,$idInstitucion,$idNivelEducativo,$idPlanEstudios);
             }
             for($i = 0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;

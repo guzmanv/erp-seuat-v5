@@ -664,15 +664,14 @@ function fnAperturarCaja(idcaja){
                 fetch(url)
                 .then(res => res.json())
                 .then((resultado) =>{
-                    debugger
-                    /* if(resultado){
+                     if(resultado){
                         Swal.fire('Exito!',resultado.msg,'success'
                         ).then((result) =>{
                             window.open(`${base_url}/Ingresos/`);
                         })
                     }else{
                         Swal.fire('Error!',resultado.msg,'warning')
-                    } */
+                    }
                 }).catch(err => { throw err });
             }
         }
