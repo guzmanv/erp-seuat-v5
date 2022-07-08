@@ -14,7 +14,7 @@ class RenovacionBecas extends Controllers{
         $data['page_tag'] = 'Asignación becas';
         $data['page_name'] = 'Asignación becas';
         $data['page_title'] = 'Asignación becas';
-        //$data['page_functions_js'] = 'functions_turnos.js';
+        $data['page_functions_js'] = 'functions_renovacion_becas.js';
         $this->views->getView($this,'asignacion_becas',$data);
     }
 
@@ -23,7 +23,12 @@ class RenovacionBecas extends Controllers{
         $data = $_GET['val'];
         $arrData = $this->model->selectAlumnoModal($data,$this->idPlantel);
     }
+
     public function buscarPersonaModal(){
+        $data = $_GET['val'];
+        
+    }
+    /* public function buscarPersonaModal(){
         $data = $_GET['val'];
         $arrData = $this->model->selectPersonasModal($data,$this->idPlantel);
         for($i = 0; $i <count($arrData); $i++){
@@ -40,5 +45,5 @@ class RenovacionBecas extends Controllers{
         echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
         die();
 
-    }
+    } */
 }
