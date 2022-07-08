@@ -1,5 +1,6 @@
 <?php
-setlocale(LC_ALL,"es_ES");
+setlocale(LC_ALL,"es_ES.UTF-8");
+setlocale(LC_TIME, 'spanish');
 date_default_timezone_set('UTC');
 $userAtencion = $data['data'][0]['nombre_usuario'];
 $userAlumno = $data['data'][0]['nombre_alumno'];
