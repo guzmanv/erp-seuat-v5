@@ -5,6 +5,21 @@
 		{
 			parent::__construct();
 		}
+        public function selectInscripciones()
+        {
+            $sql = "SELECT tp.id AS id_plantel,tp.nombre_plantel_fisico,tin.id AS id_institucion,tin.nombre_institucion,
+            tg.id AS id_grado,tg.numero_natural,tgr.id AS id_grupo,tgr.nombre_grupo,COUNT(*) AS total FROM t_inscripciones AS ti
+            INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
+            INNER JOIN t_instituciones AS tin ON tpe.id_instituciones = tin.id
+            INNER JOIN t_planteles AS tp ON tin.id_planteles = tp.id
+            INNER JOIN t_salones_compuesto AS tsc ON ti.id_salones_compuesto = tsc.id
+            INNER JOIN t_grados AS tg ON tsc.id_grados = tg.id
+            INNER JOIN t_grupos AS tgr ON tsc.id_grupos = tgr.id
+            WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1
+            GROUP BY tp.id,tin.id,tg.id,tgr.id HAVING COUNT(*)>=1";
+            $request = $this->select_all($sql);
+            return $request;
+        }
 
 		//Funcion para consultar lista de Categorias
 		public function selectPlanteles(){
@@ -27,17 +42,66 @@
             return $request;
         }
 
-        public function selectPreenscritos()
+        public function selectPreinscritos($idPlantel,$idInstitucion,$idNivelEducativo)
         {
-            $sql = "SELECT tp.id AS id_plantel,tp.nombre_plantel_fisico,tin.id AS id_institucion,tin.nombre_institucion,tne.id AS 
-            id_nivel_educativo,tper.nombre_persona,tper.ap_paterno ,tper.ap_materno FROM t_inscripciones AS ti
-            INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
-            INNER JOIN t_nivel_educativos AS tne ON tpe.id_nivel_educativos = tne.id
-            INNER JOIN t_instituciones AS tin ON tpe.id_instituciones = tin.id
-            INNER JOIN t_planteles AS tp ON tin.id_planteles = tp.id
-            INNER JOIN t_personas AS tper ON ti.id_personas = tper.id 
-            WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1 AND ti.id_salones_compuesto IS NULL";
+            if($idPlantel == null && $idInstitucion == null && $idNivelEducativo == null){
+                $sql = "SELECT tp.id AS id_plantel,tp.nombre_plantel_fisico,tin.id AS id_institucion,tin.nombre_institucion,tne.id AS 
+                id_nivel_educativo,tper.nombre_persona,tper.ap_paterno ,tper.ap_materno,ti.id_personas FROM t_inscripciones AS ti
+                INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
+                INNER JOIN t_nivel_educativos AS tne ON tpe.id_nivel_educativos = tne.id
+                INNER JOIN t_instituciones AS tin ON tpe.id_instituciones = tin.id
+                INNER JOIN t_planteles AS tp ON tin.id_planteles = tp.id
+                INNER JOIN t_personas AS tper ON ti.id_personas = tper.id 
+                WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1 AND ti.id_salones_compuesto IS NULL";
+            }else if($idPlantel != null && $idInstitucion == null && $idNivelEducativo == null){
+                $sql = "SELECT tp.id AS id_plantel,tp.nombre_plantel_fisico,tin.id AS id_institucion,tin.nombre_institucion,tne.id AS 
+                id_nivel_educativo,tper.nombre_persona,tper.ap_paterno ,tper.ap_materno,ti.id_personas FROM t_inscripciones AS ti
+                INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
+                INNER JOIN t_nivel_educativos AS tne ON tpe.id_nivel_educativos = tne.id
+                INNER JOIN t_instituciones AS tin ON tpe.id_instituciones = tin.id
+                INNER JOIN t_planteles AS tp ON tin.id_planteles = tp.id
+                INNER JOIN t_personas AS tper ON ti.id_personas = tper.id 
+                WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1 AND ti.id_salones_compuesto IS NULL AND tp.id = $idPlantel";
+            }else if($idPlantel != null && $idInstitucion != null && $idNivelEducativo == null){
+                $sql = "SELECT tp.id AS id_plantel,tp.nombre_plantel_fisico,tin.id AS id_institucion,tin.nombre_institucion,tne.id AS 
+                id_nivel_educativo,tper.nombre_persona,tper.ap_paterno ,tper.ap_materno,ti.id_personas FROM t_inscripciones AS ti
+                INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
+                INNER JOIN t_nivel_educativos AS tne ON tpe.id_nivel_educativos = tne.id
+                INNER JOIN t_instituciones AS tin ON tpe.id_instituciones = tin.id
+                INNER JOIN t_planteles AS tp ON tin.id_planteles = tp.id
+                INNER JOIN t_personas AS tper ON ti.id_personas = tper.id 
+                WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1 AND ti.id_salones_compuesto IS NULL AND tp.id = $idPlantel AND tin.id = $idInstitucion";
+            }else if($idPlantel != null && $idInstitucion != null && $idNivelEducativo != null){
+                $sql = "SELECT tp.id AS id_plantel,tp.nombre_plantel_fisico,tin.id AS id_institucion,tin.nombre_institucion,tne.id AS 
+                id_nivel_educativo,tper.nombre_persona,tper.ap_paterno ,tper.ap_materno,ti.id_personas FROM t_inscripciones AS ti
+                INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
+                INNER JOIN t_nivel_educativos AS tne ON tpe.id_nivel_educativos = tne.id
+                INNER JOIN t_instituciones AS tin ON tpe.id_instituciones = tin.id
+                INNER JOIN t_planteles AS tp ON tin.id_planteles = tp.id
+                INNER JOIN t_personas AS tper ON ti.id_personas = tper.id 
+                WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1 AND ti.id_salones_compuesto IS NULL AND tp.id = $idPlantel AND tin.id = $idInstitucion AND tne.id = $idNivelEducativo";
+            }
             $request = $this->select_all($sql);
+            return $request;
+        }
+
+        public function selectSalonesCompuestos()
+        {
+            $sql = "SELECT tsc.id,tsc.nombre_salon_compuesto,tp.nombre_periodo,
+            tg.nombre_grado,tgr.nombre_grupo,tt.nombre_turno,ts.nombre_salon FROM t_salones_compuesto AS tsc
+            INNER JOIN t_periodos AS tp ON tsc.id_periodos = tp.id
+            INNER JOIN t_grados AS tg ON tsc.id_grados = tg.id
+            INNER JOIN t_grupos AS tgr ON tsc.id_grupos = tgr.id
+            INNER JOIN t_turnos AS tt ON tsc.id_turnos = tt.id
+            INNER JOIN t_salones AS ts ON tsc.id_salones = ts.id
+            WHERE tsc.estatus = 1";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function insertInscripcion(int $idPersona,int $idSalonCompuesto,int $idUser)
+        {
+            $sql = "UPDATE t_inscripciones SET id_salones_compuesto = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id_personas = $idPersona";
+            $request = $this->update($sql,array($idSalonCompuesto,$idUser));
             return $request;
         }
 	}

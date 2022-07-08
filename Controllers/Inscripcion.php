@@ -24,19 +24,52 @@
             $data['page_content'] = "";
             $data['planteles'] = $this->model->selectPlanteles();
             $data['niveles_educativos'] = $this->model->selectNivelesEducativos();
+            $data['salones_compuestos'] = $this->model->selectSalonesCompuestos();
             $data['page_functions_js'] = "functions_inscripcion.js";
             $this->views->getView($this,"inscripcion",$data);
             
         }
-
-        public function getPreenscritos(int $idPlantel)
+        public function getInscripciones()
         {
-            $arrData = $this->model->selectPreenscritos();
+            $arrData = $this->model->selectInscripciones();
+            for($i = 0; $i<count($arrData); $i++){
+                $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['options'] = '<div class="text-center">
+				<div class="btn-group">
+					<button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-layer-group"></i> &nbsp; Acciones
+					</button>
+					<div class="dropdown-menu">
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" onClick="fnVerListaInscritos('.$arrData[$i]['id_plantel'].')"  title="Ver"> &nbsp;&nbsp; <i class="fas fa-eye icono-azul"></i> &nbsp; Ver alumnos</button>
+						<div class="dropdown-divider"></div>
+						
+					</div>
+				</div>
+				</div>';
+            }
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function getPreinscritos($args)
+        {
+            $arrArgs = explode(",",$args);
+            $idPlantel = $arrArgs[0];
+            $idInstitucion = $arrArgs[1];
+            $idNivelEducativo = $arrArgs[2];
+            if($idPlantel == 'null' && $idInstitucion == 'null' && $idNivelEducativo == 'null'){
+                $arrData = $this->model->selectPreinscritos(null,null,null);
+            }else if($idPlantel != 'null' && $idInstitucion == 'null' && $idNivelEducativo == 'null'){
+                $arrData = $this->model->selectPreinscritos($idPlantel,null,null); 
+            }else if($idPlantel != 'null' && $idInstitucion != 'null' && $idNivelEducativo == 'null'){
+                $arrData = $this->model->selectPreinscritos($idPlantel,$idInstitucion,null);
+            }else if($idPlantel != 'null' && $idInstitucion != 'null' && $idNivelEducativo != 'null'){
+                $arrData = $this->model->selectPreinscritos($idPlantel,$idInstitucion,$idNivelEducativo);
+            }
             for($i = 0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 $arrData[$i]['options'] = "";
             }
-
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -44,6 +77,23 @@
         {
             $responseInstituciones = $this->model->selectInstituciones($idPlantel);
             echo json_encode($responseInstituciones,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function setInscripcion($args)
+        {
+            $arrArgs = explode(",",$args);
+            $idSalonCompuesto = $arrArgs[0];
+            $arrAlumnos = json_decode(base64_decode($arrArgs[1]));
+            if(count($arrAlumnos) > 0){
+                foreach ($arrAlumnos as $key => $alumno) {
+                    $idPersona = $alumno;
+                    $response = $this->model->insertInscripcion($idPersona,$idSalonCompuesto,$this->idUser);
+                }
+                $arrResponse = array('estatus' => true, 'msg' => 'Se completó correctamente la inscripción.');
+            }else{
+                $arrResponse = array('estatus' => false, 'msg' => 'Al menos selecciona un alumno.');
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
     }
