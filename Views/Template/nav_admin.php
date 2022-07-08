@@ -377,6 +377,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Inscripcion" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="layout"></i>
+                                <p>
+                                    Inscripción
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Estudiantes/estudiantes" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="users"></i>
                                 <p>
