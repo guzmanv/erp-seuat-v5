@@ -43,5 +43,12 @@
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
+
+        public function setReinscripcionIndividual()
+        {
+            $response = $this->model->insertReinscripcion();
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            die();
+        }
 	}
 ?>

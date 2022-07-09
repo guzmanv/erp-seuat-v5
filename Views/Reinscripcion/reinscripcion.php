@@ -64,7 +64,7 @@
                                                                 <div class="card-body">
                                                                     <img src="https://coderthemes.com/hyper_2/saas/assets/images/users/avatar-1.jpg" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
                                                                     <h4 class="mb-0 mt-2" id="nombrePersona"></h4>
-                                                                    <p class="text-muted font-14" id="categoriaPersona"></p>
+                                                                    <!-- <p class="text-muted font-14" id="categoriaPersona"></p> -->
                                                                     <button type="button" class="btn btn-primary mb-2" disabled>Historial Academico</button>
                                                                     <button type="button" class="btn btn-secondary mb-2" disabled>Enviar mensaje</button>
                                                                     <div class="text-start mt-3">
@@ -91,29 +91,29 @@
                                                                 <label>Generación</label>
                                                                 <input type="text" class="form-control" placeholder="Generacion" value="" id="txtNombreGeneracion" disabled>
                                                                 <label>Ciclo</label>
-                                                                <select class="custom-select" required>
-                                                                    <option selected>Seleccionar...</option>
+                                                                <select class="custom-select" id="select_ciclos" onchange="fnSelectCiclo(this)">
+                                                                    <option value="">Seleccionar...</option>
                                                                     <?php foreach ($data['ciclos'] as $key => $value) { ?>
                                                                         <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_ciclo'] ?></option>
                                                                     <?php } ?>
                                                                 </select>
                                                                 <label>Periodo</label>
-                                                                <select class="custom-select">
-                                                                    <option selected>Seleccionar...</option>
+                                                                <select class="custom-select" id="select_periodo" onchange="fnSelectPeriodo(this)">
+                                                                    <option value="">Seleccionar...</option>
                                                                     <?php foreach ($data['periodos'] as $key => $value) { ?>
                                                                         <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_periodo'] ?></option>
                                                                     <?php }?>
                                                                 </select>
                                                                 <label>Grado</label>
-                                                                <select class="custom-select">
-                                                                    <option selected>Seleccionar...</option>
+                                                                <select class="custom-select" id="select_grado" onchange="fnSelectGrado(this)">
+                                                                    <option value="">Seleccionar...</option>
                                                                     <?php foreach ($data['grados'] as $key => $value) { ?>
-                                                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_grado'] ?></option>
+                                                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['numero_natural'] ?></option>
                                                                     <?php }?>
                                                                 </select>
                                                                 <label>Grupo</label>
-                                                                <select class="custom-select">
-                                                                    <option selected>Seleccionar...</option>
+                                                                <select class="custom-select" id="select_grupo" onchange="fnSelectGrupo(this)">
+                                                                    <option value="">Seleccionar...</option>
                                                                     <?php foreach ($data['grupos'] as $key => $value) { ?>
                                                                         <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_grupo'] ?></option>
                                                                     <?php }?>
