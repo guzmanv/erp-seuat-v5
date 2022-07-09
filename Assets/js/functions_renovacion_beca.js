@@ -1,10 +1,4 @@
-function buscarAlumno(){
-    let url = base_url+"/RenovacionBeca/buscarAlumnoModal?val="+textoBusqueda;
-    fetch(url)
-    .then((res) => res.json())
-    .then(resultado =>{
-        console.log(resultado)
-    }).catch(err => {throw err});
+function buscarPersona(){
 
     var textoBusqueda = $("input#busquedaPersona").val();
     var tablePersonas;
@@ -16,7 +10,7 @@ function buscarAlumno(){
             "url": " "+base_url+"/Assets/plugins/Spanish.json"
         },
         "ajax":{
-            "url": " "+base_url+"/Inscripcion/buscarPersonaModal?val="+textoBusqueda,
+            "url": " "+base_url+"/RenovacionBecas/buscarAlumnoModal?val="+textoBusqueda,
             "dataSrc":""
         },
         "columns":[
