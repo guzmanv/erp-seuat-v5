@@ -28,15 +28,26 @@
                                 <div class="card card-secondary">
                                     <nav>
                                         <div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
-                                            <a class="nav-link tab-nav active" id="step1-tab" data-toggle="tab" href="" onclick="fnNavTab(0)"><i class="fas fa-user"></i> Individual</a>
-                                            <a class="nav-link tab-nav" id="step2-tab" data-toggle="tab" href="" onclick="fnNavTab(1)"><i class="fas fa-users"></i> Grupal</a>
-                                            <a class="nav-link tab-nav" id="step3-tab" data-toggle="tab" href="" onclick="fnNavTab(2)"><i class="fas fa-reply-all"></i>> Masivo</a>
-                                            <a class="nav-link tab-nav" id="step4-tab" data-toggle="tab" href="" onclick="fnNavTab(3)"><i class="fas fa-list"></i> Reinscripciones</a>
+                                            <a class="nav-link tab-nav active" id="step1-tab" data-toggle="tab" href="" onclick="fnNavTab(0)"><i class="fas fa-list"></i> Reinscripciones</a>
+                                            <a class="nav-link tab-nav" id="step2-tab" data-toggle="tab" href="" onclick="fnNavTab(1)"><i class="fas fa-user"></i> Individual</a>
+                                            <!-- <a class="nav-link tab-nav" id="step3-tab" data-toggle="tab" href="" onclick="fnNavTab(2)"><i class="fas fa-reply-all"></i>> Masivo</a> -->
+                                            <a class="nav-link tab-nav" id="step4-tab" data-toggle="tab" href="" onclick="fnNavTab(2)"><i class="fas fa-users"></i> Grupal</a>
                                         </div>
                                     </nav>
                                     <div class="card-body"> 
                                         <div class="tab">
-                                            <form id="formDatosFiscales" name="formDatosFiscales">
+                                            <div class="row">
+                                                <!-- <div class="form-group col-md-4">
+                                                    <label>Municipio</label>
+                                                    <select class="form-control form-control-sm" id="listMunicipioNuevo" name="listMunicipioNuevo" onchange="municipioSeleccionado(value)" required>
+                                                        <option value="">Selecciona un Municipio</option>
+                                                    </select>
+                                                </div> -->
+                                            </div>               
+                                        </div>
+
+                                        <div class="tab">
+                                            <form id="formReinscripcion" name="formReinscripcion">
                                                 <div class="row">
                                                     <div class="form-group col-md-12">
                                                         <div class="col-md-6">
@@ -90,7 +101,14 @@
                                                                 <input type="text" class="form-control" placeholder="Carrera" value="" id="txtNombreCarrera" disabled>
                                                                 <label>Generación</label>
                                                                 <input type="text" class="form-control" placeholder="Generacion" value="" id="txtNombreGeneracion" disabled>
-                                                                <label>Ciclo</label>
+                                                                <label>Salon compuesto</label>
+                                                                <select class="custom-select" id="select_salon_compuesto" onchange="fnSelectSalonCompuesto(value)">
+                                                                    <option value="">Seleccionar...</option>
+                                                                    <?php foreach ($data['salon_compuesto'] as $key => $salonCompuesto) { ?>
+                                                                        <option value="<?php echo($salonCompuesto['valuecomp']) ?>"><?php echo($salonCompuesto['nombre_salon_compuesto'].'  (periodo '.$salonCompuesto['nombre_periodo'].' / '.$salonCompuesto['nombre_grado'].' '.$salonCompuesto['nombre_grupo'].' / '.$salonCompuesto['nombre_turno'].' )') ?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                                <!-- <label>Ciclo</label>
                                                                 <select class="custom-select" id="select_ciclos" onchange="fnSelectCiclo(this)">
                                                                     <option value="">Seleccionar...</option>
                                                                     <?php foreach ($data['ciclos'] as $key => $value) { ?>
@@ -117,7 +135,7 @@
                                                                     <?php foreach ($data['grupos'] as $key => $value) { ?>
                                                                         <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_grupo'] ?></option>
                                                                     <?php }?>
-                                                                </select>
+                                                                </select> -->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -350,25 +368,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab">
+                                        <!-- <div class="tab">
                                             <div class="row">
                                                 <div class="form-group col-md-4">
                                                     <label>Régimen</label>
                                                     <input type="text" id="txtRegimenNuevo" name="txtRegimenNuevo" class="form-control form-control-sm" placeholder="EJ: Particular" maxlength="30" required>
                                                 </div>
                                             </div>               
-                                        </div>   
-                                        <div class="tab">
-                                            <div class="row">
-                                                <div class="form-group col-md-4">
-                                                    <label>Municipio</label>
-                                                    <select class="form-control form-control-sm" id="listMunicipioNuevo" name="listMunicipioNuevo" onchange="municipioSeleccionado(value)" required>
-                                                        <option value="">Selecciona un Municipio</option>
-                                                    </select>
-                                                </div>
-                                            </div>               
-                                        </div>
-                                        <div class="tab">
+                                        </div> -->   
+                                        <!-- <div class="tab">
                                             <div class="row">
                                                 <div class="form-group col-md-6">
                                                     <div class="card">
@@ -390,7 +398,7 @@
                                                     </div>
                                                 </div>
                                             </div>               
-                                        </div>    
+                                        </div>  -->   
                                     </div>
                                 </div>
                             </div>

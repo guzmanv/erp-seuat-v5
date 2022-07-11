@@ -1,9 +1,25 @@
 let btnReinscribir = document.querySelector("#btn_reinscribir");
 let txtNombreAlumno = document.querySelector("#nombreAlumno");
+let formReinscripcion = document.querySelector("#formReinscripcion");
 btnReinscribir.disabled = true;
 txtNombreAlumno.disabled = true;
 let gradoInscritoActual = null;
 let grupoInscritoActual = null;
+
+let idSalonCompuesto = null;
+let nombreGrupo = null;
+let grado = null;
+let idGrado = null;
+let idTurno = null;
+let idPlanEstudios = null;
+let idPersona = null;
+let idTutor = null;
+let idDocumentos = null;
+let idSubcapania = null;
+let idHistorial = null;
+/* let idTurno = null;
+let idSalonCompuesto = null;
+let idHistorial = null; */
 //TABS
 var tabActual = 0;
 mostrarTab(tabActual);
@@ -73,9 +89,17 @@ function seleccionarPersona(value){
         if(resultado.nombre_grupo){
             grupoInscritoActual = resultado.nombre_grupo;
         }
+        idPlanEstudios = resultado.id_plan_estudios;
+        idPersona = resultado.id;
+        idTutor = resultado.id_tutores;
+        idDocumentos = resultado.id_documentos;
+        idSubcapania = resultado.id_subcampanias;
+        idHistorial = resultado.id_historial;
         document.querySelector('#divDatosAlumno').style.display = "block";
         document.querySelector('#divDatosReinscripcion').style.display = "block";
         document.querySelector('#nombrePersona').textContent = `${resultado.nombre_persona} ${resultado.ap_paterno} ${resultado.ap_materno}`;
+        /* idTurno = resultado.id_turnos;
+        idSalonCompuesto = resultado.id_salones_compuesto;
         /* document.querySelector('#categoriaPersona').textContent = `${resultado.nombre_categoria}`; */
         document.querySelector('#nombrePlantel').textContent = `${resultado.nombre_plantel_fisico}`;
         document.querySelector('#nombreCarrera').textContent = `${resultado.nombre_carrera}`;
@@ -93,15 +117,15 @@ function seleccionarPersona(value){
     }
     $('.close').click();
 }
-function fnSelectCiclo(value)
+/* function fnSelectCiclo(value)
 {
     checkInputComplete();
-}
-function fnSelectPeriodo(value)
+} */
+/* function fnSelectPeriodo(value)
 {
     checkInputComplete();
-}
-function fnSelectGrado(value)
+} */
+/* function fnSelectGrado(value)
 {
     //console.log(value.options[value.selectedIndex].text)
     let valueIndex = value.options[value.selectedIndex].value;
@@ -113,9 +137,9 @@ function fnSelectGrado(value)
     }
     checkInputComplete();
 
-}
+} */
 
-function fnSelectGrupo(value)
+/* function fnSelectGrupo(value)
 {
     let textIndex = value.options[value.selectedIndex].text;
     let valueIndex = value.options[value.selectedIndex].value;
@@ -126,24 +150,57 @@ function fnSelectGrupo(value)
         }
     }
     checkInputComplete();
-}
+} */
 
+function fnSelectSalonCompuesto(value)
+{
+    checkInputComplete();
+    if(value != '')
+    {
+        idSalonCompuesto = (value.split(","))[0];
+        grupo = (value.split(","))[1];
+        grado = (value.split(","))[2];
+        idTurno = (value.split(","))[3];
+        idGrado = (value.split(","))[4];
+        if(parseInt(grado) <= parseInt(gradoInscritoActual))
+        {
+            swal.fire("Atención","No se puede reinscribir a este grado","warning");
+            return false;
+        }
+        if(grupo != grupoInscritoActual)
+        {
+            swal.fire("Atención","No se puede reinscribir a un grupo diferente","warning");
+            return false;
+        }
+    }
+}
 function checkInputComplete()
 {
-    let ciclo = document.querySelector("#select_ciclos").value;
+    /* let ciclo = document.querySelector("#select_ciclos").value;
     let periodo = document.querySelector("#select_periodo").value;
     let grado = document.querySelector("#select_grado").value;
-    let grupo = document.querySelector("#select_grupo").value;
-    if(ciclo == '' || periodo == '' || grado == '' || grupo == ''){
+    let grupo = document.querySelector("#select_grupo").value; */
+    let salonCompuesto = document.querySelector("#select_salon_compuesto").value;
+    if(salonCompuesto == ''){
         document.querySelector("#btn_reinscribir").disabled = true;
     }else{
         document.querySelector("#btn_reinscribir").disabled = false;
     }
 }
 function fnReinscribir(){
-    let url = `${base_url}/Reinscripcion/setReinscripcionIndividual`;
+    let url = `${base_url}/Reinscripcion/setReinscripcionIndividual/${idTurno}/${idPlanEstudios}/${idPersona}/${idTutor}/${idDocumentos}/${idSubcapania}/${idSalonCompuesto}/${idHistorial}/${idGrado}`;
     fetch(url).then((res) => res.json()).then(response =>{
-        console.log(response);
+        if(response.estatus){
+            formReinscripcion.reset();
+            //$('#modal_form_nueva_inscripcion').modal("hide");
+            swal.fire("Reinscripcion", response.msg, "success").then((result) =>{
+                //$('.close').click();
+                location.reload();
+            });
+            //tableInscripciones.api().ajax.reload(); 
+        }else{
+            swal.fire("Error", response.msg, "error");
+        }
     }).catch(err =>{throw err});
 
 }
