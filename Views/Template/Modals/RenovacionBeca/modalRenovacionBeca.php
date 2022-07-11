@@ -11,9 +11,9 @@
                 <div class="card card-secondary">
                     <form id="formNuevaRenovacion" name="formNuevaRenovacion">
                         <div class="card-body">
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label>Nombre del alumno</label>
+                                    <label>Buscar alumno</label>
                                     <div class="row">
                                         <div class="col-md-9">
                                             <input type="text" id="txtAlumno" name="txtAlumno" class="form-control form-control-sm" placeholder="Nombre completo del alumno" readonly require>
@@ -23,7 +23,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="row">
                                 <div class="col-md-12">
                                     <label>
@@ -32,38 +32,20 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Carrera:</label> <b id="carreraRenBeca">Ing. en sistemas computacionales</b>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Semestre o cuatrimestre:</label> <b id="cuatrimestreRenBeca">2do. Cuatrimestre</b>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Nombre completo:</label> <b id="nomCompletoRenBeca">Nombre prueba ApellidoPat ApellidoMat</b>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Dirección del alumno:</label> <b id="direccionAlumRenBeca">Dirección conocida</b>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Nombre del padre o tutor:</label> <b id="nomTutorRenBeca">Nombre prueba ApellidoPat ApellidoMat</b>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Dirección del padre o tutor:</label> <b id="direccionTutorRenBeca">Dirección conocida</b>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Teléfono fijo:</label> <b id="telFijoRenBeca">9610000000</b>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Teléfono celular:</label> <b id="telCelRenBeca">9610000000</b>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Número de recibo de reinscripción:</label> <input type="text">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Promedio general del semestre o cuatrimestre cursado:</label><b id="promedio">9.5</b>
-                                    </div>
-                                </div>
+                                <table id="tabla-asig-becas" class="table table-bordered table-hover table-striped table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Carrera</th>
+                                            <th>Grado</th>
+                                            <th>Periodo</th>
+                                            <th>Modalidad</th>
+                                            <th>Promedio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </form>
@@ -78,7 +60,7 @@
 </div>
 
 
-<div class="modal fade" id="modalBuscarNombreAlumno" tabindex="-1" role="dialog" aria-labelledby="modalNombrePersonaLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="modalBuscarNombreAlumno" tabindex="-1" role="dialog" aria-labelledby="modalNombrePersonaLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -107,4 +89,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

@@ -17,4 +17,17 @@ class RenovacionBecasModel extends Mysql{
         $request = $this->select($sql);
         return $request;
     }
+
+    public function selectAsignacion()
+    {
+        $sql = "SELECT insc.id, pln.nombre_carrera_corto as carrera, insc.id_grados, per.nombre_periodo, mdl.nombre_plan, insc.promedio, insc.id_personas 
+        FROM t_inscripciones as insc
+        INNER JOIN t_plan_estudios as pln ON insc.id_plan_estudios = pln.id
+        INNER JOIN t_organizacion_planes as mdl ON mdl.id = pln.id_organizacion_planes
+        INNER JOIN t_salones_compuesto as sln ON sln.id = insc.id_salones_compuesto
+        INNER JOIN t_periodos as per ON per.id = sln.id_periodos 
+        WHERE tipo_ingreso = 'Reinscripcion'";
+        $request = $this->select_all($sql);
+        return $request;
+    }
 }

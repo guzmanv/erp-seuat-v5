@@ -1,36 +1,33 @@
-function buscarAlumno(){
+let tableAsignacionBeca;
 
-    var textoBusqueda = $("input#busquedaPersona").val();
-    var tablePersonas;
-    tablePersonas = $('#tablePersonas').dataTable( {
-        "aProcessing":true,
-        "aServerSide":true,
+tableAsignacionBeca = $('#tabla-asig-becas').dataTable( {
+		"aProcessing":true,
+		"aServerSide":true,
         "language": {
-            //url:"<?php echo media(); ?>/plugins/Spanish.json"
-            "url": " "+base_url+"/Assets/plugins/Spanish.json"
+        	"url": " "+base_url+"/Assets/plugins/Spanish.json"
         },
         "ajax":{
-            //Hacer otro metodo en el contralador donde debo buscar a la persona que ya está reinscrito
-            "url": " "+base_url+"/Inscripcion/buscarPersonaModal?val="+textoBusqueda,
+            "url": " "+base_url+"/RenovacionBecas/getAsignaciones",
             "dataSrc":""
         },
         "columns":[
-            {"data":"nombre"},
-            {"data":"estatus"},
-            {"data":"options"}
+			{"data": "carrera"},
+			{"data": "id_grados"},
+			{"data": "nombre_periodo"},
+            {"data": "nombre_plan"},
+            {"data": "promedio"}
         ],
         "responsive": true,
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": false,
-        "autoWidth": false,
-        "scrollY": '42vh',
-        "scrollCollapse": true,
-        "bDestroy": true,
-        "order": [[ 0, "desc" ]],
-        "iDisplayLength": 5
+	    "paging": true,
+	    "lengthChange": true,
+	    "searching": true,
+	    "ordering": false,
+	    "info": true,
+	    "autoWidth": false,
+	    "scrollY": '42vh',
+	    "scrollCollapse": true,
+	    "bDestroy": true,
+	    "order": [[ 0, "asc" ]],
+	    "iDisplayLength": 10
     });
-    $('#tablePersonas').DataTable();
-}
+$('#tabla-asig-becas').DataTable();
