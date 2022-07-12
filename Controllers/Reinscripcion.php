@@ -90,5 +90,54 @@
             return $folioSistema;
 
         }
+
+        public function getReinscripciones()
+        {
+            $arrData = $this->model->selectReinscripciones();
+            for($i = 0; $i<count($arrData); $i++){
+                $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['total_alumnos'] = '<h5><span class="badge badge-warning pr-2 pl-2">'.$arrData[$i]['total'].' alumnos</span></h5>';
+                $arrData[$i]['options'] = '<div class="text-center">
+				<div class="btn-group">
+					<button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-layer-group"></i> &nbsp; Acciones
+					</button>
+					<div class="dropdown-menu">
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" onClick="fnVerListaInscritos('.$arrData[$i]['id_plantel'].')"  title="Ver"> &nbsp;&nbsp; <i class="fas fa-eye icono-azul"></i> &nbsp; Ver alumnos</button>
+						<div class="dropdown-divider"></div>
+						
+					</div>
+				</div>
+				</div>';
+            }
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function getInscripciones()
+        {
+            $arrData = $this->model->selectInscripciones();
+            for($i = 0; $i<count($arrData); $i++){
+                $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['total_alumnos'] = '<h5><span class="badge badge-warning pr-2 pl-2">'.$arrData[$i]['total'].' alumnos</span></h5>';
+                $values = $arrData[$i]['values_select'];
+                $arrData[$i]['options'] = '<button type="button" class="btn btn-primary btn-xs" onclick="fnVerEstudiantes('.$values.')">Ver</button>';
+            }
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function getAlumnosInscritos($args)
+        {
+            $arrArgs = explode(",",$args);
+            $idPlantel = $arrArgs[0];
+            $idInstitucion = $arrArgs[1];
+            $idPlanEstudio = $arrArgs[2];
+            $idGrado = $arrArgs[3];
+            $idGrupo = $arrArgs[4];
+            $arrData = $this->model->selectAlumnosInscritos($idPlantel,$idInstitucion,$idPlanEstudio,$idGrado,$idGrupo);
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            die();
+        }
 	}
 ?>

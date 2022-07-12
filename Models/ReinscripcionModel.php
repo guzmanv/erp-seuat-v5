@@ -16,7 +16,7 @@
             INNER JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
             INNER JOIN t_grupos AS gr ON sal.id_grupos = gr.id
             INNER JOIN t_grados AS tgr ON ins.id_grados = tgr.id
-            WHERE CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) LIKE '%$data%'";
+            WHERE CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) LIKE '%$data%' AND ins.tipo_ingreso = 'Inscripcion' AND ins.estatus = 1";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -94,6 +94,51 @@
             $sql_folio_sistema = "SELECT COUNT(*) AS total FROM t_inscripciones WHERE folio_sistema LIKE '%$sigla%'";
             $request_folio_sistema = $this->select($sql_folio_sistema);
             return $request_folio_sistema;
+        }
+        public function selectReinscripciones()
+        {
+            $sql = "SELECT tp.id AS id_plantel,tp.nombre_plantel_fisico,tin.id AS id_institucion,tin.nombre_institucion,
+            tg.id AS id_grado,tg.numero_natural,tgr.id AS id_grupo,tgr.nombre_grupo,tpe.nombre_carrera, COUNT(*) AS total FROM t_inscripciones AS ti
+            INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
+            INNER JOIN t_instituciones AS tin ON tpe.id_instituciones = tin.id
+            INNER JOIN t_planteles AS tp ON tin.id_planteles = tp.id
+            INNER JOIN t_salones_compuesto AS tsc ON ti.id_salones_compuesto = tsc.id
+            INNER JOIN t_grados AS tg ON tsc.id_grados = tg.id
+            INNER JOIN t_grupos AS tgr ON tsc.id_grupos = tgr.id
+            WHERE ti.tipo_ingreso = 'Reinscripcion' AND ti.estatus = 1
+            GROUP BY tp.id,tin.id,tg.id,tgr.id,tpe.id HAVING COUNT(*)>=1";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function selectInscripciones()
+        {
+            $sql = "SELECT tp.id AS id_plantel,tp.nombre_plantel_fisico,tin.id AS id_institucion,tin.nombre_institucion,
+            tg.id AS id_grado,tg.numero_natural,tgr.id AS id_grupo,tgr.nombre_grupo,tpe.nombre_carrera,CONCAT(tp.id,',',tin.id,',',tpe.id,',',tg.id,',',tgr.id) AS values_select, COUNT(*) AS total FROM t_inscripciones AS ti
+            INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
+            INNER JOIN t_instituciones AS tin ON tpe.id_instituciones = tin.id
+            INNER JOIN t_planteles AS tp ON tin.id_planteles = tp.id
+            INNER JOIN t_salones_compuesto AS tsc ON ti.id_salones_compuesto = tsc.id
+            INNER JOIN t_grados AS tg ON tsc.id_grados = tg.id
+            INNER JOIN t_grupos AS tgr ON tsc.id_grupos = tgr.id
+            WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1
+            GROUP BY tp.id,tin.id,tg.id,tgr.id,tpe.id HAVING COUNT(*)>=1";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+
+        public function selectAlumnosInscritos(int $idPlantel,int $idInstitucion,int $idPlanEstudio,int $idGrado,int $idGrupo)
+        {
+            $sql = "SELECT *FROM t_inscripciones AS ti
+            INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
+            INNER JOIN t_instituciones AS tins ON tpe.id_instituciones = tins.id
+            INNER JOIN t_planteles AS tp ON tins.id_planteles = tp.id
+            INNER JOIN t_personas AS tper ON ti.id_personas = tper.id
+            INNER JOIN t_grados AS tg ON ti.id_grados = tg.id
+            INNER JOIN t_salones_compuesto AS tsc ON ti.id_salones_compuesto = tsc.id
+            INNER JOIN t_grupos AS tgr ON tsc.id_grupos = tgr.id 
+            WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1 AND tp.id = $idPlantel AND tins.id = $idInstitucion AND tpe.id = $idPlanEstudio AND tg.id = $idGrado AND tgr.id = $idGrupo";
+            $request = $this->select_all($sql);
+            return $request;
         }
 	}
 ?>

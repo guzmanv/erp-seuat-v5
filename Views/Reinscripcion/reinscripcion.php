@@ -37,12 +37,31 @@
                                     <div class="card-body"> 
                                         <div class="tab">
                                             <div class="row">
-                                                <!-- <div class="form-group col-md-4">
-                                                    <label>Municipio</label>
-                                                    <select class="form-control form-control-sm" id="listMunicipioNuevo" name="listMunicipioNuevo" onchange="municipioSeleccionado(value)" required>
-                                                        <option value="">Selecciona un Municipio</option>
-                                                    </select>
-                                                </div> -->
+                                                <div class="col-lg-12">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <p class="card-text">
+                                                                <table id="table_reinscripciones" width="100%" class="col-12 table table-bordered table-striped table-hover table-sm">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>#</th>
+                                                                            <th>Plantel</th>
+                                                                            <th>Institución</th>
+                                                                            <th>Plan de estudio</th>
+                                                                            <th>Grado</th>
+                                                                            <th>Grupo</th>
+                                                                            <th>Alumnos</th>
+                                                                            <th>Acciones</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        
+                                                                    </tbody>
+                                                                </table>
+                                                            </p>
+                                                        </div>
+                                                    </div>  
+                                                </div>
                                             </div>               
                                         </div>
 
@@ -151,7 +170,7 @@
                                                     <div class="card">
                                                         <div class="card-body">
                                                             <p class="card-text">
-                                                                <table id="tablePlantel" class="table table-bordered table-striped table-hover table-sm">
+                                                                <table id="table_reinscripcion_grupal" class="table table-bordered table-striped table-hover table-sm">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>#</th>
@@ -165,112 +184,13 @@
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <tr>
-                                                                            <td>1</td>
-                                                                            <td>SEUAT Plantel Tuxtla</td>
-                                                                            <td>Ingenieria en Sistemas</td>
-                                                                            <td>1</td>
-                                                                            <td>A</td>
-                                                                            <td>25</td>
-                                                                            <td><span class="badge badge-success">Activo</span></td>
-                                                                            <td><button type="button" class="btn btn-primary btn-xs">Ver</button></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>1</td>
-                                                                            <td>SEUAT Plantel Tapachula</td>
-                                                                            <td>Ingenieria en Sistemas</td>
-                                                                            <td>3</td>
-                                                                            <td>A</td>
-                                                                            <td>25</td>
-                                                                            <td><span class="badge badge-success">Activo</span></td>
-                                                                            <td><button type="button" class="btn btn-primary btn-xs">Ver</button></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>1</td>
-                                                                            <td>SEUAT Plantel Tuxtla</td>
-                                                                            <td>Licenciatura en Psicologia</td>
-                                                                            <td>2</td>
-                                                                            <td>A</td>
-                                                                            <td>25</td>
-                                                                            <td><span class="badge badge-success">Activo</span></td>
-                                                                            <td><button type="button" class="btn btn-primary btn-xs">Ver</button></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>1</td>
-                                                                            <td>SEUAT Plantel Reforma</td>
-                                                                            <td>Contaduria Publica</td>
-                                                                            <td>6</td>
-                                                                            <td>A</td>
-                                                                            <td>25</td>
-                                                                            <td><span class="badge badge-success">Activo</span></td>
-                                                                            <td><button type="button" class="btn btn-primary btn-xs">Ver</button></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>1</td>
-                                                                            <td>SEUAT Plantel Yajalon</td>
-                                                                            <td>Ingenieria en Electronica</td>
-                                                                            <td>1</td>
-                                                                            <td>A</td>
-                                                                            <td>25</td>
-                                                                            <td><span class="badge badge-success">Activo</span></td>
-                                                                            <td><button type="button" class="btn btn-primary btn-xs">Ver</button></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>1</td>
-                                                                            <td>SEUAT Plantel Oaxaca</td>
-                                                                            <td>Ingenieria en Mecatronica</td>
-                                                                            <td>3</td>
-                                                                            <td>A</td>
-                                                                            <td>25</td>
-                                                                            <td><span class="badge badge-success">Activo</span></td>
-                                                                            <td><button type="button" class="btn btn-primary btn-xs">Ver</button></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>1</td>
-                                                                            <td>SEUAT Plantel Campeche</td>
-                                                                            <td>Licenciatura en Psicologia</td>
-                                                                            <td>5</td>
-                                                                            <td>A</td>
-                                                                            <td>25</td>
-                                                                            <td><span class="badge badge-success">Activo</span></td>
-                                                                            <td><button type="button" class="btn btn-primary btn-xs">Ver</button></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>1</td>
-                                                                            <td>SEUAT Plantel Tuxtla</td>
-                                                                            <td>Desarrollo y Cuidado Infantil</td>
-                                                                            <td>8</td>
-                                                                            <td>A</td>
-                                                                            <td>25</td>
-                                                                            <td><span class="badge badge-success">Activo</span></td>
-                                                                            <td><button type="button" class="btn btn-primary btn-xs">Ver</button></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>1</td>
-                                                                            <td>SEUAT Plantel Reforma</td>
-                                                                            <td>Ingenieria en Sistemas</td>
-                                                                            <td>4</td>
-                                                                            <td>A</td>
-                                                                            <td>25</td>
-                                                                            <td><span class="badge badge-success">Activo</span></td>
-                                                                            <td><button type="button" class="btn btn-primary btn-xs">Ver</button></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>1</td>
-                                                                            <td>SEUAT Plantel Tuxtla</td>
-                                                                            <td>Trabajo Social</td>
-                                                                            <td>1</td>
-                                                                            <td>A</td>
-                                                                            <td>25</td>
-                                                                            <td><span class="badge badge-success">Activo</span></td>
-                                                                            <td><button type="button" class="btn btn-primary btn-xs">Ver</button></td>
-                                                                        </tr>
+                                                                        
                                                                     </tbody>
                                                                 </table>
                                                             </p>
                                                         </div>
                                                     </div>
-                                                    <div class="card">
+                                                    <div class="card" id="div_datos_reinscripcion">
                                                         <div class="card-body">
                                                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                                                                 <strong>Aviso!</strong> Selecciona los alumnos en la tabla que desea reinscribir

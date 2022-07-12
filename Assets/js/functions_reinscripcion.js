@@ -17,9 +17,8 @@ let idTutor = null;
 let idDocumentos = null;
 let idSubcapania = null;
 let idHistorial = null;
-/* let idTurno = null;
-let idSalonCompuesto = null;
-let idHistorial = null; */
+
+
 //TABS
 var tabActual = 0;
 mostrarTab(tabActual);
@@ -35,6 +34,9 @@ function fnNavTab(numTab){
       x[i].style.display = "none";
     }
     x[numTab].style.display = "block";  
+    fnMostrarDatatableReinscripciones();
+    fnMostrarDatatableReinscripcionGrupal();
+
 }
 
 //Modal buscar Persona
@@ -98,9 +100,6 @@ function seleccionarPersona(value){
         document.querySelector('#divDatosAlumno').style.display = "block";
         document.querySelector('#divDatosReinscripcion').style.display = "block";
         document.querySelector('#nombrePersona').textContent = `${resultado.nombre_persona} ${resultado.ap_paterno} ${resultado.ap_materno}`;
-        /* idTurno = resultado.id_turnos;
-        idSalonCompuesto = resultado.id_salones_compuesto;
-        /* document.querySelector('#categoriaPersona').textContent = `${resultado.nombre_categoria}`; */
         document.querySelector('#nombrePlantel').textContent = `${resultado.nombre_plantel_fisico}`;
         document.querySelector('#nombreCarrera').textContent = `${resultado.nombre_carrera}`;
         document.querySelector('#nombreGeneracion').textContent = resultado.nombre_generacion;
@@ -117,40 +116,6 @@ function seleccionarPersona(value){
     }
     $('.close').click();
 }
-/* function fnSelectCiclo(value)
-{
-    checkInputComplete();
-} */
-/* function fnSelectPeriodo(value)
-{
-    checkInputComplete();
-} */
-/* function fnSelectGrado(value)
-{
-    //console.log(value.options[value.selectedIndex].text)
-    let valueIndex = value.options[value.selectedIndex].value;
-    let textIndex = parseInt(value.options[value.selectedIndex].text);
-    let gradoSugerido = parseInt(gradoInscritoActual) + 1;
-    if(textIndex <= parseInt(gradoInscritoActual)){
-        swal.fire("Atención","No se puede reinscribir a este grado","warning");
-        return false;
-    }
-    checkInputComplete();
-
-} */
-
-/* function fnSelectGrupo(value)
-{
-    let textIndex = value.options[value.selectedIndex].text;
-    let valueIndex = value.options[value.selectedIndex].value;
-    if(valueIndex != ''){
-        if(textIndex != grupoInscritoActual){
-            swal.fire("Atención","Desea cambiar de grupo?","warning");
-            return false;
-        }
-    }
-    checkInputComplete();
-} */
 
 function fnSelectSalonCompuesto(value)
 {
@@ -176,10 +141,6 @@ function fnSelectSalonCompuesto(value)
 }
 function checkInputComplete()
 {
-    /* let ciclo = document.querySelector("#select_ciclos").value;
-    let periodo = document.querySelector("#select_periodo").value;
-    let grado = document.querySelector("#select_grado").value;
-    let grupo = document.querySelector("#select_grupo").value; */
     let salonCompuesto = document.querySelector("#select_salon_compuesto").value;
     if(salonCompuesto == ''){
         document.querySelector("#btn_reinscribir").disabled = true;
@@ -203,4 +164,102 @@ function fnReinscribir(){
         }
     }).catch(err =>{throw err});
 
+}
+
+if(tabActual == 0){
+    fnMostrarDatatableReinscripciones();
+}else if(tabActual == 2){
+    fnMostrarDatatableReinscripcionGrupal();
+}
+
+function fnMostrarDatatableReinscripciones(){
+    if(tabActual == 0){
+        var tablePersonas;
+        tablePersonas = $('#table_reinscripciones').dataTable( {
+            "aProcessing":true,
+            "aServerSide":true,
+            "language": {
+                //url:"<?php echo media(); ?>/plugins/Spanish.json"
+                "url": " "+base_url+"/Assets/plugins/Spanish.json"
+            },
+            "ajax":{
+                "url": " "+base_url+"/Reinscripcion/getReinscripciones",
+                "dataSrc":""
+            },
+            "columns":[
+                {"data":"numeracion"},
+                {"data":"nombre_plantel_fisico"},
+			    {"data":"nombre_institucion"},
+			    {"data":"nombre_carrera"},
+                {"data":"numero_natural"},
+                {"data":"nombre_grupo"},
+                {"data":"total_alumnos"},
+			    {"data":"options"}
+            ],
+            "responsive": true,
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": false,
+            "autoWidth": false,
+            "scrollY": '42vh',
+            "scrollCollapse": true,
+            "bDestroy": true,
+            "order": [[ 0, "desc" ]],
+            "iDisplayLength": 5
+        });
+        $('#table_reinscripciones').DataTable();
+    }
+}
+
+function fnMostrarDatatableReinscripcionGrupal()
+{
+    if(tabActual == 2){
+        var tablePersonas;
+        tablePersonas = $('#table_reinscripcion_grupal').dataTable( {
+            "aProcessing":true,
+            "aServerSide":true,
+            "language": {
+                //url:"<?php echo media(); ?>/plugins/Spanish.json"
+                "url": " "+base_url+"/Assets/plugins/Spanish.json"
+            },
+            "ajax":{
+                "url": " "+base_url+"/Reinscripcion/getInscripciones",
+                "dataSrc":""
+            },
+            "columns":[
+                {"data":"numeracion"},
+                {"data":"nombre_plantel_fisico"},
+			    {"data":"nombre_institucion"},
+			    {"data":"nombre_carrera"},
+                {"data":"numero_natural"},
+                {"data":"nombre_grupo"},
+                {"data":"total_alumnos"},
+			    {"data":"options"}
+            ],
+            "responsive": true,
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": false,
+            "autoWidth": false,
+            "scrollY": '42vh',
+            "scrollCollapse": true,
+            "bDestroy": true,
+            "order": [[ 0, "desc" ]],
+            "iDisplayLength": 5
+        });
+        $('#table_reinscripcion_grupal').DataTable();
+    }
+}
+
+function fnVerEstudiantes(idPlantel,idInstitucion,idPlanEstudios,idGrado,idGrupo)
+{
+    $('html,body').animate({scrollTop: $("#div_datos_reinscripcion").offset().top},'slow');
+    let url = `${base_url}/Reinscripcion/getAlumnosInscritos/${idPlantel}/${idInstitucion}/${idPlanEstudios}/${idGrado}/${idGrupo}`;
+    fetch(url).then((res) => res.json()).then(response =>{
+        console.log(response)
+    }).catch(err =>{throw err});
 }
