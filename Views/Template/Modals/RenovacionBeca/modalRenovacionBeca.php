@@ -11,7 +11,7 @@
                 <div class="card card-secondary">
                     <form id="formNuevaRenovacion" name="formNuevaRenovacion">
                         <div class="card-body">
-                            <!-- <div class="row">
+                            <div class="row">
                                 <div class="form-group col-md-12">
                                     <label>Buscar alumno</label>
                                     <div class="row">
@@ -23,7 +23,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <label>
@@ -60,7 +60,7 @@
 </div>
 
 
-<!-- <div class="modal fade" id="modalBuscarNombreAlumno" tabindex="-1" role="dialog" aria-labelledby="modalNombrePersonaLabel" aria-hidden="true">
+<div class="modal fade" id="modalBuscarNombreAlumno" tabindex="-1" role="dialog" aria-labelledby="modalNombrePersonaLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -89,4 +89,4 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>

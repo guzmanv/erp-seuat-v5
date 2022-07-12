@@ -8,25 +8,27 @@ class RenovacionBecasModel extends Mysql{
 
     public function selectAlumno($data)
     {
-        $sql = "SELECT per.id,CONCAT(COALESCE(per.nombre_persona,''),' ',COALESCE(per.ap_paterno,''),' ',COALESCE(per.ap_materno,'')) AS nombre,
-        ins.id AS id_inscripcion
-        FROM t_personas AS per
-        LEFT JOIN t_inscripciones AS ins ON ins.id_personas = per.id
-        WHERE CONCAT(COALESCE(per.nombre_persona,''),' ',COALESCE(per.ap_paterno,''),' ',COALESCE(per.ap_materno,'')) 
-        LIKE '%$data%'";
-        $request = $this->select($sql);
+        $sql = "SELECT per.id, CONCAT(per.nombre_persona,' ', per.ap_paterno,' ', per.ap_materno) as nombre_completo
+        FROM t_personas as per
+        INNER JOIN t_asignacion_categoria_persona as asig_ct ON asig_ct.id_personas = per.id
+        INNER JOIN t_categoria_personas as ct_per ON ct_per.id = asig_ct.id_categoria_persona 
+        INNER JOIN t_inscripciones as insc ON insc.id_personas = per.id
+        WHERE ct_per.id = 2 AND insc.tipo_ingreso = 'Reinscripcion' AND per.nombre_persona LIKE '$data%'";
+        $request = $this->select_all($sql);
         return $request;
     }
 
-    public function selectAsignacion()
+    public function selectBecados()
     {
-        $sql = "SELECT insc.id, pln.nombre_carrera_corto as carrera, insc.id_grados, per.nombre_periodo, mdl.nombre_plan, insc.promedio, insc.id_personas 
-        FROM t_inscripciones as insc
-        INNER JOIN t_plan_estudios as pln ON insc.id_plan_estudios = pln.id
-        INNER JOIN t_organizacion_planes as mdl ON mdl.id = pln.id_organizacion_planes
-        INNER JOIN t_salones_compuesto as sln ON sln.id = insc.id_salones_compuesto
-        INNER JOIN t_periodos as per ON per.id = sln.id_periodos 
-        WHERE tipo_ingreso = 'Reinscripcion'";
+        $sql = "SELECT asig.id, CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) as nombre_completo,
+        pln_est.nombre_carrera, pe.nombre_periodo, grd.nombre_grado, asig.porcentaje_beca, asig.fecha_asignada_beca, asig.estatus
+        FROM t_asignacion_becas as asig
+        INNER JOIN t_inscripciones as ins ON asig.id_inscripciones = ins.id  
+        INNER JOIN t_personas as per ON per.id = ins.id_personas 
+        INNER JOIN t_plan_estudios as pln_est ON pln_est.id = ins.id_plan_estudios
+        INNER JOIN t_salones_compuesto as sal ON sal.id = ins.id_salones_compuesto 
+        INNER JOIN t_periodos as pe ON pe.id = sal.id_periodos 
+        INNER JOIN t_grados as grd ON grd.id = sal.id_grados";
         $request = $this->select_all($sql);
         return $request;
     }
