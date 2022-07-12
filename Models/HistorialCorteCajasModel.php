@@ -19,5 +19,22 @@
 			$request = $this->select_all($sql);
 			return $request;
 		}
+
+		//Consultar datos del Plantel para Los recibos
+        public function selectDatosInstitucion(string $idHistorialCorte){
+            /*$sql = "SELECT ing.id,inst.nombre_institucion,sist.nombre_sistema,inst.cve_centro_trabajo,plant.cod_postal,plant.colonia,plant.domicilio,
+            plant.estado,plant.localidad,plant.municipio,sist.abreviacion_sistema,plant.folio_identificador,df.rfc FROM t_ingresos AS ing
+            INNER JOIN t_personas AS per ON ing.id_persona_paga = per.id
+            INNER JOIN t_inscripciones AS ins ON ins.id_personas = per.id
+            INNER JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id 
+            INNER JOIN t_instituciones AS inst ON pe.id_instituciones = inst.id
+            INNER JOIN t_planteles AS plant ON inst.id_planteles = plant.id
+            INNER JOIN t_sistemas_educativos AS sist ON inst.id_sistemas_educativos = sist.id
+            LEFT JOIN t_datos_fiscales AS df ON sist.id_datos_fiscales = df.id
+            WHERE ing.id = $idHistorialCorte LIMIT 1";*/
+            // $request = $this->select($idHistorialCorte);
+            return $idHistorialCorte;
+        }
+
 	}
 ?>  

@@ -75,7 +75,7 @@ function fnTotalesMetodosPago(id_caja,fecha_apertura){
             resultado['detalles'].forEach(detalle => {
                 if(detalle.id_metodos_pago == element.id){
                     numRow += 1
-                    content += "<tr><td>"+numRow+"</td><td>"+detalle.folio+"</td><td>"+detalle.nombre_persona+"</td><td>"+detalle.fecha+"</td><td>"+formatoMoneda(detalle.total)+"</td><td><button type='button' class='btn btn-primary btn-sm' onclick='fnDetallesIgreso("+detalle.id_ingreso+")'>Detalles</button></td></tr>";
+                    content += "<tr><td>"+numRow+"</td><td>"+detalle.folio+"</td><td>"+detalle.nombre_persona+"</td><td>"+detalle.fecha_cobro+"</td><td>"+formatoMoneda(detalle.total)+"</td><td><button type='button' class='btn btn-primary btn-sm' onclick='fnDetallesIgreso("+detalle.id_ingreso+")'>Detalles</button></td></tr>";
                 }
             });
             document.querySelector('#content-nav').innerHTML += '<div class="tab" id="'+numeracion+'"><table id="" class="table table-bordared table-striped table-sm"><thead><tr><th>#</th><th>Folio</th><th>Alumno</th><th>Fecha</th><th>Total</th><th>Acciones</th></tr></thead><tbody id="tbody-'+element.id+'">'+content+'</tbody></table></div>';
@@ -105,6 +105,7 @@ function fnDetallesIgreso(value){
             numeracion += 1;
             let row ="<tr><td>"+numeracion+"</td><td>"+element.fecha_cobro+"</td><td>"+element.codigo+"</td><td>"+element.nombre+"</td><td>"+formatoMoneda(element.abono)+"</td><td>"+element.folio+"</td><td>"+element.nombre_usuario+"</td></tr>";
             document.querySelector('#tbodyDetallesVenta').innerHTML += row;
+            // console.log(element);
         });
     }).catch(err => {throw err});
 }

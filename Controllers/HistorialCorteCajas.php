@@ -37,7 +37,7 @@
 					<i class="fas fa-layer-group"></i> &nbsp; Acciones
 					</button>
 					<div class="dropdown-menu">
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal datosPersonalesVerficar" onClick="fnDatosPersonalesVerificacion(this)" data-toggle="modal" data-target="#ModalFormEditPersona" title="Datos Personales"> &nbsp;&nbsp; <i class="far fa-address-book"></i> &nbsp Reimprimir</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal datosPersonalesVerficar" onClick="fnDatosPersonalesVerificacion(this,'.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormEditPersona" title="Datos Personales"> &nbsp;&nbsp; <i class="far fa-address-book"></i> &nbsp Reimprimir</button>
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal editTutor" onclick="fnEditTutor(this)" data-toggle="modal" data-target="#ModalFormEditTutor" title="Tutor"> &nbsp;&nbsp; <i class="fas fa-user-friends"></i> &nbsp;Saldar faltantes</button>
 						<div class="dropdown-divider"></div>
 					</div>
@@ -47,5 +47,38 @@
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
+
+		public function imprimir_comprobante_corte(string $idCorte){
+			$idHistorialCorte = $this->reverse64($idCorte);
+			$data['datosInstitucion'] = $this->model->selectDatosInstitucion($idHistorialCorte); //Datos del plantel
+
+			$arrDatosVenta = [];
+            // $total = 0;
+            // $inscripcion = 0;
+            // $colegiatura = 0;
+            // $otros = 0;
+            // foreach ($data['datos_venta'] as $key => $venta) {
+            //     if($venta['codigo_servicio_precarga'] != 'CM'){
+            //         $colegiatura += $venta['precio_unitario_precarga'];
+            //     }else if($venta['codigo_servicio_precarga'] == 'IN'){
+            //         $inscripcion += $venta['precio_unitario_precarga'];
+            //     }else if($venta['codigo_servicio']!= null){
+            //         $otros += $venta['precio_unitario'];
+            //     }
+            //     $total = $venta['total'];
+            // }
+            // $arrDatosVenta['total'] = $total;
+            // $arrDatosVenta['inscripcion'] = $inscripcion;
+            // $arrDatosVenta['colegiatura'] = $colegiatura;
+            // $arrDatosVenta['otros'] = $otros;            
+            // $data['datos_venta'] = $arrDatosVenta; 
+			$this->views->getView($this,"viewpdf_compromante_corte_caja",$data);
+		}
+
+		//Funcion para convertir base64 a Array
+        private function reverse64($arr){
+            return base64_decode($arr);
+        }
+
     }
 ?>
