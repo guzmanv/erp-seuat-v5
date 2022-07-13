@@ -20,20 +20,29 @@
 			return $request;
 		}
 
-		//Consultar datos del Plantel para Los recibos
-        public function selectDatosInstitucion(string $idHistorialCorte){
-            /*$sql = "SELECT ing.id,inst.nombre_institucion,sist.nombre_sistema,inst.cve_centro_trabajo,plant.cod_postal,plant.colonia,plant.domicilio,
-            plant.estado,plant.localidad,plant.municipio,sist.abreviacion_sistema,plant.folio_identificador,df.rfc FROM t_ingresos AS ing
-            INNER JOIN t_personas AS per ON ing.id_persona_paga = per.id
-            INNER JOIN t_inscripciones AS ins ON ins.id_personas = per.id
-            INNER JOIN t_plan_estudios AS pe ON ins.id_plan_estudios = pe.id 
-            INNER JOIN t_instituciones AS inst ON pe.id_instituciones = inst.id
-            INNER JOIN t_planteles AS plant ON inst.id_planteles = plant.id
-            INNER JOIN t_sistemas_educativos AS sist ON inst.id_sistemas_educativos = sist.id
-            LEFT JOIN t_datos_fiscales AS df ON sist.id_datos_fiscales = df.id
-            WHERE ing.id = $idHistorialCorte LIMIT 1";*/
-            // $request = $this->select($idHistorialCorte);
-            return $idHistorialCorte;
+		//Consultar datos del Sistema para Los recibos
+        public function selectDatosSistemas(string $idHistorialCorte){
+            $sql = "SELECT tcc.id,tc.id,tp.nombre_plantel_fisico,tse.nombre_sistema
+                    FROM t_corte_caja AS tcc
+                    INNER JOIN t_cajas AS tc ON tcc.id_cajas = tc.id
+                    INNER JOIN t_planteles AS tp ON tc.id_planteles = tp.id
+                    INNER JOIN t_instituciones AS ti ON ti.id_planteles = ti.id
+                    INNER JOIN t_sistemas_educativos AS tse ON ti.id_sistemas_educativos = tse.id
+                    ";
+                    // WHERE tcc.id = $idHistorialCorte LIMIT 1
+            $request = $this->select($sql);
+            return $request;
+        }
+
+        //Consultar datos del corte
+        public function selectDatosCorte(string $idHistorialCorte){
+            $sql = "SELECT tcc.id,tcc.folio,CONCAT(tcc.fechayhora_apertura_caja,' ',tcc.fechayhora_cierre_caja) AS fechaAperturaCierre,
+                    tc.nombre
+                    FROM t_corte_caja AS tcc
+                    INNER JOIN t_cajas AS tc ON tcc.id_cajas = tc.id
+                    ";
+            $request = $this->select_all($sql);
+            return $request;
         }
 
 	}

@@ -237,8 +237,34 @@ function fnRealizarCorte(){
     }
 }
 
-function imprimirCorte(){
+//IMPRIMIR COMPROBANTE DE CORTE
+function imprimirCorte(value){
     //console.log("imprimiendo");
+    Swal.fire({
+        title: 'Imprimir?',
+        text: "Desea imprimir el comprobante del corte" +value+ "?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si Imprimir!',
+        cancelButtonText: 'No',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Exito!',
+                'Comprobante generado correctamente.',
+                'success'
+            )
+            let url = `${base_url}/HistorialCorteCajas/imprimir_comprobante_corte/${convStrToBase64(value)}`;
+            window.open(url,'_blank');
+        }
+    })
+}
+
+//Function para convertir un string  a  Formato Base64
+function convStrToBase64(str){
+    return window.btoa(unescape(encodeURIComponent( str ))); 
 }
 
 //Function para dar formato un numero a Moneda

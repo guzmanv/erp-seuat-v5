@@ -50,28 +50,11 @@
 
 		public function imprimir_comprobante_corte(string $idCorte){
 			$idHistorialCorte = $this->reverse64($idCorte);
-			$data['datosInstitucion'] = $this->model->selectDatosInstitucion($idHistorialCorte); //Datos del plantel
+			$data['datosSistema'] = $this->model->selectDatosSistemas($idHistorialCorte); //Datos del plantel
+			$data['datos_corte'] = $this->model->selectDatosCorte($idHistorialCorte);//Datos del corte
 
 			$arrDatosVenta = [];
-            // $total = 0;
-            // $inscripcion = 0;
-            // $colegiatura = 0;
-            // $otros = 0;
-            // foreach ($data['datos_venta'] as $key => $venta) {
-            //     if($venta['codigo_servicio_precarga'] != 'CM'){
-            //         $colegiatura += $venta['precio_unitario_precarga'];
-            //     }else if($venta['codigo_servicio_precarga'] == 'IN'){
-            //         $inscripcion += $venta['precio_unitario_precarga'];
-            //     }else if($venta['codigo_servicio']!= null){
-            //         $otros += $venta['precio_unitario'];
-            //     }
-            //     $total = $venta['total'];
-            // }
-            // $arrDatosVenta['total'] = $total;
-            // $arrDatosVenta['inscripcion'] = $inscripcion;
-            // $arrDatosVenta['colegiatura'] = $colegiatura;
-            // $arrDatosVenta['otros'] = $otros;            
-            // $data['datos_venta'] = $arrDatosVenta; 
+
 			$this->views->getView($this,"viewpdf_compromante_corte_caja",$data);
 		}
 

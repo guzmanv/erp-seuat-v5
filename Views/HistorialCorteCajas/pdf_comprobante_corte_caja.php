@@ -163,11 +163,12 @@ date_default_timezone_set('UTC');
                     <img src="<?php echo(media().'/images/Logo_seuat_color.jpeg') ?>" height="80" width="80">
                 </div>
                 <div class="col-8" style="text-align:center">
-                    <p><b>SISTEMA EDUCATIVO UNIVERSITARIO AZTECA</b><br>
-                        <small style="font-size: 13px"><b>INSTITUTO DE ESTUDIOS SUPERIORES "SOR JUANA INES DE LA CRUZ"</b></small><br>
-                        <small>Incorporado a la Secretaría de Educación Pública</small><br>
+                    <!-- <p><b>SISTEMA EDUCATIVO UNIVERSITARIO AZTECA</b><br> -->
+                    <p><b><?php echo(strtoupper($data['datosSistema']['nombre_sistema']))?></b><br>
+                        <!-- <small style="font-size: 13px"><b>INSTITUTO DE ESTUDIOS SUPERIORES "SOR JUANA INES DE LA CRUZ"</b></small><br> -->
+                        <!-- <small>Incorporado a la Secretaría de Educación Pública</small><br>
                         <small>CLAVE: 07PSU0018E</small><br>
-                        <small>2a Norte Oriente N° 741, Tuxtla Gutiérrez Chiapas</small>
+                        <small>2a Norte Oriente N° 741, Tuxtla Gutiérrez Chiapas</small> -->
                     </p>
                 </div>
                 <div class="col-2" style="text-align:right">
@@ -215,20 +216,49 @@ date_default_timezone_set('UTC');
                 <td class="col-2">Faltante</td>
                 <td class="col-2">Sobrante</td>
             </tr>
-            <?php
+            <!-- <?php
                 $numeracion = 0;
                 foreach ($data['data'] as $key => $value) {
                     $numeracion += 1;
                     ?>
                         <tr class="details">
                             <td class="col-2"><b><?php echo $numeracion ?></b></td>
-                            <!-- <td class="col-8"><?php echo($value['tipo_documento'])?></td>
-                            <td class="col-2">Original</td> -->
+                            <td class="col-8"><?php echo(strtoupper($data['datos_corte']['folio'])) ?></td>
+                            <td class="col-2">j</td>
                         </tr>
                     <?php
                 }
-            ?>    
+            ?>     -->
+
+            <tr>
+                <td>1</td>
+                <td><?php echo $data['datos_corte']['folio']?>
+                    <?php echo(strtoupper($data['datos_corte']['folio']))?></td>
+                <td>1</td>
+                <td>12/12/2022</td>
+                <td>25</td>
+                <td>24</td>
+            </tr>
         </table>
+    </div>
+
+    <br><br>
+    <div style='text-align:center'>
+        <h4>FIRMAS</h4>   
+    </div>
+    <div>
+        <div class="col-6" style="text-align:center">
+            <h4>Cajero(a)</h4><br>
+            <hr style="width:50%">
+            <!-- <p><?php echo $userAlumno ?></p> -->
+            Joel Perez
+        </div>
+        <div class="col-6" style="text-align:center">
+            <h4>Autorizado por:</h4><br>
+            <hr style="width:50%">
+            <!-- <p><?php echo $userAtencion ?></p> -->
+            <p>Francisco-Go</p>
+        </div>
     </div>
     
     
