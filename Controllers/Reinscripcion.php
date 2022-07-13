@@ -51,6 +51,33 @@
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
+        public function setReinscripcionGrupal($args)
+        {
+            $arrArgs = explode(",",$args);
+            $arrAlumnos = json_decode(base64_decode($arrArgs[0]));
+            $idTurno = $arrArgs[1];
+            $idPlanEstudio = $arrArgs[2];
+            $idSalonCompuesto = $arrArgs[3];
+            $idGrado = $arrArgs[4];
+            if(count($arrAlumnos)>0){
+                foreach ($arrAlumnos as $key => $value) {
+                    $folio = $this->selectFolioConsecutivo($this->idPlantel);
+                    $idPersona = $value->id_persona;
+                    $idTutor = $value->id_tutor;
+                    $idDocumentos = $value->id_documentos;
+                    $idHistorial = $value->id_historial;
+                    $idSubcampania = $value->id_subcampania;
+                    $arrResponse = $this->model->insertReinscripcion($folio,$this->idUser,$idTurno,$idPlanEstudio,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalonCompuesto,$idHistorial,$idGrado);
+                    if($arrResponse){
+                        $arrResponse = array('estatus' => true, 'msg' => 'Reinscripcion realizada correctamente');
+                    }else{
+                        $arrResponse = array('estatus' => false, 'msg' => 'No se pudo realizar la reinscripcion');
+                    }
+                }   
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            die();
+        }
 
         public function setReinscripcionIndividual($args)
         {
@@ -136,6 +163,10 @@
             $idGrado = $arrArgs[3];
             $idGrupo = $arrArgs[4];
             $arrData = $this->model->selectAlumnosInscritos($idPlantel,$idInstitucion,$idPlanEstudio,$idGrado,$idGrupo);
+            for($i = 0; $i<count($arrData); $i++){
+                $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['aprobado'] = ($arrData[$i]['promedio'] > 6)?"<span class='badge badge-success'>Aprobado</span>":"<span class='badge badge-danger'>Reprobado</span>";
+            }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }

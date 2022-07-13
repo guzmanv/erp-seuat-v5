@@ -203,7 +203,7 @@
                                                                     <table class="table table-striped">
                                                                         <thead>
                                                                             <tr>
-                                                                            <th><input type="checkbox" aria-label="Checkbox for following text input"></th>
+                                                                            <th><input type="checkbox" onclick="fnCheckAll(this)" aria-label="Checkbox for following text input"></th>
                                                                             <th scope="col">#</th>
                                                                             <th scope="col">Nombre</th>
                                                                             <th scope="col">Apellidos</th>
@@ -211,31 +211,8 @@
                                                                             <th scope="col">Estatus</th>
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                            <th><input type="checkbox" aria-label="Checkbox for following text input"></th>
-                                                                            <th scope="row">1</th>
-                                                                            <td>Jose</td>
-                                                                            <td>Santiz Ruiz</td>
-                                                                            <td>5</td>
-                                                                            <td><span class="badge badge-danger">No abrobado</span></td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                            <th><input type="checkbox" aria-label="Checkbox for following text input"></th>
-                                                                            <th scope="row">2</th>
-                                                                            <td>Francisco</td>
-                                                                            <td>Gomez Perez</td>
-                                                                            <td>7</td>
-                                                                            <td><span class="badge badge-primary">Aprobado</span></td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                            <th><input type="checkbox" aria-label="Checkbox for following text input"></th>
-                                                                            <th scope="row">3</th>
-                                                                            <td>Cristian</td>
-                                                                            <td>Jean Cruz </td>
-                                                                            <td>7</td>
-                                                                            <td><span class="badge badge-primary">Aprobado</span></td>
-                                                                            </tr>
+                                                                        <tbody id="table_alumnos_inscritos">
+
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
@@ -252,34 +229,37 @@
                                                                             <tr>
                                                                                 <td>
                                                                                     <label>Grado</label>
-                                                                                    <input type="text" class="form-control" value="4">
+                                                                                    <input type="text" id="grado_actual" class="form-control" value="" disabled>
                                                                                     <label>Grupo</label>
-                                                                                    <input type="text" class="form-control" value="A">
+                                                                                    <input type="text" id="grupo_actual" class="form-control" value="" disabled>
                                                                                 </td>
                                                                                 <td>
                                                                                     <div style = "border-left: 2px solid black;height:150px;position:absolute;"></div>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <label>Grado</label>
-                                                                                    <select class="custom-select">
+                                                                                <label>Salon compuesto</label>
+                                                                                <select class="custom-select" id="select_salon_compuesto" onchange="fnSelectSalonCompuesto(value)">
+                                                                                    <option value="">Seleccionar...</option>
+                                                                                    <?php foreach ($data['salon_compuesto'] as $key => $salonCompuesto) { ?>
+                                                                                    <option value="<?php echo($salonCompuesto['valuecomp']) ?>"><?php echo($salonCompuesto['nombre_salon_compuesto'].'  (periodo '.$salonCompuesto['nombre_periodo'].' / '.$salonCompuesto['nombre_grado'].' '.$salonCompuesto['nombre_grupo'].' / '.$salonCompuesto['nombre_turno'].' )') ?></option>
+                                                                                    <?php } ?>
+                                                                                </select>
+                                                                                    <!-- <label>Grado</label>
+                                                                                    <select class="custom-select" id="select_grado_inscribir_grupal">
                                                                                         <option selected>Seleccionar...</option>
-                                                                                        <option value="1">1</option>
-                                                                                        <option value="2">2</option>
-                                                                                        <option value="3">3</option>
+                                                                                        
                                                                                     </select>
                                                                                     <label>Grupo</label>
-                                                                                    <select class="custom-select">
+                                                                                    <select class="custom-select" id="select_grupo_inscribir_grupal">
                                                                                         <option selected>Seleccionar...</option>
-                                                                                        <option value="1">A</option>
-                                                                                        <option value="2">B</option>
-                                                                                        <option value="3">C</option>
-                                                                                    </select>
+                                                                                        
+                                                                                    </select> -->
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
                                                                     <div class="col-12 text-center">
-                                                                        <button type="button" class="btn btn-primary col-6">Reinscribir</button>
+                                                                        <button type="button" class="btn btn-primary col-6" onclick="fnReinscibirGrupal()">Reinscribir</button>
                                                                     </div>
                                                                 </div>
                                                             </div>

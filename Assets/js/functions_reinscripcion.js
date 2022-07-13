@@ -1,6 +1,7 @@
 let btnReinscribir = document.querySelector("#btn_reinscribir");
 let txtNombreAlumno = document.querySelector("#nombreAlumno");
 let formReinscripcion = document.querySelector("#formReinscripcion");
+let tableAlumnos = document.querySelector("#table_alumnos_inscritos");
 btnReinscribir.disabled = true;
 txtNombreAlumno.disabled = true;
 let gradoInscritoActual = null;
@@ -17,6 +18,8 @@ let idTutor = null;
 let idDocumentos = null;
 let idSubcapania = null;
 let idHistorial = null;
+
+let arrAlumnosSeleccioandos = [];
 
 
 //TABS
@@ -130,13 +133,29 @@ function fnSelectSalonCompuesto(value)
         if(parseInt(grado) <= parseInt(gradoInscritoActual))
         {
             swal.fire("Atención","No se puede reinscribir a este grado","warning");
+            idSalonCompuesto = null;
+            grupo = null;
+            grado = null;
+            idTurno = null;
+            idGrado = null;
             return false;
         }
         if(grupo != grupoInscritoActual)
         {
             swal.fire("Atención","No se puede reinscribir a un grupo diferente","warning");
+            idSalonCompuesto = null;
+            grupo = null;
+            grado = null;
+            idTurno = null;
+            idGrado = null;
             return false;
         }
+    }else{
+        idSalonCompuesto = null;
+        grupo = null;
+        grado = null;
+        idTurno = null;
+        idGrado = null;
     }
 }
 function checkInputComplete()
@@ -255,11 +274,85 @@ function fnMostrarDatatableReinscripcionGrupal()
     }
 }
 
-function fnVerEstudiantes(idPlantel,idInstitucion,idPlanEstudios,idGrado,idGrupo)
+function fnVerEstudiantes(plantel,institucion,planestudios,grado,grupo)
 {
     $('html,body').animate({scrollTop: $("#div_datos_reinscripcion").offset().top},'slow');
-    let url = `${base_url}/Reinscripcion/getAlumnosInscritos/${idPlantel}/${idInstitucion}/${idPlanEstudios}/${idGrado}/${idGrupo}`;
+    let url = `${base_url}/Reinscripcion/getAlumnosInscritos/${plantel}/${institucion}/${planestudios}/${grado}/${grupo}`;
     fetch(url).then((res) => res.json()).then(response =>{
-        console.log(response)
+        if(response.length >0){
+            let rows = "";
+            response.forEach(element => {
+                gradoInscritoActual = element.numero_natural;
+                grupoInscritoActual = element.nombre_grupo;
+                rows += '<tr><th><input type="checkbox" id="'+element.id_personas+'" t="'+element.id_tutores+'" d="'+element.id_documentos+'" s="'+element.id_subcampanias+'" h="'+element.id_historial+'" aria-label="Checkbox for following text input"></th><th scope="row">'+element.numeracion+'</th><td>'+element.nombre_persona+'</td><td>'+element.ap_paterno+' '+element.ap_materno+'</td><td>'+element.promedio+'</td><td>'+element.aprobado+'</td></tr>';
+            });
+            document.querySelector("#table_alumnos_inscritos").innerHTML = rows;
+            fnSetGradoGrupoActual();
+        }
     }).catch(err =>{throw err});
+    arrAlumnosSeleccioandos = [];
+    idPlanEstudios = planestudios;
+
+}
+
+function fnSetGradoGrupoActual()
+{
+    document.querySelector("#grado_actual").value = gradoInscritoActual;
+    document.querySelector("#grupo_actual").value = grupoInscritoActual;
+}
+
+function fnCheckAll(value)
+{
+    let checks = tableAlumnos.getElementsByTagName("tr");
+    if(value.checked){
+        checks.forEach(element => {
+            let col = element.getElementsByTagName("th");
+            let check = col[0].getElementsByTagName('input')[0].checked = true;
+        });
+    }
+    else{
+        checks.forEach(element => {
+            let col = element.getElementsByTagName("th");
+            let check = col[0].getElementsByTagName('input')[0].checked = false;
+        });
+    }
+}
+
+function fnReinscibirGrupal()
+{
+    let arrChecks = tableAlumnos.getElementsByTagName("input");
+    arrAlumnosSeleccioandos = [];
+    arrChecks.forEach(element => {
+        if(element.checked){
+            id_tutor = element.getAttribute('t');
+            id_documentos = element.getAttribute('d');
+            id_subcampanias = element.getAttribute('s');
+            id_historial = element.getAttribute('h');
+            let objalumno = {'id_persona':element.id,'id_tutor':id_tutor,'id_documentos':id_documentos,'id_subcampania':id_subcampanias,'id_historial':id_historial};
+            arrAlumnosSeleccioandos.push(objalumno);
+        }
+    });
+    if(arrAlumnosSeleccioandos.length > 0){
+        if(idSalonCompuesto != null){
+            let url = `${base_url}/Reinscripcion/setReinscripcionGrupal/${convStrToBase64(JSON.stringify(arrAlumnosSeleccioandos))}/${idTurno}/${idPlanEstudios}/${idSalonCompuesto}/${idGrado}`;
+            fetch(url).then((res) => res.json()).then(response =>{
+                if(response.estatus){
+                    swal.fire("Reinscripcion", response.msg, "success").then((result) =>{
+                        //$('.close').click();
+                        location.reload();
+                    });
+                }else{
+                    swal.fire("Error", response.msg, "error");
+                }
+            }).catch(err =>{throw err});
+        }else{
+            swal.fire("Atención", "Selecciona un salon salon compuesto", "warning");
+        }
+    }else{
+        swal.fire("Atención", "Selecciona al menos un alumno", "warning");
+    }
+}
+
+function convStrToBase64(str){
+    return window.btoa(unescape(encodeURIComponent( str ))); 
 }
