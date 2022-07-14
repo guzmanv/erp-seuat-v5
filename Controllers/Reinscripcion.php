@@ -67,9 +67,15 @@
                     $idDocumentos = $value->id_documentos;
                     $idHistorial = $value->id_historial;
                     $idSubcampania = $value->id_subcampania;
+                    $idInscripcion = $value->id_inscripcion;
                     $arrResponse = $this->model->insertReinscripcion($folio,$this->idUser,$idTurno,$idPlanEstudio,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalonCompuesto,$idHistorial,$idGrado);
                     if($arrResponse){
-                        $arrResponse = array('estatus' => true, 'msg' => 'Reinscripcion realizada correctamente');
+                        $responseUpInscripcin = $this->model->updateInscripcionEstatus($idInscripcion,$this->idUser);
+                        if($responseUpInscripcin){
+                            $arrResponse = array('estatus' => true, 'msg' => 'Reinscripcion realizada correctamente');
+                        }else{
+                            $arrResponse = array('estatus' => false, 'msg' => 'No se pudo actualizar la inscripcion');
+                        }
                     }else{
                         $arrResponse = array('estatus' => false, 'msg' => 'No se pudo realizar la reinscripcion');
                     }

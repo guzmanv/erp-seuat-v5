@@ -20,7 +20,7 @@
             LEFT JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
             LEFT JOIN t_salones AS sa ON sal.id_salones = sa.id 
             RIGHT JOIN t_asignacion_categoria_persona AS acp ON acp.id_personas = per.id
-            WHERE his.inscrito = 1 AND acp.estatus = 1 AND acp.id_categoria_persona = 2";
+            WHERE his.inscrito = 1 AND acp.estatus = 1 AND acp.id_categoria_persona = 2 AND ins.estatus = 1";
 			$request = $this->select_all($sql);
 			return $request;
 		}

@@ -284,7 +284,7 @@ function fnVerEstudiantes(plantel,institucion,planestudios,grado,grupo)
             response.forEach(element => {
                 gradoInscritoActual = element.numero_natural;
                 grupoInscritoActual = element.nombre_grupo;
-                rows += '<tr><th><input type="checkbox" id="'+element.id_personas+'" t="'+element.id_tutores+'" d="'+element.id_documentos+'" s="'+element.id_subcampanias+'" h="'+element.id_historial+'" aria-label="Checkbox for following text input"></th><th scope="row">'+element.numeracion+'</th><td>'+element.nombre_persona+'</td><td>'+element.ap_paterno+' '+element.ap_materno+'</td><td>'+element.promedio+'</td><td>'+element.aprobado+'</td></tr>';
+                rows += '<tr><th><input type="checkbox" id="'+element.id_personas+'" t="'+element.id_tutores+'" d="'+element.id_documentos+'" s="'+element.id_subcampanias+'" h="'+element.id_historial+'" i="'+element.id+'" aria-label="Checkbox for following text input"></th><th scope="row">'+element.numeracion+'</th><td>'+element.nombre_persona+'</td><td>'+element.ap_paterno+' '+element.ap_materno+'</td><td>'+element.promedio+'</td><td>'+element.aprobado+'</td></tr>';
             });
             document.querySelector("#table_alumnos_inscritos").innerHTML = rows;
             fnSetGradoGrupoActual();
@@ -328,7 +328,8 @@ function fnReinscibirGrupal()
             id_documentos = element.getAttribute('d');
             id_subcampanias = element.getAttribute('s');
             id_historial = element.getAttribute('h');
-            let objalumno = {'id_persona':element.id,'id_tutor':id_tutor,'id_documentos':id_documentos,'id_subcampania':id_subcampanias,'id_historial':id_historial};
+            id_inscripcion = element.getAttribute('i');
+            let objalumno = {'id_persona':element.id,'id_tutor':id_tutor,'id_documentos':id_documentos,'id_subcampania':id_subcampanias,'id_historial':id_historial,'id_inscripcion':id_inscripcion};
             arrAlumnosSeleccioandos.push(objalumno);
         }
     });

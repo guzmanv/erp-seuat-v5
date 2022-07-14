@@ -20,7 +20,7 @@
                         INNER JOIN 	t_sistemas_educativos AS se ON inst.id_sistemas_educativos = se.id 
                         INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
                         INNER JOIN t_historiales AS his ON ins.id_historial = his.id
-                        WHERE his.inscrito = 1 AND ins.tipo_ingreso = 'Inscripcion'
+                        WHERE his.inscrito = 1 AND ins.tipo_ingreso = 'Inscripcion' AND ins.estatus = 1
                         GROUP BY plan.nombre_carrera,ins.id_grados,tur.nombre_turno HAVING COUNT(*)>=1";
             $request = $this->select_all($sql);
             return $request;
@@ -43,7 +43,7 @@
                         INNER JOIN 	t_sistemas_educativos AS se ON inst.id_sistemas_educativos = se.id 
                         INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
                         INNER JOIN t_historiales AS his ON ins.id_historial = his.id
-                        WHERE his.inscrito = 1 AND ins.tipo_ingreso = 'Inscripcion' AND plant.id = $idPlantel
+                        WHERE his.inscrito = 1 AND ins.tipo_ingreso = 'Inscripcion' AND plant.id = $idPlantel AND ins.estatus = 1
                         GROUP BY plan.nombre_carrera,ins.id_grados,tur.nombre_turno HAVING COUNT(*)>=1";
             $request = $this->select_all($sql);
             return $request;

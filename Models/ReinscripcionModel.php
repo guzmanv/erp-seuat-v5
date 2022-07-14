@@ -128,16 +128,24 @@
 
         public function selectAlumnosInscritos(int $idPlantel,int $idInstitucion,int $idPlanEstudio,int $idGrado,int $idGrupo)
         {
-            $sql = "SELECT *FROM t_inscripciones AS ti
-            INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
-            INNER JOIN t_instituciones AS tins ON tpe.id_instituciones = tins.id
-            INNER JOIN t_planteles AS tp ON tins.id_planteles = tp.id
-            INNER JOIN t_personas AS tper ON ti.id_personas = tper.id
-            INNER JOIN t_salones_compuesto AS tsc ON ti.id_salones_compuesto = tsc.id
-            INNER JOIN t_grados AS tg ON tsc.id_grados = tg.id
-            INNER JOIN t_grupos AS tgr ON tsc.id_grupos = tgr.id 
+            $sql = "SELECT ti.id,ti.promedio,tg.numero_natural,tgr.nombre_grupo,ti.id_personas,ti.id_tutores,ti.id_documentos,ti.id_subcampanias,ti.id_historial,
+            tper.nombre_persona,tper.ap_paterno,tper.ap_materno  FROM t_inscripciones AS ti
+                        INNER JOIN t_plan_estudios AS tpe ON ti.id_plan_estudios = tpe.id
+                        INNER JOIN t_instituciones AS tins ON tpe.id_instituciones = tins.id
+                        INNER JOIN t_planteles AS tp ON tins.id_planteles = tp.id
+                        INNER JOIN t_personas AS tper ON ti.id_personas = tper.id
+                        INNER JOIN t_salones_compuesto AS tsc ON ti.id_salones_compuesto = tsc.id
+                        INNER JOIN t_grados AS tg ON tsc.id_grados = tg.id
+                        INNER JOIN t_grupos AS tgr ON tsc.id_grupos = tgr.id 
             WHERE ti.tipo_ingreso = 'Inscripcion' AND ti.estatus = 1 AND tp.id = $idPlantel AND tins.id = $idInstitucion AND tpe.id = $idPlanEstudio AND tg.id = $idGrado AND tgr.id = $idGrupo";
             $request = $this->select_all($sql);
+            return $request;
+        }
+
+        public function updateInscripcionEstatus(int $idInscripcion,$idUser)
+        {
+            $sql = "UPDATE t_inscripciones SET estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id = $idInscripcion";
+            $request = $this->update($sql,array(2,$idUser));
             return $request;
         }
 	}
