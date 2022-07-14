@@ -24,7 +24,59 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="card card-widget widget-user-2">
+                                <div class="widget-user-header bg-primary">
+                                    <div class="widget-user-image">
+                                        <!--<img class="img-circle elevation-2" src="../dist/img/user7-128x128.jpg" alt="User Avatar">-->
+                                    </div>
+                                    <h3 class="widget-user-username">Emmanuel Espinoza Estrada</h3>
+                                </div>
+                                <div class="card-footer p-0">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <label class="nav-link">
+                                                Carrera <span class="float-right badge bg-info"></span>
+                                            </label>
+                                        <li class="nav-item">
+                                            <label class="nav-link">
+                                                Semestre <span class="float-right badge bg-success"></span>
+                                            </label>
+                                        </li>
+                                        <li class="nav-item">
+                                            <label class="nav-link">
+                                                Dirección del alumno <span class="float-right badge bg-success"></span>
+                                            </label>
+                                        </li>
+                                        <li class="nav-item">
+                                            <label class="nav-link">
+                                                Nombre del padre o tutor <span class="float-right badge bg-success"></span>
+                                            </label>
+                                        </li>
+                                        <li class="nav-item">
+                                            <label class="nav-link">
+                                                Dirección del padre o tutor <span class="float-right badge bg-success"></span>
+                                            </label>
+                                        </li>
+                                        <li class="nav-item">
+                                            <label class="nav-link">
+                                                Teléfono de casa  <span class="float-right badge bg-success"></span>
+                                            </label>
+                                        </li>
+                                        <li class="nav-item">
+                                            <label class="nav-link">
+                                                Teléfono celular <span class="float-right badge bg-success"></span>
+                                            </label>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                Promedio <span class="text-md float-right badge bg-success">8.0</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="row">
                                 <div class="col-md-12">
                                     <label>
                                         <h5>Datos del alumno</h5>
@@ -46,17 +98,17 @@
                                         
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                    </form>
+                            </div> -->
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevoSalon"><i class="fa fa-fw fa-lg fa-times-circle icono-azul" id="cancelarModalRenBeca"></i>Cancelar</button>
-                <button id="btnActionFormRen" type="submit" class="btn btn-outline-secondary  btn-primary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Renovar</span></button>
+                </form>
             </div>
         </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevoSalon"><i class="fa fa-fw fa-lg fa-times-circle icono-azul" id="cancelarModalRenBeca"></i>Cancelar</button>
+            <button id="btnActionFormRen" type="submit" class="btn btn-outline-secondary  btn-primary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Renovar</span></button>
+        </div>
     </div>
+</div>
 </div>
 
 
@@ -72,11 +124,10 @@
             <div class="modal-body">
                 <input type="text" class="form-control form-control-sm" id="busquedaPersona" placeholder="Nombre de la Persona" maxlength="100" autocomplete="off" onKeyUp="buscarAlumno();" />
                 <br>
-                <table id="tablePersonas" class="table table-bordered table-striped table-sm">
+                <table id="tableReinscritos" class="table table-bordered table-striped table-sm">
                     <thead>
                         <tr>
                             <th>Nombre Alumno</th>
-                            <th>Estatus</th>
                             <th width="15%">Acciones</th>
                         </tr>
                     </thead>

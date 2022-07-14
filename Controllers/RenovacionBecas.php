@@ -2,18 +2,22 @@
 class RenovacionBecas extends Controllers{
     public function __construct(){
         parent::__construct();
-         session_start();
-        if(empty($_SESSION['login'])){
+        session_start();
+        /* if(empty($_SESSION['login'])){
             header('Location: '.base_url().'/login');
             die();
-        } 
+        } */ 
     }
 
-    public function selectAlumno()
+    public function getReinscritos()
     {
         $data = $_GET['val'];
         $arrData = $this->model->selectAlumno($data);
         for($i = 0; $i <count($arrData); $i++){
+            if($arrData[$i]['id_inscripcion'] != null)
+            {
+                $arrData[$i]['options'] = '<button type="button" id="'.$arrData[$i]['id'].'" class="btn btn-secondary btn-sm" rl="'.$arrData[$i]['nombre_completo'].'" onclick="seleccionarPersona(this)">Seleccionar estudiante</button>';
+            }
             /* if($arrData[$i]['id_inscripcion'] == null){
                 $arrData[$i]['estatus'] = '<span class="badge badge-warning">No inscrito</span>';
                 $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-primary btn-sm" rl="'.$arrData[$i]['nombre'].'" onclick="seleccionarPersona(this)">Seleccionar</button>';
@@ -22,7 +26,7 @@ class RenovacionBecas extends Controllers{
                 $arrData[$i]['estatus'] = '<span class="badge badge-success">Inscrito</span>';
                 $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-secondary btn-sm" rl="'.$arrData[$i]['nombre'].'" onclick="seleccionarPersona(this)" disabled>Seleccionar</button>';
 
-            } */
+            }*/
         } 
         echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
         die();

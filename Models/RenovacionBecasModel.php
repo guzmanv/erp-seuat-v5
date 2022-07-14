@@ -8,7 +8,7 @@ class RenovacionBecasModel extends Mysql{
 
     public function selectAlumno($data)
     {
-        $sql = "SELECT per.id, CONCAT(per.nombre_persona,' ', per.ap_paterno,' ', per.ap_materno) as nombre_completo
+        $sql = "SELECT per.id, CONCAT(per.nombre_persona,' ', per.ap_paterno,' ', per.ap_materno) as nombre_completo, insc.id as id_inscripcion
         FROM t_personas as per
         INNER JOIN t_asignacion_categoria_persona as asig_ct ON asig_ct.id_personas = per.id
         INNER JOIN t_categoria_personas as ct_per ON ct_per.id = asig_ct.id_categoria_persona 
