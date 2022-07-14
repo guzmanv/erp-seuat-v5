@@ -148,5 +148,43 @@
             $request = $this->update($sql,array(2,$idUser));
             return $request;
         }
+
+        public function selectListaAlumnosInscritos(int $idPlanEstudio,int $idGrado,int $idGrupo)
+        {
+            $sql = "SELECT ti.id,tper.nombre_persona,tper.ap_paterno,tper.ap_materno FROM t_inscripciones AS ti 
+            INNER JOIN t_personas AS tper ON ti.id_personas = tper.id
+            INNER JOIN t_salones_compuesto AS tsc ON ti.id_salones_compuesto = tsc.id
+            WHERE  ti.estatus = 1 AND ti.id_plan_estudios = $idPlanEstudio AND tsc.id_grados = $idGrado AND tsc.id_grupos = $idGrupo";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+
+        public function selectDatosImprimirSolInscricpion(int $idInscripcion){
+            $idInscripcion = $idInscripcion;
+            $sql = "SELECT ins.folio_impreso,plnes.nombre_carrera,plnes.id AS id_plan_estudio,orgpl.nombre_plan,
+            plnes.duracion_carrera,peralum.nombre_persona,peralum.ap_paterno,peralum.ap_materno,peralum.direccion,
+            peralum.colonia,peralum.tel_celular AS tel_celular_alumno,peralum.tel_fijo AS tel_fijo_alumno,peralum.email AS email_alumno,
+            loc.nombre AS localidad,mun.nombre AS municipio,est.nombre AS estado,tut.nombre_tutor,
+            tut.appat_tutor,tut.apmat_tutor,tut.tel_celular AS tel_celular_tutor,tut.tel_fijo AS tel_fijo_tutor,
+            tut.email AS email_tutor,sis.nombre_sistema,inst.nombre_institucion,inst.categoria,
+            inst.cve_centro_trabajo,CONCAT(plntel.domicilio,',',plntel.localidad,',',plntel.municipio,',',plntel.estado) AS ubicacion,
+            ins.id_grados,grad.nombre_grado,tur.hora_entrada,tur.hora_salida,peralum.nombre_empresa
+            FROM t_inscripciones AS ins 
+            INNER JOIN t_plan_estudios AS plnes ON ins.id_plan_estudios = plnes.id
+            iNNER JOIN t_instituciones AS inst ON plnes.id_instituciones = inst.id
+            INNER JOIN t_planteles AS plntel ON inst.id_planteles = plntel.id
+            INNER JOIN t_sistemas_educativos AS sis ON inst.id_sistemas_educativos = sis.id
+            INNER JOIN t_organizacion_planes AS orgpl ON plnes.id_organizacion_planes = orgpl.id
+            INNER JOIN t_personas AS peralum ON ins.id_personas = peralum.id
+            INNER JOIN t_tutores AS tut ON ins.id_tutores = tut.id
+            INNER JOIN t_localidades AS loc ON peralum.id_localidad = loc.id
+            INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
+            INNER JOIN t_estados AS est ON mun.id_estados = est.id
+            LEFT JOIN t_grados AS grad ON ins.id_grados = grad.id
+            INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
+            WHERE ins.id = $idInscripcion LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
 	}
 ?>

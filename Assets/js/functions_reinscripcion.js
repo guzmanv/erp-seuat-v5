@@ -2,6 +2,7 @@ let btnReinscribir = document.querySelector("#btn_reinscribir");
 let txtNombreAlumno = document.querySelector("#nombreAlumno");
 let formReinscripcion = document.querySelector("#formReinscripcion");
 let tableAlumnos = document.querySelector("#table_alumnos_inscritos");
+let tableListaAlumnos = document.querySelector("#valoresListaReinscritos");
 btnReinscribir.disabled = true;
 txtNombreAlumno.disabled = true;
 let gradoInscritoActual = null;
@@ -354,6 +355,45 @@ function fnReinscibirGrupal()
     }
 }
 
+function fnVerListaReinscritos(plan_estudio,grado,grupo)
+{
+    tableListaAlumnos.innerHTML = "";
+    let url = `${base_url}/Reinscripcion/getListaAlumnosInscritos/${plan_estudio}/${grado}/${grupo}`;
+    fetch(url).then((res => res.json())).then(response =>{
+        if(response.length >0)
+        {
+            let rows = "";
+            response.forEach(element => {
+                rows += '<tr><td>'+element.numeracion+'</td><td>'+element.nombre_persona+'</td><td>'+element.ap_paterno+'</td><td>'+element.ap_materno+'</td><td>'+element.options+'</td></tr>';
+            });
+            tableListaAlumnos.innerHTML = rows;
+        }else{
+            tableListaAlumnos.innerHTML = "";
+        }
+    }).catch(err => {throw err});
+}
+
+function fnImprimirReinscripcion(value)
+{
+    let idReinscripcion = value;
+    if(value != ''){
+        Swal.fire({
+            title: 'Mensaje',
+            text: "Desea imprimir el comprobante de reinscripción?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText:'No'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                let url = `${base_url}/Reinscripcion/imprimir_comprobante_reinscripcion/${idReinscripcion}`;
+                window.open(url, '_blank');
+            }
+          })
+    }
+}
 function convStrToBase64(str){
     return window.btoa(unescape(encodeURIComponent( str ))); 
 }

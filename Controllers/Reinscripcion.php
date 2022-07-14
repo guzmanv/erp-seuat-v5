@@ -136,7 +136,7 @@
 					<i class="fas fa-layer-group"></i> &nbsp; Acciones
 					</button>
 					<div class="dropdown-menu">
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" onClick="fnVerListaInscritos('.$arrData[$i]['id_plantel'].')"  title="Ver"> &nbsp;&nbsp; <i class="fas fa-eye icono-azul"></i> &nbsp; Ver alumnos</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" data-toggle="modal" data-target="#modalListaReinscritos" onClick="fnVerListaReinscritos('.$arrData[$i]['id_plantel'].','.$arrData[$i]['id_grado'].','.$arrData[$i]['id_grupo'].')"  title="Ver"> &nbsp;&nbsp; <i class="fas fa-eye icono-azul"></i> &nbsp; Ver alumnos</button>
 						<div class="dropdown-divider"></div>
 						
 					</div>
@@ -175,6 +175,33 @@
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
+        }
+
+        public function getListaAlumnosInscritos($args)
+        {
+            $arrArgs = explode(",",$args);
+            $idPlanEstudio = $arrArgs[0];
+            $idGrado = $arrArgs[1];
+            $idGrupo = $arrArgs[2];
+            $arrAlumnos = $this->model->selectListaAlumnosInscritos($idPlanEstudio,$idGrado,$idGrupo);
+            for($i = 0; $i<count($arrAlumnos); $i++){
+                $arrAlumnos[$i]['numeracion'] = $i+1;
+                $arrAlumnos[$i]['options'] = '<button type="button" class="btn btn-outline-secondary btn-primary btn-sm icono-color-principal btn-inline" style="display: inline;" onclick="fnImprimirReinscripcion('.$arrAlumnos[$i]['id'].')"><i class="fas fa-print icono-azul"></i></i><span> Imprimir</span></button>';
+            }
+            echo json_encode($arrAlumnos, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function imprimir_comprobante_reinscripcion(int $idReinscripcion)
+        {
+            $idInscripcion = $idReinscripcion;
+            $arrDataIns = $this->model->selectDatosImprimirSolInscricpion($idInscripcion);
+            $idPlanEstudio = $arrDataIns['id_plan_estudio'];
+            //$arrDataDoc = $this->model->selectDocumentacionInscripcion($idPlanEstudio);
+            $data['datos'] = $arrDataIns;
+            //$data['doc'] = $arrDataDoc; 
+            //var_dump($data);
+            $this->views->getView($this,"viewpdf",$data); 
         }
 	}
 ?>

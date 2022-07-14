@@ -1,6 +1,7 @@
 <?php
     headerAdmin($data);
     getModal("Reinscripcion/modalBuscarAlumno",$data);
+    getModal("Reinscripcion/modalListaInscritos",$data);
 ?>
 <div id="contentAjax"></div>
 <div class="wrapper">
