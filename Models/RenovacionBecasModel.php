@@ -6,30 +6,24 @@ class RenovacionBecasModel extends Mysql{
         parent::__construct();
     }
 
-    public function selectAlumno($data)
-    {
-        $sql = "SELECT per.id, CONCAT(per.nombre_persona,' ', per.ap_paterno,' ', per.ap_materno) as nombre_completo, insc.id as id_inscripcion
-        FROM t_personas as per
-        INNER JOIN t_asignacion_categoria_persona as asig_ct ON asig_ct.id_personas = per.id
-        INNER JOIN t_categoria_personas as ct_per ON ct_per.id = asig_ct.id_categoria_persona 
-        INNER JOIN t_inscripciones as insc ON insc.id_personas = per.id
-        WHERE ct_per.id = 2 AND insc.tipo_ingreso = 'Reinscripcion' AND per.nombre_persona LIKE '$data%'";
+    public function selectReinscritos(){
+        $sql = "SELECT ins.id, ins.id_personas, CONCAT(per.nombre_persona, ' ', per.ap_paterno, ' ', per.ap_materno) as nombre_estudiante, pln.nombre_carrera, org.nombre_plan, grd.nombre_grado, ins.promedio 
+        FROM t_inscripciones ins 
+        INNER JOIN t_personas per On per.id = ins.id_personas
+        INNER JOIN t_plan_estudios pln ON pln.id = ins.id_plan_estudios 
+        INNER JOIN t_organizacion_planes org ON org.id = pln.id_organizacion_planes 
+        INNER JOIN t_grados grd ON grd.id = ins.id_grados
+        WHERE ins.tipo_ingreso = 'Reinscripcion'";
         $request = $this->select_all($sql);
         return $request;
     }
 
-    public function selectBecados()
+    public function selectRenovacionInd($idPer)
     {
-        $sql = "SELECT asig.id, CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) as nombre_completo,
-        pln_est.nombre_carrera, pe.nombre_periodo, grd.nombre_grado, asig.porcentaje_beca, asig.fecha_asignada_beca, asig.estatus
-        FROM t_asignacion_becas as asig
-        INNER JOIN t_inscripciones as ins ON asig.id_inscripciones = ins.id  
-        INNER JOIN t_personas as per ON per.id = ins.id_personas 
-        INNER JOIN t_plan_estudios as pln_est ON pln_est.id = ins.id_plan_estudios
-        INNER JOIN t_salones_compuesto as sal ON sal.id = ins.id_salones_compuesto 
-        INNER JOIN t_periodos as pe ON pe.id = sal.id_periodos 
-        INNER JOIN t_grados as grd ON grd.id = sal.id_grados";
-        $request = $this->select_all($sql);
+        $sql="SELECT id_plan_estudios, promedio, id_personas, id_grados FROM t_inscripciones
+        WHERE id_personas = $idPer
+        ORDER BY id_grados DESC LIMIT 1";
+        $request = $this->select($sql);
         return $request;
     }
 }

@@ -1,6 +1,7 @@
 <?php
     headerAdmin($data);
     getModal("RenovacionBeca/modalRenovacionBeca",$data);
+    getModal("RenovacionBeca/modalConfirmarRatificacion",$data);
 ?>
 <div class="wrapper">
     <div class="content-wrapper">
