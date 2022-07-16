@@ -67,7 +67,7 @@
                             INNER JOIN 	t_sistemas_educativos AS se ON inst.id_sistemas_educativos = se.id 
                             INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
                             INNER JOIN t_historiales AS his ON ins.id_historial = his.id
-                            WHERE his.inscrito = 1
+                            WHERE his.inscrito = 1 AND ins.estatus = 1 AND ins.tipo_ingreso ='Inscripcion'
                             GROUP BY plan.nombre_carrera,tg.numero_natural,tur.nombre_turno HAVING COUNT(*)>=1";
                 $request = $this->select_all($sql);
             }else{
@@ -86,7 +86,7 @@
                             INNER JOIN 	t_sistemas_educativos AS se ON inst.id_sistemas_educativos = se.id 
                             INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
                             INNER JOIN t_historiales AS his ON ins.id_historial = his.id
-                            WHERE his.inscrito = 1 AND plant.id = $idPlantel
+                            WHERE his.inscrito = 1 AND plant.id = $idPlantel AND ins.estatus = 1 AND ins.tipo_ingreso = 'Inscripcion'
                             GROUP BY plan.nombre_carrera,tg.numero_natural,tur.nombre_turno HAVING COUNT(*)>=1";
                 $request = $this->select_all($sql);
             }
@@ -150,8 +150,8 @@
                     $sql_historial = "INSERT INTO t_historiales(aperturado,inscrito,egreso,pasante,titulado,baja,matricula_interna,matricula_externa,fecha_inscrito,fecha_egreso,fecha_pasante,fecha_titulado,fecha_baja) VALUES(?,?,?,?,?,?,?,?,NOW(),?,?,?,?)";
                     $request_historial = $this->insert($sql_historial,array(0,1,0,0,0,0,null,null,null,null,null,null));
                     if($request_historial){
-                        $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,id_grados,promedio,aplica_descuento_inscripcion,aplica_descuento_colegiatura,id_turnos,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampanias,id_salones_compuesto,id_historial,id_usuario_creacion,fecha_creacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
-                        $request_inscripcion = $this->insert($sql_inscripcion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$checkInscripcion,$checkColegiatura, $turno,$idCarrera,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalon,$request_historial,$idUser));
+                        $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,id_grados,promedio,estatus,aplica_descuento_inscripcion,aplica_descuento_colegiatura,id_turnos,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampanias,id_salones_compuesto,id_historial,id_usuario_creacion,fecha_creacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
+                        $request_inscripcion = $this->insert($sql_inscripcion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,1,$checkInscripcion,$checkColegiatura, $turno,$idCarrera,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalon,$request_historial,$idUser));
                         if($request_inscripcion){
                             $sqlEmpresa = "UPDATE t_personas SET nombre_empresa = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id = $idPersona";
                             $requestEmpresa = $this->update($sqlEmpresa,array($empresa,$idUser));
@@ -239,7 +239,7 @@
             $sql = "SELECT ins.id AS id_inscripcion,per.id AS id_persona,per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno) AS apellidos FROM t_inscripciones AS ins
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_historiales AS h ON ins.id_historial = h.id
-            WHERE ins.id_plan_estudios = $idCarrera AND ins.id_grados = $grado AND ins.id_turnos = $turno AND h.inscrito = 1";
+            WHERE ins.id_plan_estudios = $idCarrera AND ins.id_grados = $grado AND ins.id_turnos = $turno AND h.inscrito = 1 AND ins.estatus = 1";
             $request = $this->select_all($sql);
             return $request;
         }

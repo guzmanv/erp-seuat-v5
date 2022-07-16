@@ -33,6 +33,7 @@
             $data['page_functions_js'] = "functions_preinscripciones_admision.js";
             $data['rol'] = $this->rol;
             $data['idPlantel'] = $this->idPlantel;
+            $data['new'] = true;
             $this->views->getView($this,"preinscripcion",$data);
         }
         //Funcion para mostrar Vista(ControlEscolar)
@@ -49,6 +50,7 @@
             $data['rol'] = $this->rol;
             $data['idPlantel'] = $this->idPlantel;
             $data['promocion_inscripcion'] = $this->model->selectPromocionesInscripcion();
+            $data['new'] = false;
             //$data['promocion_colegiatura'] = $this->model->selectPromocionesColegiatura(null);
             $data['page_functions_js'] = "functions_preinscripciones_controlescolar.js";
             $this->views->getView($this,"preinscripcion",$data);

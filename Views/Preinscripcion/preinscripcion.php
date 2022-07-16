@@ -18,7 +18,7 @@
                     <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
                             <?php 
-                                if($data['rol'] == 'admin' || $data['rol'] == 'superadmin'){
+                                if($data['rol'] == 'admin' || $data['rol'] == 'superadmin' || $data['new'] == false){
 
                                 }else{ ?>
                                     <button type="button" onclick="fnNuevaInscripcion()" class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalFormNuevaInscripcion"><i class="fa fa-plus-circle fa-md"></i>Nuevo</button>
