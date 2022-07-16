@@ -216,29 +216,31 @@ date_default_timezone_set('UTC');
                 <td class="col-2">Faltante</td>
                 <td class="col-2">Sobrante</td>
             </tr>
-            <!-- <?php
+            <?php
                 $numeracion = 0;
-                foreach ($data['data'] as $key => $value) {
+                foreach ($data['datosSistema'] as $key => $value) {
                     $numeracion += 1;
                     ?>
                         <tr class="details">
                             <td class="col-2"><b><?php echo $numeracion ?></b></td>
-                            <td class="col-8"><?php echo(strtoupper($data['datos_corte']['folio'])) ?></td>
-                            <td class="col-2">j</td>
+                            <td class="col-8"><?php echo(strtoupper($data['datosSistema']['folio'])) ?></td>
+                            <td class="col-2"><?php echo(strtoupper($data['datosSistema']['nombreCaja'])) ?></td>
+                            <td class="col-2"><?php echo(strtoupper($data['datosSistema']['fechaAperturaCierre'])) ?></td>
+                            <td class="col-2"><?php echo(strtoupper($data['datosSistema']['nombreCaja'])) ?></td>
+                            <td class="col-2"><?php echo(strtoupper($data['datosSistema']['nombreCaja'])) ?></td>
                         </tr>
                     <?php
                 }
-            ?>     -->
+            ?>    
 
-            <tr>
+            <!-- <tr>
                 <td>1</td>
-                <td><?php echo $data['datos_corte']['folio']?>
-                    <?php echo(strtoupper($data['datos_corte']['folio']))?></td>
+                <td><?php echo(strtoupper($data['datosSistema']['folio']))?></td>
                 <td>1</td>
                 <td>12/12/2022</td>
                 <td>25</td>
                 <td>24</td>
-            </tr>
+            </tr> -->
         </table>
     </div>
 

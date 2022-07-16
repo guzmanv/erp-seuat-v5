@@ -21,26 +21,27 @@
 		}
 
 		//Consultar datos del Sistema para Los recibos
-        public function selectDatosSistemas(string $idHistorialCorte){
-            $sql = "SELECT tcc.id,tc.id,tp.nombre_plantel_fisico,tse.nombre_sistema
+        public function selectDatosSistemas(int $idHistorialCorte){
+            $sql = "SELECT tcc.id,tcc.folio,tp.nombre_plantel_fisico,tse.nombre_sistema,tc.nombre AS nombreCaja,
+                    CONCAT(tcc.fechayhora_apertura_caja,' ',tcc.fechayhora_cierre_caja) AS fechaAperturaCierre
                     FROM t_corte_caja AS tcc
                     INNER JOIN t_cajas AS tc ON tcc.id_cajas = tc.id
                     INNER JOIN t_planteles AS tp ON tc.id_planteles = tp.id
                     INNER JOIN t_instituciones AS ti ON ti.id_planteles = ti.id
                     INNER JOIN t_sistemas_educativos AS tse ON ti.id_sistemas_educativos = tse.id
-                    ";
+                    WHERE tcc.id = $idHistorialCorte LIMIT 1";
                     // WHERE tcc.id = $idHistorialCorte LIMIT 1
             $request = $this->select($sql);
             return $request;
         }
 
         //Consultar datos del corte
-        public function selectDatosCorte(string $idHistorialCorte){
+        public function selectDatosCorte(int $idHistorialCorte){
             $sql = "SELECT tcc.id,tcc.folio,CONCAT(tcc.fechayhora_apertura_caja,' ',tcc.fechayhora_cierre_caja) AS fechaAperturaCierre,
                     tc.nombre
                     FROM t_corte_caja AS tcc
                     INNER JOIN t_cajas AS tc ON tcc.id_cajas = tc.id
-                    ";
+                    WHERE tcc.id = $idHistorialCorte LIMIT 1";
             $request = $this->select_all($sql);
             return $request;
         }

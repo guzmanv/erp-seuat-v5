@@ -92,10 +92,10 @@ setInterval(async function () {
 },500)
 
 //REIMPRIMIR COMPROBANTE DE
-function fnDatosPersonalesVerificacion(value){
+function fnReimprimirComprobanteVenta(value,idHistorial){
     Swal.fire({
         title: 'Reimprimir?',
-        text: "Desea reimprimir el comprobante del corte" +value.id+ "?",
+        text: "Desea reimprimir el comprobante del corte por id " +idHistorial+ "?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -109,7 +109,7 @@ function fnDatosPersonalesVerificacion(value){
                 'Comprobante generado correctamente.',
                 'success'
             )
-            let url = `${base_url}/HistorialCorteCajas/imprimir_comprobante_corte/${convStrToBase64(value.id)}`;
+            let url = `${base_url}/HistorialCorteCajas/reimprimir_comprobante_corte/${convStrToBase64(idHistorial)}`;
             window.open(url,'_blank');
         }
     })
