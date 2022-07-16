@@ -30,10 +30,8 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Nombre</th>
+                                                <th>Nombre del estudiante</th>
                                                 <th>Carrera</th>
-                                                <th>Periodo</th>
-                                                <th>Grado</th>
                                                 <th>Porcentaje beca</th>
                                                 <th>Fecha asignada</th>
                                                 <th>Acciones</th>

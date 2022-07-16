@@ -20,7 +20,7 @@ class RenovacionBecas extends Controllers{
                     <div class="btn-group">
                         <button type="" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones</button>
                         <div class="dropdown-menu">
-                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" data-toggle="modal" data-target="#modalConfirmarRenovacion" title="RenovarBeca"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Ratificar beca</button>
+                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" data-toggle="modal" data-target="#modalConfirmarRenovacion" onclick="fnRatificar('.$arrData[$i]['id'].')" title="RenovarBeca"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Ratificar beca</button>
                         </div>
                     </div>
                 </div>';
@@ -38,35 +38,31 @@ class RenovacionBecas extends Controllers{
         $this->views->getView($this,'asignacion_becas',$data);
     }
 
-    public function getAsignaciones(){
-        $arrData = $this->model->selectAsignacion();
-        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-        die();
+    public function getEstudianteAsig(int $idInscripcion)
+    {
+        $intIdIns = $idInscripcion;
+        if($intIdIns > 0)
+        {
+            $data['datosEstudiante'] = $this->model->selectAlumnoAsignacion($intIdIns);
+
+        }
+        echo json_encode($data,JSON_UNESCAPED_UNICODE);
     }
 
-    public function getBecados(){
-        $arrData = $this->model->selectBecados();
+    public function getAsignaciones(){
+        $arrData = $this->model->selectAsignacion();
         for ($i=0; $i < count($arrData); $i++) { 
-            $arrData['numeracion'] = $i+1;
-            if($arrData[$i]['estatus'] == 1)
-            {
-                $arrData[$i]['estatus'] = '<span class="badge badge-primary">Activo</span>';
-            }
-            else
-            {
-                $arrData[$i]['estatus'] = '<span class="badge badge-secondary">Inactivo</span>';
-            }
-            $arrData[$i]['options'] = '<div class="text-center">
+            $arrData['numeracion'] = $i + 1;
+            $arrData['options'] = '<div class="text-center">
             <div class="btn-group">
                 <button type="" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones
                 </button>
                 <div class="dropdown-menu">
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" onClick="fnEditarTurno('. $arrData[$i]['id'] .')" data-toggle="modal" data-target="#ModalEditTurno" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Reimprimir ratificación</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Reimprimir ratificación</button>
 						<div class="dropdown-divider"></div>
 						<!--<a class="dropdown-item" href="#">link</a>-->
 				</div>
             </div>
-
             </div>';
         }
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
