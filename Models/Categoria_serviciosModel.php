@@ -83,7 +83,7 @@ class Categoria_serviciosModel extends Mysql
     public function deleteCategoria_servicios(int $idcategoria_servicios)
 		{
 			$this->intIdCategoria_servicios = $idcategoria_servicios;
-			$sql = "SELECT * FROM t_servicios WHERE id_categoria_servicios = $this->intIdCategoria_servicios";
+			$sql = "SELECT * FROM t_servicios WHERE id_categoria_servicios = $this->intIdCategoria_servicios AND estatus = 1";
 			$request = $this->select_all($sql);
 			if(empty($request))
 			{
