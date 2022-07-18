@@ -667,7 +667,8 @@ function fnAperturarCaja(idcaja){
                      if(resultado){
                         Swal.fire('Exito!',resultado.msg,'success'
                         ).then((result) =>{
-                            window.open(`${base_url}/Ingresos/`);
+                            // window.open(`${base_url}/Ingresos`);
+                            window.location = base_url+'/Ingresos';
                         })
                     }else{
                         Swal.fire('Error!',resultado.msg,'warning')

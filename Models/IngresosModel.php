@@ -354,7 +354,7 @@
 
         public function deletTempTable(int $idAlumno)
         {
-            $sql = "DELETE FROM t_tmpinscripciones WHERE id_persona = $idAlumno";
+            $sql = "DELETE FROM t_tmpInscripciones WHERE id_persona = $idAlumno";
             $request = $this->delete($sql);
             return $request;
         }

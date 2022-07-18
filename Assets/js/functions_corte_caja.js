@@ -75,7 +75,7 @@ function fnTotalesMetodosPago(id_caja,fecha_apertura){
             resultado['detalles'].forEach(detalle => {
                 if(detalle.id_metodos_pago == element.id){
                     numRow += 1
-                    content += "<tr><td>"+numRow+"</td><td>"+detalle.folio+"</td><td>"+detalle.nombre_persona+"</td><td>"+detalle.fecha+"</td><td>"+formatoMoneda(detalle.total)+"</td><td><button type='button' class='btn btn-primary btn-sm' onclick='fnDetallesIgreso("+detalle.id_ingreso+")'>Detalles</button></td></tr>";
+                    content += "<tr><td>"+numRow+"</td><td>"+detalle.folio+"</td><td>"+detalle.nombre_persona+"</td><td>"+detalle.fecha_cobro+"</td><td>"+formatoMoneda(detalle.total)+"</td><td><button type='button' class='btn btn-primary btn-sm' onclick='fnDetallesIgreso("+detalle.id_ingreso+")'>Detalles</button></td></tr>";
                 }
             });
             document.querySelector('#content-nav').innerHTML += '<div class="tab" id="'+numeracion+'"><table id="" class="table table-bordared table-striped table-sm"><thead><tr><th>#</th><th>Folio</th><th>Alumno</th><th>Fecha</th><th>Total</th><th>Acciones</th></tr></thead><tbody id="tbody-'+element.id+'">'+content+'</tbody></table></div>';
@@ -105,6 +105,7 @@ function fnDetallesIgreso(value){
             numeracion += 1;
             let row ="<tr><td>"+numeracion+"</td><td>"+element.fecha_cobro+"</td><td>"+element.codigo+"</td><td>"+element.nombre+"</td><td>"+formatoMoneda(element.abono)+"</td><td>"+element.folio+"</td><td>"+element.nombre_usuario+"</td></tr>";
             document.querySelector('#tbodyDetallesVenta').innerHTML += row;
+            // console.log(element);
         });
     }).catch(err => {throw err});
 }
@@ -236,8 +237,34 @@ function fnRealizarCorte(){
     }
 }
 
-function imprimirCorte(){
+//IMPRIMIR COMPROBANTE DE CORTE
+function imprimirCorte(value){
     //console.log("imprimiendo");
+    Swal.fire({
+        title: 'Imprimir?',
+        text: "Desea imprimir el comprobante del corte" +value+ "?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si Imprimir!',
+        cancelButtonText: 'No',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Exito!',
+                'Comprobante generado correctamente.',
+                'success'
+            )
+            let url = `${base_url}/HistorialCorteCajas/imprimir_comprobante_corte/${convStrToBase64(value)}`;
+            window.open(url,'_blank');
+        }
+    })
+}
+
+//Function para convertir un string  a  Formato Base64
+function convStrToBase64(str){
+    return window.btoa(unescape(encodeURIComponent( str ))); 
 }
 
 //Function para dar formato un numero a Moneda

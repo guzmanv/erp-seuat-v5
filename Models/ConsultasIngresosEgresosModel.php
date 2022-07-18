@@ -17,18 +17,19 @@
 			LEFT JOIN t_precarga_cuenta AS p ON ingdet.id_precarga_cuenta = p.id
 			INNER JOIN t_servicios AS s ON ingdet.id_servicio = s.id
 			WHERE dfis.rfc = '$str' OR his.matricula_interna = '$str' AND s.aplica_edo_cuenta = 1";*/
-			$sql = "SELECT ing.id,s.codigo_servicio,s.nombre_servicio,ing.folio,ing.observaciones,ingdet.abono,
-						ingdet.cargo,s.precio_unitario,ing.fecha AS fecha_pagado,ingdet.cantidad,
-						ing.tipo_comprobante 
-						FROM t_ingresos AS ing 
-						INNER JOIN t_personas AS per ON ing.id_persona_paga = per.id
-						LEFT JOIN t_datos_fiscales AS dfis ON per.id_datos_fiscales = dfis.id
-						INNER JOIN t_inscripciones AS ins ON ins.id_personas = per.id
-						INNER JOIN t_historiales AS his ON ins.id_historial = his.id
-						INNER JOIN t_ingresos_detalles AS ingdet ON ingdet.id_ingresos = ing.id
-						LEFT JOIN t_precarga AS p ON ingdet.id_precarga = p.id
-						INNER JOIN t_servicios AS s ON ingdet.id_servicios = s.id
-						WHERE dfis.rfc = '$str' OR his.matricula_interna = '$str' AND s.aplica_edo_cuenta = 1";
+			$sql = "SELECT ing.id,tcs.clave_categoria AS codigo_servicio,s.nombre_servicio,ing.folio,ing.observaciones,ingdet.abono,
+					ingdet.cargo,s.precio_unitario,ing.fecha_cobro AS fecha_pagado,ingdet.cantidad,
+					ing.tipo_comprobante 
+					FROM t_ingresos AS ing 
+					INNER JOIN t_personas AS per ON ing.id_persona_paga = per.id
+					LEFT JOIN t_datos_fiscales AS dfis ON per.id_datos_fiscales = dfis.id
+					INNER JOIN t_inscripciones AS ins ON ins.id_personas = per.id
+					INNER JOIN t_historiales AS his ON ins.id_historial = his.id
+					INNER JOIN t_ingresos_detalles AS ingdet ON ingdet.id_ingresos = ing.id
+					LEFT JOIN t_precarga AS p ON ingdet.id_precarga = p.id
+					INNER JOIN t_servicios AS s ON ingdet.id_servicios = s.id
+					INNER JOIN t_categoria_servicios AS tcs ON s.id_categoria_servicios = tcs.id
+					WHERE dfis.rfc = '$str' OR his.matricula_interna = '$str' AND s.aplica_edo_cuenta = 1";
 			$request = $this->select_all($sql);
 			return $request;
 		}
@@ -73,9 +74,10 @@
 			return $request;
 		} */
 		public function selectEdoCuentaById(int $idAlumno){
-			$sql = "SELECT ec.id,s.codigo_servicio,s.precio_unitario,ec.pagado FROM t_estado_cuenta AS ec
+			$sql = "SELECT ec.id,tcs.clave_categoria AS codigo_servicio,s.precio_unitario,ec.pagado FROM t_estado_cuenta AS ec
 			INNER JOIN t_precarga AS p ON ec.id_precarga = p.id
 			INNER JOIN t_servicios AS s ON p.id_servicios = s.id
+			INNER JOIN t_categoria_servicios AS tcs ON s.id_categoria_servicios = tcs.id
 			WHERE ec.id_personas = $idAlumno";
 			$request = $this->select_all($sql);
 			return $request;
@@ -160,10 +162,16 @@
 
 		/////////////////////////
 		public function selectEdoCta(int $idAlumno){
-			$sql = "SELECT ec.id AS id_edo_cta,s.codigo_servicio,s.nombre_servicio,s.precio_unitario,p.fecha_limite_cobro,ec.pagado,p.id AS id_precarga
+			// $sql = "SELECT ec.id AS id_edo_cta,s.codigo_servicio,s.nombre_servicio,s.precio_unitario,p.fecha_limite_cobro,ec.pagado,p.id AS id_precarga
+			// FROM t_estado_cuenta AS ec
+			// INNER JOIN t_precarga AS p ON ec.id_precarga = p.id
+			// INNER JOIN t_servicios AS s ON p.id_servicios = s.id
+			// WHERE ec.id_personas = $idAlumno";
+			$sql = "SELECT ec.id AS id_edo_cta,tcs.clave_categoria AS codigo_servicio,s.nombre_servicio,s.precio_unitario,p.fecha_limite_cobro,ec.pagado,p.id AS id_precarga
 			FROM t_estado_cuenta AS ec
 			INNER JOIN t_precarga AS p ON ec.id_precarga = p.id
 			INNER JOIN t_servicios AS s ON p.id_servicios = s.id
+			INNER JOIN t_categoria_servicios AS tcs ON s.id_categoria_servicios = tcs.id
 			WHERE ec.id_personas = $idAlumno";
 			$request = $this->select_all($sql);
 			return $request;

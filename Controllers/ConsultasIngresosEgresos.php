@@ -64,7 +64,7 @@
                     foreach ($arrData['totalSaldo'] as $key => $value) {
                         if($value['pagado'] == 0){
                             $total += $value['precio_unitario'];
-                            if($value['codigo_servicio'] == 'CM'){
+                            if($value['codigo_servicio'] == 'COL'){
                                 $saldoColegiatura += $value['precio_unitario'];
                             }else{
                                 $saldoServicios += $value['precio_unitario'];
@@ -90,7 +90,7 @@
                     foreach ($arrData['totalSaldo'] as $key => $value) {
                         if($value['pagado'] == 0){
                             $total += $value['precio_unitario'];
-                            if($value['codigo_servicio'] == 'CM'){
+                            if($value['codigo_servicio'] == 'COL'){
                                 $saldoColegiatura += $value['precio_unitario'];
                             }else{
                                 $saldoServicios += $value['precio_unitario'];
@@ -142,7 +142,7 @@
                     foreach ($arrData['totalSaldo'] as $key => $value) {
                         if($value['pagado'] == 0){
                             $total += $value['precio_unitario'];
-                            if($value['codigo_servicio'] == 'CM'){
+                            if($value['codigo_servicio'] == 'COL'){
                                 $saldoColegiatura += $value['precio_unitario'];
                             }else{
                                 $saldoServicios += $value['precio_unitario'];
@@ -169,7 +169,7 @@
                     foreach ($arrData['totalSaldo'] as $key => $value) {
                         if($value['pagado'] == 0){
                             $total += $value['precio_unitario'];
-                            if($value['codigo_servicio'] == 'CM'){
+                            if($value['codigo_servicio'] == 'COL'){
                                 $saldoColegiatura += $value['precio_unitario'];
                             }else{
                                 $saldoServicios += $value['precio_unitario'];
