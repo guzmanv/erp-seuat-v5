@@ -1,6 +1,7 @@
 <?php
     headerAdmin($data);
     getModal("RenovacionBeca/modalRenovacionBeca",$data);
+    getModal("RenovacionBeca/modalConfirmarRatificacion",$data);
 ?>
 <div class="wrapper">
     <div class="content-wrapper">
@@ -29,10 +30,8 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Nombre</th>
+                                                <th>Nombre del estudiante</th>
                                                 <th>Carrera</th>
-                                                <th>Periodo</th>
-                                                <th>Grado</th>
                                                 <th>Porcentaje beca</th>
                                                 <th>Fecha asignada</th>
                                                 <th>Acciones</th>

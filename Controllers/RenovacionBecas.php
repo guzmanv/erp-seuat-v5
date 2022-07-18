@@ -3,10 +3,30 @@ class RenovacionBecas extends Controllers{
     public function __construct(){
         parent::__construct();
         session_start();
-        if(empty($_SESSION['login'])){
+        /* if(empty($_SESSION['login'])){
             header('Location: '.base_url().'/login');
             die();
-        }
+        } */ 
+    }
+
+    public function getReinscritos()
+    {
+        $arrData = $this->model->selectReinscritos();
+        for ($i = 0; $i < count($arrData); $i++) {
+                $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['promedio'] = '<span class="badge badge-success">'.$arrData[$i]['promedio'].'</span>';
+                $arrData[$i]['options'] =
+                '<div class="text-center">
+                    <div class="btn-group">
+                        <button type="" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones</button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" data-toggle="modal" data-target="#modalConfirmarRenovacion" onclick="fnRatificar('.$arrData[$i]['id'].')" title="RenovarBeca"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Ratificar beca</button>
+                        </div>
+                    </div>
+                </div>';
+                }
+        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+        die();
     }
 
     public function asignacion_becas()
@@ -14,31 +34,43 @@ class RenovacionBecas extends Controllers{
         $data['page_tag'] = 'Asignación becas';
         $data['page_name'] = 'Asignación becas';
         $data['page_title'] = 'Asignación becas';
-        //$data['page_functions_js'] = 'functions_turnos.js';
+        $data['page_functions_js'] = 'functions_renovacion_becas.js';
         $this->views->getView($this,'asignacion_becas',$data);
     }
 
-    public function buscarAlumnoModal()
+    public function getEstudianteAsig(int $idInscripcion)
     {
-        $data = $_GET['val'];
-        $arrData = $this->model->selectAlumnoModal($data,$this->idPlantel);
-    }
-    public function buscarPersonaModal(){
-        $data = $_GET['val'];
-        $arrData = $this->model->selectPersonasModal($data,$this->idPlantel);
-        for($i = 0; $i <count($arrData); $i++){
-            if($arrData[$i]['id_inscripcion'] == null){
-                $arrData[$i]['estatus'] = '<span class="badge badge-warning">No inscrito</span>';
-                $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-primary btn-sm" rl="'.$arrData[$i]['nombre'].'" onclick="seleccionarPersona(this)">Seleccionar</button>';
-
-            }else{
-                $arrData[$i]['estatus'] = '<span class="badge badge-success">Inscrito</span>';
-                $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-secondary btn-sm" rl="'.$arrData[$i]['nombre'].'" onclick="seleccionarPersona(this)" disabled>Seleccionar</button>';
+        $intIdIns = $idInscripcion;
+        if($intIdIns > 0)
+        {
+            
+            $data['datosEstudiante'] = $this->model->selectAlumnoAsignacion($intIdIns);
+            $data['datosBeca'] = $this->model->selectBecaAsignar();
+            if($data['datosBeca'] >= $data['datosEstudiante'])
+            {
 
             }
-        } 
-        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
-        die();
+        }
+        echo json_encode($data,JSON_UNESCAPED_UNICODE);
+    }
 
+    public function getAsignaciones(){
+        $arrData = $this->model->selectAsignacion();
+        for ($i=0; $i < count($arrData); $i++) { 
+            $arrData['numeracion'] = $i + 1;
+            $arrData['options'] = '<div class="text-center">
+            <div class="btn-group">
+                <button type="" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones
+                </button>
+                <div class="dropdown-menu">
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Reimprimir ratificación</button>
+						<div class="dropdown-divider"></div>
+						<!--<a class="dropdown-item" href="#">link</a>-->
+				</div>
+            </div>
+            </div>';
+        }
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        die();
     }
 }

@@ -65,34 +65,34 @@ class Becas extends Controllers{
             $nombreBeca = strClean($_POST['txtNuevaBeca']); 
             $descBeca = intval($_POST['txtPorcentaje']);
             $periodo = intval($_POST['slctPeriodo']);
-            $carrera = intval($_POST['slctCarrera']);
+            $carrera = intval($_POST['slctCarr']);
 
-            //$arrData = $this->model->insertBeca($nombreBeca, $descBeca, $periodo, $carrera);
+            $arrData = $this->model->insertBeca($nombreBeca, $descBeca, $periodo, $carrera);
 
-            /* if($arrData['estatus'] != TRUE)
+            if($arrData['estatus'] != TRUE)
             {
                 $arrResponse = array('estatus' => true, 'msg' => '¡Beca agregada correctamente!');
             }
             else
             {
                 $arrResponse = array('estatus' => false, 'msg' => '¡Atención la beca ya existe!');
-            } */
+            } 
         }
-        echo json_encode($_POST, JSON_UNESCAPED_UNICODE);
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         die();
     }
 
     public function getInstitucion()
     {
         $idPlantel = $_GET['idIns'];
-        $arrData = $this->model->selectInstituciones($idPlantel);
+        $arrData = $this->model->selectInstitucion($idPlantel);
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         die();
     }
 
     public function getCarrera()
     {
-        $idNvl = $_GET['idNivel'];
+        $idNvl = $_GET['idNvl'];
         $arrData = $this->model->selectCarrera($idNvl);
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         die();

@@ -1,7 +1,6 @@
-let tableBecas = document.querySelector('#tableBecas');
-const frmNuevaBeca = document.querySelector('#formNuevaBeca');
-let slctInst = document.querySelector('#slctInstitucion');
-let slctCrr = document.querySelector('#slctCarrera')
+let tableBecas = document.querySelector('#tableBecas')
+const frmNuevaBeca = document.querySelector('#formNuevaBeca')
+const slctInst = document.querySelector('#slctInstitucion')
 
 document.addEventListener('DOMContentLoaded', function(){
     tableBecas = $('#tableBecas').dataTable({
@@ -47,17 +46,17 @@ function fnNuevaBeca(){
 //Nueva Beca
 frmNuevaBeca.addEventListener('submit', (e) =>{
 	e.preventDefault();
-	let idNuevaBeca = document.querySelector('idBecaNueva');
-	let nombreBeca = document.querySelector('txtNuevaBeca');
-	let descBeca = document.querySelector('txtPorcentaje');
-	let periodo = document.querySelector('slctPeriodo');
-	let carrera = document.querySelector('slctInstitucion');
+	let idNuevaBeca = document.querySelector('#idBecaNueva');
+	let nombreBeca = document.querySelector('#txtNuevaBeca').value;
+	let descBeca = document.querySelector('#txtPorcentaje').value;
+	let periodo = document.querySelector('#slctPeriodo').value;
+	let carrera = document.querySelector('#slctCarr').value;
 	if(nombreBeca == "" || descBeca == "" | periodo == "" | carrera == "")
 	{
 		swal.fire("Atención","Atención, todos los campos son obligatorios","warning");
 		return false;
 	}
-	idNuevaBeca = 1;
+	idNuevaBeca.value = 1;
 	const datosNuevo = new FormData(document.getElementById('formNuevaBeca'));
 	let url = `${base_url}/Becas/setBecas`;
 	fetch(url,{
@@ -105,25 +104,37 @@ function fnElegirInstitucion(idPlt){
 	.catch(err => {throw err})
 }
 
-function fnElegirCarrera(idNvl)
-{
-	let url = `${base_url}/Becas/getCarrera?idNivel=${idNvl}`;
+function fnElegirCarrera(idNvl){
+	const selCarr = document.querySelector('#slctCarr');
+	let url = `${base_url}/Becas/getCarrera?idNvl=${idNvl}`;
 	fetch(url)
-		.then(response => response.json())
-		.then(data => {
-			console.log(data)
-			slctCrr.innerHTML = "";
-			for (let i = 0; i < data.length; i++) {
-				console.log(data)
-				if (data[i]['id'] == "" && data[i]['nombre_carrera'] == "") {
-					slctCrr.text = "Seleccione..."
-					slctCrr.value= ""
-				} else {
-					let opc = document.querySelector('option');
-					opc.text = data[i]['nombre_carrera'];
-					opc.text = data[i]['id'];
-					slctCrr.appendChild(opc)
-				}
-			}
-		})
+	.then(res => res.json())
+	.then(data => {
+		selCarr.innerHTML = "";
+		for (let i = 0; i < data.length; i++) {
+			opcion = document.createElement('option');
+			opcion.text = data[i]['nombre_carrera'];
+			opcion.value = data[i]['id'];
+			selCarr.appendChild(opcion);
+		}
+	})
+	.catch(err => {throw err});
 }
+
+/* function estadoSeleccionado(value){
+    const selMunicipio = document.querySelector('#listMunicipioNuevo');
+    let url = base_url+"/Persona/getMunicipios?idestado="+value;
+    fetch(url)
+    .then(res => res.json())
+    .then((resultado) => {
+        selMunicipio.innerHTML = "";
+        for (let i = 0; i < resultado.length; i++) {
+            opcion = document.createElement('option');
+            opcion.text = resultado[i]['nombre'];
+            opcion.value = resultado[i]['id'];
+            selMunicipio.appendChild(opcion);
+            
+        }
+    })
+    .catch(err =>{throw err});
+} */
