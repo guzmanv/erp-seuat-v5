@@ -54,7 +54,6 @@
 			//$data['datosCorte'] = $this->model->selectDatosCorte($idHistorialCorte);//Datos del corte
 
 			$arrDatosVenta = [];
-
 			$this->views->getView($this,"viewpdf_compromante_corte_caja",$data);
 		}
 
