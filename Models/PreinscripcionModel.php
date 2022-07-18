@@ -236,7 +236,7 @@
 
         //Lista de Inscritos en una Carrera
         public function selectInscritos(int $idCarrera, int $grado, int $turno){
-            $sql = "SELECT ins.id AS id_inscripcion,per.id AS id_persona,per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno) AS apellidos FROM t_inscripciones AS ins
+            $sql = "SELECT ins.id AS id_inscripcion,per.id AS id_persona,per.nombre_persona,CONCAT(per.ap_paterno,' ',per.ap_materno) AS apellidos,h.pospuesto FROM t_inscripciones AS ins
             INNER JOIN t_personas AS per ON ins.id_personas = per.id
             INNER JOIN t_historiales AS h ON ins.id_historial = h.id
             WHERE ins.id_plan_estudios = $idCarrera AND ins.id_grados = $grado AND ins.id_turnos = $turno AND h.inscrito = 1 AND ins.estatus = 1";
@@ -418,6 +418,8 @@
             $requestCatProspecto = $this->update($sqlUpCatProspecto,array(1,$idUser,$idPersona));
             return $requestCatProspecto;
         }
+
+
 
     }
 ?>
