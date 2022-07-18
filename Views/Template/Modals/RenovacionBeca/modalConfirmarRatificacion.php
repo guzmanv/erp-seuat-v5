@@ -10,60 +10,72 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <div class="card-body">
-                        
+                    <div class="card-header border-0">
+                        <h3 class="card-title">Nombre del alumno</h3>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-striped table-valign-middle">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Datos del estudiante</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><i class="fa fa-graduation-cap" aria-hidden="true"></i> Carrera</td>
+                                    <td>
+                                        <span class="font-weight-bold text-success" id="lblCarreraAsig"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-clipboard" aria-hidden="true"></i> Semestre o cuatrimestre a cursar</td>
+                                    <td>
+                                        <span class="font-weight-bold text-success" id="lblGradoAsig"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-location-arrow" aria-hidden="true"></i> Dirección del estudiante</td>
+                                    <td>
+                                        <span class="font-weight-bold text-success" id="direccion_estudianteAsig"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-user" aria-hidden="true"></i> Nombre del tutor</td>
+                                    <td>
+                                        <span class="font-weight-bold text-success" id="nombre_tutorAsig"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Teléfono fijo</td>
+                                    <td>
+                                        <span class="font-weight-bold text-success" id="telefonoFijoAsig"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Télefono celular</td>
+                                    <td>
+                                        <span class="font-weight-bold text-success" id="telefonoCelAsig"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Promedio</td>
+                                    <td>
+                                        <span class="font-weight-bold text-success" id="promedioAsig"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Folio de reinscripción</td>
+                                    <td>
+                                        <div class="form-inline">
+                                          <input type="text" class="form-control-sm" name="" id="" aria-describedby="helpId" placeholder="">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <!-- <div class="card card-widget widget-user-2">
-                    <div class="widget-user-header bg-primary">
-                        <div class="widget-user-image">
-                            <img class="img-circle elevation-2" src="../dist/img/user7-128x128.jpg" alt="User Avatar">
-                        </div> 
-                        <h3 class="widget-user-username"></h3>
-                    </div>
-                    <div class="card-footer p-0">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <label class="nav-link">Carrera: </label> <label class="text-sm" id="lblCarreraAsig"></label>
-                            </li>
-                            <li class="nav-item">
-                                <label class="nav-link">
-                                    Semestre <b><label id="lblGradoAsig"></label></b>
-                                </label>
-                            </li>
-                            <li class="nav-item">
-                                <label class="nav-link">
-                                    Dirección del alumno <b><label id="direccion_estudianteAsig"></label></b>
-                                </label>
-                            </li>
-                            <li class="nav-item">
-                                <label class="nav-link">
-                                    Nombre del padre o tutor <b><label id="nombre_tutorAsig"></label></b>
-                                </label>
-                            </li>
-                            <li class="nav-item">
-                                <label class="nav-link">
-                                    Dirección del padre o tutor <b><label id="direccionAsig"></label></b>
-                                </label>
-                            </li>
-                            <li class="nav-item">
-                                <label class="nav-link">
-                                    Teléfono de casa <b><label id="telefonoFijoAsig"></label></b>
-                                </label>
-                            </li>
-                            <li class="nav-item">
-                                <label class="nav-link">
-                                    Teléfono celular <b><label id="telefonoCelAsig"></label></b>
-                                </label>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    Promedio <b><label id="promedioAsig"></label></b>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div> -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevoSalon"><i class="fa fa-fw fa-lg fa-times-circle icono-azul" id="cancelarModalRenBeca"></i>Cancelar</button>

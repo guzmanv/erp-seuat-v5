@@ -79,22 +79,21 @@ function fnRatificar(idIns)
     let grado = document.querySelector('#lblGradoAsig');
     let direccionEst = document.querySelector('#direccion_estudianteAsig');
     let nombreTutor = document.querySelector('#nombre_tutorAsig');
-    let direccionTutor = document.querySelector('#direccionAsig');
+    //let direccionTutor = document.querySelector('#direccionAsig');
     let telefonoFijo = document.querySelector('#telefonoFijoAsig');
     let telefonoCel = document.querySelector('#telefonoCelAsig');
     let promedioAsig = document.querySelector('#promedioAsig');
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            carrera.textContent = data.nombre_carrera;
-            /* grado.textContent = data.nombre_grado;
-            direccionEst.textContent = data.direccion_estudiante;
-            nombreTutor.textContent = data.nombre_tutor;
-            direccionTutor.textContent = data.
-            telefonoFijo.textContent = data.tel_fijo;
-            telefonoCel.textContent = data.tel_celular;
-            promedioAsig.textContent = data.promedio; */
+            console.log(data);  
+            carrera.textContent = data.datosEstudiante.nombre_carrera;
+            grado.textContent = data.datosEstudiante.nombre_grado;
+            direccionEst.textContent = data.datosEstudiante.direccion_estudiante;
+            nombreTutor.textContent = data.datosEstudiante.nombre_tutor;
+            telefonoFijo.textContent = data.datosEstudiante.tel_fijo;
+            telefonoCel.textContent = data.datosEstudiante.tel_celular;
+            promedioAsig.textContent = data.datosEstudiante.promedio;
         })
 
 }

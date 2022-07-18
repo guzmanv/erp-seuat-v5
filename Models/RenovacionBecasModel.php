@@ -52,4 +52,11 @@ class RenovacionBecasModel extends Mysql{
         $request = $this->select_all($sql);
         return $request;
     }
+
+    public function selectBecaAsignar()
+    {
+        $sql = "SELECT promedio FROM t_becas";
+        $request = $this->select($sql);
+        return $request;
+    }
 }

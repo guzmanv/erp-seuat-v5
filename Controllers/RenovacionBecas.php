@@ -43,8 +43,13 @@ class RenovacionBecas extends Controllers{
         $intIdIns = $idInscripcion;
         if($intIdIns > 0)
         {
+            
             $data['datosEstudiante'] = $this->model->selectAlumnoAsignacion($intIdIns);
+            $data['datosBeca'] = $this->model->selectBecaAsignar();
+            if($data['datosBeca'] >= $data['datosEstudiante'])
+            {
 
+            }
         }
         echo json_encode($data,JSON_UNESCAPED_UNICODE);
     }
