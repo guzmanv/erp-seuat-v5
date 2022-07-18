@@ -278,6 +278,8 @@
             $arrData = $this->model->selectInscritos($idCarrera,$grado, $turno);
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
+                $arrData[$i]['estatus'] = ($arrData[$i]['pospuesto'] == 1)?'<span class="badge badge-warning">Pospuesto</span>':'';
+                $arrData[$i]['isdisabled'] = ($arrData[$i]['pospuesto'] == 1)?true:false;
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();

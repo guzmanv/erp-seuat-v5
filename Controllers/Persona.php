@@ -52,11 +52,12 @@
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 $arrData[$i]['is_cancelado'] = ($this->model->selectCanceladoInscripcion($arrData[$i]['id']) == false)?false:true;
+                $arrData[$i]['is_disabled'] = ($this->model->selectCanceladoInscripcion($arrData[$i]['id']) == false)?'':'disabled';
                 $arrData[$i]['cancelado'] = ($this->model->selectCanceladoInscripcion($arrData[$i]['id']) == false)?'':'<span class="badge badge-warning">Cancelado</span>';
                 $arrData[$i]['apellidos'] = $arrData[$i]['ap_paterno'].' '.$arrData[$i]['ap_materno'];
                 $arrData[$i]['options'] = '<div class="text-center">
 				<div class="btn-group">
-					<button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" '.$arrData[$i]['is_disabled'].'>
 					<i class="fas fa-layer-group"></i> &nbsp; Acciones
 					</button>
 					<div class="dropdown-menu">

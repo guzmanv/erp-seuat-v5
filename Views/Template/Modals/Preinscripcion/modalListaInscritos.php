@@ -16,6 +16,7 @@
                             <th>Nombres</th>
                             <th>Apellidos</th>
                             <th>Inscripcion</th>
+                            <th>Estatus</th>
                             <th>Solicitud</th>
                         </tr>
                     </thead>

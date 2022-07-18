@@ -81,8 +81,9 @@ function fnListaInscritos(answer){
             document.getElementById('valoresListaInscritos').innerHTML = "";
             var contador = 0;
 			resultado.forEach(element => {
+                let isDisabled = (element.isdisabled)?'disabled':'';
                 contador += 1;
-                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td class="text-center"><input type="checkbox" onclick="fnCheckInputAlumno()" aria-label="check" id="'+element.id_inscripcion+','+element.id_persona+'"></td><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td><td><button type="button" class="btn btn-outline-secondary btn-secondary btn-sm" onclick=fnBtnDesInscribir('+element.id_inscripcion+','+element.id_persona+')>Cancelar</button></td><td><button type="button" class="btn btn-outline-secondary btn-primary btn-sm icono-color-principal btn-inline" style="display: inline;" onclick="fnImprimirSolInscripcion('+element.id_inscripcion+')"><i class="fas fa-print icono-azul"></i></i><span> Imprimir</span></button></td></tr>'
+                document.getElementById('valoresListaInscritos').innerHTML +='<tr><td class="text-center"><input type="checkbox" onclick="fnCheckInputAlumno()" aria-label="check" id="'+element.id_inscripcion+','+element.id_persona+'" '+isDisabled+'></td><td>'+contador+'</td><td>'+element.nombre_persona+'</td><td>'+element.apellidos+'</td><td><button type="button" class="btn btn-outline-secondary btn-secondary btn-sm" onclick=fnBtnDesInscribir('+element.id_inscripcion+','+element.id_persona+') '+isDisabled+'>Cancelar</button></td><td>'+element.estatus+'</td><td><button type="button" class="btn btn-outline-secondary btn-primary btn-sm icono-color-principal btn-inline" style="display: inline;" onclick="fnImprimirSolInscripcion('+element.id_inscripcion+')" '+isDisabled+'><i class="fas fa-print icono-azul"></i></i><span> Imprimir</span></button></td></tr>'
             });
         })
         .catch(err => { throw err });
@@ -485,6 +486,7 @@ function fnPlantelSeleccionadoDatatable(){
     var plantel = document.querySelector('#listPlantelDatatable');
     var text= plantel.options[plantel.selectedIndex].text;
     document.querySelector('#nombrePlantelDatatable').innerHTML = text;
+    
     
     tableInscripciones = $('#tableInscripciones').dataTable( {
 		"aProcessing":true,
