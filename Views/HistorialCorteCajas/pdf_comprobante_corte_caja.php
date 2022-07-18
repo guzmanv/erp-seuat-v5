@@ -1,7 +1,7 @@
 <?php
 setlocale(LC_ALL,"es_ES.UTF-8");
 setlocale(LC_TIME, 'spanish');
-date_default_timezone_set('UTC');
+date_default_timezone_set('America/Mexico_City');
 // $userAtencion = $data['data'][0]['nombre_usuario'];
 // $userAlumno = $data['data'][0]['nombre_alumno'];
 // $fechaEntrega = $data['data'][0]['fecha_estimada_devolucion'];
@@ -62,7 +62,7 @@ date_default_timezone_set('UTC');
         line-height: 24px;
         font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
         color: #555;
-    }
+        }
 
     .invoice-box table {
         width: 100%;
@@ -74,83 +74,47 @@ date_default_timezone_set('UTC');
         padding: 5px;
         vertical-align: top;
     }
-
-    .invoice-box table tr td:nth-child(2) {
-        text-align: left;
-    }
-
-    .invoice-box table tr.top table td {
-        padding-bottom: 20px;
-    }
-
-    .invoice-box table tr.top table td.title {
-        font-size: 45px;
-        line-height: 45px;
-        color: #333;
-    }
-
     .invoice-box table tr.information table td {
         padding-bottom: 10px;
         font-size: 12px;
     }
+    .invoice-box table tr.information table td {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        color: black;
+        font-size: 10px;
+        width: 100%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-align: center;
+    }
 
-    .invoice-box table tr.heading td {
+
+
+
+    .nomCaja{
         background: #eee;
         border-bottom: 1px solid #ddd;
         font-weight: bold;
     }
 
-    .invoice-box table tr.details td {
-        padding-bottom: 1px;
-        font-size: 12px;
+    .totalEfectvo h4{
+        background-color: #b7bdc9;
     }
-
-    .invoice-box table tr.item td{
-        border-bottom: 1px solid #eee;
-        font-size: 12px;
+    section .datosCorte{
+        padding-bottom: 300px;
     }
-
-    .invoice-box table tr.item.last td {
-        border-bottom: none;
+    .totalEfectvoEntrega{
+        padding-top: 25%;
+        padding-bottom: 10%;
     }
-
-    .invoice-box table tr.total td:nth-child(2) {
-        border-top: 2px solid #eee;
-        font-weight: bold;
-    }
-
-
-        .invoice-box table tr.information table td {
-            width: 100%;
-            display: block;
-            text-align: center;
-        }
-    }
-
-    /** RTL **/
-    .rtl {
-        direction: rtl;
-    }
-
-    .rtl table {
-        text-align: right;
-    }
-
-    .rtl table tr td:nth-child(2) {
-        text-align: left;
-    }
-    .footer {
-   position: fixed;
-   left: 0;
-   bottom: 0;
-   color: black;
-   font-size: 10px;
-   width: 100%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
- overflow: hidden;;
-
-}
 
     </style>
 </head>
@@ -164,11 +128,11 @@ date_default_timezone_set('UTC');
                 </div>
                 <div class="col-8" style="text-align:center">
                     <!-- <p><b>SISTEMA EDUCATIVO UNIVERSITARIO AZTECA</b><br> -->
-                    <p><b><?php echo(strtoupper($data['datosSistema']['nombre_sistema']))?></b><br>
+                    <p><b><?php echo(strtoupper($data['datosSistema']['nombre_sistema']))?></b><br><br>
                         <!-- <small style="font-size: 13px"><b>INSTITUTO DE ESTUDIOS SUPERIORES "SOR JUANA INES DE LA CRUZ"</b></small><br> -->
-                        <!-- <small>Incorporado a la Secretaría de Educación Pública</small><br>
-                        <small>CLAVE: 07PSU0018E</small><br>
-                        <small>2a Norte Oriente N° 741, Tuxtla Gutiérrez Chiapas</small> -->
+                        <!-- <small>Incorporado a la Secretaría de Educación Pública</small><br> -->
+                        <small><?php echo $data['datosSistema']['domiciLocaliPlantel']?> Chiapas</small><br>
+                        <small>Código postal: <?php echo $data['datosSistema']['cod_postal']?></small><br>
                     </p>
                 </div>
                 <div class="col-2" style="text-align:right">
@@ -181,67 +145,65 @@ date_default_timezone_set('UTC');
     <div class="col-12" style="text-align:center">
         <h4>COMPROBANTE DE CORTE</h4>
     </div>
-    <div class="cabecera">
-        <div>
-            <div class="row">
-                <!-- <div class="col-12" style="text-align:right">
-                    <p>Tuxtla Gutiérrez Chiapas <?php echo $formatFechaActual ?></b>
-                    </p>
-                    <p>Folio de préstamo: <b><?php echo $data['folio']?></b>
-                    </p>
-                </div> -->
-                
-            </div>
-        </div>
-        <div></div>   
-    </div>
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="information">
                 <td colspan="12">
                     <table>
                         <tr>
-                            <td>
-                                <b>CORTE DE CAJA 1: </b>  <?php //echo($data['folio']); ?>
+                            <td class="nomCaja">
+                                <b>CORTE DE: <?php echo(strtoupper($data['datosSistema']['nombreCaja']))?> </b>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr> 
-            <tr class="heading">
-                <td class="col-2">#</td>
-                <td class="col-8">Folio</td>
-                <td class="col-8">Caja</td>
-                <td class="col-8">Fecha apertura y Cierre</td>
-                <td class="col-2">Faltante</td>
-                <td class="col-2">Sobrante</td>
-            </tr>
-            <?php
-                $numeracion = 0;
-                foreach ($data['datosSistema'] as $key => $value) {
-                    $numeracion += 1;
-                    ?>
-                        <tr class="details">
-                            <td class="col-2"><b><?php echo $numeracion ?></b></td>
-                            <td class="col-8"><?php echo(strtoupper($data['datosSistema']['folio'])) ?></td>
-                            <td class="col-2"><?php echo(strtoupper($data['datosSistema']['nombreCaja'])) ?></td>
-                            <td class="col-2"><?php echo(strtoupper($data['datosSistema']['fechaAperturaCierre'])) ?></td>
-                            <td class="col-2"><?php echo(strtoupper($data['datosSistema']['nombreCaja'])) ?></td>
-                            <td class="col-2"><?php echo(strtoupper($data['datosSistema']['nombreCaja'])) ?></td>
-                        </tr>
-                    <?php
-                }
-            ?>    
-
-            <!-- <tr>
-                <td>1</td>
-                <td><?php echo(strtoupper($data['datosSistema']['folio']))?></td>
-                <td>1</td>
-                <td>12/12/2022</td>
-                <td>25</td>
-                <td>24</td>
-            </tr> -->
         </table>
+    </div>
+
+    <div>
+        <div class="col-6">
+            <p>DETALLE CORTE</p>
+        </div>
+        <div class="col-6" style="text-align:right">
+            <p>FOLIO: <?php echo(strtoupper($data['datosSistema']['folio']))?></p>
+        </div><br><br>
+        <div>
+            <hr>
+        </div>
+    </div>
+
+    <section>
+        <div class="datosCorte">
+            <div class="col-6">
+                <p>Hecho por:</p>
+                <p>Fondo recibido:</p>
+                <p>Sobrante:</p>
+                <p>Faltante:</p>
+                <!-- <p>Efectivo Inicial:</p> -->
+                <p>Fecha de apertura:</p>
+                <p>Fecha de Cierre:</p>
+            </div>
+            <div class="col-6" style="text-align:right">
+                <p><?php echo(strtoupper($data['datosSistema']['nomCajero']))?></p>
+                <p><?php echo(strtoupper($data['datosSistema']['cantidad_recibida']))?></p>
+                <p><?php echo(strtoupper($data['datosSistema']['dinero_sobrante']))?></p>
+                <p><?php echo(strtoupper($data['datosSistema']['dinero_faltante']))?></p>
+                <p><?php echo(strtoupper($data['datosSistema']['fechayhora_apertura_caja']))?></p>
+                <p><?php echo(strtoupper($data['datosSistema']['fechayhora_cierre_caja']))?></p>
+            </div>
+        </div>
+    </section><br>
+    
+    <div class="totalEfectvoEntrega">
+        <div class="totalEfectvo">
+            <div class="col-6">
+                <h4>Total Efectivo a entregar:</h4>
+            </div>
+            <div class="col-6" style="text-align:right">
+                <h4>$<?php echo $data['datosSistema']['cantidad_entregada']?></h4>
+            </div>
+        </div>
     </div>
 
     <br><br>
@@ -253,7 +215,7 @@ date_default_timezone_set('UTC');
             <h4>Cajero(a)</h4><br>
             <hr style="width:50%">
             <!-- <p><?php echo $userAlumno ?></p> -->
-            Joel Perez
+            <p><?php echo $data['datosSistema']['nomCajero']?></p>
         </div>
         <div class="col-6" style="text-align:center">
             <h4>Autorizado por:</h4><br>
@@ -265,6 +227,8 @@ date_default_timezone_set('UTC');
     
     
     <div class="footer">
-        <p>* ********************************************************************************************.</p>
+        <p>
+            <small><br><i> Documento Impreso a <?php echo DATE('d-m-Y H:i:s') ?> por Jose Santiz Ruiz</i></small>
+        </p>
     </div>
 </html>

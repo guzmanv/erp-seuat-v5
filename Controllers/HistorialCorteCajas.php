@@ -51,7 +51,7 @@
 		public function reimprimir_comprobante_corte(string $idCorte){
 			$idHistorialCorte = $this->reverse64($idCorte);
 			$data['datosSistema'] = $this->model->selectDatosSistemas($idHistorialCorte); //Datos del plantel
-			$data['datosCorte'] = $this->model->selectDatosCorte($idHistorialCorte);//Datos del corte
+			//$data['datosCorte'] = $this->model->selectDatosCorte($idHistorialCorte);//Datos del corte
 
 			$arrDatosVenta = [];
 
