@@ -92,12 +92,17 @@
             $arrArgs = explode(",",$args);
             $idSalonCompuesto = $arrArgs[0];
             $arrAlumnos = json_decode(base64_decode($arrArgs[1]));
+            $num_max_alumno = 2;
             if(count($arrAlumnos) > 0){
-                foreach ($arrAlumnos as $key => $alumno) {
-                    $idPersona = $alumno;
-                    $response = $this->model->insertInscripcion($idPersona,$idSalonCompuesto,$this->idUser);
-                }
-                $arrResponse = array('estatus' => true, 'msg' => 'Se completó correctamente la inscripción.');
+                if(count($arrAlumnos) <= $num_max_alumno){
+                    foreach ($arrAlumnos as $key => $alumno) {
+                        $idPersona = $alumno;
+                        $response = $this->model->insertInscripcion($idPersona,$idSalonCompuesto,$this->idUser);
+                    }
+                    $arrResponse = array('estatus' => true, 'msg' => 'Se completó correctamente la inscripción.');
+                }else{
+                    $arrResponse = array('estatus' => false, 'msg' => 'El numero maximo de alumnos admitidas es '.$num_max_alumno.'.');
+                } 
             }else{
                 $arrResponse = array('estatus' => false, 'msg' => 'Al menos selecciona un alumno.');
             }
