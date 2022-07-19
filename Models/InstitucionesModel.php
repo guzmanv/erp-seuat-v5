@@ -89,8 +89,13 @@
 					logo_institucion,cve_centro_trabajo,cedula_funcionamiento,cve_institucion_dgp,estatus,fecha_creacion,id_usuario_creacion, 
 					id_sistemas_educativos,id_planteles) VALUES(?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?)";
 			    	$requestNew = $this->insert($sqlNew,array($nombreInstitucion,$abreviacionInstitucion,$regimen,$servicio,$categoria,$zonaEscolar,$nombreImagenInstitucion,$claveCentroTrabajo,$cedulaFuncionamiento,$cveInstitucionDGP,$estatus,$idUser,$idSistemaEducativo,$idPlantel));
-					$request['estatus'] = FALSE;
-					$request['imagen'] = true;
+                    if($requestNew){
+                        $request['estatus'] = FALSE;
+                        $request['imagen'] = true;
+                    }else{
+                        $request['estatus'] = FALSE;
+                        $request['imagen'] = false; 
+                    }
             	}else{
 					$request['estatus'] = FALSE;
 					$request['imagen'] = false;

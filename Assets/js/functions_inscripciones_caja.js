@@ -63,8 +63,8 @@ function fnMostrarInscripcionesDatatable(datos){
                 {"data":"ap_paterno"},
                 {"data":"ap_materno"},
                 {"data":"is_edo_cta"},
-                {"data":"aplica_desc_ins"},
                 {"data":"aplica_desc_coleg"},
+                {"data":"aplica_desc_ins"},
                 {"data":"options"}
             ],
             "responsive": true,
