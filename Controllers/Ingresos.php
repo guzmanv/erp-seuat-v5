@@ -50,7 +50,7 @@
         // Funcion para obtener Servicios por Tipo de pago
         public function getServicios($valor){
             $valor = explode(',',$valor);
-            $pago = $valor[1];
+            /* $pago = $valor[1];
             $grado = $valor[0];
             $idPersona = $valor[2];
             if($pago == 1){ //Colegiaturas
@@ -93,8 +93,8 @@
                     $arrDataServ = $this->model->selectServicios($idPersona,$grado);
                     $arrData['data'] = $arrDataServ;
                 }
-            }
-            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            } */
+            echo json_encode($valor,JSON_UNESCAPED_UNICODE);
             die();
         }
         //Funcion para obtener promociones por Id del Servicio

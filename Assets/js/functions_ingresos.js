@@ -63,6 +63,7 @@ function fnServicios(grado,tipoCobro){
         url = `${base_url}/Ingresos/getServicios/${grado}/${tipoCobro}/${idPersonaSeleccionada}`;
         fetch(url).then(res => res.json()).then((resultado) => {
             arrServiciosTodos = resultado.data;
+            console.log(arrServiciosTodos)
             document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";
             if(resultado.tipo == "COL"){
                 if(resultado.data.length > 0){
