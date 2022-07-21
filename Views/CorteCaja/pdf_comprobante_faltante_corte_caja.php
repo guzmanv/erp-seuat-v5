@@ -109,16 +109,16 @@ $datosPlantel = $data['plantel'];
         <div class="c_encabezado">
             <table class="sin_borde">
                 <tr>
-                    <!-- <th colspan="5" style="font-size:18px;font-weight: bold; text-align: left;"><?php echo(strtoupper($datosPlantel['nombre_sistema'])) ?></th> -->
+                    <th colspan="5" style="font-size:18px;font-weight: bold; text-align: left;"><?php echo(strtoupper($datosPlantel['nombre_sistema'])) ?></th>
                 </tr>
                 <tr>
                     <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;"><?php  echo(strtoupper($datosPlantel['nombre_plantel_fisico'])) ?><br><br></th>
                 </tr>
                 <tr>
                     <td colspan="5" style="padding-top: -15px; font-size: 8px; text-align: left;">
-                        <?php echo $datosPlantel['categoria'] ?><br>
-                        CLAVE: <?php echo $datosPlantel['cve_centro_trabajo'] ?><br>
-                        <?php echo $datosPlantel['domicilio'].','.$datosPlantel['colonia'].','.$datosPlantel['municipio'].','.$datosPlantel['estado'].', Mexico, CP:'.$datosPlantel['cod_postal'] ?>
+                        <!-- <?php echo $datosPlantel['categoria'] ?><br> -->
+                        <!-- CLAVE: <?php echo $datosPlantel['cve_centro_trabajo'] ?><br> -->
+                        <?php echo $datosPlantel['domicilio'].', '.$datosPlantel['colonia'].', '.$datosPlantel['municipio'].', '.$datosPlantel['estado'].', Mexico, CP: '.$datosPlantel['cod_postal'] ?>
                         <br><br>
                     </td>
                 </tr>

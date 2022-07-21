@@ -135,7 +135,15 @@
 			$data['total_sistema'] = $total_sistema;
 			$data['faltante'] = $faltante;
 			$data['sobrante'] = $sobrante;
-			$this->views->getView($this,'viewpdf_comprobante_faltante_corte_caja',$data);s
+			$this->views->getView($this,'viewpdf_comprobante_faltante_corte_caja',$data);
 		}
+
+		public function imprimir_corte_caja($args){
+			$arrArgs = explode(',',$args);
+            $idCorteCaja = base64_decode($arrArgs[0]);
+
+			$data['datosCorte'] = $this->model->selectDatosCorte($idCorteCaja);
+		}
+
 	}
 ?>
