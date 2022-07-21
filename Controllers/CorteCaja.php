@@ -135,7 +135,7 @@
 			$data['total_sistema'] = $total_sistema;
 			$data['faltante'] = $faltante;
 			$data['sobrante'] = $sobrante;
-			$this->views->getView($this,'viewpdf_comprobante_faltante_corte_caja',$data);
+			$this->views->getView($this,'viewpdf_comprobante_faltante_corte_caja',$data);s
 		}
 	}
 ?>
