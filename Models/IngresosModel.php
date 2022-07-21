@@ -33,7 +33,7 @@
         }
         //Obtener lista de Servicios
         public function selectServicios(int $idPersona, int $idGrado){
-            $sqlSerEdoCta = "SELECT ec.id AS id_edo_cta,p.id AS id_precarga,s.nombre_servicio,s.precio_unitario,cs.colegiatura FROM t_estado_cuenta AS ec
+            $sqlSerEdoCta = "SELECT ec.id AS id_edo_cta,p.id AS id_precarga,s.nombre_servicio,s.id AS id_servicio,s.precio_unitario,cs.colegiatura FROM t_estado_cuenta AS ec
             INNER JOIN t_precarga AS p ON ec.id_precarga = p.id
             INNER JOIN t_servicios AS s ON p.id_servicios = s.id
             INNER JOIN t_categoria_servicios AS cs ON s.id_categoria_servicios = cs.id
