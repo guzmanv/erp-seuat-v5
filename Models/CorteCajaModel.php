@@ -129,15 +129,32 @@
         // }
 
         public function selectPlantelUsuaurio(int $idUser){
-            $sql = "SELECT tcc.id,tu.id,tu.nickname,tp.nombre_persona,tpla.nombre_plantel_fisico,tpla.folio_identificador
+            $sql = "SELECT tcc.id,tu.id,tu.nickname,tp.nombre_persona,tse.nombre_sistema,tpla.nombre_plantel_fisico,tpla.folio_identificador,tpla.domicilio,
+                            tpla.colonia,tpla.municipio,tpla.estado,tpla.cod_postal
                     FROM t_corte_caja AS tcc
                     INNER JOIN t_cajas AS tc ON tcc.id_cajas = tc.id
                     INNER JOIN t_usuarios AS tu ON tc.id_usuario_atiende = tu.id
                     INNER JOIN t_personas AS tp ON tu.id_personas = tp.id
+                    INNER JOIN t_sistemas_educativos AS tse ON tc.id_sistemas_educativos = tse.id
                     INNER JOIN t_planteles AS tpla ON tc.id_planteles = tpla.id
                     WHERE tu.id  = $idUser";
             $request = $this->select($sql);
             return $request;
         }
+
+        public function selectDatosCorte(int $idCorteCaja){
+            $sql = "SELECT tcc.id,tu.id,tu.nickname,tp.nombre_persona,tse.nombre_sistema,tpla.nombre_plantel_fisico,tpla.folio_identificador,tpla.domicilio,
+            tpla.colonia,tpla.municipio,tpla.estado,tpla.cod_postal
+            FROM t_corte_caja AS tcc
+            INNER JOIN t_cajas AS tc ON tcc.id_cajas = tc.id
+            INNER JOIN t_usuarios AS tu ON tc.id_usuario_atiende = tu.id
+            INNER JOIN t_personas AS tp ON tu.id_personas = tp.id
+            INNER JOIN t_sistemas_educativos AS tse ON tc.id_sistemas_educativos = tse.id
+            INNER JOIN t_planteles AS tpla ON tc.id_planteles = tpla.id
+			WHERE ec.id_personas = $idCorteCaja";
+			$request = $this->select_all($sql);
+			return $request;
+        }
+
 	}
 ?>  

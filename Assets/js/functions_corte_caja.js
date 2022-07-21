@@ -11,6 +11,8 @@ let arrTotales = [];
 let arrNuevasInscripciones = [];
 let time = 0;
 
+let idCorteCajaSelecionado;
+
 function fnSelectCajero(value){
     if(value == ''){
         swal.fire("Atención","Selecciona una caja/cajero","warning");
@@ -238,29 +240,35 @@ function fnRealizarCorte(){
 }
 
 //IMPRIMIR COMPROBANTE DE CORTE
-function imprimirCorte(value){
-    //console.log("imprimiendo");
-    Swal.fire({
-        title: 'Imprimir?',
-        text: "Desea imprimir el comprobante del corte" +value+ "?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si Imprimir!',
-        cancelButtonText: 'No',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire(
-                'Exito!',
-                'Comprobante generado correctamente.',
-                'success'
-            )
-            let url = `${base_url}/HistorialCorteCajas/imprimir_comprobante_corte/${convStrToBase64(value)}`;
-            window.open(url,'_blank');
-        }
-    })
-}
+// function imprimirCorte(value,idHistorial){
+//     //console.log("imprimiendo");
+//     Swal.fire({
+//         title: 'Imprimir?',
+//         text: "Desea imprimir el comprobante del corte" +idHistorial+ "?",
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonColor: '#3085d6',
+//         cancelButtonColor: '#d33',
+//         confirmButtonText: 'Si Imprimir!',
+//         cancelButtonText: 'No',
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             Swal.fire(
+//                 'Exito!',
+//                 'Comprobante generado correctamente.',
+//                 'success'
+//             )
+//             let url = `${base_url}/HistorialCorteCajas/reimprimir_comprobante_corte/${convStrToBase64(idHistorial)}`;
+//             window.open(url,'_blank');
+//         }
+//     })
+// }
+
+btnImprimirCorteCaja.addEventListener('click',function(){
+    // let url = `${base_url}/ConsultasIngresosEgresos/imprimir_edo_cta/${convStrToBase64(matriculaRFAlumno)}/${convStrToBase64(idAlumnoSeleccionado)}`;
+    let url = `${base_url}/CorteCaja/imprimir_corte_caja/${convStrToBase64(idCorteCajaSelecionado)}`;
+    window.open(url,'_blank');
+})
 
 //Function para convertir un string  a  Formato Base64
 function convStrToBase64(str){
