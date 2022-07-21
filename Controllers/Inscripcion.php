@@ -92,7 +92,8 @@
             $arrArgs = explode(",",$args);
             $idSalonCompuesto = $arrArgs[0];
             $arrAlumnos = json_decode(base64_decode($arrArgs[1]));
-            $num_max_alumno = 2;
+            $arrSalonCompuesto = $this->model->selectSalonCompuesto($idSalonCompuesto);
+            $num_max_alumno = $arrSalonCompuesto['cantidad_max_estudiantes'];
             if(count($arrAlumnos) > 0){
                 if(count($arrAlumnos) <= $num_max_alumno){
                     foreach ($arrAlumnos as $key => $alumno) {

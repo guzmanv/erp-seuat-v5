@@ -107,6 +107,16 @@
             $request = $this->select_all($sql);
             return $request;
         }
+
+        public function selectSalonCompuesto(int $id)
+        {
+            $sql = "SELECT tsc.id AS id_salon_compuesto,tsc.id_salones,ts.cantidad_max_estudiantes  FROM t_salones_compuesto AS tsc
+            INNER JOIN t_salones AS ts ON tsc.id_salones = ts.id 
+            WHERE tsc.id = $id AND tsc.estatus = 1 LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
+
         public function insertInscripcion(int $idPersona,int $idSalonCompuesto,int $idUser)
         {
             $sql = "UPDATE t_inscripciones SET id_salones_compuesto = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id_personas = $idPersona";
