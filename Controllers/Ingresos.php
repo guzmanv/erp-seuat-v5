@@ -85,7 +85,7 @@
                             if($idServicio == $idServicioInscripcion){
                                 $arrDataServ[$i] = array_merge($arrDataServ[$i],$arrDataTemp);
                             }
-                        }
+                        } 
                     }
                     $arrData['data'] = $arrDataServ;
                     

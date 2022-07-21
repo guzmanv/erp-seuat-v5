@@ -511,13 +511,12 @@ function btnCobrarCmbio(){
         total += subtotal;
     });
     totalDesc = total - (total * (descuentoPorc/100));
-
     let intEfectivo = document.querySelector('#txtEfectivo').value;
 
     if(intEfectivo == ''){
         swal.fire("Atención","Inserte la cantidad de efectivo","warning");
         return false;
-    }else if(parseInt(intEfectivo) < total){
+    }else if(parseInt(intEfectivo) < totalDesc){
         swal.fire("Atención","La cantidad insertada es menor que el total","warning");
         return false;
     }else{  
@@ -526,7 +525,7 @@ function btnCobrarCmbio(){
         let url = ` ${base_url}/Ingresos/setIngresos?idP=${idPersonaSeleccionada}&tipoP=${metodoPago}&tipoCom=${tipoComprobante}&observacion=${observaciones}&date=${jsonToString(arrServicios)}`
         fetch(url).then(res => res.json()).then((resultado) => {
             if(resultado.estatus){
-                let cambio = intEfectivo-total;
+                let cambio = intEfectivo-totalDesc;
                 swal.fire("Exito",`${resultado.msg}<br>Su cambio es de:<h1><b>${formatoMoneda(cambio.toFixed(2))}</b></h1>`,"success").then((result) =>{
                     if(result.isConfirmed){
                         window.open(`${base_url}/Ingresos/imprimir_comprobante_venta/${convStrToBase64(resultado.id)}`,'_blank');
