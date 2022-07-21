@@ -95,22 +95,47 @@
             return $request;
         }
 
+        // public function selectPlantelCajero(int $idUsuario){
+        //     $sql = "SELECT p.codigo_plantel FROM t_administrativo AS a
+        //     INNER JOIN t_planteles AS p ON a.id_plantel = p.id
+        //     WHERE a.id_usuario = $idUsuario LIMIT 1";
+        //     $request = $this->select($sql);
+        //     return $request;
+        // }
+
         public function selectPlantelCajero(int $idUsuario){
-            $sql = "SELECT p.codigo_plantel FROM t_administrativo AS a
-            INNER JOIN t_planteles AS p ON a.id_plantel = p.id
-            WHERE a.id_usuario = $idUsuario LIMIT 1";
+            $sql = "SELECT tcc.id,tu.id,tu.nickname,tp.nombre_persona,tpla.nombre_plantel_fisico,tpla.folio_identificador
+                    FROM t_corte_caja AS tcc
+                    INNER JOIN t_cajas AS tc ON tcc.id_cajas = tc.id
+                    INNER JOIN t_usuarios AS tu ON tc.id_usuario_atiende = tu.id
+                    INNER JOIN t_personas AS tp ON tu.id_personas = tp.id
+                    INNER JOIN t_planteles AS tpla ON tc.id_planteles = tpla.id
+                    WHERE tu.id = $idUsuario LIMIT 1";
             $request = $this->select($sql);
             return $request;
         }
+
         public function insertDineroCaja($id_corte_caja,$faltante,$sobrante,$id_user,$comentario){
             $sql = "INSERT INTO t_dinero_caja(dinero_sobrante,dinero_faltante,fecha_sobrante_faltante,fecha_reembolso_faltante,estatus,fecha_creacion,id_usuario_creacion,id_corte_caja,observacion) VALUES(?,?,NOW(),NOW(),?,NOW(),?,?,?)";
             $request = $this->insert($sql,array($sobrante,$faltante,1,$id_user,$id_corte_caja,$comentario));
             return $request;
         }
+        // public function selectPlantelUsuaurio(int $idUser){
+        //     $sql = "SELECT *FROM t_administrativo AS a
+        //     INNER JOIN t_planteles AS p ON a.id_plantel = p.id
+        //     WHERE a.id_usuario = $idUser";
+        //     $request = $this->select($sql);
+        //     return $request;
+        // }
+
         public function selectPlantelUsuaurio(int $idUser){
-            $sql = "SELECT *FROM t_administrativo AS a
-            INNER JOIN t_planteles AS p ON a.id_plantel = p.id
-            WHERE a.id_usuario = $idUser";
+            $sql = "SELECT tcc.id,tu.id,tu.nickname,tp.nombre_persona,tpla.nombre_plantel_fisico,tpla.folio_identificador
+                    FROM t_corte_caja AS tcc
+                    INNER JOIN t_cajas AS tc ON tcc.id_cajas = tc.id
+                    INNER JOIN t_usuarios AS tu ON tc.id_usuario_atiende = tu.id
+                    INNER JOIN t_personas AS tp ON tu.id_personas = tp.id
+                    INNER JOIN t_planteles AS tpla ON tc.id_planteles = tpla.id
+                    WHERE tu.id  = $idUser";
             $request = $this->select($sql);
             return $request;
         }
