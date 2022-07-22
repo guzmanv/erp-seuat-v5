@@ -138,12 +138,26 @@
 			$this->views->getView($this,'viewpdf_comprobante_faltante_corte_caja',$data);
 		}
 
-		public function imprimir_corte_caja($args){
-			$arrArgs = explode(',',$args);
-            $idCorteCaja = base64_decode($arrArgs[0]);
-
+		public function imprimir_comprobante_corte(string $idCorte){
+			$idCorteCaja = $this->reverse64($idCorte);
 			$data['datosCorte'] = $this->model->selectDatosCorte($idCorteCaja);
+
+			$this->views->getView($this,"viewpdf_compromante_corte",$data);
 		}
+
+		// public function imprimir_corte_caja($args){
+		// 	$arrArgs = explode(',',$args);
+        //     $idCorteCaja = base64_decode($arrArgs[0]);
+
+		// 	$data['datosCorte'] = $this->model->selectDatosCorte($idCorteCaja);
+
+		// 	$this->views->getView($this,'viewpdf_comprobante_corte_caja',$data);
+		// }
+
+		//Funcion para convertir base64 a Array
+        private function reverse64($arr){
+            return base64_decode($arr);
+        }
 
 	}
 ?>
