@@ -59,4 +59,12 @@ class RenovacionBecasModel extends Mysql{
         $request = $this->select($sql);
         return $request;
     }
+
+    public function selectMontos(int $idPlan, int $idPeriodo){
+        $sql = "select pr.id, pr.cobro_total, sr.nombre_servicio, pr.id_plan_estudios, pr.id_grados 
+        from t_precarga pr inner join t_servicios sr on pr.id_servicios = sr.id 
+        where id_plan_estudios = $idPlan and id_periodos = $idPeriodo;";
+        $request = $this->select_all($sql);
+        return $request;
+    }
 }
