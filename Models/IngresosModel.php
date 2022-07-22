@@ -21,7 +21,7 @@
             LEFT JOIN t_salones_compuesto AS sal ON ins.id_salones_compuesto = sal.id
             LEFT JOIN t_grados AS gr ON ins.id_grados = gr.id
             LEFT JOIN t_grupos AS grup ON sal.id_grupos = grup.id
-            WHERE CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) LIKE '%$data%'";
+            WHERE CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) LIKE '%$data%' AND ins.estatus = 1";
             $request = $this->select_all($sql);
             return $request;
         }
