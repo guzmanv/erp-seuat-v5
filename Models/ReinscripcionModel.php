@@ -186,5 +186,27 @@
             $request = $this->select($sql);
             return $request;
         }
+
+        public function selectServiciosReinscripcion(int $idCarrera,int $idPeriodo, int $idGrado)
+        {
+            $sql = "SELECT p.id AS id_precarga FROM t_precarga AS p
+            INNER JOIN t_servicios AS s ON p.id_servicios = s.id
+            WHERE s.aplica_edo_cuenta = 1 AND s.estatus = 1 AND p.id_plan_estudios = $idCarrera AND p.id_periodos = $idPeriodo AND p.id_grados = $idGrado";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+
+        public function selectPeriodoAlumno(int $idSalonCompuesto)
+        {
+            $sql = "SELECT *FROM t_salones_compuesto WHERE estatus = 1 AND id = $idSalonCompuesto";
+            $request = $this->select($sql);
+            return $request;
+        }
+        public function insertEstadoCuenta(int $idUser,int $idPrecarga,int $idPersona)
+        {
+            $sqlEdoCta = "INSERT INTO t_estado_cuenta(pagado,estatus,id_usuario_creacion,fecha_creacion,id_precarga,id_personas) VALUES(?,?,?,NOW(),?,?)";
+            $requestEdoCta = $this->insert($sqlEdoCta,array(0,1,$idUser,$idPrecarga,$idPersona));
+            return $requestEdoCta;
+        }
 	}
 ?>
