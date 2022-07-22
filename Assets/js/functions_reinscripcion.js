@@ -285,7 +285,8 @@ function fnVerEstudiantes(plantel,institucion,planestudios,grado,grupo)
             response.forEach(element => {
                 gradoInscritoActual = element.numero_natural;
                 grupoInscritoActual = element.nombre_grupo;
-                rows += '<tr><th><input type="checkbox" id="'+element.id_personas+'" t="'+element.id_tutores+'" d="'+element.id_documentos+'" s="'+element.id_subcampanias+'" h="'+element.id_historial+'" i="'+element.id+'" aria-label="Checkbox for following text input"></th><th scope="row">'+element.numeracion+'</th><td>'+element.nombre_persona+'</td><td>'+element.ap_paterno+' '+element.ap_materno+'</td><td>'+element.promedio+'</td><td>'+element.aprobado+'</td></tr>';
+                let isDisabled = (element.disabled)?'disabled':'';
+                rows += '<tr><th><input type="checkbox" id="'+element.id_personas+'" t="'+element.id_tutores+'" d="'+element.id_documentos+'" s="'+element.id_subcampanias+'" h="'+element.id_historial+'" i="'+element.id+'" '+isDisabled+'></th><th scope="row">'+element.numeracion+'</th><td>'+element.nombre_persona+'</td><td>'+element.ap_paterno+' '+element.ap_materno+'</td><td>'+element.promedio+'</td><td>'+element.aprobado+'</td></tr>';
             });
             document.querySelector("#table_alumnos_inscritos").innerHTML = rows;
             fnSetGradoGrupoActual();

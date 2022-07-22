@@ -59,27 +59,36 @@
             $idPlanEstudio = $arrArgs[2];
             $idSalonCompuesto = $arrArgs[3];
             $idGrado = $arrArgs[4];
-            if(count($arrAlumnos)>0){
-                foreach ($arrAlumnos as $key => $value) {
-                    $folio = $this->selectFolioConsecutivo($this->idPlantel);
-                    $idPersona = $value->id_persona;
-                    $idTutor = $value->id_tutor;
-                    $idDocumentos = $value->id_documentos;
-                    $idHistorial = $value->id_historial;
-                    $idSubcampania = $value->id_subcampania;
-                    $idInscripcion = $value->id_inscripcion;
-                    $arrResponse = $this->model->insertReinscripcion($folio,$this->idUser,$idTurno,$idPlanEstudio,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalonCompuesto,$idHistorial,$idGrado);
-                    if($arrResponse){
-                        $responseUpInscripcin = $this->model->updateInscripcionEstatus($idInscripcion,$this->idUser);
-                        if($responseUpInscripcin){
-                            $arrResponse = array('estatus' => true, 'msg' => 'Reinscripcion realizada correctamente');
-                        }else{
-                            $arrResponse = array('estatus' => false, 'msg' => 'No se pudo actualizar la inscripcion');
+            $idPeriodo = $this->model->selectPeriodoAlumno($idSalonCompuesto)['id_periodos'];
+            $arrServicios = $this->model->selectServiciosReinscripcion($idPlanEstudio,$idPeriodo,$idGrado);
+            if(count($arrServicios) > 0){
+                if(count($arrAlumnos)>0){
+                    foreach ($arrAlumnos as $key => $value) {
+                        $folio = $this->selectFolioConsecutivo($this->idPlantel);
+                        $idPersona = $value->id_persona;
+                        $idTutor = $value->id_tutor;
+                        $idDocumentos = $value->id_documentos;
+                        $idHistorial = $value->id_historial;
+                        $idSubcampania = $value->id_subcampania;
+                        $idInscripcion = $value->id_inscripcion;
+                        foreach ($arrServicios as $keyS => $valueS) {
+                            $this->model->insertEstadoCuenta($this->idUser,$valueS['id_precarga'],$idPersona);
                         }
-                    }else{
-                        $arrResponse = array('estatus' => false, 'msg' => 'No se pudo realizar la reinscripcion');
-                    }
-                }   
+                        $arrResponse = $this->model->insertReinscripcion($folio,$this->idUser,$idTurno,$idPlanEstudio,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalonCompuesto,$idHistorial,$idGrado);
+                        if($arrResponse){
+                            $responseUpInscripcin = $this->model->updateInscripcionEstatus($idInscripcion,$this->idUser);
+                            if($responseUpInscripcin){
+                                $arrResponse = array('estatus' => true, 'msg' => 'Reinscripcion realizada correctamente');
+                            }else{
+                                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo actualizar la inscripcion');
+                            }
+                        }else{
+                            $arrResponse = array('estatus' => false, 'msg' => 'No se pudo realizar la reinscripcion');
+                        }
+                    }   
+                }
+            }else{
+                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo realizar la reinscripcion porque no hay servicios cargados para el periodo seleccionado');
             }
             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             die();
@@ -172,6 +181,7 @@
             for($i = 0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 $arrData[$i]['aprobado'] = ($arrData[$i]['promedio'] > 6)?"<span class='badge badge-success'>Aprobado</span>":"<span class='badge badge-danger'>Reprobado</span>";
+                $arrData[$i]['disabled'] = ($arrData[$i]['promedio'] > 6)?false:true;
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
@@ -203,5 +213,7 @@
             //var_dump($data);
             $this->views->getView($this,"viewpdf",$data); 
         }
+
+        
 	}
 ?>
