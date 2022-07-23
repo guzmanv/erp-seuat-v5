@@ -211,7 +211,7 @@ function fnRealizarCorte(){
           }).then((result) => {
             if (result.isConfirmed) {
               fetch(url).then(res => res.json()).then((resultado) =>{
-                    if(resultado.estatus){
+                if(resultado.estatus){
                     window.open(`${base_url}/CorteCaja/imprimir_comprobante_faltante/${idCaja}/${idCorteCaja}/${convToBase64(arrCorte)}/${cantidad}/${cajero}/${faltante}/${sobrante}`, '_blank');
                     Swal.fire('Exito!',resultado.msg,'success').then((result) =>{
                         window.location.href = `${base_url}/Ingresos`;

@@ -21,7 +21,7 @@
             return $request;
         }
         public function selectCaja(int $idCaja){
-            $sql = "SELECT c.id,c.nombre,ec.estatus_caja,cc.id AS id_corte_caja,cc.fechayhora_apertura_caja,cc.fechayhora_cierre_caja FROM t_cajas AS c 
+            $sql = "SELECT c.id,c.nombre,ec.estatus_caja,cc.id AS id_corte_caja,cc.fechayhora_apertura_caja,cc.fechayhora_cierre_caja,c.id_planteles FROM t_cajas AS c 
             INNER JOIN t_estatus_caja AS ec ON ec.id_caja = c.id
             RIGHT JOIN t_corte_caja AS cc ON cc.id_cajas = c.id
             WHERE c.id = $idCaja ORDER BY cc.fechayhora_apertura_caja DESC";
@@ -95,13 +95,12 @@
             return $request;
         }
 
-        // public function selectPlantelCajero(int $idUsuario){
-        //     $sql = "SELECT p.codigo_plantel FROM t_administrativo AS a
-        //     INNER JOIN t_planteles AS p ON a.id_plantel = p.id
-        //     WHERE a.id_usuario = $idUsuario LIMIT 1";
-        //     $request = $this->select($sql);
-        //     return $request;
-        // }
+        public function selectPlantel(int $id)
+        {
+            $sql = "SELECT *FROM t_planteles WHERE estatus = 1  AND id = $id LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
 
         public function selectPlantelCajero(int $idUsuario){
             $sql = "SELECT tcc.id,tu.id,tu.nickname,tp.nombre_persona,tpla.nombre_plantel_fisico,tpla.folio_identificador
