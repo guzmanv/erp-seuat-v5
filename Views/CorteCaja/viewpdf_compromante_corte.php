@@ -4,7 +4,7 @@
     use Dompdf\Options;
     $dompdf = new Dompdf();
     ob_start();
-    include "pdf_comprobante_comprobante_corte_caja.php";
+    include "pdf_comprobante_corte_caja.php";
     $html = ob_get_clean();
     $options = new Options();
     $options->set('isRemoteEnabled', TRUE);

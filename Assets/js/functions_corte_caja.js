@@ -17,6 +17,7 @@ function fnSelectCajero(value){
         return false;
     }
     let id_caja = value;
+    // console.log(id_caja)
     total = 0;
     totalSCaja = 0;
     arrTotales = [];
@@ -230,10 +231,11 @@ function fnRealizarCorte(){
                 Swal.fire('Exito!',resultado.msg,'success').then((result) =>{
                     // window.location.href = `${base_url}/Ingresos`;
                     if(result.isConfirmed){
-                        window.open(`${base_url}/CorteCaja/imprimir_comprobante_corte/${convStrToBase64(resultado.id)}`,'_blank');
+                        window.open(`${base_url}/CorteCaja/imprimir_comprobante_corte/${convStrToBase64(idCaja)}`,'_blank');
                         // $('#cerrarModalCobrar').click();
                         $('#modalCorteCaja').modal('hide')
-                        window.location.href = `${base_url}/Ingresos`;
+                        console.log(idCaja)
+                        // window.location.href = `${base_url}/Ingresos`;
                         // arrServicios = [];
                         // mostrarServiciosTabla();
                     }

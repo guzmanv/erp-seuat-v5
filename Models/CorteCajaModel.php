@@ -141,8 +141,8 @@
             return $request;
         }
 
-        public function selectDatosCorte(string $idCorteCaja){
-            $sql = "SELECT tcc.id,tcc.folio,tcc.cantidad_entregada,tcc.cantidad_recibida,tp.nombre_plantel_fisico,CONCAT(tp.domicilio,
+        public function selectDatosCaja(int $idCaja){
+            $sql = "SELECT tcc.id,tc.id,tcc.folio,tcc.cantidad_entregada,tcc.cantidad_recibida,tp.nombre_plantel_fisico,CONCAT(tp.domicilio,
                     ', ',tp.localidad) AS domiciLocaliPlantel,tp.cod_postal,tse.nombre_sistema,tc.nombre AS nombreCaja,tcc.fechayhora_apertura_caja,tcc.fechayhora_cierre_caja,
                     tdc.dinero_sobrante,tdc.dinero_faltante,CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nomCajero
                     FROM t_corte_caja AS tcc
@@ -152,8 +152,7 @@
                     INNER JOIN t_dinero_caja AS tdc ON tdc.id_corte_caja = tcc.id
                     INNER JOIN t_usuarios AS tu ON tcc.id_usuario_entrega = tu.id
                     INNER JOIN t_personas AS per ON tu.id_personas = per.id
-                    ";
-                    // WHERE tcc.id = $idHistorialCorte LIMIT 1
+                    WHERE tc.id = $idCaja LIMIT 1";
             $request = $this->select($sql);
             return $request;
         }
