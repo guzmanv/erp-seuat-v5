@@ -84,12 +84,12 @@
 			$faltante = $array[5];
 			$sobrante = $array[6];
 			$comentario = $datos->observaciones;
-
-			//$codigo_plantel = $this->model->selectPlantelCajero($this->idUser);  //Checar
-            $codigo_plantel = "TGZ";
-			$consecFolio = $this->model->sigFoliocorte($codigo_plantel);
+			$idPlantel = $this->model->selectCaja($id_caja)['id_planteles'];
+			$folioIdentificadorPlantel = $this->model->selectPlantel($idPlantel)['folio_identificador'];
+			
+			$consecFolio = $this->model->sigFoliocorte($folioIdentificadorPlantel);
 			$nuevoFolio = $consecFolio['num_folios']+1;
-            $nuevoFolioConsecutivo = $codigo_plantel.'CC'.date("mY").substr(str_repeat(0,4).$nuevoFolio,-4);
+            $nuevoFolioConsecutivo = $folioIdentificadorPlantel.'CC'.date("mY").substr(str_repeat(0,4).$nuevoFolio,-4);
 			$resCorteCaja = $this->model->updateCorteCaja($nuevoFolioConsecutivo,$id_corte_caja,$total_entregada,$this->idUser,$id_usuario_recibe['id_usuario_atiende'],$comentario);
 			if($resCorteCaja){
 				$resStatuscaja = $this->model->updateStatusCaja($id_caja,$total_entregada);
@@ -138,12 +138,26 @@
 			$this->views->getView($this,'viewpdf_comprobante_faltante_corte_caja',$data);
 		}
 
-		public function imprimir_corte_caja($args){
-			$arrArgs = explode(',',$args);
-            $idCorteCaja = base64_decode($arrArgs[0]);
-
+		public function imprimir_comprobante_corte(string $idCorte){
+			$idCorteCaja = $this->reverse64($idCorte);
 			$data['datosCorte'] = $this->model->selectDatosCorte($idCorteCaja);
+
+			$this->views->getView($this,"viewpdf_compromante_corte",$data);
 		}
+
+		// public function imprimir_corte_caja($args){
+		// 	$arrArgs = explode(',',$args);
+        //     $idCorteCaja = base64_decode($arrArgs[0]);
+
+		// 	$data['datosCorte'] = $this->model->selectDatosCorte($idCorteCaja);
+
+		// 	$this->views->getView($this,'viewpdf_comprobante_corte_caja',$data);
+		// }
+
+		//Funcion para convertir base64 a Array
+        private function reverse64($arr){
+            return base64_decode($arr);
+        }
 
 	}
 ?>

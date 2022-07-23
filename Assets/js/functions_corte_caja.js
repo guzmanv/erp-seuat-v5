@@ -11,8 +11,6 @@ let arrTotales = [];
 let arrNuevasInscripciones = [];
 let time = 0;
 
-let idCorteCajaSelecionado;
-
 function fnSelectCajero(value){
     if(value == ''){
         swal.fire("Atención","Selecciona una caja/cajero","warning");
@@ -213,7 +211,7 @@ function fnRealizarCorte(){
           }).then((result) => {
             if (result.isConfirmed) {
               fetch(url).then(res => res.json()).then((resultado) =>{
-                    if(resultado.estatus){
+                if(resultado.estatus){
                     window.open(`${base_url}/CorteCaja/imprimir_comprobante_faltante/${idCaja}/${idCorteCaja}/${convToBase64(arrCorte)}/${cantidad}/${cajero}/${faltante}/${sobrante}`, '_blank');
                     Swal.fire('Exito!',resultado.msg,'success').then((result) =>{
                         window.location.href = `${base_url}/Ingresos`;
@@ -227,10 +225,18 @@ function fnRealizarCorte(){
           return false;
     }else{
         fetch(url).then(res => res.json()).then((resultado) =>{
-            console.log(resultado);
+            // console.log(resultado);
             if(resultado.estatus){
                 Swal.fire('Exito!',resultado.msg,'success').then((result) =>{
-                    window.location.href = `${base_url}/Ingresos`;
+                    // window.location.href = `${base_url}/Ingresos`;
+                    if(result.isConfirmed){
+                        window.open(`${base_url}/CorteCaja/imprimir_comprobante_corte/${convStrToBase64(resultado.id)}`,'_blank');
+                        // $('#cerrarModalCobrar').click();
+                        $('#modalCorteCaja').modal('hide')
+                        window.location.href = `${base_url}/Ingresos`;
+                        // arrServicios = [];
+                        // mostrarServiciosTabla();
+                    }
                 })
             }else{
                 Swal.fire('Error!',resultado.msg,'error');
@@ -238,37 +244,6 @@ function fnRealizarCorte(){
         }).catch(err => {throw err});
     }
 }
-
-//IMPRIMIR COMPROBANTE DE CORTE
-// function imprimirCorte(value,idHistorial){
-//     //console.log("imprimiendo");
-//     Swal.fire({
-//         title: 'Imprimir?',
-//         text: "Desea imprimir el comprobante del corte" +idHistorial+ "?",
-//         icon: 'warning',
-//         showCancelButton: true,
-//         confirmButtonColor: '#3085d6',
-//         cancelButtonColor: '#d33',
-//         confirmButtonText: 'Si Imprimir!',
-//         cancelButtonText: 'No',
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             Swal.fire(
-//                 'Exito!',
-//                 'Comprobante generado correctamente.',
-//                 'success'
-//             )
-//             let url = `${base_url}/HistorialCorteCajas/reimprimir_comprobante_corte/${convStrToBase64(idHistorial)}`;
-//             window.open(url,'_blank');
-//         }
-//     })
-// }
-
-btnImprimirCorteCaja.addEventListener('click',function(){
-    // let url = `${base_url}/ConsultasIngresosEgresos/imprimir_edo_cta/${convStrToBase64(matriculaRFAlumno)}/${convStrToBase64(idAlumnoSeleccionado)}`;
-    let url = `${base_url}/CorteCaja/imprimir_corte_caja/${convStrToBase64(idCorteCajaSelecionado)}`;
-    window.open(url,'_blank');
-})
 
 //Function para convertir un string  a  Formato Base64
 function convStrToBase64(str){

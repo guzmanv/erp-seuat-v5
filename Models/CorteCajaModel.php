@@ -21,7 +21,7 @@
             return $request;
         }
         public function selectCaja(int $idCaja){
-            $sql = "SELECT c.id,c.nombre,ec.estatus_caja,cc.id AS id_corte_caja,cc.fechayhora_apertura_caja,cc.fechayhora_cierre_caja FROM t_cajas AS c 
+            $sql = "SELECT c.id,c.nombre,ec.estatus_caja,cc.id AS id_corte_caja,cc.fechayhora_apertura_caja,cc.fechayhora_cierre_caja,c.id_planteles FROM t_cajas AS c 
             INNER JOIN t_estatus_caja AS ec ON ec.id_caja = c.id
             RIGHT JOIN t_corte_caja AS cc ON cc.id_cajas = c.id
             WHERE c.id = $idCaja ORDER BY cc.fechayhora_apertura_caja DESC";
@@ -95,13 +95,12 @@
             return $request;
         }
 
-        // public function selectPlantelCajero(int $idUsuario){
-        //     $sql = "SELECT p.codigo_plantel FROM t_administrativo AS a
-        //     INNER JOIN t_planteles AS p ON a.id_plantel = p.id
-        //     WHERE a.id_usuario = $idUsuario LIMIT 1";
-        //     $request = $this->select($sql);
-        //     return $request;
-        // }
+        public function selectPlantel(int $id)
+        {
+            $sql = "SELECT *FROM t_planteles WHERE estatus = 1  AND id = $id LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
 
         public function selectPlantelCajero(int $idUsuario){
             $sql = "SELECT tcc.id,tu.id,tu.nickname,tp.nombre_persona,tpla.nombre_plantel_fisico,tpla.folio_identificador
@@ -142,18 +141,21 @@
             return $request;
         }
 
-        public function selectDatosCorte(int $idCorteCaja){
-            $sql = "SELECT tcc.id,tu.id,tu.nickname,tp.nombre_persona,tse.nombre_sistema,tpla.nombre_plantel_fisico,tpla.folio_identificador,tpla.domicilio,
-            tpla.colonia,tpla.municipio,tpla.estado,tpla.cod_postal
-            FROM t_corte_caja AS tcc
-            INNER JOIN t_cajas AS tc ON tcc.id_cajas = tc.id
-            INNER JOIN t_usuarios AS tu ON tc.id_usuario_atiende = tu.id
-            INNER JOIN t_personas AS tp ON tu.id_personas = tp.id
-            INNER JOIN t_sistemas_educativos AS tse ON tc.id_sistemas_educativos = tse.id
-            INNER JOIN t_planteles AS tpla ON tc.id_planteles = tpla.id
-			WHERE ec.id_personas = $idCorteCaja";
-			$request = $this->select_all($sql);
-			return $request;
+        public function selectDatosCorte(string $idCorteCaja){
+            $sql = "SELECT tcc.id,tcc.folio,tcc.cantidad_entregada,tcc.cantidad_recibida,tp.nombre_plantel_fisico,CONCAT(tp.domicilio,
+                    ', ',tp.localidad) AS domiciLocaliPlantel,tp.cod_postal,tse.nombre_sistema,tc.nombre AS nombreCaja,tcc.fechayhora_apertura_caja,tcc.fechayhora_cierre_caja,
+                    tdc.dinero_sobrante,tdc.dinero_faltante,CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nomCajero
+                    FROM t_corte_caja AS tcc
+                    INNER JOIN t_cajas AS tc ON tcc.id_cajas = tc.id
+                    INNER JOIN t_planteles AS tp ON tc.id_planteles = tp.id
+                    INNER JOIN t_sistemas_educativos AS tse ON tc.id_sistemas_educativos = tse.id
+                    INNER JOIN t_dinero_caja AS tdc ON tdc.id_corte_caja = tcc.id
+                    INNER JOIN t_usuarios AS tu ON tcc.id_usuario_entrega = tu.id
+                    INNER JOIN t_personas AS per ON tu.id_personas = per.id
+                    ";
+                    // WHERE tcc.id = $idHistorialCorte LIMIT 1
+            $request = $this->select($sql);
+            return $request;
         }
 
 	}
