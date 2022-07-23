@@ -138,9 +138,26 @@
 			$this->views->getView($this,'viewpdf_comprobante_faltante_corte_caja',$data);
 		}
 
-		public function imprimir_comprobante_corte(string $idCaja){
-			$idCaja = $this->reverse64($idCaja);
-			$data['datosCaja'] = $this->model->selectDatosCaja($idCaja);
+		public function imprimir_comprobante_corte($arr){
+			// $idCaja = $this->reverse64($idCaja);
+			// $data['datosCaja'] = $this->model->selectDatosCaja($idCaja);
+			$arrayValue = explode(',',$arr);
+			$data['plantel'] = $this->model->selectPlantelUsuaurio($this->idUser);
+			$totales= json_decode(base64_decode($arrayValue[2]));
+			$total_caja = 0;
+			$total_sistema = 0;
+			$cajero = $arrayValue[3];
+			$faltante = $arrayValue[5];
+			$sobrante = $arrayValue[6];
+			foreach ($totales->totales as $key => $value) {
+				$total_caja += $value->total_caja;
+				$total_sistema += $value->total;
+			}
+			$data['nomCajero'] = $cajero;
+			$data['total_caja'] = $total_caja;
+			$data['total_sistema'] = $total_sistema;
+			$data['faltante'] = $faltante;
+			$data['sobrante'] = $sobrante;
 
 			$this->views->getView($this,"viewpdf_compromante_corte",$data);
 		}

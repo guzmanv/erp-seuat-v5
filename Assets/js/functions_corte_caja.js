@@ -231,10 +231,10 @@ function fnRealizarCorte(){
                 Swal.fire('Exito!',resultado.msg,'success').then((result) =>{
                     // window.location.href = `${base_url}/Ingresos`;
                     if(result.isConfirmed){
-                        window.open(`${base_url}/CorteCaja/imprimir_comprobante_corte/${convStrToBase64(idCaja)}`,'_blank');
+                        window.open(`${base_url}/CorteCaja/imprimir_comprobante_corte/${idCaja}/${idCorteCaja}/${convStrToBase64(arrCorte)}/${cantidad}/${cajero}/${faltante}/${sobrante}`,'_blank');
                         // $('#cerrarModalCobrar').click();
                         $('#modalCorteCaja').modal('hide')
-                        console.log(idCaja)
+                        // console.log(idCaja)
                         // window.location.href = `${base_url}/Ingresos`;
                         // arrServicios = [];
                         // mostrarServiciosTabla();
