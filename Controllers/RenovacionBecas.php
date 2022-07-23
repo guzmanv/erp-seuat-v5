@@ -49,12 +49,11 @@ class RenovacionBecas extends Controllers{
                 if($data['datosEstudiante']['id_periodos'] == $data['datosBeca']['id_periodos']){
                     if($data['datosEstudiante']['promedio'] == $data['datosBeca']['promedio']){
                         $data['montos'] = $this->model->selectMontos($data['datosBeca']['id_plan_estudios'],$data['datosBeca']['id_periodos']);
-                        
-                        for ($i=0; $i < count($data['montos']) ; $i++) {
-                            $data[$i]['montos']['monto_descuento'] = ($data[$i]['montos']['cobro_total']*$data['datosBeca']['porcentaje_descuento'])/100;
-                            //$montos = ($data[$i]['montos']['cobro_total'] * $data['datosBeca']['porcentaje_descuento']) / 100;
-                            //$data['monto_con_descuentos']['montodescontado'] = ($data[$i]['montos']['cobro_total'] * $data['datosBeca']['porcentaje_descuento']) / 100;
+                        $arrDescuentos = [];
+                        for ($i=0; $i < count($data['montos']); $i++) { 
+                            array_push($arrDescuentos,($data['montos'][$i]['cobro_total']*$data['datosBeca']['porcentaje_descuento'])/100);
                         }
+                        $data['total_descuento'] = $arrDescuentos;
                     }
                 }
             }

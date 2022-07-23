@@ -61,9 +61,11 @@ class RenovacionBecasModel extends Mysql{
     }
 
     public function selectMontos(int $idPlan, int $idPeriodo){
-        $sql = "select pr.id, pr.cobro_total, sr.nombre_servicio, pr.id_plan_estudios, pr.id_grados 
-        from t_precarga pr inner join t_servicios sr on pr.id_servicios = sr.id 
-        where id_plan_estudios = $idPlan and id_periodos = $idPeriodo;";
+        $sql = "SELECT pr.id as id_precarga, pr.id_servicios, pr.cobro_total, sr.nombre_servicio, pr.id_periodos, id_plan_estudios
+        FROM t_precarga as pr 
+        INNER JOIN t_servicios as sr on pr.id_servicios = sr.id
+        INNER JOIN t_categoria_servicios as ct_sr on sr.id_categoria_servicios = ct_sr.id 
+        WHERE ct_sr.clave_categoria = 'COL' AND id_plan_estudios = $idPlan AND id_periodos = $idPeriodo";
         $request = $this->select_all($sql);
         return $request;
     }
