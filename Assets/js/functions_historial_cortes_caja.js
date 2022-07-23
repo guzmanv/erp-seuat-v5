@@ -1,10 +1,13 @@
 document.querySelector('#ver_todas_notificaciones').textContent = "Ver todas las inscripciones";
 document.querySelector('#ver_todas_notificaciones').href = `${base_url}/Ingresos/inscripciones`;
+let formSaldarFaltantes = document.querySelector("#form-saldar-faltante");
+let divLoading = document.querySelector("#divLoading");
+let tableHistorialCorteCaja = "";
 let arrNuevasInscripciones = [];
 let time = 0;
 
 document.addEventListener('DOMContentLoaded', function(){
-    var tableHistorialCorteCaja = $('#tableHistorialCorteCajas').dataTable( {
+        tableHistorialCorteCaja = $('#tableHistorialCorteCajas').dataTable( {
         "aProcessing":true,
         "aServerSide":true,
         "language": {
@@ -115,6 +118,61 @@ function fnReimprimirComprobanteVenta(value,idHistorial){
     })
 }
 
+function fnSaldarFaltantes(value)
+{
+    let idCorteCaja = value;
+    let url = `${base_url}/HistorialCorteCajas/getDatosSaldarFaltante/${idCorteCaja}`;
+    fetch(url).then((res) => res.json()).then(response =>{
+        if(response){
+            document.querySelector("#id-dinero-caja").value = response.id_dinero_caja;
+            document.querySelector("#txt-nombre-caja").value = response.nombre;
+            document.querySelector("#txt-recibido-por").value = response.nombre_persona_recibe;
+            document.querySelector("#txt-entregado-por").value = response.nombre_persona_entrega;
+            document.querySelector("#txt-cantidad-faltante").innerHTML = formatoMoneda(response.dinero_faltante);
+        }
+    }).catch(err =>{throw err});
+}
+
+formSaldarFaltantes.onsubmit = function(e){
+    e.preventDefault();
+    Swal.fire({
+        title: 'Saldar faltante?',
+        text: "Desea saldar el faltante de dinero del corte seleccionado?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, saldar!',
+        cancelButtonText: 'No',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            divLoading.style.display = "flex";
+            var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            var ajaxUrl = base_url+'/HistorialCorteCajas/setSaldarFaltante';
+            var formData = new FormData(formSaldarFaltantes);
+            request.open("POST",ajaxUrl,true);
+            request.send(formData);
+            request.onreadystatechange = function() {
+                if(request.readyState == 4 && request.status == 200) {
+                    var objData = JSON.parse(request.responseText);
+                    if(objData.estatus){
+                        swal.fire("Exito!",objData.msg,"success").then((result) =>{
+                            $('.close').click();
+                        });
+                        tableHistorialCorteCaja.api().ajax.reload();  
+                    }else{
+                        swal.fire("Estado de cuenta",resultado.msg,"warning");
+                    }
+                }
+                divLoading.style.display = "none";
+                return false;
+            }
+        }else{
+            $('.close').click();
+        }
+    })
+    
+}
 //Function para convertir un string  a  Formato Base64
 function convStrToBase64(str){
     return window.btoa(unescape(encodeURIComponent( str ))); 

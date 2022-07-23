@@ -29,6 +29,7 @@
 				//$arrData[$i]['plantel'] = $arrData[$i]['nombre_plantel'].'/'.$arrData[$i]['municipio'];
 				//$arrData[$i]['nom_plantel'] = conexiones[$arrData[$i]['plantel']]['NAME'];
 				$arrData[$i]['faltante'] = ($arrData[$i]['dinero_faltante'] > 0)?'<span class="badge badge-danger">'.'$'.formatoMoneda($arrData[$i]['dinero_faltante']).'</span>':'$ '.formatoMoneda($arrData[$i]['dinero_faltante']);
+				$arrData[$i]['isDisabled'] = ($arrData[$i]['dinero_faltante'] > 0)?'':'disabled';
 				$arrData[$i]['sobrante'] = ($arrData[$i]['dinero_sobrante'] > 0)?'<span class="badge badge-warning">'.'$'.formatoMoneda($arrData[$i]['dinero_sobrante']).'</span>':'$ '.formatoMoneda($arrData[$i]['dinero_sobrante']);
 				
 				$arrData[$i]['options'] = '<div class="text-center">
@@ -38,7 +39,7 @@
 					</button>
 					<div class="dropdown-menu">
 						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal datosPersonalesVerficar" onClick="fnReimprimirComprobanteVenta(this,'.$arrData[$i]['id'].')" data-toggle="modal" data-target="#ModalFormEditPersona" title="Datos Personales"> &nbsp;&nbsp; <i class="far fa-address-book"></i> &nbsp Reimprimir</button>
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal editTutor" onclick="fnEditTutor(this)" data-toggle="modal" data-target="#ModalFormEditTutor" title="Tutor"> &nbsp;&nbsp; <i class="fas fa-user-friends"></i> &nbsp;Saldar faltantes</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal editTutor" onclick="fnSaldarFaltantes('.$arrData[$i]['id'].')" data-toggle="modal" data-target="#modal-saldar-faltante" title="Tutor" '.$arrData[$i]['isDisabled'].'> &nbsp;&nbsp; <i class="fas fa-user-friends"></i> &nbsp;Saldar faltantes</button>
 						<div class="dropdown-divider"></div>
 					</div>
 				</div>
@@ -57,6 +58,27 @@
 			$this->views->getView($this,"viewpdf_compromante_corte_caja",$data);
 		}
 
+		public function getDatosSaldarFaltante(int $idCorte)
+		{
+			$arrData = $this->model->selectSaldarFaltante($idCorte);
+			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+			die();
+		}
+
+		public function setSaldarFaltante()
+		{
+			$datos = $_POST;
+			$idCorteCaja = $datos['id-dinero-caja'];
+			$arrResponse = $this->model->updateSaldarFaltante($idCorteCaja,$this->idUser);
+			if($arrResponse)
+			{
+				$response = array('estatus' => true, 'msg' => 'Faltante reembolsado correctamente');
+			}else{
+				$response = array('estatus' => false, 'msg' => 'No es posible Guardar los Datos');
+			}
+			echo json_encode($response,JSON_UNESCAPED_UNICODE);
+			die();
+		}
 		//Funcion para convertir base64 a Array
         private function reverse64($arr){
             return base64_decode($arr);

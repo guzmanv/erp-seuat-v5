@@ -1,5 +1,6 @@
 <?php
     headerAdmin($data);
+    getModal('HistorialCorteCajas/modalSaldarFaltante',$data); 
 
 ?>
 <div id="contentAjax"></div>
