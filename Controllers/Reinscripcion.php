@@ -177,11 +177,12 @@
             $idPlanEstudio = $arrArgs[2];
             $idGrado = $arrArgs[3];
             $idGrupo = $arrArgs[4];
+            $calificacionMinima = $this->model->selectPlanEstudio($idPlanEstudio)['calificacion_minima'];
             $arrData = $this->model->selectAlumnosInscritos($idPlantel,$idInstitucion,$idPlanEstudio,$idGrado,$idGrupo);
             for($i = 0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
-                $arrData[$i]['aprobado'] = ($arrData[$i]['promedio'] > 6)?"<span class='badge badge-success'>Aprobado</span>":"<span class='badge badge-danger'>Reprobado</span>";
-                $arrData[$i]['disabled'] = ($arrData[$i]['promedio'] > 6)?false:true;
+                $arrData[$i]['aprobado'] = ($arrData[$i]['promedio'] > $calificacionMinima)?"<span class='badge badge-success'>Aprobado</span>":"<span class='badge badge-danger'>Reprobado</span>";
+                $arrData[$i]['disabled'] = ($arrData[$i]['promedio'] > $calificacionMinima)?false:true;
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();

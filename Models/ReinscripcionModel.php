@@ -208,5 +208,12 @@
             $requestEdoCta = $this->insert($sqlEdoCta,array(0,1,$idUser,$idPrecarga,$idPersona));
             return $requestEdoCta;
         }
+
+        public function selectPlanEstudio(int $id)
+        {
+            $sql = "SELECT *FROM t_plan_estudios WHERE estatus = 1 AND id = $id LIMIT 1";
+            $request = $this->select($sql);
+            return $request;
+        }
 	}
 ?>
