@@ -128,7 +128,7 @@
         // }
 
         public function selectPlantelUsuaurio(int $idUser){
-            $sql = "SELECT tcc.id,tu.id,tu.nickname,tp.nombre_persona,tse.nombre_sistema,tpla.nombre_plantel_fisico,tpla.folio_identificador,tpla.domicilio,
+            $sql = "SELECT tcc.id,tu.id,tu.nickname,CONCAT(tp.nombre_persona,' ',tp.ap_paterno,' ',tp.ap_materno) AS nomPer,tse.nombre_sistema,tpla.nombre_plantel_fisico,tpla.folio_identificador,tpla.domicilio,
                             tpla.colonia,tpla.municipio,tpla.estado,tpla.cod_postal
                     FROM t_corte_caja AS tcc
                     INNER JOIN t_cajas AS tc ON tcc.id_cajas = tc.id

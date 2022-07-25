@@ -215,6 +215,9 @@ function fnRealizarCorte(){
                 if(resultado.estatus){
                     window.open(`${base_url}/CorteCaja/imprimir_comprobante_faltante/${idCaja}/${idCorteCaja}/${convToBase64(arrCorte)}/${cantidad}/${cajero}/${faltante}/${sobrante}`, '_blank');
                     Swal.fire('Exito!',resultado.msg,'success').then((result) =>{
+                        if(result.isConfirmed){
+                            window.open(`${base_url}/CorteCaja/imprimir_comprobante_corte/${idCaja}/${idCorteCaja}/${convStrToBase64(arrCorte)}/${cantidad}/${cajero}/${faltante}/${sobrante}`,'_blank');
+                        }
                         window.location.href = `${base_url}/Ingresos`;
                     })
                 }else{
@@ -226,18 +229,12 @@ function fnRealizarCorte(){
           return false;
     }else{
         fetch(url).then(res => res.json()).then((resultado) =>{
-            // console.log(resultado);
             if(resultado.estatus){
                 Swal.fire('Exito!',resultado.msg,'success').then((result) =>{
-                    // window.location.href = `${base_url}/Ingresos`;
                     if(result.isConfirmed){
                         window.open(`${base_url}/CorteCaja/imprimir_comprobante_corte/${idCaja}/${idCorteCaja}/${convStrToBase64(arrCorte)}/${cantidad}/${cajero}/${faltante}/${sobrante}`,'_blank');
-                        // $('#cerrarModalCobrar').click();
                         $('#modalCorteCaja').modal('hide')
-                        // console.log(idCaja)
                         // window.location.href = `${base_url}/Ingresos`;
-                        // arrServicios = [];
-                        // mostrarServiciosTabla();
                     }
                 })
             }else{
