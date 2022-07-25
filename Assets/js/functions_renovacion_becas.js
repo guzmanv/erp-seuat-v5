@@ -79,10 +79,11 @@ function fnRatificar(idIns)
     let grado = document.querySelector('#lblGradoAsig');
     let direccionEst = document.querySelector('#direccion_estudianteAsig');
     let nombreTutor = document.querySelector('#nombre_tutorAsig');
-    //let direccionTutor = document.querySelector('#direccionAsig');
+    let direccionTutor = document.querySelector('#direccionTutor');
     let telefonoFijo = document.querySelector('#telefonoFijoAsig');
     let telefonoCel = document.querySelector('#telefonoCelAsig');
     let promedioAsig = document.querySelector('#promedioAsig');
+    let porcentajeSug = document.querySelector('#montoSug');
     fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -91,9 +92,11 @@ function fnRatificar(idIns)
             grado.textContent = data.datosEstudiante.nombre_grado;
             direccionEst.textContent = data.datosEstudiante.direccion_estudiante;
             nombreTutor.textContent = data.datosEstudiante.nombre_tutor;
+            direccionTutor.textContent = data.datosEstudiante.direccion_tutor;
             telefonoFijo.textContent = data.datosEstudiante.tel_fijo;
             telefonoCel.textContent = data.datosEstudiante.tel_celular;
             promedioAsig.textContent = data.datosEstudiante.promedio;
+            porcentajeSug.textContent = data.datosBeca.porcentaje_descuento;
         })
 
 }
