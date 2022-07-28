@@ -32,6 +32,7 @@ function fnSelectCajero(value){
                 document.querySelector('#num_caja').value = resultado.nombre;
                 document.querySelector('#dateCorteDesde').value = resultado.fechayhora_apertura_caja;
                 document.querySelector('#dateCorteHasta').value = resultado.fechayhora_actual;
+                document.querySelector('#fondoRecibido').value = resultado.cantidad_recibida;
                 fnTotalesMetodosPago(id_caja,resultado.fechayhora_apertura_caja);
             }else{
                 Swal.fire({
@@ -189,6 +190,11 @@ function gnGuardarCorte(){
 function fnRealizarCorte(){
     let cantidad = document.querySelector('#txtCantidadEntregar').value;
     let cajero = document.querySelector('#listCajeros').value;
+    let fechaAperturaDesde = document.getElementById("dateCorteDesde").value;
+    let fechaCorteHasta = document.getElementById("dateCorteHasta").value;
+    let nombreCaja = document.getElementById("num_caja").value;
+    let fondoRecibido = document.getElementById("fondoRecibido").value;
+    // document.getElementById("fechaAperturaDesde").innerHTML = fechaAperturaDesde;
     let arrCorte = [];
     let observacion = document.querySelector('#observaciones').value;
     arrCorte = {'totales':arrTotales,'observaciones':observacion,'id_corte_caja':idCorteCaja,'id_caja':idCaja};
@@ -198,7 +204,7 @@ function fnRealizarCorte(){
         swal.fire("Atención","Todos los datos son obligatorios","warning");
         return false;
     }
-    let url = `${base_url}/CorteCaja/setCorteCaja/${idCaja}/${idCorteCaja}/${convToBase64(arrCorte)}/${cantidad}/${cajero}/${faltante}/${sobrante}`;
+    let url = `${base_url}/CorteCaja/setCorteCaja/${idCaja}/${idCorteCaja}/${convToBase64(arrCorte)}/${cantidad}/${cajero}/${faltante}/${sobrante}/${fechaAperturaDesde}/${fechaCorteHasta}/${nombreCaja}`;
     if(faltante != 0){
         Swal.fire({
             title: 'Realizar corte?',
@@ -216,7 +222,7 @@ function fnRealizarCorte(){
                     window.open(`${base_url}/CorteCaja/imprimir_comprobante_faltante/${idCaja}/${idCorteCaja}/${convToBase64(arrCorte)}/${cantidad}/${cajero}/${faltante}/${sobrante}`, '_blank');
                     Swal.fire('Exito!',resultado.msg,'success').then((result) =>{
                         if(result.isConfirmed){
-                            window.open(`${base_url}/CorteCaja/imprimir_comprobante_corte/${idCaja}/${idCorteCaja}/${convStrToBase64(arrCorte)}/${cantidad}/${cajero}/${faltante}/${sobrante}`,'_blank');
+                            window.open(`${base_url}/CorteCaja/imprimir_comprobante_corte/${idCaja}/${idCorteCaja}/${convStrToBase64(arrCorte)}/${cantidad}/${cajero}/${faltante}/${sobrante}/${fechaAperturaDesde}/${fechaCorteHasta}/${nombreCaja}/${fondoRecibido}`,'_blank');
                         }
                         window.location.href = `${base_url}/Ingresos`;
                     })
@@ -232,7 +238,7 @@ function fnRealizarCorte(){
             if(resultado.estatus){
                 Swal.fire('Exito!',resultado.msg,'success').then((result) =>{
                     if(result.isConfirmed){
-                        window.open(`${base_url}/CorteCaja/imprimir_comprobante_corte/${idCaja}/${idCorteCaja}/${convStrToBase64(arrCorte)}/${cantidad}/${cajero}/${faltante}/${sobrante}`,'_blank');
+                        window.open(`${base_url}/CorteCaja/imprimir_comprobante_corte/${idCaja}/${idCorteCaja}/${convStrToBase64(arrCorte)}/${cantidad}/${cajero}/${faltante}/${sobrante}/${fechaAperturaDesde}/${fechaCorteHasta}/${nombreCaja}/${fondoRecibido}`,'_blank');
                         $('#modalCorteCaja').modal('hide')
                         // window.location.href = `${base_url}/Ingresos`;
                     }

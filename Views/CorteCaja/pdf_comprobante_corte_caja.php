@@ -145,7 +145,7 @@ $datosPlantel = $data['plantel'];
                     <table>
                         <tr>
                             <td class="nomCaja">
-                                <b>CORTE DE: caja 1 </b>
+                                <b>CORTE DE: <?php echo(strtoupper($data['nombreCaja'])); ?> </b>
                             </td>
                         </tr>
                     </table>
@@ -179,11 +179,11 @@ $datosPlantel = $data['plantel'];
             </div>
             <div class="col-6" style="text-align:right">
                 <p><?php echo(strtoupper($data['plantel']['nomPer']))?></p>
-                <p><?php echo "Probando";?></p>
+                <p><?php echo '$ '.formatoMoneda($data['fondoRecibido']);?></p>
                 <p><?php echo '$ '.formatoMoneda($data['sobrante']);?></p>
                 <p><?php echo '$ '.formatoMoneda($data['faltante']);?></p>
-                <p><?php echo "Probando";?></p>
-                <p><?php echo "Probando";?></p>
+                <p><?php echo $data['fechaCorteDesde'];?></p>
+                <p><?php echo $data['fechaCorteHasta'];?></p>
             </div>
         </div>
     </section><br>

@@ -53,6 +53,8 @@
                                                             <input type="text" class="form-control" id="dateCorteDesde" placeholder="" value="" disabled>
                                                             <label>Hasta.</label>
                                                             <input type="text" class="form-control" id="dateCorteHasta" placeholder="" value="" disabled>
+                                                            <!-- <label>Fondo recibido</label> -->
+                                                            <input type="hidden" class="form-control" id="fondoRecibido" placeholder="" value="" disabled>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -146,14 +146,20 @@
 			$totales= json_decode(base64_decode($arrayValue[2]));
 			$total_caja = 0;
 			$total_sistema = 0;
-			$nuevoFolioConsecutivo = 0;
 			$faltante = $arrayValue[5];
 			$sobrante = $arrayValue[6];
+			$fechaAperturaDesde = $arrayValue[7];
+			$fechaCorteHasta = $arrayValue[8];
+			$nombreCaja = $arrayValue[9];
+			$fondoRecibido = $arrayValue[10];
 			foreach ($totales->totales as $key => $value) {
 				$total_caja += $value->total_caja;
 				$total_sistema += $value->total;
 			}
-			$data['folio'] = $nuevoFolioConsecutivo;
+			$data['fechaCorteDesde'] = $fechaAperturaDesde;
+			$data['fechaCorteHasta'] = $fechaCorteHasta;
+			$data['nombreCaja'] = $nombreCaja;
+			$data['fondoRecibido'] = $fondoRecibido;
 			$data['total_caja'] = $total_caja;
 			$data['total_sistema'] = $total_sistema;
 			$data['faltante'] = $faltante;

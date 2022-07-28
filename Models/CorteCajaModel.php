@@ -21,7 +21,8 @@
             return $request;
         }
         public function selectCaja(int $idCaja){
-            $sql = "SELECT c.id,c.nombre,ec.estatus_caja,cc.id AS id_corte_caja,cc.fechayhora_apertura_caja,cc.fechayhora_cierre_caja,c.id_planteles FROM t_cajas AS c 
+            $sql = "SELECT c.id,c.nombre,ec.estatus_caja,cc.id AS id_corte_caja,cc.fechayhora_apertura_caja,cc.fechayhora_cierre_caja,cc.cantidad_recibida,c.id_planteles 
+            FROM t_cajas AS c 
             INNER JOIN t_estatus_caja AS ec ON ec.id_caja = c.id
             RIGHT JOIN t_corte_caja AS cc ON cc.id_cajas = c.id
             WHERE c.id = $idCaja ORDER BY cc.fechayhora_apertura_caja DESC";
