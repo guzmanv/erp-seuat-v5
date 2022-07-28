@@ -103,7 +103,7 @@
             LEFT JOIN t_inscripciones AS ins ON ins.id_personas = per.id
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             LEFT JOIN t_prospectos AS pr ON pr.id_personas  = per.id
-            WHERE CONCAT(COALESCE(per.nombre_persona,''),' ',COALESCE(per.ap_paterno,''),' ',COALESCE(per.ap_materno,'')) LIKE '%$data%' AND pr.id  != '' AND pr.id_plantel_prospectado = $idPlantel";
+            WHERE CONCAT(COALESCE(per.nombre_persona,''),' ',COALESCE(per.ap_paterno,''),' ',COALESCE(per.ap_materno,'')) LIKE '%$data%' AND pr.id  != '' AND pr.id_plantel_prospectado = $idPlantel AND ins.id IS NULL";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -254,7 +254,7 @@
             tut.appat_tutor,tut.apmat_tutor,tut.tel_celular AS tel_celular_tutor,tut.tel_fijo AS tel_fijo_tutor,
             tut.email AS email_tutor,sis.nombre_sistema,inst.nombre_institucion,inst.categoria,
             inst.cve_centro_trabajo,CONCAT(plntel.domicilio,',',plntel.localidad,',',plntel.municipio,',',plntel.estado) AS ubicacion,
-            ins.id_grados,grad.nombre_grado,tur.hora_entrada,tur.hora_salida,peralum.nombre_empresa
+            ins.id_grados,grad.nombre_grado,tur.hora_entrada,tur.hora_salida,peralum.nombre_empresa,grad.numero_natural,te.nombre_escolaridad
             FROM t_inscripciones AS ins 
             INNER JOIN t_plan_estudios AS plnes ON ins.id_plan_estudios = plnes.id
             iNNER JOIN t_instituciones AS inst ON plnes.id_instituciones = inst.id
@@ -267,6 +267,7 @@
             INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
             INNER JOIN t_estados AS est ON mun.id_estados = est.id
             LEFT JOIN t_grados AS grad ON ins.id_grados = grad.id
+            LEFT JOIN t_escolaridad AS te ON peralum.id_escolaridad = te.id
             INNER JOIN t_turnos AS tur ON ins.id_turnos = tur.id
             WHERE ins.id = $idInscripcion LIMIT 1";
             $request = $this->select($sql);

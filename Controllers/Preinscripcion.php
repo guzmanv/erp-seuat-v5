@@ -116,11 +116,11 @@
             $arrData = $this->model->selectPersonasModal($data,$this->idPlantel);
             for($i = 0; $i <count($arrData); $i++){
                 if($arrData[$i]['id_inscripcion'] == null){
-                    $arrData[$i]['estatus'] = '<span class="badge badge-warning">No inscrito</span>';
+                    $arrData[$i]['estatus'] = '<span class="badge badge-warning">No preinscrito</span>';
                     $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-primary btn-sm" rl="'.$arrData[$i]['nombre'].'" onclick="seleccionarPersona(this)">Seleccionar</button>';
 
                 }else{
-                    $arrData[$i]['estatus'] = '<span class="badge badge-success">Inscrito</span>';
+                    $arrData[$i]['estatus'] = '<span class="badge badge-success">Preinscripción</span>';
                     $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-secondary btn-sm" rl="'.$arrData[$i]['nombre'].'" onclick="seleccionarPersona(this)" disabled>Seleccionar</button>';
 
                 }

@@ -60,7 +60,7 @@ function buscarPersona(){
         "scrollCollapse": true,
         "bDestroy": true,
         "order": [[ 0, "desc" ]],
-        "iDisplayLength": 5
+        "iDisplayLength": 10
     });
     $('#tablePersonas').DataTable();
 }
@@ -186,6 +186,7 @@ function fnNivelSeleccionado(nivel){
         let url = `${base_url}/Preinscripcion/getCarreras?nivel=${nivel}&idplantel=${idPlantelSeleccionado}`;
         fetch(url).then((res) => res.json()).then(resultado =>{
             if(resultado.length > 0){
+                listCarreras.innerHTML = '<option value="">Seleccionar una carrera</option>';
                 resultado.forEach(carrera => {
                     let option = document.createElement('option');
                     option.text = carrera.nombre_carrera;
@@ -754,4 +755,11 @@ function fnChckColegiaturas(value){
     }else{
         document.querySelector('#div_chck_colegiaturas').style.display = "none";
     } 
+}
+
+function fnBuscarPersonas()
+{
+    document.querySelector("#busquedaPersona").value = "";
+    $("#tablePersonas > tbody").html("");
+
 }
