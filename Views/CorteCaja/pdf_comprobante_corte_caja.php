@@ -221,7 +221,7 @@ $datosPlantel = $data['plantel'];
     
     <div class="footer">
         <p>
-            <small><br><i> Documento Impreso a <?php echo DATE('d-m-Y H:i:s') ?> por Jose Santiz Ruiz</i></small>
+            <small><br><i> Documento Impreso a <?php echo DATE('d-m-Y H:i:s') ?> por <?php echo $data['plantel']['nomPer']; ?></i></small>
         </p>
     </div>
 </html>

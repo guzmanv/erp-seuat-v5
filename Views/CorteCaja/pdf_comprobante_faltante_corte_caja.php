@@ -127,17 +127,17 @@ $datosPlantel = $data['plantel'];
                 </tr>
             </table>
         </div>
-        <div class="c_logo_right">
+        <!-- <div class="c_logo_right">
             <table class="sin_borde">
                 <tr style="background-color:#F2F2F2; ">
                     <th colspan="5" style="font-size:16px;font-weight: bold; text-align: right; vertical-align:middle; padding: 15px 7px 15px 5px">F:10225</th>
                 </tr>
             </table>
-        </div>
+        </div> -->
     </div>
     <div id="footer_pdf">
         <p>
-            <small><br><i> Documento Impreso el <?php echo DATE('d-m-Y H:i:s') ?> por Jose Santiz Ruiz</i></small>
+            <small><br><i> Documento Impreso el <?php echo DATE('d-m-Y H:i:s') ?> por <?php echo $data['plantel']['nomPer'] ?></i></small>
         </p>
     </div>
     <div id="content_pdf">
