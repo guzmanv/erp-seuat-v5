@@ -43,12 +43,24 @@ class RenovacionBecas extends Controllers{
         $intIdIns = $idInscripcion;
         if($intIdIns > 0)
         {
-            
             $data['datosEstudiante'] = $this->model->selectAlumnoAsignacion($intIdIns);
             $data['datosBeca'] = $this->model->selectBecaAsignar();
-            if($data['datosBeca'] >= $data['datosEstudiante'])
-            {
-
+            if($data['datosEstudiante']['id_plan_estudios'] == $data['datosBeca']['id_plan_estudios']){
+                if($data['datosEstudiante']['id_periodos'] == $data['datosBeca']['id_periodos']){
+                    if($data['datosEstudiante']['promedio'] >= $data['datosBeca']['promedio']){
+                        $data['datosBeca'];
+                    //if($data['datosBeca']['promedio'] >= $data['datosEstudiante']['promedio']){
+                        $data['montos'] = $this->model->selectMontos($data['datosBeca']['id_plan_estudios'],$data['datosBeca']['id_periodos']);
+                        $arrDescuentos = [];
+                        for ($i=0; $i < count($data['montos']); $i++) { 
+                            array_push($arrDescuentos,($data['montos'][$i]['cobro_total']*$data['datosBeca']['porcentaje_descuento'])/100);
+                        }
+                        $data['total_descuento'] = $arrDescuentos;
+                    }
+                    else{
+                        $data['resp'] = "No coincide el promedio con la beca";
+                    }
+                }
             }
         }
         echo json_encode($data,JSON_UNESCAPED_UNICODE);

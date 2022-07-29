@@ -30,7 +30,7 @@ class RenovacionBecasModel extends Mysql{
     public function selectAlumnoAsignacion($idIns)
     {
         $sql = "SELECT ins.id, slnco.id_periodos, pln.id as id_plan_estudios, pln.nombre_carrera, grd.nombre_grado, CONCAT(per.nombre_persona,' ',per.ap_paterno,' ', per.ap_materno) AS nombre_estudiante, 
-        per.direccion as direccion_estudiante, per.tel_fijo, per.tel_celular, CONCAT(tut.nombre_tutor,' ', tut.appat_tutor,' ', tut.apmat_tutor) as nombre_tutor, ins.id_tutores, ins.promedio
+        per.direccion as direccion_estudiante, per.tel_fijo, per.tel_celular, CONCAT(tut.nombre_tutor,' ', tut.appat_tutor,' ', tut.apmat_tutor) as nombre_tutor, tut.direccion as direccion_tutor, ins.id_tutores, ins.promedio
         FROM t_inscripciones ins
         INNER JOIN t_personas per ON per.id = ins.id_personas
         INNER JOIN t_plan_estudios pln ON pln.id = ins.id_plan_estudios
@@ -56,7 +56,17 @@ class RenovacionBecasModel extends Mysql{
     public function selectBecaAsignar()
     {
         $sql = "SELECT id, nombre_beca, promedio, porcentaje_descuento, id_periodos, id_plan_estudios, id_grados from t_becas";
-        $request = $this->select($sql);
+        $request = $this->select_all($sql);
+        return $request;
+    }
+
+    public function selectMontos(int $idPlan, int $idPeriodo){
+        $sql = "SELECT pr.id as id_precarga, pr.id_servicios, pr.cobro_total, sr.nombre_servicio, pr.id_periodos, id_plan_estudios
+        FROM t_precarga as pr 
+        INNER JOIN t_servicios as sr on pr.id_servicios = sr.id
+        INNER JOIN t_categoria_servicios as ct_sr on sr.id_categoria_servicios = ct_sr.id 
+        WHERE ct_sr.clave_categoria = 'COL' AND id_plan_estudios = $idPlan AND id_periodos = $idPeriodo";
+        $request = $this->select_all($sql);
         return $request;
     }
 }

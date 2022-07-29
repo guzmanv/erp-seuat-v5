@@ -47,21 +47,33 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Teléfono fijo</td>
+                                    <td><i class="fa fa-location-arrow" aria-hidden="true"></i> Dirección del tutor</td>
+                                    <td>
+                                        <span class="font-weight-bold text-success" id="direccionTutor"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-phone" aria-hidden="true"></i> Teléfono fijo</td>
                                     <td>
                                         <span class="font-weight-bold text-success" id="telefonoFijoAsig"></span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Télefono celular</td>
+                                    <td> <i class="fa fa-mobile" aria-hidden="true"></i> Télefono celular</td>
                                     <td>
                                         <span class="font-weight-bold text-success" id="telefonoCelAsig"></span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Promedio</td>
+                                    <td><i class="fa fa-list-ol" aria-hidden="true"></i> Promedio</td>
                                     <td>
                                         <span class="font-weight-bold text-success" id="promedioAsig"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-percent" aria-hidden="true"></i> Porcentaje de descuento sugerido</td>
+                                    <td>
+                                        <span class="font-weight-bold text-success" id="montoSug"></span>
                                     </td>
                                 </tr>
                                 <tr>
