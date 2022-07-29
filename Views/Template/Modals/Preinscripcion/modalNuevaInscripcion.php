@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header headerRegister">
-                <h5 class="modal-title" id="titleModalNuevo">Nueva Inscripcion</h5>
+                <h5 class="modal-title" id="titleModalNuevo">Nueva Preinscripción</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -28,7 +28,7 @@
                                                     <label>Nombre de la Persona</label>
                                                     <div class="row">
                                                         <div class="col-md-8"><input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control form-control-sm" placeholder="Nombre de la Persona"  name="" readonly required></div>
-                                                        <div class="col-md-4"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalNombrePersona"><i class="fa fa-search"></i> Buscar</button></div>
+                                                        <div class="col-md-4"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalNombrePersona" onclick="fnBuscarPersonas()"><i class="fa fa-search"></i> Buscar</button></div>
                                                     </div>    
                                                 </div>
                                             </div>
@@ -124,7 +124,7 @@
                                                     if(count($campanias) > 0){
                                                         $campania = array_shift($campanias);?>
                                                         <input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="<?php echo $campania['id_subcampania']?>">
-                                                        <p>Estas inscribiendo a la campania/subcampania&nbsp<span class="badge badge-warning nombrecampania"><?php echo($campania['nombre_campania'].'/'.$campania['nombre_sub_campania'])?></span>&nbsp 
+                                                        <p>Estas preinscribiendo a la campania/subcampania&nbsp<span class="badge badge-warning nombrecampania"><?php echo($campania['nombre_campania'].'/'.$campania['nombre_sub_campania'])?></span>&nbsp 
                                                             <button type="button" onclick="fnCambiarCamSubcampania()" class="btn btn-sm"><i class="fa fa-pencil-alt"></i></button>
                                                         </p>
                                                         <div class="col-md-8 row cambiarsubcampania">

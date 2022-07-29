@@ -56,10 +56,24 @@ formPersonaNueva.onsubmit = function(e){
     let txtObservacion = document.querySelector('#txtObservacion').value;
     let radioCaptacion = document.getElementsByName('radioMedios_captacion');
     let intPlantelPropectado = document.querySelector('#listPlantelProspectado').value;
+    let intEdad = document.querySelector("#txtEdadNuevo").value;
+    let fechaNacimiento = document.querySelector("#txtFechaNacimientONuevo").value;
     if (txtNombre == '' || txtAlias == '' || txtSexo == '' || txtMedioCaptacion == '' || txtLocalidad == '' || txtObservacion == '' || intPlantelPropectado == ''){
         swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
         return false;
     }
+    if(parseInt(intEdad) < 12){
+        swal.fire("Atención", "La edad mínima es 12 años", "warning");
+        return false;
+    }
+    if(fechaNacimiento != ''){
+        let edad = calcularEdad(fechaNacimiento);
+        if(parseInt(intEdad) != parseInt(edad)){
+            swal.fire("Atención", "La edad ingresada no coincide con la fecha de nacimiento ingresada", "warning");
+            return false;
+        }
+    }
+    
     divLoading.style.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Persona/setPersona';
@@ -355,10 +369,22 @@ var formEditPersona = document.querySelector("#formPersonaEdit");
         var strNombre = document.querySelector("#txtNombreEdit").value;
         var strAlias = document.querySelector("#txtAliasEdit").value;
         var strObservaciones = document.querySelector("#txtObservacionEdit").value;
-
+        let intEdad = document.querySelector("#txtEdadEdit").value;
+        let fechaNacimiento = document.querySelector("#txtFechaNacimientoEdit").value;
         if (intId == '' || strNombre == '' || strAlias == '' || strObservaciones == ''){
             swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
             return false;
+        }
+        if(parseInt(intEdad) < 12){
+            swal.fire("Atención", "La edad mínima es 12 años", "warning");
+            return false;
+        }
+        if(fechaNacimiento != ''){
+            let edad = calcularEdad(fechaNacimiento);
+            if(parseInt(intEdad) != parseInt(edad)){
+                swal.fire("Atención", "La edad ingresada no coincide con la fecha de nacimiento ingresada", "warning");
+                return false;
+            }
         }
         divLoading.style.display = "flex";
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -559,3 +585,15 @@ function validarNumeroInput(event){
     }
     return false;
   }
+
+  //Funcion para calcular Edad
+function calcularEdad(fecha_nacimiento) {
+    var hoy = new Date();
+    var cumpleanos = new Date(fecha_nacimiento);
+    var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+    var m = hoy.getMonth() - cumpleanos.getMonth();
+    if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+        edad--;
+    }
+    return edad;
+}

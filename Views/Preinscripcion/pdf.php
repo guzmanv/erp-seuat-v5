@@ -160,10 +160,10 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
             <div class="subfila" style="width: 63px; height: 21px; background-color: #fff; padding: 7px 2px 2px 0px; text-align: right; ">Duración:</div>
             <div class="subfila" style="width:219px; height: 12px; padding: 5px 2px 4px 4px; text-align: left; "><?php echo(strtoupper($data['datos']['duracion_carrera']))?></div>
         </div>
-        <?php if($data['datos']['grado'] != 1){?>
+        <?php if($data['datos']['numero_natural'] != 1){?>
             <div id="fila-normal">
                 <div class="subfila" style="width:246px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px; text-align: left; ">Por presentar estudios equivalentes se integra a:</div>
-                <div class="subfila" style="width:505px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php echo(strtoupper($data['datos']['grado']))?> cuatrimestre</div>
+                <div class="subfila" style="width:505px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php echo(strtoupper($data['datos']['numero_natural']))?> cuatrimestre</div>
             </div>
         <?php } ?>
         <div style="width:759px; font-size: 13px; letter-spacing: 0.2em; text-align: center; margin: 30px 0px 7px 0px; ">DATOS DEL SOLICITANTE</div>
