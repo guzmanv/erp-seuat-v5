@@ -250,8 +250,8 @@
                 $arrData[$i]['is_edo_cta'] = $edo_cta;
                 $disabledButton = ($edo_cta)?'disabled':'';
                 $arrData[$i]['is_edo_cta'] = ($edo_cta)?'<span class="badge badge-success">&nbsp&nbspSi&nbsp&nbsp</span>':'<span class="badge badge-danger">&nbsp&nbspNo&nbsp&nbsp</span>';
-                $arrData[$i]['aplica_desc_coleg'] = ($arrData[$i]['porcentaje_descuento_coleg'])?'<span class="badge badge-success">&nbsp&nbspSi&nbsp&nbsp</span>':'<span class="badge badge-danger"> No </span>'; 
-                $arrData[$i]['aplica_desc_ins'] = ($arrData[$i]['porcentaje_descuento_insc'])?'<span class="badge badge-success">&nbsp&nbspSi&nbsp&nbsp</span>':'<span class="badge badge-danger"> No </span>';
+                $arrData[$i]['aplica_desc_coleg'] = ($arrData[$i]['porcentaje_descuento_coleg'])?'<span class="badge badge-success">&nbsp&nbspSi&nbsp&nbsp</span>':'<span class="badge badge-danger">&nbsp&nbspNo&nbsp&nbsp</span>'; 
+                $arrData[$i]['aplica_desc_ins'] = ($arrData[$i]['porcentaje_descuento_insc'])?'<span class="badge badge-success">&nbsp&nbspSi&nbsp&nbsp</span>':'<span class="badge badge-danger">&nbsp&nbspNo&nbsp&nbsp</span>';
                 $arrData[$i]['options'] = '<button type="button" class="btn btn-primary btn-sm" onclick="fnGenerarEstadoCuenta('.$arrData[$i]['id_persona'].','.$arrData[$i]['id_tmp'].')" '.$disabledButton.'>Generar estado de cuenta</button>';
             }
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
