@@ -21,7 +21,8 @@
             return $request;
         }
         public function selectCaja(int $idCaja){
-            $sql = "SELECT c.id,c.nombre,ec.estatus_caja,cc.id AS id_corte_caja,cc.fechayhora_apertura_caja,cc.fechayhora_cierre_caja,c.id_planteles FROM t_cajas AS c 
+            $sql = "SELECT c.id,c.nombre,ec.estatus_caja,cc.id AS id_corte_caja,cc.fechayhora_apertura_caja,cc.fechayhora_cierre_caja,cc.cantidad_recibida,c.id_planteles 
+            FROM t_cajas AS c 
             INNER JOIN t_estatus_caja AS ec ON ec.id_caja = c.id
             RIGHT JOIN t_corte_caja AS cc ON cc.id_cajas = c.id
             WHERE c.id = $idCaja ORDER BY cc.fechayhora_apertura_caja DESC";
@@ -128,7 +129,7 @@
         // }
 
         public function selectPlantelUsuaurio(int $idUser){
-            $sql = "SELECT tcc.id,tu.id,tu.nickname,tp.nombre_persona,tse.nombre_sistema,tpla.nombre_plantel_fisico,tpla.folio_identificador,tpla.domicilio,
+            $sql = "SELECT tcc.id,tu.id,tu.nickname,CONCAT(tp.nombre_persona,' ',tp.ap_paterno,' ',tp.ap_materno) AS nomPer,tse.nombre_sistema,tpla.nombre_plantel_fisico,tpla.folio_identificador,tpla.domicilio,
                             tpla.colonia,tpla.municipio,tpla.estado,tpla.cod_postal
                     FROM t_corte_caja AS tcc
                     INNER JOIN t_cajas AS tc ON tcc.id_cajas = tc.id
@@ -141,8 +142,8 @@
             return $request;
         }
 
-        public function selectDatosCorte(string $idCorteCaja){
-            $sql = "SELECT tcc.id,tcc.folio,tcc.cantidad_entregada,tcc.cantidad_recibida,tp.nombre_plantel_fisico,CONCAT(tp.domicilio,
+        public function selectDatosCaja(int $idCaja){
+            $sql = "SELECT tcc.id,tc.id,tcc.folio,tcc.cantidad_entregada,tcc.cantidad_recibida,tp.nombre_plantel_fisico,CONCAT(tp.domicilio,
                     ', ',tp.localidad) AS domiciLocaliPlantel,tp.cod_postal,tse.nombre_sistema,tc.nombre AS nombreCaja,tcc.fechayhora_apertura_caja,tcc.fechayhora_cierre_caja,
                     tdc.dinero_sobrante,tdc.dinero_faltante,CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nomCajero
                     FROM t_corte_caja AS tcc
@@ -152,8 +153,7 @@
                     INNER JOIN t_dinero_caja AS tdc ON tdc.id_corte_caja = tcc.id
                     INNER JOIN t_usuarios AS tu ON tcc.id_usuario_entrega = tu.id
                     INNER JOIN t_personas AS per ON tu.id_personas = per.id
-                    ";
-                    // WHERE tcc.id = $idHistorialCorte LIMIT 1
+                    WHERE tc.id = $idCaja LIMIT 1";
             $request = $this->select($sql);
             return $request;
         }

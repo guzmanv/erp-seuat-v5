@@ -138,21 +138,35 @@
 			$this->views->getView($this,'viewpdf_comprobante_faltante_corte_caja',$data);
 		}
 
-		public function imprimir_comprobante_corte(string $idCorte){
-			$idCorteCaja = $this->reverse64($idCorte);
-			$data['datosCorte'] = $this->model->selectDatosCorte($idCorteCaja);
+		public function imprimir_comprobante_corte($arr){
+			// $idCaja = $this->reverse64($idCaja);
+			// $data['datosCaja'] = $this->model->selectDatosCaja($idCaja);
+			$arrayValue = explode(',',$arr);
+			$data['plantel'] = $this->model->selectPlantelUsuaurio($this->idUser);
+			$totales= json_decode(base64_decode($arrayValue[2]));
+			$total_caja = 0;
+			$total_sistema = 0;
+			$faltante = $arrayValue[5];
+			$sobrante = $arrayValue[6];
+			$fechaAperturaDesde = $arrayValue[7];
+			$fechaCorteHasta = $arrayValue[8];
+			$nombreCaja = $arrayValue[9];
+			$fondoRecibido = $arrayValue[10];
+			foreach ($totales->totales as $key => $value) {
+				$total_caja += $value->total_caja;
+				$total_sistema += $value->total;
+			}
+			$data['fechaCorteDesde'] = $fechaAperturaDesde;
+			$data['fechaCorteHasta'] = $fechaCorteHasta;
+			$data['nombreCaja'] = $nombreCaja;
+			$data['fondoRecibido'] = $fondoRecibido;
+			$data['total_caja'] = $total_caja;
+			$data['total_sistema'] = $total_sistema;
+			$data['faltante'] = $faltante;
+			$data['sobrante'] = $sobrante;
 
 			$this->views->getView($this,"viewpdf_compromante_corte",$data);
 		}
-
-		// public function imprimir_corte_caja($args){
-		// 	$arrArgs = explode(',',$args);
-        //     $idCorteCaja = base64_decode($arrArgs[0]);
-
-		// 	$data['datosCorte'] = $this->model->selectDatosCorte($idCorteCaja);
-
-		// 	$this->views->getView($this,'viewpdf_comprobante_corte_caja',$data);
-		// }
 
 		//Funcion para convertir base64 a Array
         private function reverse64($arr){
