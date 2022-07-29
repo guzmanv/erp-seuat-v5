@@ -3,6 +3,7 @@ let verEdoCta = document.querySelector("#btnVerEdoCta");
 let buscarAlumno = document.querySelector("#btnBuscarAlumno");
 let cardsEdoCta = document.querySelector('.card_dato_cta');
 let dataTableEdoCta = document.querySelector('#tableEstadoCuenta');
+let divLoading = document.querySelector("#divLoading");
 document.querySelector('#ver_todas_notificaciones').textContent = "Ver todas las inscripciones";
 document.querySelector('#ver_todas_notificaciones').href = `${base_url}/Ingresos/inscripciones`;
 let matriculaRFAlumno = "";
@@ -213,17 +214,40 @@ function fnReimprimirComprobante(value){
 }
 
 //Funcion para cancelar una Venta
-function fnCancelarVenta(value){
+function  fnCancelarVenta(value){
     Swal.fire({
         title: 'Cancelar?',
         text: "Desea cancelar al folio " +value.id+ " ?",
+        input:'textarea',
+        inputPlaceholder: 'Escribe un comentario...',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si!',
         cancelButtonText: 'No',
+    }).then((result) => {
+        if(result.isConfirmed){
+            if(result.value ==''){
+                swal.fire("Atención","No se puede dejar vacío el campo comentario","warning");
+            }else{
+                divLoading.style.display = "flex";
+                let url = `${base_url}/consultasIngresosEgresos/cancelarVenta/${value.id}/${result.value}`;
+                fetch(url).then((res) => res.json()).then(response =>{
+                    if(response.estatus){
+                        swal.fire("Exito!",response.msg,"success").then((result) =>{
+                            //$('.close').click();
+                        });
+                        dataTableEdoCta.api().ajax.reload();  
+                    }else{
+                        swal.fire("Mensaje",response.msg,"warning");
+                    }
+                    divLoading.style.display = "none";
+                }).catch(err =>{throw err});
+            }
+        }
     })
+    
 }
 //Function para dar formato un numero a Moneda
 function formatoMoneda(numero){

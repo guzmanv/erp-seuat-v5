@@ -214,6 +214,7 @@
                 return $array[1].'/'.$anio[0];
             }else{ return $str;}
         }
+
         protected function estadoCuenta($matriculaRFC,$idAlum){
             $idAlumno = null;
             if($matriculaRFC != 'null'){
@@ -285,6 +286,32 @@
 				</div>';
             }
             return $datos;
+        }
+
+        public function cancelarVenta($params)
+        {
+            $arrParams = explode(",",$params);
+            $folio = $arrParams[0];
+            $comentario = $arrParams[1];
+            $arrServiciosCobrados = $this->model->selectServiciosCobrados($folio);
+            $responseUpIngreso = $this->model->updateIngresoEstatus($folio,$comentario,$this->idUser);
+            if($responseUpIngreso){
+                if(count($arrServiciosCobrados) > 0){
+                    foreach ($arrServiciosCobrados as $key => $value) {
+                        $idIngresos = $value['id_ingresos'];
+                        $idPrecarga = $value['id_precarga'];
+                        $idPersona = $value['id_persona_paga'];
+                        $responseUpEdoCta = $this->model->updateEstadoCuenta($idPrecarga,$idPersona,$this->idUser);
+                        if($responseUpEdoCta){
+                            $arrResponse = array('estatus' => true, 'msg' => 'Se canceló la venta');
+                        }
+                    }
+                }
+            }else{
+                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo calcelar la venta');
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
         }
     }
 ?>
